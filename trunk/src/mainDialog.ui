@@ -1,44 +1,117 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainDialog</class>
- <widget class="QDialog" name="MainDialog">
+ <widget class="QMainWindow" name="MainDialog">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>420</width>
-    <height>300</height>
+    <width>647</width>
+    <height>316</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainDialog</string>
   </property>
-  <widget class="QPlainTextEdit" name="plainTextEdit">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>20</y>
-     <width>271</width>
-     <height>261</height>
-    </rect>
+  <widget class="QWidget" name="centralWidget">
+   <property name="minimumSize">
+    <size>
+     <width>600</width>
+     <height>0</height>
+    </size>
    </property>
-   <property name="plainText">
-    <string>Hallo</string>
-   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QGraphicsView" name="graphicsView"/>
+    </item>
+   </layout>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
-     <x>320</x>
-     <y>50</y>
-     <width>80</width>
-     <height>23</height>
+     <x>0</x>
+     <y>0</y>
+     <width>647</width>
+     <height>20</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionNew_Playbook"/>
+    <addaction name="actionOpen_Playbook"/>
+    <addaction name="actionSave_Playbook"/>
+    <addaction name="actionSave_Playbook_as"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuPlay">
+    <property name="title">
+     <string>Play</string>
+    </property>
+    <addaction name="actionNew_Play"/>
+    <addaction name="actionOpen_Play"/>
+    <addaction name="actionSave_Play"/>
+    <addaction name="actionSave_Play_as"/>
+    <addaction name="actionExport_Play"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuPlay"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionNew_Playbook">
    <property name="text">
-    <string>PushButton</string>
+    <string>New Playbook</string>
    </property>
-  </widget>
+  </action>
+  <action name="actionOpen_Playbook">
+   <property name="text">
+    <string>Open Playbook</string>
+   </property>
+  </action>
+  <action name="actionSave_Playbook">
+   <property name="text">
+    <string>Save Playbook</string>
+   </property>
+  </action>
+  <action name="actionSave_Playbook_as">
+   <property name="text">
+    <string>Save Playbook as</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionNew_Play">
+   <property name="text">
+    <string>New Play</string>
+   </property>
+  </action>
+  <action name="actionSave_Play">
+   <property name="text">
+    <string>Save Play</string>
+   </property>
+  </action>
+  <action name="actionSave_Play_as">
+   <property name="text">
+    <string>Save Play as</string>
+   </property>
+  </action>
+  <action name="actionOpen_Play">
+   <property name="text">
+    <string>Open Play</string>
+   </property>
+  </action>
+  <action name="actionExport_Play">
+   <property name="text">
+    <string>Export Play</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

@@ -22,7 +22,7 @@ private:
 public:
     PBCColor() {}
 
-    PBCColor(unsigned int& r, unsigned int& g, unsigned int& b) {
+    PBCColor(unsigned int r, unsigned int g, unsigned int b) {
         assert(r <= 255);
         assert(g <= 255);
         assert(b <= 255);

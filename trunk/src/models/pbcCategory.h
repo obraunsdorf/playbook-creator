@@ -11,7 +11,7 @@ class PBCCategory;
 typedef boost::shared_ptr<PBCCategory> PBCCategorySP;
 
 class PBCCategory {
-private:
+protected:
     std::string name;
     char shortName[5];
     std::list<PBCPlaySP> plays;
