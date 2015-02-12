@@ -1,25 +1,27 @@
 #ifndef MAINDIALOG_H
 #define MAINDIALOG_H
 
-#include <QDialog>
+#include <QMainWindow>
+
+#include "gui/pbcGridIronView.h"
 
 namespace Ui {
 class MainDialog;
 }
 
-class MainDialog : public QDialog
+class MainDialog : public QMainWindow
 {
     Q_OBJECT
 
 public:
     explicit MainDialog(QWidget *parent = 0);
     ~MainDialog();
-
-public slots:
-    void printPlayNames();
+    void show();
 
 private:
     Ui::MainDialog *ui;
+    PBCGridIronView* _gridIron;
+    void resizeEvent(QResizeEvent* e);
 };
 
 #endif // MAINDIALOG_H

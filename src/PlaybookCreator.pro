@@ -17,7 +17,8 @@ SOURCES += main.cpp\
     models/pbcPlay.cpp \
     models/pbcPlayer.cpp \
     models/pbcRoute.cpp \
-    models/pbcPath.cpp
+    models/pbcPath.cpp \
+    gui/pbcGridIronView.cpp
 
 HEADERS  += mainDialog.h \
     util/pbcDeclarations.h \
@@ -27,6 +28,8 @@ HEADERS  += mainDialog.h \
     models/pbcPath.h \
     util/pbcConfig.h \
     models/pbcCategory.h \
-    models/pbcFormation.h
+    models/pbcFormation.h \
+    gui/pbcGridIronView.h \
+    util/pbcSingleton.h
 
 FORMS    += mainDialog.ui
