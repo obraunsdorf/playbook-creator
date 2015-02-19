@@ -24,6 +24,10 @@ private:
     unsigned int _canvasWidth;
     unsigned int _canvasHeight;
 
+    double ydPixelFactor() {
+        return (_losYFactor - _fiveYdYFactor) * _canvasHeight / 5.0;
+    }
+
 
 protected:
    PBCConfig() :
@@ -97,6 +101,11 @@ public:
 
     unsigned int ballWidth() {
         return _ballWidth;
+    }
+
+    double ydInPixel() {
+        double result = (_losYFactor - _fiveYdYFactor) * _canvasHeight / 5.0;
+        return result;
     }
 
 };

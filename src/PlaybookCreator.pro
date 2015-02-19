@@ -11,6 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = PlaybookCreator
 TEMPLATE = app
 
+QMAKE_CXXFLAGS += -std=c++11
 
 SOURCES += main.cpp\
         mainDialog.cpp \
@@ -18,7 +19,9 @@ SOURCES += main.cpp\
     models/pbcPlayer.cpp \
     models/pbcRoute.cpp \
     models/pbcPath.cpp \
-    gui/pbcGridIronView.cpp
+    gui/pbcGridIronView.cpp \
+    gui/pbcPlayerView.cpp \
+    util/pbcPositionTranslator.cpp
 
 HEADERS  += mainDialog.h \
     util/pbcDeclarations.h \
@@ -30,6 +33,8 @@ HEADERS  += mainDialog.h \
     models/pbcCategory.h \
     models/pbcFormation.h \
     gui/pbcGridIronView.h \
-    util/pbcSingleton.h
+    util/pbcSingleton.h \
+    gui/pbcPlayerView.h \
+    util/pbcPositionTranslator.h
 
 FORMS    += mainDialog.ui

@@ -3,6 +3,9 @@
 #include "QResizeEvent"
 
 #include "util/pbcConfig.h"
+#include "models/pbcFormation.h"
+#include "models/pbcPlay.h"
+#include "gui/pbcPlayerView.h"
 
 MainDialog::MainDialog(QWidget *parent) :
     QMainWindow(parent),
@@ -33,6 +36,16 @@ void MainDialog::resizeEvent(QResizeEvent* e) {
         _gridIron->setSceneRect(0, 0, PBCConfig::getInstance()->canvasWidth(),PBCConfig::getInstance()->canvasHeight());
         _gridIron->resize();
     }
+}
+
+void MainDialog::exit()
+{
+    QApplication::quit();
+}
+
+void MainDialog::showNewPlay() {
+    PBCPlaySP play(new PBCPlay());
+    _gridIron->showPlay(play);
 }
 
 MainDialog::~MainDialog()

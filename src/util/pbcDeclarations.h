@@ -10,7 +10,7 @@
 
 struct PBCRole {
     std::string fullName;
-    char shortName[3];
+    char shortName[4];
 };
 
 class PBCColor {
@@ -32,13 +32,13 @@ public:
     }
 
     PBCColor(const PBCColor& obj) {
-        std::vector<unsigned int> c = obj.getColor();
+        std::vector<unsigned int> c = obj.getColorVector();
         this->r = c.at(0);
         this->g = c.at(1);
         this->b = c.at(2);
     }
 
-    std::vector<unsigned int> getColor() const {
+    std::vector<unsigned int> getColorVector() const {
         std::vector<unsigned int> color;
         color.push_back(r);
         color.push_back(g);

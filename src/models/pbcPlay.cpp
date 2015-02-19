@@ -1,27 +1,46 @@
 #include "pbcPlay.h"
 
 
-std::string PBCPlay::getName() const
+std::string PBCPlay::name() const
 {
-    return name;
+    return _name;
 }
 
-void PBCPlay::setName(const std::string &value)
+void PBCPlay::setName(const std::string &name)
 {
-    name = value;
+    _name = name;
 }
 
-std::string PBCPlay::getCodeName() const
+std::string PBCPlay::codeName() const
 {
-    return codeName;
+    return _codeName;
 }
 
-void PBCPlay::setCodeName(const std::string &value)
+void PBCPlay::setCodeName(const std::string &codeName)
 {
-    codeName = value;
+    _codeName = codeName;
 }
-PBCPlay::PBCPlay(const std::string &name, const std::string &codeName)
+
+PBCFormationSP PBCPlay::formation() const
 {
-    this->name = name;
-    this->codeName = codeName;
+    return _formation;
 }
+
+void PBCPlay::setFormation(const PBCFormationSP &formation)
+{
+    _formation = formation;
+}
+
+std::list<PBCCategorySP> PBCPlay::categories() const
+{
+    return _categories;
+}
+
+void PBCPlay::setCategories(const std::list<PBCCategorySP> &categories)
+{
+    _categories = categories;
+}
+PBCPlay::PBCPlay(const std::string &name, const std::string &codeName, const PBCFormationSP &formation) :
+    _name(name),
+    _codeName(codeName),
+    _formation(formation) {}

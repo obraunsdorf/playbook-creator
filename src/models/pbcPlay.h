@@ -16,19 +16,22 @@ class PBCPlay
 {
 
 private:
-    std::string name;
-    std::string codeName;
-    PBCFormationSP formation;
-    std::vector<PBCPlayerSP> players;
-    std::list<PBCCategorySP> categories;
+    std::string _name;
+    std::string _codeName;
+    PBCFormationSP _formation;
+    std::list<PBCCategorySP> _categories;
 
 
 public:
-    PBCPlay(const std::string& name, const std::string& codeName);
-    std::string getName() const;
-    void setName(const std::string &value);
-    std::string getCodeName() const;
-    void setCodeName(const std::string &value);
+    PBCPlay(const std::string& name = "Standard", const std::string& codeName = "", const PBCFormationSP& formation = PBCFormationSP(new PBCFormation()));
+    std::string name() const;
+    void setName(const std::string &name);
+    std::string codeName() const;
+    void setCodeName(const std::string &codeName);
+    PBCFormationSP formation() const;
+    void setFormation(const PBCFormationSP &formation);
+    std::list<PBCCategorySP> categories() const;
+    void setCategories(const std::list<PBCCategorySP> &categories);
 };
 
 typedef boost::shared_ptr<PBCPlay> PBCPlaySP;

@@ -6,11 +6,13 @@
 class PBCPath
 {
 private:
-    PBCDPoint endpoint;
-    bool arc;
+    PBCDPoint _endpoint;
+    bool _arc;
 
 public:
-    PBCPath();
+    PBCPath(PBCDPoint endpoint, bool arc = false);
+    PBCPath(double endpointX, double endpointY, bool arc = false);
+    PBCDPoint endpoint() const;
 };
 
 typedef boost::shared_ptr<PBCPath> PBCPathSP;
