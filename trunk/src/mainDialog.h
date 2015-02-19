@@ -22,6 +22,10 @@ private:
     Ui::MainDialog *ui;
     PBCGridIronView* _gridIron;
     void resizeEvent(QResizeEvent* e);
+
+public slots:
+    void exit();
+    void showNewPlay();
 };
 
 #endif // MAINDIALOG_H

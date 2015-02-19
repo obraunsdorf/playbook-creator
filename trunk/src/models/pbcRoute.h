@@ -10,13 +10,19 @@ typedef boost::shared_ptr<PBCRoute> PBCRouteSP;
 class PBCRoute
 {
 private:
-    std::string name;
-    std::string codeName;
-    std::vector<PBCPathSP> paths;
-    std::vector<PBCRouteSP> appendedRoutes;
+    std::string _name;
+    std::string _codeName;
+    std::vector<PBCPathSP> _paths;
+    std::vector<PBCRouteSP> _appendedRoutes;
 
 public:
-    PBCRoute();
+    PBCRoute(const std::string& name, const std::string& codeName, const std::vector<PBCPathSP> paths = std::vector<PBCPathSP>(), std::vector<PBCRouteSP> appendedRoutes = std::vector<PBCRouteSP>());
+    std::string name() const;
+    std::string codeName() const;
+    std::vector<PBCPathSP> paths() const;
+    void setPaths(const std::vector<PBCPathSP> &paths);
+    std::vector<PBCRouteSP> appendedRoutes() const;
+    void setAppendedRoutes(const std::vector<PBCRouteSP> &appendedRoutes);
 };
 
 #endif // PBCROUTE_H
