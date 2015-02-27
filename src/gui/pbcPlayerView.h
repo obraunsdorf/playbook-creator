@@ -3,6 +3,7 @@
 
 #include <QGraphicsItemGroup>
 #include <QGraphicsSceneContextMenuEvent>
+#include <QGraphicsSceneDragDropEvent>
 #include <boost/shared_ptr.hpp>
 #include "models/pbcPlayer.h"
 #include "util/pbcDeclarations.h"
@@ -19,9 +20,12 @@ signals:
 
 private:
     PBCPlayerSP _playerSP;
+    PBCDPoint _originalPos;
     boost::shared_ptr<QGraphicsEllipseItem> _playerEllipseSP;
     std::vector<boost::shared_ptr<QGraphicsLineItem>> _routeLines;
+
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void applyRoute(PBCRouteSP route);
 
 };

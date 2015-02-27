@@ -16,6 +16,7 @@ protected:
 
 public:
     static PBCDPoint translatePos(PBCDPoint pos, PBCDPoint center = ballPos());
+    static PBCDPoint retranslatePos(PBCDPoint pos, PBCDPoint center = ballPos());
 };
 
 #endif // PBCPOSITIONTRANSLATOR_H

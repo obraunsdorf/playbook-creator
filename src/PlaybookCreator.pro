@@ -21,7 +21,9 @@ SOURCES += main.cpp\
     models/pbcPath.cpp \
     gui/pbcGridIronView.cpp \
     gui/pbcPlayerView.cpp \
-    util/pbcPositionTranslator.cpp
+    util/pbcPositionTranslator.cpp \
+    dialogs/pbcCustomRouteDialog.cpp \
+    gui/pbcCustomRouteView.cpp
 
 HEADERS  += mainDialog.h \
     util/pbcDeclarations.h \
@@ -35,6 +37,9 @@ HEADERS  += mainDialog.h \
     gui/pbcGridIronView.h \
     util/pbcSingleton.h \
     gui/pbcPlayerView.h \
-    util/pbcPositionTranslator.h
+    util/pbcPositionTranslator.h \
+    dialogs/pbcCustomRouteDialog.h \
+    gui/pbcCustomRouteView.h
 
-FORMS    += mainDialog.ui
+FORMS    += mainDialog.ui \
+    dialogs/pbcCustomRouteDialog.ui

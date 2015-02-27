@@ -16,13 +16,15 @@ class PBCGridIronView : public QGraphicsScene
     Q_OBJECT
 public:
     explicit PBCGridIronView(QObject *parent = 0);
+    void paintLine(unsigned int yPos, unsigned int lineWidth, PBCColor color);
+    void paintBall();
+    void paintBorder();
     void resize();
-    void addPlayerView(PBCPlayerViewSP playerViewSP);
-    void showPlay(PBCPlaySP playSP);
+    void setCurrentPlay(PBCPlaySP playSP = PBCPlaySP(new PBCPlay()));
 
 private:
     PBCPlaySP _currentPlay;
-    std::vector<PBCPlayerViewSP> _playerViewsSP;
+    void showPlay();
 
 };
 
