@@ -18,15 +18,12 @@ private:
     unsigned int _fiveYdWidth;
     double _fiveYdYFactor;
     PBCColor _ballColor;
-    unsigned int _ballWidth;
+    double _ballWidthYd;
+    double _playerWidthYd;
 
 
     unsigned int _canvasWidth;
     unsigned int _canvasHeight;
-
-    double ydPixelFactor() {
-        return (_losYFactor - _fiveYdYFactor) * _canvasHeight / 5.0;
-    }
 
 
 protected:
@@ -41,7 +38,8 @@ protected:
        _fiveYdWidth(3),
        _fiveYdYFactor(0.25),
        _ballColor(139U, 69U, 19U),
-       _ballWidth(10){
+       _ballWidthYd(1),
+       _playerWidthYd(1.5){
        // TODO initialize from File
     }
 
@@ -100,12 +98,15 @@ public:
     }
 
     unsigned int ballWidth() {
-        return _ballWidth;
+        return _ballWidthYd * ydInPixel();
     }
 
     double ydInPixel() {
-        double result = (_losYFactor - _fiveYdYFactor) * _canvasHeight / 5.0;
-        return result;
+        return (_losYFactor - _fiveYdYFactor) * _canvasHeight / 5.0;
+    }
+
+    unsigned int playerWidth() {
+        return _playerWidthYd * ydInPixel();
     }
 
 };
