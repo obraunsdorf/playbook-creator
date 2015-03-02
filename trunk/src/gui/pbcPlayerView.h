@@ -3,7 +3,6 @@
 
 #include <QGraphicsItemGroup>
 #include <QGraphicsSceneContextMenuEvent>
-#include <QGraphicsSceneDragDropEvent>
 #include <boost/shared_ptr.hpp>
 #include "models/pbcPlayer.h"
 #include "util/pbcDeclarations.h"

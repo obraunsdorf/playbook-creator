@@ -1,21 +1,16 @@
 #ifndef PBCCUSTOMROUTEVIEW_H
 #define PBCCUSTOMROUTEVIEW_H
 
-#include <QGraphicsScene>
+#include "gui/pbcGridIronView.h"
 #include "models/pbcPath.h"
 #include "models/pbcRoute.h"
 #include <QGraphicsLineItem>
 
-class PBCCustomRouteView : public QGraphicsScene
+class PBCCustomRouteView : public PBCGridIronView
 {
-    Q_OBJECT
 public:
     explicit PBCCustomRouteView(QObject *parent = 0);
     PBCRouteSP createRoute(const std::string& name, const std::string& codeName);
-
-signals:
-
-public slots:
 
 protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);

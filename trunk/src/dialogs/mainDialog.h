@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 
-#include "gui/pbcGridIronView.h"
+#include "gui/pbcPlayView.h"
 
 namespace Ui {
 class MainDialog;
@@ -20,7 +20,7 @@ public:
 
 private:
     Ui::MainDialog *ui;
-    PBCGridIronView* _gridIron;
+    PBCPlayView* _playView;
     void resizeEvent(QResizeEvent* e);
 
 public slots:
