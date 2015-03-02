@@ -14,18 +14,19 @@ TEMPLATE = app
 QMAKE_CXXFLAGS += -std=c++11
 
 SOURCES += main.cpp\
-        mainDialog.cpp \
+    dialogs/mainDialog.cpp \
     models/pbcPlay.cpp \
     models/pbcPlayer.cpp \
     models/pbcRoute.cpp \
     models/pbcPath.cpp \
-    gui/pbcGridIronView.cpp \
     gui/pbcPlayerView.cpp \
     util/pbcPositionTranslator.cpp \
     dialogs/pbcCustomRouteDialog.cpp \
-    gui/pbcCustomRouteView.cpp
+    gui/pbcCustomRouteView.cpp \
+    gui/pbcPlayView.cpp \
+    gui/pbcGridIronView.cpp
 
-HEADERS  += mainDialog.h \
+HEADERS  += dialogs/mainDialog.h \
     util/pbcDeclarations.h \
     models/pbcPlay.h \
     models/pbcPlayer.h \
@@ -34,12 +35,13 @@ HEADERS  += mainDialog.h \
     util/pbcConfig.h \
     models/pbcCategory.h \
     models/pbcFormation.h \
-    gui/pbcGridIronView.h \
     util/pbcSingleton.h \
     gui/pbcPlayerView.h \
     util/pbcPositionTranslator.h \
     dialogs/pbcCustomRouteDialog.h \
-    gui/pbcCustomRouteView.h
+    gui/pbcCustomRouteView.h \
+    gui/pbcPlayView.h \
+    gui/pbcGridIronView.h
 
-FORMS    += mainDialog.ui \
+FORMS    += dialogs/mainDialog.ui \
     dialogs/pbcCustomRouteDialog.ui

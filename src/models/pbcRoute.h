@@ -18,7 +18,7 @@ private:
     static std::list<PBCRouteSP> _customRoutes;
 
 public:
-    PBCRoute(const std::string& name, const std::string& codeName, const std::vector<PBCPathSP> paths = std::vector<PBCPathSP>(), std::vector<PBCRouteSP> appendedRoutes = std::vector<PBCRouteSP>());
+    PBCRoute(const std::string& name, const std::string& codeName, const std::vector<PBCPathSP>& paths = std::vector<PBCPathSP>(), const std::vector<PBCRouteSP>& appendedRoutes = std::vector<PBCRouteSP>());
     std::string name() const;
     std::string codeName() const;
     std::vector<PBCPathSP> paths() const;

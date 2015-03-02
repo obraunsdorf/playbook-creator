@@ -43,7 +43,7 @@ std::list<PBCRouteSP> PBCRoute::getCustomRoutes()
 }
 
 
-PBCRoute::PBCRoute(const std::string &name, const std::string &codeName, const std::vector<PBCPathSP> paths, std::vector<PBCRouteSP> appendedRoutes) :
+PBCRoute::PBCRoute(const std::string &name, const std::string &codeName, const std::vector<PBCPathSP>& paths, const std::vector<PBCRouteSP>& appendedRoutes) :
     _name(name),
     _codeName(codeName),
     _paths(paths),

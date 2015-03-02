@@ -26,9 +26,9 @@ void MainDialog::show() {
     this->setMinimumWidth(PBCConfig::getInstance()->minWidth());
     this->setMinimumHeight(PBCConfig::getInstance()->minHeight());
 
-    _gridIron = new PBCGridIronView(this);
-    ui->graphicsView->setScene(_gridIron);
-    _gridIron->setSceneRect(0, 0, PBCConfig::getInstance()->canvasWidth(),PBCConfig::getInstance()->canvasHeight());
+    _playView = new PBCPlayView(this);
+    ui->graphicsView->setScene(_playView);
+    _playView->setSceneRect(0, 0, PBCConfig::getInstance()->canvasWidth(),PBCConfig::getInstance()->canvasHeight());
 }
 
 void MainDialog::resizeEvent(QResizeEvent* e) {
@@ -36,8 +36,8 @@ void MainDialog::resizeEvent(QResizeEvent* e) {
     unsigned int height = ui->graphicsView->height();
     PBCConfig::getInstance()->setCanvasSize(width - 2, height - 2);
     if(e->oldSize().width() > 0) {
-        _gridIron->setSceneRect(0, 0, PBCConfig::getInstance()->canvasWidth(),PBCConfig::getInstance()->canvasHeight());
-        _gridIron->resize();
+        _playView->setSceneRect(0, 0, PBCConfig::getInstance()->canvasWidth(),PBCConfig::getInstance()->canvasHeight());
+        _playView->resize();
     }
 }
 
@@ -47,7 +47,7 @@ void MainDialog::exit()
 }
 
 void MainDialog::showNewPlay() {
-    _gridIron->setCurrentPlay();
+    _playView->setCurrentPlay();
 }
 
 MainDialog::~MainDialog()

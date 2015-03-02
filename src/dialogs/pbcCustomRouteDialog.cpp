@@ -1,14 +1,19 @@
 #include "pbcCustomRouteDialog.h"
 #include "ui_pbcCustomRouteDialog.h"
 #include "util/pbcConfig.h"
+#include <QDebug>
 
 PBCCustomRouteDialog::PBCCustomRouteDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::PBCCustomRouteDialog),
-    _crv(new PBCCustomRouteView())
+    ui(new Ui::PBCCustomRouteDialog)
 {
     ui->setupUi(this);
+
+    _crv.reset(new PBCCustomRouteView(ui->graphicsView));
     ui->graphicsView->setScene(_crv.get());
+    ui->graphicsView->setFixedWidth(_crv->sceneRect().width() + 2);
+    ui->graphicsView->setFixedHeight(_crv->sceneRect().height() + 2);
+    qDebug() << this->size();
 }
 
 PBCCustomRouteDialog::~PBCCustomRouteDialog()

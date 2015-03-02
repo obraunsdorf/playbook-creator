@@ -78,7 +78,6 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
     routeMenu->addSeparator();
     QAction* action_CustomRouteCreate = routeMenu->addAction("Create Custom Route");
     boost::unordered_map<QAction*, PBCRouteSP> customActionMap;
-    std::list<PBCRouteSP> customRoutes = PBCRoute::getCustomRoutes();
     for(PBCRouteSP customRouteSP : PBCRoute::getCustomRoutes()) {
         QAction* action_CustomRoute = routeMenu->addAction(QString::fromStdString(customRouteSP->name()));
         customActionMap.insert(std::make_pair(action_CustomRoute, customRouteSP));
