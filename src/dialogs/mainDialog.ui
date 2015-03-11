@@ -40,12 +40,13 @@
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>File</string>
+     <string>Playbook</string>
     </property>
     <addaction name="actionNew_Playbook"/>
     <addaction name="actionOpen_Playbook"/>
     <addaction name="actionSave_Playbook"/>
     <addaction name="actionSave_Playbook_as"/>
+    <addaction name="actionPDF_Export"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuPlay">
@@ -56,10 +57,38 @@
     <addaction name="actionOpen_Play"/>
     <addaction name="actionSave_Play"/>
     <addaction name="actionSave_Play_as"/>
+    <addaction name="actionImport_Play"/>
     <addaction name="actionExport_Play"/>
+   </widget>
+   <widget class="QMenu" name="menuFormation">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="title">
+     <string>Formation</string>
+    </property>
+    <addaction name="actionSave_formation"/>
+    <addaction name="actionSave_formation_as"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+   </widget>
+   <widget class="QMenu" name="menuCategory">
+    <property name="title">
+     <string>Category</string>
+    </property>
+    <addaction name="actionAdd_play_to_category"/>
+    <addaction name="actionNew_Category"/>
+    <addaction name="actionDelete_Category"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuPlay"/>
+   <addaction name="menuFormation"/>
+   <addaction name="menuCategory"/>
+   <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNew_Playbook">
@@ -93,11 +122,17 @@
    </property>
   </action>
   <action name="actionSave_Play">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Save Play</string>
    </property>
   </action>
   <action name="actionSave_Play_as">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Save Play as</string>
    </property>
@@ -108,8 +143,60 @@
    </property>
   </action>
   <action name="actionExport_Play">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Export Play</string>
+   </property>
+  </action>
+  <action name="actionSave_formation">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Save formation</string>
+   </property>
+  </action>
+  <action name="actionSave_formation_as">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Save formation as</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionImport_Play">
+   <property name="text">
+    <string>Import Play</string>
+   </property>
+  </action>
+  <action name="actionAdd_play_to_category">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Add play to category</string>
+   </property>
+  </action>
+  <action name="actionNew_Category">
+   <property name="text">
+    <string>New Category</string>
+   </property>
+  </action>
+  <action name="actionDelete_Category">
+   <property name="text">
+    <string>Delete Category</string>
+   </property>
+  </action>
+  <action name="actionPDF_Export">
+   <property name="text">
+    <string>PDF Export</string>
    </property>
   </action>
  </widget>
@@ -148,9 +235,145 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionAbout</sender>
+   <signal>triggered()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>showAboutDialog()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSave_formation_as</sender>
+   <signal>triggered()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>saveFormationAs()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSave_formation</sender>
+   <signal>triggered()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>saveFormation()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSave_Play</sender>
+   <signal>triggered()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>savePlay()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSave_Play_as</sender>
+   <signal>triggered()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>savePlayAs()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionOpen_Play</sender>
+   <signal>triggered()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>openPlay()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSave_Playbook</sender>
+   <signal>triggered()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>savePlaybook()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionOpen_Playbook</sender>
+   <signal>triggered()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>openPlaybook()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showNewPlay()</slot>
   <slot>exit()</slot>
+  <slot>showAboutDialog()</slot>
+  <slot>saveFormationAs()</slot>
+  <slot>saveFormation()</slot>
+  <slot>savePlay()</slot>
+  <slot>savePlayAs()</slot>
+  <slot>openPlay()</slot>
+  <slot>savePlaybook()</slot>
+  <slot>openPlaybook()</slot>
  </slots>
 </ui>

@@ -50,6 +50,7 @@ void PBCPlayer::setMotion(const PBCMotion &motion)
 {
     _motion = motion;
 }
+
 PBCPlayer::PBCPlayer(PBCRole role, PBCColor color, PBCDPoint pos, PBCRouteSP route, PBCMotion motion) :
     _role(role),
     _color(color),

@@ -7,20 +7,30 @@
 #include "models/pbcCategory.h"
 #include "models/pbcPlayer.h"
 
+#include <boost/serialization/vector.hpp>
+
 class PBCFormation;
 typedef boost::shared_ptr<PBCFormation> PBCFormationSP;
 
 class PBCFormation : public PBCCategory, public std::vector<PBCPlayerSP> {
-public:
-    PBCFormation() : PBCCategory("Standard"){
-        this->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Center", "C"}, PBCColor(255,255,0), PBCDPoint(0, 0))));
-        this->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Quarterback", "QB"}, PBCColor(255,0,0), PBCDPoint(0, -1))));
-        this->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Wide Receiver Left", "WRL"}, PBCColor(0,255,0), PBCDPoint(-15, 0))));
-        this->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Wide Receiver Right", "WRR"}, PBCColor(0,0,255), PBCDPoint(15, 0))));
-        this->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Runningback", "RB"}, PBCColor(0,0,0), PBCDPoint(0, -5))));
-    }
+friend class boost::serialization::access;
 
+private:
+    template<class Archive> void serialize(Archive& ar, const unsigned int version) {
+        assert(version == 0);
+        ar & boost::serialization::base_object<PBCCategory>(*this);
+        ar & boost::serialization::base_object<std::vector<PBCPlayerSP>>(*this);
+    }
+    PBCFormation() {}
+
+public:
     explicit PBCFormation(const std::string& name) : PBCCategory(name) {}
+    explicit PBCFormation(const PBCFormation& other) : PBCCategory(other.name()), std::vector<PBCPlayerSP>() {
+        for(PBCPlayerSP otherPlayer : other) {
+            PBCPlayerSP player(new PBCPlayer(otherPlayer->role(), otherPlayer->color(), otherPlayer->pos()));
+            this->push_back(player);
+        }
+    }
 };
 
 #endif // PBCFORMATION_H

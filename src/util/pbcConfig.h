@@ -3,8 +3,9 @@
 
 #include "pbcSingleton.h"
 #include "pbcDeclarations.h"
+#include "models/pbcColor.h"
 
-class PBCConfig : public PBCSingleton<PBCConfig>{
+class PBCConfig : public PBCSingleton<PBCConfig> {
 friend class PBCSingleton<PBCConfig>;
 
 private:

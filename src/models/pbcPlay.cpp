@@ -40,7 +40,26 @@ void PBCPlay::setCategories(const std::list<PBCCategorySP> &categories)
 {
     _categories = categories;
 }
-PBCPlay::PBCPlay(const std::string &name, const std::string &codeName, const PBCFormationSP &formation) :
+
+PBCPlay::PBCPlay(const std::string &name, const std::string &codeName, const std::string& formationName) :
     _name(name),
     _codeName(codeName),
-    _formation(formation) {}
+    _formation(PBCPlaybook::getInstance()->getFormation(formationName)) {}
+
+PBCPlay::PBCPlay(const PBCPlay &other) :
+    _name(other.name()),
+    _codeName(other.codeName()),
+    _formation(new PBCFormation(*other.formation())),
+    _categories(other.categories())
+{
+    PBCFormation::iterator it = _formation->begin();
+    PBCFormation::iterator otherIt = other.formation()->begin();
+    while(it != _formation->end() && otherIt != other.formation()->end()) {
+        PBCPlayerSP playerSP = *it;
+        PBCPlayerSP otherPlayerSP = *otherIt;
+        playerSP->setRoute(otherPlayerSP->route());
+        ++it;
+        ++otherIt;
+    }
+    assert(it == _formation->end() && otherIt == other.formation()->end());
+}

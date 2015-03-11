@@ -4,31 +4,35 @@
 #include "util/pbcDeclarations.h"
 #include "models/pbcPath.h"
 
+#include <boost/serialization/string.hpp>
+#include <boost/serialization/shared_ptr.hpp>
+#include <boost/serialization/access.hpp>
+#include <boost/serialization/vector.hpp>
+
 class PBCRoute;
 typedef boost::shared_ptr<PBCRoute> PBCRouteSP;
 
-class PBCRoute
+class PBCRoute : public PBCDataModel
 {
+friend class boost::serialization::access;
 private:
+    template<class Archive> void serialize(Archive& ar, const unsigned int version) {
+        assert(version == 0);
+        ar & _name;
+        ar & _codeName;
+        ar & _paths;
+    }
     std::string _name;
     std::string _codeName;
     std::vector<PBCPathSP> _paths;
-    std::vector<PBCRouteSP> _appendedRoutes;
-
-    static std::list<PBCRouteSP> _customRoutes;
+    PBCRoute() {}
 
 public:
-    PBCRoute(const std::string& name, const std::string& codeName, const std::vector<PBCPathSP>& paths = std::vector<PBCPathSP>(), const std::vector<PBCRouteSP>& appendedRoutes = std::vector<PBCRouteSP>());
+    PBCRoute(const std::string& name, const std::string& codeName, const std::vector<PBCPathSP>& paths = std::vector<PBCPathSP>());
     std::string name() const;
     std::string codeName() const;
     std::vector<PBCPathSP> paths() const;
     void setPaths(const std::vector<PBCPathSP> &paths);
-    std::vector<PBCRouteSP> appendedRoutes() const;
-    void setAppendedRoutes(const std::vector<PBCRouteSP> &appendedRoutes);
-
-    static void addCustomRoute(PBCRouteSP route);
-    static std::list<PBCRouteSP> getCustomRoutes();
-
 };
 
 #endif // PBCROUTE_H

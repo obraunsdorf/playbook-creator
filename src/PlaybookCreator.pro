@@ -13,6 +13,8 @@ TEMPLATE = app
 
 QMAKE_CXXFLAGS += -std=c++11
 
+LIBS += -L/usr/lib/x86_64-linux-gnu -lboost_serialization
+
 SOURCES += main.cpp\
     dialogs/mainDialog.cpp \
     models/pbcPlay.cpp \
@@ -24,7 +26,10 @@ SOURCES += main.cpp\
     dialogs/pbcCustomRouteDialog.cpp \
     gui/pbcCustomRouteView.cpp \
     gui/pbcPlayView.cpp \
-    gui/pbcGridIronView.cpp
+    gui/pbcGridIronView.cpp \
+    models/pbcPlaybook.cpp \
+    models/pbcDataModel.cpp \
+    models/pbcColor.cpp
 
 HEADERS  += dialogs/mainDialog.h \
     util/pbcDeclarations.h \
@@ -41,7 +46,10 @@ HEADERS  += dialogs/mainDialog.h \
     dialogs/pbcCustomRouteDialog.h \
     gui/pbcCustomRouteView.h \
     gui/pbcPlayView.h \
-    gui/pbcGridIronView.h
+    gui/pbcGridIronView.h \
+    models/pbcPlaybook.h \
+    models/pbcDataModel.h \
+    models/pbcColor.h
 
 FORMS    += dialogs/mainDialog.ui \
     dialogs/pbcCustomRouteDialog.ui
