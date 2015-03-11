@@ -26,6 +26,14 @@ private:
 public slots:
     void exit();
     void showNewPlay();
+    void openPlay();
+    void savePlay();
+    void savePlayAs();
+    void saveFormation();
+    void saveFormationAs();
+    void savePlaybook();
+    void openPlaybook();
+    void showAboutDialog();
 };
 
 #endif // MAINDIALOG_H

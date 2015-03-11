@@ -1,4 +1,6 @@
 #include "pbcPlayerView.h"
+
+#include "models/pbcPlaybook.h"
 #include "QBrush"
 #include "QMenu"
 #include "util/pbcPositionTranslator.h"
@@ -58,45 +60,27 @@ void PBCPlayerView::applyRoute(PBCRouteSP route)
 void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
     QMenu menu;
     QMenu* routeMenu = menu.addMenu(QString::fromStdString("Apply Route"));
-
-    std::vector<PBCPathSP> path_5In({ PBCPathSP(new PBCPath(0,5)), PBCPathSP(new PBCPath(2,5))});
-    PBCRouteSP route_5In(new PBCRoute("5 In", "", path_5In));
-    QAction* action_5In = routeMenu->addAction(QString::fromStdString(route_5In->name()));
-
-    std::vector<PBCPathSP> path_Post({ PBCPathSP(new PBCPath(0,5)), PBCPathSP(new PBCPath(2,7))});
-    PBCRouteSP route_Post(new PBCRoute("Post", "", path_Post));
-    QAction* action_Post = routeMenu->addAction(QString::fromStdString(route_Post->name()));
-
-    std::vector<PBCPathSP> path_Slant({ PBCPathSP(new PBCPath(0,2)), PBCPathSP(new PBCPath(2,4))});
-    PBCRouteSP route_Slant(new PBCRoute("Slant", "", path_Slant));
-    QAction* action_Slant = routeMenu->addAction(QString::fromStdString(route_Slant->name()));
-
-    std::vector<PBCPathSP> path_Fly({ PBCPathSP(new PBCPath(0,7))});
-    PBCRouteSP route_Fly(new PBCRoute("Fly", "", path_Fly));
-    QAction* action_Fly = routeMenu->addAction(QString::fromStdString(route_Fly->name()));
+    boost::unordered_map<QAction*, PBCRouteSP> actionMap;
+    for(PBCRouteSP route : PBCPlaybook::getInstance()->routes()) {
+        QAction* action = routeMenu->addAction(QString::fromStdString(route->name()));
+        actionMap.insert(std::make_pair(action, route));
+    }
 
     routeMenu->addSeparator();
     QAction* action_CustomRouteCreate = routeMenu->addAction("Create Custom Route");
-    boost::unordered_map<QAction*, PBCRouteSP> customActionMap;
-    for(PBCRouteSP customRouteSP : PBCRoute::getCustomRoutes()) {
-        QAction* action_CustomRoute = routeMenu->addAction(QString::fromStdString(customRouteSP->name()));
-        customActionMap.insert(std::make_pair(action_CustomRoute, customRouteSP));
-    }
-
     // QAction* motion = menu.addAction(QString("Apply Motion"));
     QAction* clicked = menu.exec(event->screenPos());
     setEnabled(false);
     setEnabled(true);
 
-    bool customRouteClicked = false;
-    for(const auto& kv : customActionMap) {
+    bool routeClicked = false;
+    for(const auto& kv : actionMap) {
         if(clicked == kv.first) {
-            customRouteClicked = true;
+            routeClicked = true;
             this->applyRoute(kv.second);
         }
     }
-
-    if(customRouteClicked == false) {
+    if(routeClicked == false) {
         if(clicked == action_CustomRouteCreate) {
             PBCCustomRouteDialog dialog;
             dialog.setWindowModality(Qt::ApplicationModal);
@@ -104,14 +88,6 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
             if(createdRoute != NULL) {
                 this->applyRoute(createdRoute);
             }
-        } else if(clicked == action_5In) {
-            this->applyRoute(route_5In);
-        } else if(clicked == action_Post) {
-            this->applyRoute(route_Post);
-        } else if(clicked == action_Slant) {
-            this->applyRoute(route_Slant);
-        } else if(clicked == action_Fly) {
-            this->applyRoute(route_Fly);
         } else {
             assert(clicked == NULL);
         }

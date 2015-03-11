@@ -1,6 +1,7 @@
 #include "pbcCustomRouteView.h"
 #include "util/pbcConfig.h"
 #include "util/pbcPositionTranslator.h"
+#include "models/pbcPlaybook.h"
 #include <QGraphicsView>
 #include <QGraphicsSceneMouseEvent>
 
@@ -29,7 +30,8 @@ PBCCustomRouteView::PBCCustomRouteView(QObject *parent) :
 PBCRouteSP PBCCustomRouteView::createRoute(const std::string &name, const std::string &codeName)
 {
     PBCRouteSP route(new PBCRoute(name, codeName, _paths));
-    PBCRoute::addCustomRoute(route);
+    // PBCRoute::addCustomRoute(route);
+    PBCPlaybook::getInstance()->addRoute(route);
     return route;
 }
 
