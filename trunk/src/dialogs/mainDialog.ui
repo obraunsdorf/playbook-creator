@@ -363,6 +363,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionSave_Playbook_as</sender>
+   <signal>triggered()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>savePlaybookAs()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showNewPlay()</slot>
@@ -375,5 +391,6 @@
   <slot>openPlay()</slot>
   <slot>savePlaybook()</slot>
   <slot>openPlaybook()</slot>
+  <slot>savePlaybookAs()</slot>
  </slots>
 </ui>

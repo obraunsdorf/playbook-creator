@@ -20,6 +20,7 @@ public:
 
 private:
     Ui::MainDialog *ui;
+    QString _currentPlaybookFileName;
     PBCPlayView* _playView;
     void resizeEvent(QResizeEvent* e);
 
@@ -32,6 +33,7 @@ public slots:
     void saveFormation();
     void saveFormationAs();
     void savePlaybook();
+    void savePlaybookAs();
     void openPlaybook();
     void showAboutDialog();
 };

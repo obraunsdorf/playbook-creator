@@ -110,6 +110,10 @@ public:
         return _playerWidthYd * ydInPixel();
     }
 
+    std::string version() {
+        return "0.1.0";
+    }
+
 };
 
 

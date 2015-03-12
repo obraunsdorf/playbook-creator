@@ -30,7 +30,6 @@ PBCCustomRouteView::PBCCustomRouteView(QObject *parent) :
 PBCRouteSP PBCCustomRouteView::createRoute(const std::string &name, const std::string &codeName)
 {
     PBCRouteSP route(new PBCRoute(name, codeName, _paths));
-    // PBCRoute::addCustomRoute(route);
     PBCPlaybook::getInstance()->addRoute(route);
     return route;
 }
@@ -40,10 +39,12 @@ void PBCCustomRouteView::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     if(_lastLine != NULL) {
         this->removeItem(_lastLine);
+        delete _lastLine;
+        _lastLine = NULL;
     }
     unsigned int newX = event->scenePos().x();
     unsigned int newY = event->scenePos().y();
-    _lastLine =  this->addLine(_lastPressPoint.x(), _lastPressPoint.y(), newX, newY);
+    _lastLine = this->addLine(_lastPressPoint.x(), _lastPressPoint.y(), newX, newY);
 }
 
 
@@ -52,7 +53,6 @@ void PBCCustomRouteView::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     unsigned int newX = event->scenePos().x();
     unsigned int newY = event->scenePos().y();
     PBCDPoint pathPoint =  PBCPositionTranslator::getInstance()->retranslatePos(PBCDPoint(newX, newY), PBCDPoint(_routeStartPos.x(), _routeStartPos.y()));
-    std::cout << pathPoint.get<0>() << ", " << pathPoint.get<1>() << std::endl;
     _paths.push_back(PBCPathSP(new PBCPath(pathPoint)));
     this->addLine(_lastPressPoint.x(), _lastPressPoint.y(), newX, newY);
     _lastPressPoint.setX(newX);

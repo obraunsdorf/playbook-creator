@@ -17,6 +17,12 @@ class PBCPlayer  : public PBCDataModel
 {
 friend class boost::serialization::access;
 private:
+    PBCRole _role;
+    PBCColor _color;
+    PBCDPoint _pos;
+    PBCRouteSP _route;
+    PBCMotion _motion;
+
     template<class Archive> void save(Archive& ar, const unsigned int version) const {
         assert(version == 0);
         ar << _role.fullName;
@@ -47,12 +53,6 @@ private:
     }
     BOOST_SERIALIZATION_SPLIT_MEMBER()
     PBCPlayer() {}
-
-    PBCRole _role;
-    PBCColor _color;
-    PBCDPoint _pos;
-    PBCRouteSP _route;
-    PBCMotion _motion;
 
 public:
     PBCPlayer(PBCRole role, PBCColor color, PBCDPoint pos = PBCDPoint(), PBCRouteSP route = NULL, PBCMotion motion = PBCMotion());

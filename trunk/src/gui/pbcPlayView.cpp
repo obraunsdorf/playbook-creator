@@ -85,9 +85,3 @@ QStringList PBCPlayView::getAvailablePlays() const
     return result;
 }
 
-/* void PBCPlayView::setCurrentPlay(PBCPlaySP play)
-{
-    _currentPlay = play;
-    repaint();
-}*/
-

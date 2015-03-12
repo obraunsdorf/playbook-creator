@@ -19,7 +19,6 @@ public:
 
 private:
     PBCPlaySP _currentPlay;
-    // void setCurrentPlay(PBCPlaySP play = PBCPlaySP(new PBCPlay()));
 
 };
 

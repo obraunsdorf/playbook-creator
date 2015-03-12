@@ -81,14 +81,6 @@ PBCFormationSP PBCPlaybook::getFormation(const std::string &name)
     assert(it != _formations.end()); // todo throw exception
     PBCFormationSP formation = it->second;
     return PBCFormationSP(new PBCFormation(*formation));
-
-    /*PBCFormationSP result;
-    for(PBCFormationSP formation : _formations) {
-        if(formation->name() == name) {
-            result.reset(new PBCFormation(*formation));
-        }
-    }
-    return result;*/
 }
 
 PBCPlaySP PBCPlaybook::getPlay(const std::string &name)
@@ -97,13 +89,4 @@ PBCPlaySP PBCPlaybook::getPlay(const std::string &name)
     assert(it != _plays.end()); // todo throw exception
     PBCPlaySP play = it->second;
     return PBCPlaySP(new PBCPlay(*play));
-}
-
-template<class T> std::list<T> PBCPlaybook::mapToList(PBCModelMap<T> map) const
-{
-    std::list<T> list;
-    for(const auto& kv : map) {
-        list.push_back(kv.second);
-    }
-    return list;
 }
