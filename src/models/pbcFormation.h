@@ -21,7 +21,7 @@ private:
         ar & boost::serialization::base_object<PBCCategory>(*this);
         ar & boost::serialization::base_object<std::vector<PBCPlayerSP>>(*this);
     }
-    PBCFormation() {}
+    PBCFormation() : PBCCategory("") {}
 
 public:
     explicit PBCFormation(const std::string& name) : PBCCategory(name) {}

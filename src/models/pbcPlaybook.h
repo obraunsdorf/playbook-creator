@@ -17,6 +17,20 @@ class PBCPlaybook : public PBCSingleton<PBCPlaybook>, PBCDataModel
 friend class PBCSingleton<PBCPlaybook>;
 friend class boost::serialization::access;
 private:
+    template<typename T> using PBCModelMap = std::map<std::string, T>;
+    PBCModelMap<PBCFormationSP> _formations;
+    PBCModelMap<PBCRouteSP> _routes;
+    PBCModelMap<PBCCategorySP> _categories;
+    PBCModelMap<PBCPlaySP> _plays;
+
+    template<class T> std::list<T> mapToList(PBCModelMap<T> map) const {
+        std::list<T> list;
+        for(const auto& kv : map) {
+            list.push_back(kv.second);
+        }
+        return list;
+    }
+
     template<class Archive> void serialize(Archive& ar, const unsigned int version) {
         assert(version == 0);
         ar & _formations;
@@ -24,17 +38,9 @@ private:
         ar & _plays;
         ar & _categories;
     }
-
-    template<typename T> using PBCModelMap = std::map<std::string, T>;
-
-    PBCModelMap<PBCFormationSP> _formations;
-    PBCModelMap<PBCRouteSP> _routes;
-    PBCModelMap<PBCCategorySP> _categories;
-    PBCModelMap<PBCPlaySP> _plays;
-
-    template<class T> std::list<T> mapToList(PBCModelMap<T> map) const;
 protected:
     PBCPlaybook();
+
 public:
     void addFormation(PBCFormationSP formation);
     void addRoute(PBCRouteSP route);

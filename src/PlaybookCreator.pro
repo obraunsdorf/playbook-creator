@@ -29,7 +29,8 @@ SOURCES += main.cpp\
     gui/pbcGridIronView.cpp \
     models/pbcPlaybook.cpp \
     models/pbcDataModel.cpp \
-    models/pbcColor.cpp
+    models/pbcColor.cpp \
+    util/pbcStorage.cpp
 
 HEADERS  += dialogs/mainDialog.h \
     util/pbcDeclarations.h \
@@ -49,7 +50,8 @@ HEADERS  += dialogs/mainDialog.h \
     gui/pbcGridIronView.h \
     models/pbcPlaybook.h \
     models/pbcDataModel.h \
-    models/pbcColor.h
+    models/pbcColor.h \
+    util/pbcStorage.h
 
 FORMS    += dialogs/mainDialog.ui \
     dialogs/pbcCustomRouteDialog.ui

@@ -8,13 +8,13 @@
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QDebug>
-#include <boost/archive/text_oarchive.hpp>
-#include <boost/archive/text_iarchive.hpp>
-#include <fstream>
+#include "util/pbcStorage.h"
+#include <QFileDialog>
 
 MainDialog::MainDialog(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainDialog)
+    ui(new Ui::MainDialog),
+    _currentPlaybookFileName("")
 {
     ui->setupUi(this);
     ui->graphicsView->setRenderHint(QPainter::Antialiasing);
@@ -127,26 +127,25 @@ void MainDialog::saveFormationAs()
 
 void MainDialog::savePlaybook()
 {
-    std::stringbuf buff;
-    std::ostream ostream(&buff);
-    boost::archive::text_oarchive archive(ostream);
-    archive << *PBCPlaybook::getInstance();
+    if(_currentPlaybookFileName == "") {
+        savePlaybookAs();
+    } else {
+        PBCStorage::getInstance()->savePlaybook(_currentPlaybookFileName.toStdString());
+    }
+}
 
-    std::ofstream ofstream("/home/oliver/Desktop/myPlaybook.txt");
-    ofstream << buff.str();
-    ofstream.close();
-
-    /*std::stringbuf buff;
-    std::ostream ostream(&buff);
-    PBCPlaybook::getInstance()->serialize(ostream);*/
-    std::cout << buff.str() << std::endl;
+void MainDialog::savePlaybookAs()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, "Save Playbook", "bla.pbc", "PBC Files (*.pbc);;All Files (*.*)");
+    _currentPlaybookFileName = fileName;
+    PBCStorage::getInstance()->savePlaybook(fileName.toStdString());
 }
 
 void MainDialog::openPlaybook()
 {
-        std::ifstream ifstream("/home/oliver/Desktop/myPlaybook.txt");
-        boost::archive::text_iarchive archive(ifstream);
-        archive >> *PBCPlaybook::getInstance();
+    QString fileName = QFileDialog::getOpenFileName(this, "Open Playbook", "bla.pbc", "PBC Files (*.pbc)");
+    _currentPlaybookFileName = fileName;
+    PBCStorage::getInstance()->loadPlaybook(fileName.toStdString());
 }
 
 MainDialog::~MainDialog()

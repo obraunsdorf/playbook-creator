@@ -25,10 +25,9 @@ private:
         ar & _name;
         ar & _plays;
     }
-    // PBCCategory() {}
+    PBCCategory() {}
 
 protected:
-    PBCCategory() {}
     std::string _name;
     // char _shortName[5];
     std::list<PBCPlaySP> _plays;

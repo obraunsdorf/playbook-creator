@@ -16,15 +16,16 @@ class PBCRoute : public PBCDataModel
 {
 friend class boost::serialization::access;
 private:
+    std::string _name;
+    std::string _codeName;
+    std::vector<PBCPathSP> _paths;
+
     template<class Archive> void serialize(Archive& ar, const unsigned int version) {
         assert(version == 0);
         ar & _name;
         ar & _codeName;
         ar & _paths;
     }
-    std::string _name;
-    std::string _codeName;
-    std::vector<PBCPathSP> _paths;
     PBCRoute() {}
 
 public:
