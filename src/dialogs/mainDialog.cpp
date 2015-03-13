@@ -36,6 +36,16 @@ void MainDialog::show() {
     _playView->setSceneRect(0, 0, PBCConfig::getInstance()->canvasWidth(),PBCConfig::getInstance()->canvasHeight());
 }
 
+void MainDialog::enableMenuOptions()
+{
+    QList<QAction*> actionList = this->findChildren<QAction*>();
+    for(QAction* action : actionList) {
+        if(action->isEnabled() == false) {
+            action->setEnabled(true);
+        }
+    }
+}
+
 void MainDialog::resizeEvent(QResizeEvent* e) {
     unsigned int width = ui->graphicsView->width();
     unsigned int height = ui->graphicsView->height();
@@ -62,13 +72,7 @@ void MainDialog::showNewPlay() {
     }
     _playView->createNewPlay(name.toStdString(), codeName.toStdString(), formation.toStdString());
 
-    // enable menu options
-    QList<QAction*> actionList = this->findChildren<QAction*>();
-    for(QAction* action : actionList) {
-        if(action->isEnabled() == false) {
-            action->setEnabled(true);
-        }
-    }
+    enableMenuOptions();
 }
 
 void MainDialog::openPlay()
@@ -80,6 +84,7 @@ void MainDialog::openPlay()
         if(ok == true) {
             assert(play != "");
             _playView->showPlay(play.toStdString());
+            enableMenuOptions();
         }
     } else {
         QMessageBox::information(this, "Open Play", "There is no play in your Playbook yet. Please create a new play first");
@@ -88,7 +93,7 @@ void MainDialog::openPlay()
 
 void MainDialog::showAboutDialog()
 {
-    QMessageBox::about(this, QString("About"), QString("Playbook Creator by Oliver Braunsdorf"));
+    QMessageBox::about(this, "About", "Playbook Creator by Oliver Braunsdorf");
 }
 
 void MainDialog::savePlay()
@@ -100,8 +105,8 @@ void MainDialog::savePlayAs()
 {
     bool nameOk;
     bool codeOk;
-    QString playName = QInputDialog::getText(this, QString("Save play as"), QString("play name"), QLineEdit::Normal, "", &nameOk);
-    QString playCodeName = QInputDialog::getText(this, QString("Save play as"), QString("code name"), QLineEdit::Normal, "", &codeOk);
+    QString playName = QInputDialog::getText(this, "Save play as", "play name", QLineEdit::Normal, "", &nameOk);
+    QString playCodeName = QInputDialog::getText(this, "Save play as", "code name", QLineEdit::Normal, "", &codeOk);
     if((nameOk && codeOk) == true) {
         assert(playName != "");
         _playView->savePlay(playName.toStdString(), playCodeName.toStdString());
@@ -118,7 +123,7 @@ void MainDialog::saveFormation()
 void MainDialog::saveFormationAs()
 {
     bool ok;
-    QString formationName = QInputDialog::getText(this, QString("Save formation as"), QString("formation name"), QLineEdit::Normal, "", &ok);
+    QString formationName = QInputDialog::getText(this, "Save formation as", "formation name", QLineEdit::Normal, "", &ok);
     if(ok == true) {
         assert(formationName != "");
         _playView->saveFormation(formationName.toStdString());
@@ -136,16 +141,30 @@ void MainDialog::savePlaybook()
 
 void MainDialog::savePlaybookAs()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, "Save Playbook", "bla.pbc", "PBC Files (*.pbc);;All Files (*.*)");
-    _currentPlaybookFileName = fileName;
-    PBCStorage::getInstance()->savePlaybook(fileName.toStdString());
+    std::string stdFile = PBCPlaybook::getInstance()->name() + ".pbc";
+    QFileDialog fileDialog(this, "Save Playbook", QString::fromStdString(stdFile), "PBC Files (*.pbc);;All Files (*.*)");
+    fileDialog.setFileMode(QFileDialog::AnyFile);
+    fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+    if(fileDialog.exec() == true) {
+        QStringList files = fileDialog.selectedFiles();
+        assert(files.size() == 1);
+        QString fileName = files.first();
+        _currentPlaybookFileName = fileName;
+        PBCStorage::getInstance()->savePlaybook(fileName.toStdString());
+    }
 }
 
 void MainDialog::openPlaybook()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, "Open Playbook", "bla.pbc", "PBC Files (*.pbc)");
-    _currentPlaybookFileName = fileName;
-    PBCStorage::getInstance()->loadPlaybook(fileName.toStdString());
+    QFileDialog fileDialog(this, "Open Playbook", "", "PBC Files (*.pbc);;All Files (*.*)");
+    fileDialog.setFileMode(QFileDialog::ExistingFile);
+    if(fileDialog.exec() == true) {
+        QStringList files = fileDialog.selectedFiles();
+        assert(files.size() == 1);
+        QString fileName = files.first();
+        _currentPlaybookFileName = fileName;
+        PBCStorage::getInstance()->loadPlaybook(fileName.toStdString());
+    }
 }
 
 MainDialog::~MainDialog()

@@ -18,6 +18,7 @@ friend class PBCSingleton<PBCPlaybook>;
 friend class boost::serialization::access;
 private:
     template<typename T> using PBCModelMap = std::map<std::string, T>;
+    std::string _name;
     PBCModelMap<PBCFormationSP> _formations;
     PBCModelMap<PBCRouteSP> _routes;
     PBCModelMap<PBCCategorySP> _categories;
@@ -33,6 +34,7 @@ private:
 
     template<class Archive> void serialize(Archive& ar, const unsigned int version) {
         assert(version == 0);
+        ar & _name;
         ar & _formations;
         ar & _routes;
         ar & _plays;
@@ -42,10 +44,12 @@ protected:
     PBCPlaybook();
 
 public:
+    void setName(const std::string& name);
     void addFormation(PBCFormationSP formation);
     void addRoute(PBCRouteSP route);
     void addCategory(PBCCategorySP category);
     void addPlay(PBCPlaySP play);
+    std::string name() const;
     std::list<PBCFormationSP> formations() const;
     std::list<PBCRouteSP> routes() const;
     std::list<PBCPlaySP> plays() const;
