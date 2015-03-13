@@ -13,16 +13,18 @@ class MainDialog : public QMainWindow
 {
     Q_OBJECT
 
-public:
-    explicit MainDialog(QWidget *parent = 0);
-    ~MainDialog();
-    void show();
-
 private:
     Ui::MainDialog *ui;
     QString _currentPlaybookFileName;
     PBCPlayView* _playView;
+
+    void enableMenuOptions();
     void resizeEvent(QResizeEvent* e);
+
+public:
+    explicit MainDialog(QWidget *parent = 0);
+    ~MainDialog();
+    void show();
 
 public slots:
     void exit();

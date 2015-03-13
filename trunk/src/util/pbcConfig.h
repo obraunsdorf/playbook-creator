@@ -40,7 +40,9 @@ protected:
        _fiveYdYFactor(0.25),
        _ballColor(139U, 69U, 19U),
        _ballWidthYd(1),
-       _playerWidthYd(1.5){
+       _playerWidthYd(1.5),
+       _canvasWidth(200),
+       _canvasHeight(200) {
        // TODO initialize from File
     }
 

@@ -1,6 +1,6 @@
 #include "pbcPlaybook.h"
 
-PBCPlaybook::PBCPlaybook()
+PBCPlaybook::PBCPlaybook() : _name("Playbook")
 {
     std::vector<PBCPathSP> path_5In({ PBCPathSP(new PBCPath(0,5)), PBCPathSP(new PBCPath(2,5))});
     PBCRouteSP route_5In(new PBCRoute("5 In", "", path_5In));
@@ -26,6 +26,11 @@ PBCPlaybook::PBCPlaybook()
     formation->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Runningback", "RB"}, PBCColor(0,0,0), PBCDPoint(0, -5))));
     std::pair<PBCModelMap<PBCFormationSP>::iterator, bool> result = _formations.insert(std::make_pair(formation->name(), formation));
     assert(result.second == true);
+}
+
+void PBCPlaybook::setName(const std::string &name)
+{
+    _name = name;
 }
 
 void PBCPlaybook::addFormation(PBCFormationSP formation)
@@ -58,6 +63,11 @@ void PBCPlaybook::addPlay(PBCPlaySP play)
     if(result.second == false) {
         // TODO message to user: same name as existing <model>
     }
+}
+
+std::string PBCPlaybook::name() const
+{
+    return _name;
 }
 
 std::list<PBCFormationSP> PBCPlaybook::formations() const
