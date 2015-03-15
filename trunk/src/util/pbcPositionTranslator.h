@@ -6,17 +6,18 @@
 #include "pbcConfig.h"
 
 class PBCPositionTranslator : public PBCSingleton<PBCPositionTranslator> {
-
 friend class PBCSingleton<PBCPositionTranslator>;
-private:
+ private:
+    // cppcheck-suppress unusedPrivateFunction
     static PBCDPoint ballPos();
 
-protected:
+ protected:
     PBCPositionTranslator();
 
-public:
+ public:
     static PBCDPoint translatePos(PBCDPoint pos, PBCDPoint center = ballPos());
-    static PBCDPoint retranslatePos(PBCDPoint pos, PBCDPoint center = ballPos());
+    static PBCDPoint retranslatePos(PBCDPoint pos,
+                                    PBCDPoint center = ballPos());
 };
 
-#endif // PBCPOSITIONTRANSLATOR_H
+#endif  // PBCPOSITIONTRANSLATOR_H

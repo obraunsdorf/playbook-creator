@@ -9,11 +9,10 @@ namespace Ui {
 class MainDialog;
 }
 
-class MainDialog : public QMainWindow
-{
+class MainDialog : public QMainWindow {
     Q_OBJECT
 
-private:
+ private:
     Ui::MainDialog *ui;
     QString _currentPlaybookFileName;
     PBCPlayView* _playView;
@@ -21,12 +20,12 @@ private:
     void enableMenuOptions();
     void resizeEvent(QResizeEvent* e);
 
-public:
+ public:
     explicit MainDialog(QWidget *parent = 0);
     ~MainDialog();
     void show();
 
-public slots:
+ public slots:
     void exit();
     void showNewPlay();
     void openPlay();
@@ -40,4 +39,4 @@ public slots:
     void showAboutDialog();
 };
 
-#endif // MAINDIALOG_H
+#endif  // MAINDIALOG_H

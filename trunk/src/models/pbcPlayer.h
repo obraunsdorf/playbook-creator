@@ -9,21 +9,24 @@
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/array.hpp>
 #include <boost/serialization/shared_ptr.hpp>
+#include <string>
+#include <vector>
+#include <set>
 
 class PBCPlayer;
 typedef std::vector<PBCPathSP> PBCMotion;
 
-class PBCPlayer  : public PBCDataModel
-{
+class PBCPlayer  : public PBCDataModel {
 friend class boost::serialization::access;
-private:
+ private:
     PBCRole _role;
     PBCColor _color;
     PBCDPoint _pos;
     PBCRouteSP _route;
     PBCMotion _motion;
 
-    template<class Archive> void save(Archive& ar, const unsigned int version) const {
+    template<class Archive>
+    void save(Archive& ar, const unsigned int version) const {  // NOLINT
         assert(version == 0);
         ar << _role.fullName;
         ar << _role.shortName;
@@ -33,7 +36,9 @@ private:
         ar << _route;
         // todo motion
     }
-    template<class Archive> void load(Archive& ar, const unsigned int version) {
+
+    template<class Archive>
+    void load(Archive& ar, const unsigned int version) {  // NOLINT
         assert(version == 0);
         std::string fullName;
         boost::array<char, 4> shortName;
@@ -49,13 +54,17 @@ private:
         _role.shortName = shortName;
         _pos.set<0>(x);
         _pos.set<1>(y);
-        //todo motion
+        // TODO(obr): motion
     }
     BOOST_SERIALIZATION_SPLIT_MEMBER()
     PBCPlayer() {}
 
-public:
-    PBCPlayer(PBCRole role, PBCColor color, PBCDPoint pos = PBCDPoint(), PBCRouteSP route = NULL, PBCMotion motion = PBCMotion());
+ public:
+    PBCPlayer(PBCRole role,
+              PBCColor color,
+              PBCDPoint pos = PBCDPoint(),
+              PBCRouteSP route = NULL,
+              PBCMotion motion = PBCMotion());
     PBCRole role() const;
     void setRole(const PBCRole &role);
     PBCColor color() const;
@@ -66,10 +75,8 @@ public:
     void setRoute(const PBCRouteSP &route);
     PBCMotion motion() const;
     void setMotion(const PBCMotion &motion);
-
-    void serialize(std::ostream &ostream);
 };
 
 typedef boost::shared_ptr<PBCPlayer> PBCPlayerSP;
 
-#endif // PBCPLAYER_H
+#endif  // PBCPLAYER_H

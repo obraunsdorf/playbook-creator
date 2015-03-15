@@ -1,7 +1,7 @@
 #include "pbcColor.h"
+#include <vector>
 
-PBCColor::PBCColor()
-{
+PBCColor::PBCColor() {
 }
 
 
@@ -19,15 +19,6 @@ PBCColor::PBCColor(const PBCColor &obj) {
     _r = obj._r;
     _g = obj._g;
     _b = obj._b;
-}
-
-
-std::vector<unsigned int> PBCColor::getColorVector() const {
-    std::vector<unsigned int> color;
-    color.push_back(_r);
-    color.push_back(_g);
-    color.push_back(_b);
-    return color;
 }
 
 unsigned int PBCColor::r() const {

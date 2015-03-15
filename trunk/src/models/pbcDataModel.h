@@ -3,11 +3,10 @@
 
 #include <ostream>
 
-class PBCDataModel
-{
-public:
+class PBCDataModel {
+ public:
     PBCDataModel();
     // virtual void serialize(std::ostream& ostream) = 0;
 };
 
-#endif // PBCDATAMODEL_H
+#endif  // PBCDATAMODEL_H

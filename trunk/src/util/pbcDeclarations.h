@@ -11,7 +11,8 @@ struct PBCRole {
     boost::array<char, 4> shortName;
 };
 
-typedef boost::geometry::model::point<double, 2, boost::geometry::cs::cartesian> PBCDPoint;
+using boost::geometry::model::point;
+typedef point<double, 2, boost::geometry::cs::cartesian> PBCDPoint;
 
 
-#endif // PBCDECLARATIONS_H
+#endif  // PBCDECLARATIONS_H

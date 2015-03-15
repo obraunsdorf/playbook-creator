@@ -9,22 +9,20 @@ namespace Ui {
 class PBCCustomRouteDialog;
 }
 
-class PBCCustomRouteDialog : public QDialog
-{
+class PBCCustomRouteDialog : public QDialog {
     Q_OBJECT
+ private:
+    Ui::PBCCustomRouteDialog *ui;
+    boost::shared_ptr<PBCCustomRouteView> _crv;
+    PBCRouteSP _createdRoute;
 
-public:
+ public:
     explicit PBCCustomRouteDialog(QWidget *parent = 0);
     ~PBCCustomRouteDialog();
     PBCRouteSP exec();
 
-public slots:
+ public slots:
     void accept();
-
-private:
-    Ui::PBCCustomRouteDialog *ui;
-    boost::shared_ptr<PBCCustomRouteView> _crv;
-    PBCRouteSP _createdRoute;
 };
 
-#endif // PBCCUSTOMROUTEDIALOG_H
+#endif  // PBCCUSTOMROUTEDIALOG_H
