@@ -6,18 +6,23 @@
 #include "util/pbcDeclarations.h"
 #include "models/pbcColor.h"
 
-class PBCGridIronView : public QGraphicsScene
-{
+class PBCGridIronView : public QGraphicsScene {
     Q_OBJECT
-public:
+ public:
     explicit PBCGridIronView(QObject *parent = 0);
 
-protected:
-    void paintLine(unsigned int yPos, unsigned int width, unsigned int lineWidth, PBCColor color);
-    void paintBall(unsigned int xPos, unsigned int yPos, unsigned int zValue = 100);
-    void paintBorder();
-    // void setBackgroundColor()
+ protected:
+    void paintLine(unsigned int yPos,
+                   unsigned int width,
+                   unsigned int lineWidth,
+                   PBCColor color);
 
+    void paintBall(unsigned int xPos,
+                   unsigned int yPos,
+                   unsigned int zValue = 100);
+
+    void paintBorder();
+    // TODO(obr): void setBackgroundColor()
 };
 
-#endif // PBCGRIDIRONVIEW_H
+#endif  // PBCGRIDIRONVIEW_H

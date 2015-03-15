@@ -4,11 +4,12 @@
 #include "pbcSingleton.h"
 #include "pbcDeclarations.h"
 #include "models/pbcColor.h"
+#include <string>
 
 class PBCConfig : public PBCSingleton<PBCConfig> {
 friend class PBCSingleton<PBCConfig>;
 
-private:
+ private:
     bool _initialized;
     unsigned int _minWidth;
     unsigned int _minHeight;
@@ -27,15 +28,15 @@ private:
     unsigned int _canvasHeight;
 
 
-protected:
-   PBCConfig() :
+ protected:
+    PBCConfig() :
        _initialized(false),
        _minWidth(600),
        _minHeight(300),
-       _losColor(128U,128U,128U),
+       _losColor(128U, 128U, 128U),
        _losWidth(5),
        _losYFactor(0.5),
-       _fiveYdColor(128U,128U,128U),
+       _fiveYdColor(128U, 128U, 128U),
        _fiveYdWidth(3),
        _fiveYdYFactor(0.25),
        _ballColor(139U, 69U, 19U),
@@ -43,10 +44,10 @@ protected:
        _playerWidthYd(1.5),
        _canvasWidth(200),
        _canvasHeight(200) {
-       // TODO initialize from File
+       // TODO(obr): initialize from File
     }
 
-public:
+ public:
     void setCanvasSize(unsigned int canvasWidth, unsigned int canvasHeight) {
         _initialized = true;
         _canvasWidth = canvasWidth;
@@ -115,9 +116,8 @@ public:
     std::string version() {
         return "0.1.0";
     }
-
 };
 
 
-#endif // PBCCONFIG_H
+#endif  // PBCCONFIG_H
 

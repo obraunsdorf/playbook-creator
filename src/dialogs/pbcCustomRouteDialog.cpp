@@ -5,8 +5,7 @@
 
 PBCCustomRouteDialog::PBCCustomRouteDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::PBCCustomRouteDialog)
-{
+    ui(new Ui::PBCCustomRouteDialog) {
     ui->setupUi(this);
 
     _crv.reset(new PBCCustomRouteView(ui->graphicsView));
@@ -16,13 +15,11 @@ PBCCustomRouteDialog::PBCCustomRouteDialog(QWidget *parent) :
     qDebug() << this->size();
 }
 
-PBCCustomRouteDialog::~PBCCustomRouteDialog()
-{
+PBCCustomRouteDialog::~PBCCustomRouteDialog() {
     delete ui;
 }
 
-PBCRouteSP PBCCustomRouteDialog::exec()
-{
+PBCRouteSP PBCCustomRouteDialog::exec() {
     int returnCode = QDialog::exec();
     if(returnCode == QDialog::Accepted) {
         assert(_createdRoute != NULL);
@@ -32,9 +29,9 @@ PBCRouteSP PBCCustomRouteDialog::exec()
     }
 }
 
-void PBCCustomRouteDialog::accept()
-{
-    _createdRoute = _crv->createRoute(ui->nameEdit->text().toStdString(), ui->codeNameEdit->text().toStdString());
+void PBCCustomRouteDialog::accept() {
+    _createdRoute = _crv->createRoute(ui->nameEdit->text().toStdString(),
+                                      ui->codeNameEdit->text().toStdString());
     QDialog::accept();
 }
 

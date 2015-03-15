@@ -12,20 +12,21 @@
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/string.hpp>
 #include <boost/serialization/list.hpp>
+#include <list>
 
 class PBCPlay;
 typedef boost::shared_ptr<PBCPlay> PBCPlaySP;
 
-class PBCPlay : public PBCDataModel
-{
+class PBCPlay : public PBCDataModel {
 friend class boost::serialization::access;
-private:
+ private:
     std::string _name;
     std::string _codeName;
     PBCFormationSP _formation;
     std::list<PBCCategorySP> _categories;
 
-    template<class Archive> void serialize(Archive& ar, const unsigned int version) {
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version) {  // NOLINT
         assert(version == 0);
         ar & _name;
         ar & _codeName;
@@ -33,9 +34,11 @@ private:
         ar & _categories;
     }
 
-public:
-    PBCPlay(const std::string& name = "PBC_StandardPlay", const std::string& codeName = "",
+ public:
+    PBCPlay(const std::string& name = "PBC_StandardPlay",
+            const std::string& codeName = "",
             const std::string& formationName = "PBC_StandardFormation");
+
     PBCPlay(const PBCPlay& other);
     std::string name() const;
     void setName(const std::string &name);
@@ -47,8 +50,4 @@ public:
     void setCategories(const std::list<PBCCategorySP> &categories);
 };
 
-typedef boost::shared_ptr<PBCPlay> PBCPlaySP;
-
-
-
-#endif // PBCPLAY_H
+#endif  // PBCPLAY_H

@@ -5,15 +5,14 @@
 #include "models/pbcPlay.h"
 #include <string>
 
-class PBCStorage : public PBCSingleton<PBCStorage>
-{
+class PBCStorage : public PBCSingleton<PBCStorage> {
 friend class PBCSingleton<PBCStorage>;
-private:
+ private:
     void checkVersion(const std::string& version);
-protected:
+ protected:
     PBCStorage();
 
-public:
+ public:
     void savePlaybook(const std::string& fileName);
     void loadPlaybook(const std::string& fileName);
     void exportPlay(const std::string& fileName, PBCPlaySP play);
@@ -21,4 +20,4 @@ public:
     // void exportAsPDF(const std::string& fileName);
 };
 
-#endif // PBCSTORAGE_H
+#endif  // PBCSTORAGE_H

@@ -6,16 +6,15 @@
 
 template <class T>
 class PBCSingleton {
-
-private:
+ private:
     static T* _instance;
     PBCSingleton(const PBCSingleton& obj) {}
 
-protected:
+ protected:
     PBCSingleton() {}
     ~PBCSingleton() {}
 
-public:
+ public:
     static T* getInstance() {
         if(_instance == NULL) {
             _instance = new T();
@@ -26,4 +25,4 @@ public:
 
 template <class T> T* PBCSingleton<T>::_instance = NULL;
 
-#endif // PBCSINGLETON_H
+#endif  // PBCSINGLETON_H

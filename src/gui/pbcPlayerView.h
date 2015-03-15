@@ -6,18 +6,17 @@
 #include <boost/shared_ptr.hpp>
 #include "models/pbcPlayer.h"
 #include "util/pbcDeclarations.h"
+#include <vector>
 
 class PBCPlayerView;
 typedef boost::shared_ptr<PBCPlayerView> PBCPlayerViewSP;
 
-class PBCPlayerView : public QObject, public QGraphicsItemGroup
-{
+class PBCPlayerView : public QObject, public QGraphicsItemGroup {
     Q_OBJECT
-public:
+ public:
     explicit PBCPlayerView(PBCPlayerSP playerSP);
-signals:
 
-private:
+ private:
     PBCPlayerSP _playerSP;
     PBCDPoint _originalPos;
     boost::shared_ptr<QGraphicsEllipseItem> _playerEllipseSP;
@@ -26,7 +25,6 @@ private:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void applyRoute(PBCRouteSP route);
-
 };
 
-#endif // PBCPLAYERVIEW_H
+#endif  // PBCPLAYERVIEW_H

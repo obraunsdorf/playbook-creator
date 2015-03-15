@@ -11,12 +11,14 @@
 #include <ostream>
 #include <boost/serialization/map.hpp>
 #include <boost/serialization/access.hpp>
+#include <map>
+#include <string>
+#include <utility>
 
-class PBCPlaybook : public PBCSingleton<PBCPlaybook>, PBCDataModel
-{
+class PBCPlaybook : public PBCSingleton<PBCPlaybook>, PBCDataModel {
 friend class PBCSingleton<PBCPlaybook>;
 friend class boost::serialization::access;
-private:
+ private:
     template<typename T> using PBCModelMap = std::map<std::string, T>;
     std::string _name;
     PBCModelMap<PBCFormationSP> _formations;
@@ -24,7 +26,12 @@ private:
     PBCModelMap<PBCCategorySP> _categories;
     PBCModelMap<PBCPlaySP> _plays;
 
-    template<class T> std::list<T> mapToList(PBCModelMap<T> map) const {
+
+    template<typename T>
+    using InsertResult = std::pair<typename PBCModelMap<T>::iterator, bool>;
+
+    template<class T>
+    std::list<T> mapToList(PBCModelMap<T> map) const {
         std::list<T> list;
         for(const auto& kv : map) {
             list.push_back(kv.second);
@@ -32,7 +39,8 @@ private:
         return list;
     }
 
-    template<class Archive> void serialize(Archive& ar, const unsigned int version) {
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version) {  // NOLINT
         assert(version == 0);
         ar & _name;
         ar & _formations;
@@ -40,10 +48,11 @@ private:
         ar & _plays;
         ar & _categories;
     }
-protected:
+
+ protected:
     PBCPlaybook();
 
-public:
+ public:
     void setName(const std::string& name);
     void addFormation(PBCFormationSP formation);
     void addRoute(PBCRouteSP route);
@@ -57,4 +66,4 @@ public:
     PBCPlaySP getPlay(const std::string& name);
 };
 
-#endif // PBCPLAYBOOK_H
+#endif  // PBCPLAYBOOK_H

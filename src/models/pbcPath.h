@@ -4,22 +4,24 @@
 #include "models/pbcDataModel.h"
 #include "util/pbcDeclarations.h"
 #include <boost/serialization/access.hpp>
+#include <set>
 
-class PBCPath  : public PBCDataModel
-{
+class PBCPath  : public PBCDataModel {
 friend class boost::serialization::access;
-
-private:
+ private:
     PBCDPoint _endpoint;
     bool _arc;
 
-    template<class Archive> void save(Archive& ar, const unsigned int version) const {
+    template<class Archive>
+    void save(Archive& ar, const unsigned int version) const {  // NOLINT
         assert(version == 0);
         ar << _endpoint.get<0>();
         ar << _endpoint.get<1>();
         ar << _arc;
     }
-    template<class Archive> void load(Archive& ar, const unsigned int version) {
+
+    template<class Archive>
+    void load(Archive& ar, const unsigned int version) {  //NOLINT
         assert(version == 0);
         double x;
         double y;
@@ -32,12 +34,12 @@ private:
     BOOST_SERIALIZATION_SPLIT_MEMBER()
     PBCPath() {}
 
-public:
-    PBCPath(PBCDPoint endpoint, bool arc = false);
+ public:
+    explicit PBCPath(PBCDPoint endpoint, bool arc = false);
     PBCPath(double endpointX, double endpointY, bool arc = false);
     PBCDPoint endpoint() const;
 };
 
 typedef boost::shared_ptr<PBCPath> PBCPathSP;
 
-#endif // PBCPATH_H
+#endif  // PBCPATH_H

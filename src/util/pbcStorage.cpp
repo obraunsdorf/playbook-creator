@@ -4,19 +4,17 @@
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
 #include <fstream>
+#include <string>
 
-void PBCStorage::checkVersion(const std::string &version)
-{
+void PBCStorage::checkVersion(const std::string &version) {
     int result = PBCConfig::getInstance()->version().compare(version);
     assert(result <= 0);
 }
 
-PBCStorage::PBCStorage()
-{
+PBCStorage::PBCStorage() {
 }
 
-void PBCStorage::savePlaybook(const std::string &fileName)
-{
+void PBCStorage::savePlaybook(const std::string &fileName) {
     std::string extension = fileName.substr(fileName.size() - 4);
     assert(extension == ".pbc");
     std::stringbuf buff;
@@ -31,23 +29,22 @@ void PBCStorage::savePlaybook(const std::string &fileName)
     ofstream.close();
 }
 
-void PBCStorage::loadPlaybook(const std::string &fileName)
-{
+void PBCStorage::loadPlaybook(const std::string &fileName) {
     std::string extension = fileName.substr(fileName.size() - 4);
     assert(extension == ".pbc");
     std::ifstream ifstream(fileName);
 
-    int bufferSize = 17;
-    char buffer[bufferSize];
-    ifstream.getline(buffer, bufferSize);
+    int kBuffSize = 17;
+    char buffer[kBuffSize];
+    ifstream.getline(buffer, kBuffSize);
     std::string pbcString(buffer);
     assert(pbcString == "Playbook-Creator");
 
-    ifstream.getline(buffer, bufferSize);
+    ifstream.getline(buffer, kBuffSize);
     std::string pbString(buffer);
     assert(pbString == "playbook");
 
-    ifstream.getline(buffer, bufferSize);
+    ifstream.getline(buffer, kBuffSize);
     std::string version(buffer);
     checkVersion(version);
 

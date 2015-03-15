@@ -1,5 +1,4 @@
 #include "pbcDataModel.h"
 
-PBCDataModel::PBCDataModel()
-{
+PBCDataModel::PBCDataModel() {
 }

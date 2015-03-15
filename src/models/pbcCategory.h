@@ -9,6 +9,7 @@
 #include <boost/serialization/string.hpp>
 #include <boost/serialization/list.hpp>
 #include <assert.h>
+#include <list>
 
 class PBCPlay;
 typedef boost::shared_ptr<PBCPlay> PBCPlaySP;
@@ -19,23 +20,24 @@ typedef boost::shared_ptr<PBCCategory> PBCCategorySP;
 class PBCCategory : public PBCDataModel {
 friend class boost::serialization::access;
 
-private:
-    template<class Archive> void serialize(Archive& ar, const unsigned int version) {
+ private:
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version) {  // NOLINT
         assert(version == 0);
         ar & _name;
         ar & _plays;
     }
     PBCCategory() {}
 
-protected:
+ protected:
     std::string _name;
     // char _shortName[5];
     std::list<PBCPlaySP> _plays;
 
-public:
-    PBCCategory(const std::string& name) : _name(name) {}
+ public:
+    explicit PBCCategory(const std::string& name) : _name(name) {}
     std::string name() const {return _name;}
     void setName(const std::string& name) {_name = name;}
 };
 
-#endif // PBCCATEGORY_H
+#endif  // PBCCATEGORY_H
