@@ -42,7 +42,6 @@ PBCCustomRouteView::PBCCustomRouteView(QObject *parent) :
 PBCRouteSP PBCCustomRouteView::createRoute(const std::string &name,
                                            const std::string &codeName) {
     PBCRouteSP route(new PBCRoute(name, codeName, _paths));
-    PBCPlaybook::getInstance()->addRoute(route);
     return route;
 }
 

@@ -16,6 +16,8 @@ class PBCCustomRouteDialog : public QDialog {
     boost::shared_ptr<PBCCustomRouteView> _crv;
     PBCRouteSP _createdRoute;
 
+    void savePlaybookOnRouteCreation();
+
  public:
     explicit PBCCustomRouteDialog(QWidget *parent = 0);
     ~PBCCustomRouteDialog();

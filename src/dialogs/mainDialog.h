@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 #include "gui/pbcPlayView.h"
+#include <string>
 
 namespace Ui {
 class MainDialog;
@@ -17,6 +18,7 @@ class MainDialog : public QMainWindow {
     QString _currentPlaybookFileName;
     PBCPlayView* _playView;
 
+    void updateTitle(bool saved);
     void enableMenuOptions();
     void resizeEvent(QResizeEvent* e);
 
@@ -31,9 +33,8 @@ class MainDialog : public QMainWindow {
     void openPlay();
     void savePlay();
     void savePlayAs();
-    void saveFormation();
     void saveFormationAs();
-    void savePlaybook();
+    void newPlaybook();
     void savePlaybookAs();
     void openPlaybook();
     void showAboutDialog();

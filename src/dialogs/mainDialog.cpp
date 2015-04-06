@@ -9,7 +9,9 @@
 #include <QInputDialog>
 #include <QDebug>
 #include "util/pbcStorage.h"
+#include "util/pbcExceptions.h"
 #include <QFileDialog>
+#include <QPushButton>
 #include <string>
 
 MainDialog::MainDialog(QWidget *parent) :
@@ -20,6 +22,8 @@ MainDialog::MainDialog(QWidget *parent) :
     ui->graphicsView->setRenderHint(QPainter::Antialiasing);
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    updateTitle(false);
 }
 
 void MainDialog::show() {
@@ -35,6 +39,33 @@ void MainDialog::show() {
     ui->graphicsView->setScene(_playView);
     _playView->setSceneRect(0, 0, PBCConfig::getInstance()->canvasWidth(),
                             PBCConfig::getInstance()->canvasHeight());
+
+    QMessageBox messageBox(this);
+    QPushButton* openButton = messageBox.addButton("Open Playbook",
+                                                  QMessageBox::AcceptRole);
+    QPushButton* newButton = messageBox.addButton("New Playbook",
+                                                   QMessageBox::AcceptRole);
+    messageBox.exec();
+    if(messageBox.clickedButton() == newButton) {
+        newPlaybook();
+    } else if(messageBox.clickedButton() == openButton) {  // NOLINT
+        openPlaybook();
+    } else {
+        assert(false);
+    }
+}
+
+void MainDialog::updateTitle(bool saved) {
+    // TODO(obr): refactor this whole method and logic behind
+    std::string windowTitle = "Playbook Creator V" +
+            PBCConfig::getInstance()->version() +
+            " - " +
+            PBCPlaybook::getInstance()->name();
+    if(saved == false) {
+        windowTitle += "*";
+    }
+
+    this->setWindowTitle(QString::fromStdString(windowTitle));
 }
 
 void MainDialog::enableMenuOptions() {
@@ -62,26 +93,35 @@ void MainDialog::exit() {
 }
 
 void MainDialog::showNewPlay() {
-    bool nameOk, codeNameOk, formationOk;
-    QString name = QInputDialog::getText(
-                this, "New Play", "name of the new Play",
-                QLineEdit::Normal, "", &nameOk);
+    QMessageBox::StandardButton button =
+            QMessageBox::warning(this,
+                                 "Open Play",
+                                 "This will discard unsaved changes to the current play. Do you want to continue?",  // NOLINT
+                                 QMessageBox::Ok | QMessageBox::Cancel);
 
-    QString codeName = QInputDialog::getText(
-                this, "New Play", "code name of the new Play",
-                QLineEdit::Normal, "", &codeNameOk);
+    if(button == QMessageBox::Ok) {
+        bool nameOk, codeNameOk, formationOk;
+        QString name = QInputDialog::getText(
+                    this, "New Play", "name of the new Play",
+                    QLineEdit::Normal, "", &nameOk);
 
-    QString formation = QInputDialog::getItem(
-                this, "New Play",
-                "from which formation should the play be created?",
-                _playView->getAvailableFormations(), 0, false, &formationOk);
+        QString codeName = QInputDialog::getText(
+                    this, "New Play", "code name of the new Play",
+                    QLineEdit::Normal, "", &codeNameOk);
 
-    if((nameOk && codeNameOk && formationOk) == true) {
-        _playView->createNewPlay(
-                    name.toStdString(),
-                    codeName.toStdString(), formation.toStdString());
+        QString formation = QInputDialog::getItem(
+                    this, "New Play",
+                    "from which formation should the play be created?",
+                    _playView->getAvailableFormations(), 0, false,
+                    &formationOk);
 
-        enableMenuOptions();
+        if((nameOk && codeNameOk && formationOk) == true) {
+            _playView->createNewPlay(
+                        name.toStdString(),
+                        codeName.toStdString(), formation.toStdString());
+
+            enableMenuOptions();
+        }
     }
 }
 
@@ -89,14 +129,23 @@ void MainDialog::openPlay() {
     bool ok;
     QStringList playList = _playView->getAvailablePlays();
     if(playList.size() > 0) {
-        QString play = QInputDialog::getItem(
-                    this, "Open Play", "choose a play",
-                    _playView->getAvailablePlays(), 0, false, &ok);
+        QMessageBox::StandardButton button =
+                QMessageBox::warning(this,
+                                     "Open Play",
+                                     "This will discard unsaved changes to the current play. Do you want to continue?",  // NOLINT
+                                     QMessageBox::Ok | QMessageBox::Cancel);
 
-        if(ok == true) {
-            assert(play != "");
-            _playView->showPlay(play.toStdString());
-            enableMenuOptions();
+        if(button == QMessageBox::Ok) {
+            QString play = QInputDialog::getItem(
+                        this, "Open Play", "choose a play",
+                        _playView->getAvailablePlays(), 0, false, &ok);
+
+            if(ok == true) {
+                assert(play != "");
+                _playView->showPlay(play.toStdString());
+                updateTitle(true);
+                enableMenuOptions();
+            }
         }
     } else {
         QMessageBox::information(
@@ -110,37 +159,40 @@ void MainDialog::showAboutDialog() {
 }
 
 void MainDialog::savePlay() {
-    _playView->savePlay();
+    try {
+        _playView->savePlay();
+    } catch(const PBCStorageException& e) {
+        QMessageBox::information(this, "", "You have to save the playbook to a file before you can add plays");  //NOLINT
+        savePlaybookAs();
+        return;
+    }
+    updateTitle(true);
 }
 
 void MainDialog::savePlayAs() {
     bool nameOk;
     bool codeOk;
-    QString playName = QInputDialog::getText(
-                this, "Save play as", "play name",
-                QLineEdit::Normal, "", &nameOk);
+    QString playName = QInputDialog::getText(this, "Save play as", "play name",
+                                             QLineEdit::Normal, "", &nameOk);
 
-    QString playCodeName = QInputDialog::getText(
-                this, "Save play as", "code name",
-                QLineEdit::Normal, "", &codeOk);
+    QString playCodeName = QInputDialog::getText(this, "Save play as",
+                                                 "code name",
+                                                 QLineEdit::Normal,
+                                                 "", &codeOk);
 
     if((nameOk && codeOk) == true) {
         assert(playName != "");
-        _playView->savePlay(playName.toStdString(), playCodeName.toStdString());
+        try {
+            _playView->savePlay(playName.toStdString(),
+                                playCodeName.toStdString());
+        } catch(const PBCStorageException& e) {
+            QMessageBox::information(this, "", "You have to save the playbook to a file before you can add plays");  //NOLINT
+            savePlaybookAs();
+            return;
+        }
+        updateTitle(true);
     } else {
-        // todo message to user
-    }
-}
-
-void MainDialog::saveFormation() {
-    QMessageBox::StandardButton button =
-            QMessageBox::warning(this,
-                                 "Save Formation",
-                                 "This will overwrite the current formation. Are you sure?",  // NOLINT
-                                 QMessageBox::Ok | QMessageBox::Cancel);
-
-    if(button == QMessageBox::Ok) {
-        _playView->saveFormation();
+        // TODO(obr): message to user
     }
 }
 
@@ -152,16 +204,27 @@ void MainDialog::saveFormationAs() {
 
     if(ok == true) {
         assert(formationName != "");
-        _playView->saveFormation(formationName.toStdString());
+        try {
+            _playView->saveFormation(formationName.toStdString());
+        } catch(const PBCStorageException& e) {
+            QMessageBox::information(this, "", "You have to save the playbook to a file before you can add formations");  //NOLINT
+            savePlaybookAs();
+            return;
+        }
     }
 }
 
-void MainDialog::savePlaybook() {
-    if(_currentPlaybookFileName == "") {
-        savePlaybookAs();
-    } else {
-        PBCStorage::getInstance()->savePlaybook(
-                    _currentPlaybookFileName.toStdString());
+void MainDialog::newPlaybook() {
+    bool ok;
+    QString name = QInputDialog::getText(
+                this, "New Playbook", "Playbook title",
+                QLineEdit::Normal, "", &ok);
+
+    if(ok == true) {
+        assert(name != "");
+        PBCPlaybook::getInstance()->resetToNewEmptyPlaybook(name.toStdString());
+        PBCStorage::getInstance()->init(name.toStdString());
+        updateTitle(false);
     }
 }
 
@@ -178,8 +241,17 @@ void MainDialog::savePlaybookAs() {
         QStringList files = fileDialog.selectedFiles();
         assert(files.size() == 1);
         QString fileName = files.first();
-        _currentPlaybookFileName = fileName;
-        PBCStorage::getInstance()->savePlaybook(fileName.toStdString());
+
+        bool ok;
+        QString password = QInputDialog::getText(this, "Save Playbook",
+                                                 "Enter encryption password",
+                                                 QLineEdit::Password, "", &ok);
+        if(ok == true) {
+            _currentPlaybookFileName = fileName;
+            PBCStorage::getInstance()->savePlaybook(password.toStdString(),
+                                                    fileName.toStdString());
+            updateTitle(true);
+        }
     }
 }
 
@@ -192,8 +264,18 @@ void MainDialog::openPlaybook() {
         QStringList files = fileDialog.selectedFiles();
         assert(files.size() == 1);
         QString fileName = files.first();
-        _currentPlaybookFileName = fileName;
-        PBCStorage::getInstance()->loadPlaybook(fileName.toStdString());
+
+        bool ok;
+        QString password = QInputDialog::getText(this, "Open Playbook",
+                                                 "Enter decryption password",
+                                                 QLineEdit::Password, "", &ok);
+        if(ok == true) {
+            _currentPlaybookFileName = fileName;
+            PBCStorage::getInstance()->loadPlaybook(password.toStdString(),
+                                                    fileName.toStdString());
+            _playView->resetPlay();
+            updateTitle(true);
+        }
     }
 }
 
