@@ -53,11 +53,12 @@ friend class boost::serialization::access;
     PBCPlaybook();
 
  public:
+    void resetToNewEmptyPlaybook(const std::string& name);
     void setName(const std::string& name);
-    void addFormation(PBCFormationSP formation);
-    void addRoute(PBCRouteSP route);
-    void addCategory(PBCCategorySP category);
-    void addPlay(PBCPlaySP play);
+    bool addFormation(PBCFormationSP formation, bool overwrite = false);
+    bool addRoute(PBCRouteSP route, bool overwrite = false);
+    bool addCategory(PBCCategorySP category, bool overwrite = false);
+    bool addPlay(PBCPlaySP play, bool overwrite = false);
     std::string name() const;
     std::list<PBCFormationSP> formations() const;
     std::list<PBCRouteSP> routes() const;

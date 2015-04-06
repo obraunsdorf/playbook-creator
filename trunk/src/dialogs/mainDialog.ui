@@ -44,7 +44,6 @@
     </property>
     <addaction name="actionNew_Playbook"/>
     <addaction name="actionOpen_Playbook"/>
-    <addaction name="actionSave_Playbook"/>
     <addaction name="actionSave_Playbook_as"/>
     <addaction name="actionPDF_Export"/>
     <addaction name="actionExit"/>
@@ -57,18 +56,9 @@
     <addaction name="actionOpen_Play"/>
     <addaction name="actionSave_Play"/>
     <addaction name="actionSave_Play_as"/>
+    <addaction name="actionSave_formation_as"/>
     <addaction name="actionImport_Play"/>
     <addaction name="actionExport_Play"/>
-   </widget>
-   <widget class="QMenu" name="menuFormation">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="title">
-     <string>Formation</string>
-    </property>
-    <addaction name="actionSave_formation"/>
-    <addaction name="actionSave_formation_as"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -86,7 +76,6 @@
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuPlay"/>
-   <addaction name="menuFormation"/>
    <addaction name="menuCategory"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -268,22 +257,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionSave_formation</sender>
-   <signal>triggered()</signal>
-   <receiver>MainDialog</receiver>
-   <slot>saveFormation()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>323</x>
-     <y>157</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>actionSave_Play</sender>
    <signal>triggered()</signal>
    <receiver>MainDialog</receiver>
@@ -332,22 +305,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionSave_Playbook</sender>
-   <signal>triggered()</signal>
-   <receiver>MainDialog</receiver>
-   <slot>savePlaybook()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>323</x>
-     <y>157</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>actionOpen_Playbook</sender>
    <signal>triggered()</signal>
    <receiver>MainDialog</receiver>
@@ -379,18 +336,33 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionNew_Playbook</sender>
+   <signal>triggered()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>newPlaybook()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showNewPlay()</slot>
   <slot>exit()</slot>
   <slot>showAboutDialog()</slot>
   <slot>saveFormationAs()</slot>
-  <slot>saveFormation()</slot>
   <slot>savePlay()</slot>
   <slot>savePlayAs()</slot>
   <slot>openPlay()</slot>
-  <slot>savePlaybook()</slot>
   <slot>openPlaybook()</slot>
   <slot>savePlaybookAs()</slot>
+  <slot>newPlaybook()</slot>
  </slots>
 </ui>

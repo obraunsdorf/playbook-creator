@@ -3,8 +3,20 @@
 #include <utility>
 #include <string>
 #include <vector>
+#include "util/pbcExceptions.h"
+#include "util/pbcStorage.h"
 
-PBCPlaybook::PBCPlaybook() : _name("Playbook") {
+PBCPlaybook::PBCPlaybook() : _name("new Playbook") {
+    resetToNewEmptyPlaybook(_name);
+}
+
+void PBCPlaybook::resetToNewEmptyPlaybook(const std::string &name) {
+    _name = name;
+    _formations.clear();
+    _routes.clear();
+    _categories.clear();
+    _plays.clear();
+
     std::vector<PBCPathSP> path_5In({ PBCPathSP(new PBCPath(0, 5)),
                                       PBCPathSP(new PBCPath(2, 5))});
     PBCRouteSP route_5In(new PBCRoute("5 In", "", path_5In));
@@ -59,42 +71,69 @@ void PBCPlaybook::setName(const std::string &name) {
     _name = name;
 }
 
-void PBCPlaybook::addFormation(PBCFormationSP formation) {
-    PBCFormationSP formationCopy(new PBCFormation(*formation));
-
-    InsertResult<PBCFormationSP> result =
-            _formations.insert(std::make_pair(formation->name(), formationCopy));  // NOLINT
-
-    if(result.second == false) {
-        // TODO(obr): message to user: same name as existing <model>
+bool PBCPlaybook::addFormation(PBCFormationSP formation, bool overwrite) {
+    if(overwrite == true ) {
+        PBCFormationSP formationCopy(new PBCFormation(*formation));
+        _formations[formationCopy->name()] = formationCopy;
+        PBCStorage::getInstance()->automaticSavePlaybook();
+        return true;
+    } else {
+        PBCFormationSP formationCopy(new PBCFormation(*formation));
+        InsertResult<PBCFormationSP> result =
+                _formations.insert(std::make_pair(formation->name(),
+                                                  formationCopy));
+        if(result.second == true) {
+            PBCStorage::getInstance()->automaticSavePlaybook();
+        }
+        return result.second;
     }
 }
 
-void PBCPlaybook::addRoute(PBCRouteSP route) {
-    InsertResult<PBCRouteSP> result =
-            _routes.insert(std::make_pair(route->name(), route));
-
-    if(result.second == false) {
-        // TODO(obr): message to user: same name as existing <model>
+bool PBCPlaybook::addRoute(PBCRouteSP route, bool overwrite) {
+    if(overwrite == true ) {
+        _routes[route->name()] = route;
+        PBCStorage::getInstance()->automaticSavePlaybook();
+        return true;
+    } else {
+        InsertResult<PBCRouteSP> result =
+                _routes.insert(std::make_pair(route->name(), route));
+        if(result.second == true) {
+            PBCStorage::getInstance()->automaticSavePlaybook();
+        }
+        return result.second;
     }
 }
 
-void PBCPlaybook::addCategory(PBCCategorySP category) {
-    InsertResult<PBCCategorySP> result =
-            _categories.insert(std::make_pair(category->name(), category));
-
-    if(result.second == false) {
-        // TODO(obr): message to user: same name as existing <model>
+bool PBCPlaybook::addCategory(PBCCategorySP category, bool overwrite) {
+    if(overwrite == true) {
+        _categories[category->name()] = category;
+        PBCStorage::getInstance()->automaticSavePlaybook();
+        return true;
+    } else {
+        InsertResult<PBCCategorySP> result =
+                _categories.insert(std::make_pair(category->name(), category));
+        if(result.second == true) {
+            PBCStorage::getInstance()->automaticSavePlaybook();
+        }
+        return result.second;
     }
 }
 
-void PBCPlaybook::addPlay(PBCPlaySP play) {
-    PBCPlaySP playCopy(new PBCPlay(*play));
+bool PBCPlaybook::addPlay(PBCPlaySP play, bool overwrite) {
+    if(overwrite == true) {
+        PBCPlaySP playCopy(new PBCPlay(*play));
+        _plays[playCopy->name()] = playCopy;
+        PBCStorage::getInstance()->automaticSavePlaybook();
+        return true;
+    } else {
+        PBCPlaySP playCopy(new PBCPlay(*play));
 
-    InsertResult<PBCPlaySP> result =
-            _plays.insert(std::make_pair(play->name(), playCopy));
-    if(result.second == false) {
-        // TODO(obr): message to user: same name as existing <model>
+        InsertResult<PBCPlaySP> result =
+                _plays.insert(std::make_pair(play->name(), playCopy));
+        if(result.second == true) {
+            PBCStorage::getInstance()->automaticSavePlaybook();
+        }
+        return result.second;
     }
 }
 

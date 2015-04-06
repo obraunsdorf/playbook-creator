@@ -9,6 +9,7 @@ class PBCPlayView : public PBCGridIronView {
  public:
     explicit PBCPlayView(QObject *parent = 0);
     void repaint();
+    void resetPlay();
     void createNewPlay(const std::string& name,
                        const std::string& codeName,
                        const std::string& formationName = "");

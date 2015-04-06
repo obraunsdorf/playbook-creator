@@ -13,7 +13,9 @@ TEMPLATE = app
 
 QMAKE_CXXFLAGS += -std=c++11
 
-LIBS += -L/usr/lib/x86_64-linux-gnu -lboost_serialization
+INCLUDEPATH += /usr/local/include/botan-1.10/
+LIBS += -lboost_serialization \
+    -lbotan-1.10
 
 SOURCES += main.cpp\
     dialogs/mainDialog.cpp \
@@ -51,7 +53,8 @@ HEADERS  += dialogs/mainDialog.h \
     models/pbcPlaybook.h \
     models/pbcDataModel.h \
     models/pbcColor.h \
-    util/pbcStorage.h
+    util/pbcStorage.h \
+    util/pbcExceptions.h
 
 FORMS    += dialogs/mainDialog.ui \
     dialogs/pbcCustomRouteDialog.ui

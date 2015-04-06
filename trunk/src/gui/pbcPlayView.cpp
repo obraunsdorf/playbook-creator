@@ -49,6 +49,11 @@ void PBCPlayView::repaint() {
     }
 }
 
+void PBCPlayView::resetPlay() {
+    _currentPlay = NULL;
+    repaint();
+}
+
 void PBCPlayView::createNewPlay(const std::string &name,
                                 const std::string &codeName,
                                 const std::string &formationName) {
@@ -68,7 +73,7 @@ void PBCPlayView::savePlay(const std::string &name,
         _currentPlay->setName(name);
         _currentPlay->setCodeName(codeName);
     }
-    PBCPlaybook::getInstance()->addPlay(_currentPlay);
+    PBCPlaybook::getInstance()->addPlay(_currentPlay, true);
 }
 
 
