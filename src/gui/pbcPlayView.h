@@ -7,7 +7,7 @@
 
 class PBCPlayView : public PBCGridIronView {
  public:
-    explicit PBCPlayView(QObject *parent = 0);
+    explicit PBCPlayView(PBCPlaySP playSP = NULL, QObject *parent = 0);
     void repaint();
     void resetPlay();
     void createNewPlay(const std::string& name,
@@ -17,8 +17,6 @@ class PBCPlayView : public PBCGridIronView {
     void savePlay(const std::string& name = "",
                   const std::string& codeName = "");
     void saveFormation(const std::string& formationName = "");
-    QStringList getAvailableFormations() const;
-    QStringList getAvailablePlays() const;
 
  private:
     PBCPlaySP _currentPlay;

@@ -6,9 +6,11 @@
 #include "models/pbcPlaybook.h"
 #include <string>
 
-PBCPlayView::PBCPlayView(QObject *parent) :
-    PBCGridIronView(parent) {
-    paintLine(PBCConfig::getInstance()->losY(),
+PBCPlayView::PBCPlayView(PBCPlaySP playSP, QObject *parent) :
+    PBCGridIronView(parent),
+    _currentPlay(playSP) {
+    repaint();
+    /*paintLine(PBCConfig::getInstance()->losY(),
               PBCConfig::getInstance()->canvasWidth(),
               PBCConfig::getInstance()->losWidth(),
               PBCConfig::getInstance()->losColor());
@@ -21,7 +23,7 @@ PBCPlayView::PBCPlayView(QObject *parent) :
     paintBall(PBCConfig::getInstance()->canvasWidth() / 2,
               PBCConfig::getInstance()->losY());
 
-    paintBorder();
+    paintBorder();*/
 }
 
 
@@ -90,20 +92,3 @@ void PBCPlayView::saveFormation(const std::string &formationName) {
     }
     PBCPlaybook::getInstance()->addFormation(_currentPlay->formation());
 }
-
-QStringList PBCPlayView::getAvailableFormations() const {
-    QStringList result;
-    for(PBCFormationSP formation : PBCPlaybook::getInstance()->formations()) {
-        result.append(QString::fromStdString(formation->name()));
-    }
-    return result;
-}
-
-QStringList PBCPlayView::getAvailablePlays() const {
-    QStringList result;
-    for(PBCPlaySP play : PBCPlaybook::getInstance()->plays()) {
-        result.append(QString::fromStdString(play->name()));
-    }
-    return result;
-}
-

@@ -166,3 +166,21 @@ PBCPlaySP PBCPlaybook::getPlay(const std::string &name) {
     PBCPlaySP play = it->second;
     return PBCPlaySP(new PBCPlay(*play));
 }
+
+std::vector<std::string> PBCPlaybook::getFormationNames() const {
+    std::vector<std::string> formationNames;
+    for(const auto& kv : _formations) {
+        PBCFormationSP formation = kv.second;
+        formationNames.push_back(formation->name());
+    }
+    return formationNames;
+}
+
+std::vector<std::string> PBCPlaybook::getPlayNames() const {
+    std::vector<std::string> playNames;
+    for(const auto& kv : _plays) {
+        PBCPlaySP play = kv.second;
+        playNames.push_back(play->name());
+    }
+    return playNames;
+}

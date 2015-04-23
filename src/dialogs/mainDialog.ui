@@ -352,6 +352,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionPDF_Export</sender>
+   <signal>triggered()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>exportAsPDF()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showNewPlay()</slot>
@@ -364,5 +380,6 @@
   <slot>openPlaybook()</slot>
   <slot>savePlaybookAs()</slot>
   <slot>newPlaybook()</slot>
+  <slot>exportAsPDF()</slot>
  </slots>
 </ui>

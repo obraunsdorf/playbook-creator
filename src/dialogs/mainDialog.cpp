@@ -5,14 +5,18 @@
 #include "util/pbcConfig.h"
 #include "gui/pbcPlayerView.h"
 #include "models/pbcPlaybook.h"
+#include "dialogs/pbcExportPdfDialog.h"
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QDebug>
 #include "util/pbcStorage.h"
 #include "util/pbcExceptions.h"
 #include <QFileDialog>
+#include <QStringList>
 #include <QPushButton>
 #include <string>
+#include <vector>
+#include <list>
 
 MainDialog::MainDialog(QWidget *parent) :
     QMainWindow(parent),
@@ -35,7 +39,7 @@ void MainDialog::show() {
     this->setMinimumWidth(PBCConfig::getInstance()->minWidth());
     this->setMinimumHeight(PBCConfig::getInstance()->minHeight());
 
-    _playView = new PBCPlayView(this);
+    _playView = new PBCPlayView(NULL, this);
     ui->graphicsView->setScene(_playView);
     _playView->setSceneRect(0, 0, PBCConfig::getInstance()->canvasWidth(),
                             PBCConfig::getInstance()->canvasHeight());
@@ -109,10 +113,16 @@ void MainDialog::showNewPlay() {
                     this, "New Play", "code name of the new Play",
                     QLineEdit::Normal, "", &codeNameOk);
 
+        QStringList formationList;
+        std::vector<std::string> formationNames =
+                PBCPlaybook::getInstance()->getFormationNames();
+        for(std::string& name : formationNames) {
+            formationList.append(QString::fromStdString(name));
+        }
         QString formation = QInputDialog::getItem(
                     this, "New Play",
                     "from which formation should the play be created?",
-                    _playView->getAvailableFormations(), 0, false,
+                    formationList, 0, false,
                     &formationOk);
 
         if((nameOk && codeNameOk && formationOk) == true) {
@@ -127,7 +137,12 @@ void MainDialog::showNewPlay() {
 
 void MainDialog::openPlay() {
     bool ok;
-    QStringList playList = _playView->getAvailablePlays();
+    QStringList playList;
+    std::vector<std::string> playNames =
+            PBCPlaybook::getInstance()->getPlayNames();
+    for(std::string& name : playNames) {
+        playList.append(QString::fromStdString(name));
+    }
     if(playList.size() > 0) {
         QMessageBox::StandardButton button =
                 QMessageBox::warning(this,
@@ -138,7 +153,7 @@ void MainDialog::openPlay() {
         if(button == QMessageBox::Ok) {
             QString play = QInputDialog::getItem(
                         this, "Open Play", "choose a play",
-                        _playView->getAvailablePlays(), 0, false, &ok);
+                        playList, 0, false, &ok);
 
             if(ok == true) {
                 assert(play != "");
@@ -275,6 +290,46 @@ void MainDialog::openPlaybook() {
                                                     fileName.toStdString());
             _playView->resetPlay();
             updateTitle(true);
+        }
+    }
+}
+
+void MainDialog::exportAsPDF() {
+    PBCExportPDFDialog exportDialog;
+    exportDialog.setWindowModality(Qt::ApplicationModal);
+    boost::shared_ptr<PBCExportPDFDialog::ReturnStruct> returnStruct(new PBCExportPDFDialog::ReturnStruct());  //NOLINT
+    boost::shared_ptr<QStringList> playListSP = exportDialog.exec(returnStruct);
+    if(playListSP != NULL && playListSP->size() > 0) {
+        std::string stdFile = PBCPlaybook::getInstance()->name() + ".pdf";
+        QFileDialog fileDialog(
+                    this, "Export Playbook As PDF",
+                    QString::fromStdString(stdFile),
+                    "PDF Documents (*.pdf);;All Files (*.*)");
+
+        fileDialog.setFileMode(QFileDialog::AnyFile);
+        fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+        if(fileDialog.exec() == true) {
+            QStringList files = fileDialog.selectedFiles();
+            assert(files.size() == 1);
+            QString fileName = files.first();
+
+            std::list<boost::shared_ptr<PBCPlayView>> playViews;
+            for(QString playName : *playListSP) {
+                PBCPlaySP playSP = PBCPlaybook::getInstance()->getPlay(playName.toStdString()); //NOLINT
+                boost::shared_ptr<PBCPlayView> playViewSP(new PBCPlayView(playSP));  //NOLINT
+                playViews.push_back(playViewSP);
+            }
+
+            PBCStorage::getInstance()->exportAsPDF(fileName.toStdString(),
+                                                   playViews,
+                                                   returnStruct->paperWidth,
+                                                   returnStruct->paperHeight,
+                                                   returnStruct->columns,
+                                                   returnStruct->rows,
+                                                   returnStruct->marginLeft,
+                                                   returnStruct->marginRight,
+                                                   returnStruct->marginTop,
+                                                   returnStruct->marginBottom);
         }
     }
 }

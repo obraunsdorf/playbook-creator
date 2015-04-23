@@ -12,6 +12,8 @@
 #include <botan/pbkdf.h>
 #include <botan/secmem.h>
 #include <botan/data_src.h>
+#include <QPrinter>
+#include <QPainter>
 
 void PBCStorage::checkVersion(const std::string &version) {
     // TODO(obr): do better version checking
@@ -168,4 +170,79 @@ void PBCStorage::loadPlaybook(const std::string &password,
 
     boost::archive::text_iarchive archive(istream);
     archive >> *PBCPlaybook::getInstance();
+}
+
+void PBCStorage::exportAsPDF(const std::string& fileName,
+                             std::list<boost::shared_ptr<PBCPlayView>> playViews,  //NOLINT
+                             const unsigned int paperWidth,
+                             const unsigned int paperHeight,
+                             const unsigned int columns,
+                             const unsigned int rows,
+                             const unsigned int marginLeft,
+                             const unsigned int marginRight,
+                             const unsigned int marginTop,
+                             const unsigned int marginBottom) {
+    std::string extension = fileName.substr(fileName.size() - 4);
+    assert(extension == ".pdf");
+    QPrinter printer(QPrinter::HighResolution);
+    printer.setOutputFileName(QString::fromStdString(fileName));
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setPaperSize(QSizeF(paperWidth, paperHeight), QPrinter::Millimeter);
+
+    printer.setPageMargins(marginLeft,
+                           marginTop,
+                           marginRight,
+                           marginBottom,
+                           QPrinter::Millimeter);
+    assert(columns > 0);
+    assert(rows > 0);
+
+    boost::shared_ptr<qreal> pixelMarginLeftSP(new qreal());
+    boost::shared_ptr<qreal> pixelMarginRightSP(new qreal());
+    boost::shared_ptr<qreal> pixelMarginTopSP(new qreal());
+    boost::shared_ptr<qreal> pixelMarginBottomtSP(new qreal());
+    printer.getPageMargins(pixelMarginLeftSP.get(),
+                           pixelMarginTopSP.get(),
+                           pixelMarginRightSP.get(),
+                           pixelMarginBottomtSP.get(),
+                           QPrinter::DevicePixel);
+    QSize playSize = printer.pageRect().size();
+    playSize.setWidth(playSize.width() / columns);
+    playSize.setHeight(playSize.height() / rows);
+
+    printer.setPageMargins(0.0, 0.0, 0.0, 0.0, QPrinter::Millimeter);
+    QPainter painter(&printer);
+    painter.setPen(QPen(QBrush(Qt::red), 20, Qt::DashLine));
+    QRectF borderRect(10,
+                      10,
+                      printer.paperRect().width() - 10,
+                      printer.paperRect().height() - 10);
+    painter.drawRect(printer.paperRect());
+
+
+    unsigned int x = 0;
+    unsigned int y = 0;
+    unsigned int columnCount = 1;
+    unsigned int rowCount = 1;
+    for(boost::shared_ptr<PBCPlayView> playViewSP : playViews) {
+        playViewSP->render(&painter,
+                           QRectF(QPointF(x + *pixelMarginLeftSP, y + *pixelMarginTopSP), playSize),  //NOLINT
+                           QRectF(),
+                           Qt::IgnoreAspectRatio);
+        ++columnCount;
+        x = x + playSize.width();
+        if(columnCount > columns) {
+            x = 0;
+            y = y + playSize.height();
+            ++rowCount;
+            columnCount = 1;
+        }
+        if(rowCount > rows) {
+            bool successful = printer.newPage();
+            assert(successful == true);
+            painter.drawRect(borderRect);
+            rowCount = 0;
+            y = 0;
+        }
+    }
 }

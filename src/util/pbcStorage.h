@@ -3,8 +3,10 @@
 
 #include "pbcSingleton.h"
 #include "models/pbcPlay.h"
+#include "gui/pbcPlayView.h"
 #include <string>
 #include <vector>
+#include <list>
 #include <botan/botan.h>
 
 class PBCStorage : public PBCSingleton<PBCStorage> {
@@ -42,7 +44,16 @@ friend class PBCSingleton<PBCStorage>;
     void loadPlaybook(const std::string& password, const std::string& fileName);
     void exportPlay(const std::string& fileName, PBCPlaySP play);
     void importPlay(const std::string& fileName, PBCPlaySP play);
-    // void exportAsPDF(const std::string& fileName);
+    void exportAsPDF(const std::string& fileName,
+                     std::list<boost::shared_ptr<PBCPlayView>> playViews,
+                     const unsigned int paperWidth,
+                     const unsigned int paperHeight,
+                     const unsigned int columns,
+                     const unsigned int rows,
+                     const unsigned int marginLeft,
+                     const unsigned int marginRight,
+                     const unsigned int marginTop,
+                     const unsigned int marginBottom);
 };
 
 #endif  // PBCSTORAGE_H

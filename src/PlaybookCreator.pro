@@ -32,7 +32,8 @@ SOURCES += main.cpp\
     models/pbcPlaybook.cpp \
     models/pbcDataModel.cpp \
     models/pbcColor.cpp \
-    util/pbcStorage.cpp
+    util/pbcStorage.cpp \
+    dialogs/pbcExportPdfDialog.cpp
 
 HEADERS  += dialogs/mainDialog.h \
     util/pbcDeclarations.h \
@@ -54,7 +55,9 @@ HEADERS  += dialogs/mainDialog.h \
     models/pbcDataModel.h \
     models/pbcColor.h \
     util/pbcStorage.h \
-    util/pbcExceptions.h
+    util/pbcExceptions.h \
+    dialogs/pbcExportPdfDialog.h
 
 FORMS    += dialogs/mainDialog.ui \
-    dialogs/pbcCustomRouteDialog.ui
+    dialogs/pbcCustomRouteDialog.ui \
+    dialogs/pbcExportPdfDialog.ui

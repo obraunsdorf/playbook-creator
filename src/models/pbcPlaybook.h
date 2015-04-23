@@ -14,6 +14,7 @@
 #include <map>
 #include <string>
 #include <utility>
+#include <vector>
 
 class PBCPlaybook : public PBCSingleton<PBCPlaybook>, PBCDataModel {
 friend class PBCSingleton<PBCPlaybook>;
@@ -65,6 +66,8 @@ friend class boost::serialization::access;
     std::list<PBCPlaySP> plays() const;
     PBCFormationSP getFormation(const std::string& name);
     PBCPlaySP getPlay(const std::string& name);
+    std::vector<std::string> getFormationNames() const;
+    std::vector<std::string> getPlayNames() const;
 };
 
 #endif  // PBCPLAYBOOK_H
