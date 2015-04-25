@@ -14,11 +14,15 @@
 #include <botan/data_src.h>
 #include <QPrinter>
 #include <QPainter>
+#include "pbcVersion.h"
 
 void PBCStorage::checkVersion(const std::string &version) {
     // TODO(obr): do better version checking
-    int result = PBCConfig::getInstance()->version().compare(version);
-    assert(result <= 0);
+    int result = PBCVersion::compare(version);
+    if(result < 0) {
+        throw PBCStorageException("Cannot load playbook because it's created by a newer version of Playbook-Creator. Please download the latest version of Playbook-Creator!");  //NOLINT
+    }
+    assert(result >= 0);
     assert(BOTAN_VERSION_CODE >= BOTAN_VERSION_CODE_FOR(1, 10, 9));
 }
 
@@ -118,7 +122,7 @@ void PBCStorage::writeToCurrentPlaybookFile() {
     std::ostream ostream(&buff);
     ostream << "Playbook-Creator" << "\n";
     ostream << "playbook" << "\n";
-    ostream << PBCConfig::getInstance()->version() << "\n";
+    ostream << PBCVersion::getVersionString() << "\n";
     boost::archive::text_oarchive archive(ostream);
     archive << *PBCPlaybook::getInstance();
     std::ofstream ofstream(_currentPlaybookFileName,

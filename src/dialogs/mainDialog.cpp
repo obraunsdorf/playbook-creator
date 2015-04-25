@@ -17,6 +17,7 @@
 #include <string>
 #include <vector>
 #include <list>
+#include <pbcVersion.h>
 
 MainDialog::MainDialog(QWidget *parent) :
     QMainWindow(parent),
@@ -62,7 +63,7 @@ void MainDialog::show() {
 void MainDialog::updateTitle(bool saved) {
     // TODO(obr): refactor this whole method and logic behind
     std::string windowTitle = "Playbook Creator V" +
-            PBCConfig::getInstance()->version() +
+            PBCVersion::getSimpleVersionString() +
             " - " +
             PBCPlaybook::getInstance()->name();
     if(saved == false) {

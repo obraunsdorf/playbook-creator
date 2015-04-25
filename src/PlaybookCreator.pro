@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     util/pbcStorage.cpp \
     dialogs/pbcExportPdfDialog.cpp
 
-HEADERS  += dialogs/mainDialog.h \
+HEADERS  += pbcVersion.h \
+    dialogs/mainDialog.h \
     util/pbcDeclarations.h \
     models/pbcPlay.h \
     models/pbcPlayer.h \
