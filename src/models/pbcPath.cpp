@@ -5,6 +5,10 @@ PBCDPoint PBCPath::endpoint() const {
     return _endpoint;
 }
 
+bool PBCPath::isArc() const {
+    return _arc;
+}
+
 PBCPath::PBCPath(PBCDPoint endpoint, bool arc) :
     _endpoint(endpoint), _arc(arc) {}
 

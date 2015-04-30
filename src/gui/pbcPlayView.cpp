@@ -10,20 +10,6 @@ PBCPlayView::PBCPlayView(PBCPlaySP playSP, QObject *parent) :
     PBCGridIronView(parent),
     _currentPlay(playSP) {
     repaint();
-    /*paintLine(PBCConfig::getInstance()->losY(),
-              PBCConfig::getInstance()->canvasWidth(),
-              PBCConfig::getInstance()->losWidth(),
-              PBCConfig::getInstance()->losColor());
-
-    paintLine(PBCConfig::getInstance()->fiveYdY(),
-              PBCConfig::getInstance()->canvasWidth(),
-              PBCConfig::getInstance()->fiveYdWidth(),
-              PBCConfig::getInstance()->fiveYdColor());
-
-    paintBall(PBCConfig::getInstance()->canvasWidth() / 2,
-              PBCConfig::getInstance()->losY());
-
-    paintBorder();*/
 }
 
 

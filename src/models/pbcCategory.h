@@ -1,8 +1,6 @@
 #ifndef PBCCATEGORY_H
 #define PBCCATEGORY_H
 
-#include "models/pbcDataModel.h"
-
 #include <string>
 #include <boost/shared_ptr.hpp>
 #include <boost/serialization/access.hpp>
@@ -17,7 +15,7 @@ typedef boost::shared_ptr<PBCPlay> PBCPlaySP;
 class PBCCategory;
 typedef boost::shared_ptr<PBCCategory> PBCCategorySP;
 
-class PBCCategory : public PBCDataModel {
+class PBCCategory{
 friend class boost::serialization::access;
 
  private:

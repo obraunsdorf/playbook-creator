@@ -30,10 +30,10 @@ SOURCES += main.cpp\
     gui/pbcPlayView.cpp \
     gui/pbcGridIronView.cpp \
     models/pbcPlaybook.cpp \
-    models/pbcDataModel.cpp \
     models/pbcColor.cpp \
     util/pbcStorage.cpp \
-    dialogs/pbcExportPdfDialog.cpp
+    dialogs/pbcExportPdfDialog.cpp \
+    models/pbcMotion.cpp
 
 HEADERS  += pbcVersion.h \
     dialogs/mainDialog.h \
@@ -53,11 +53,11 @@ HEADERS  += pbcVersion.h \
     gui/pbcPlayView.h \
     gui/pbcGridIronView.h \
     models/pbcPlaybook.h \
-    models/pbcDataModel.h \
     models/pbcColor.h \
     util/pbcStorage.h \
     util/pbcExceptions.h \
-    dialogs/pbcExportPdfDialog.h
+    dialogs/pbcExportPdfDialog.h \
+    models/pbcMotion.h
 
 FORMS    += dialogs/mainDialog.ui \
     dialogs/pbcCustomRouteDialog.ui \

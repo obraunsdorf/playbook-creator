@@ -14,7 +14,7 @@
 class PBCRoute;
 typedef boost::shared_ptr<PBCRoute> PBCRouteSP;
 
-class PBCRoute : public PBCDataModel {
+class PBCRoute {
 friend class boost::serialization::access;
  private:
     std::string _name;

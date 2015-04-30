@@ -1,12 +1,11 @@
 #ifndef PBCPATH_H
 #define PBCPATH_H
 
-#include "models/pbcDataModel.h"
 #include "util/pbcDeclarations.h"
 #include <boost/serialization/access.hpp>
 #include <set>
 
-class PBCPath  : public PBCDataModel {
+class PBCPath {
 friend class boost::serialization::access;
  private:
     PBCDPoint _endpoint;
@@ -38,6 +37,7 @@ friend class boost::serialization::access;
     explicit PBCPath(PBCDPoint endpoint, bool arc = false);
     PBCPath(double endpointX, double endpointY, bool arc = false);
     PBCDPoint endpoint() const;
+    bool isArc() const;
 };
 
 typedef boost::shared_ptr<PBCPath> PBCPathSP;

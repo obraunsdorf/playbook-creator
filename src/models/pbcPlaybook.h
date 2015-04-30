@@ -2,7 +2,6 @@
 #define PBCPLAYBOOK_H
 
 #include "util/pbcSingleton.h"
-#include "models/pbcDataModel.h"
 #include <list>
 #include "models/pbcFormation.h"
 #include "models/pbcRoute.h"
@@ -16,7 +15,7 @@
 #include <utility>
 #include <vector>
 
-class PBCPlaybook : public PBCSingleton<PBCPlaybook>, PBCDataModel {
+class PBCPlaybook : public PBCSingleton<PBCPlaybook> {
 friend class PBCSingleton<PBCPlaybook>;
 friend class boost::serialization::access;
  private:

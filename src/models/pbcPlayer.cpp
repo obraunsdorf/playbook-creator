@@ -33,11 +33,11 @@ void PBCPlayer::setRoute(const PBCRouteSP &route) {
     _route = route;
 }
 
-PBCMotion PBCPlayer::motion() const {
+PBCMotionSP PBCPlayer::motion() const {
     return _motion;
 }
 
-void PBCPlayer::setMotion(const PBCMotion &motion) {
+void PBCPlayer::setMotion(const PBCMotionSP &motion) {
     _motion = motion;
 }
 
@@ -45,7 +45,7 @@ PBCPlayer::PBCPlayer(PBCRole role,
                      PBCColor color,
                      PBCDPoint pos,
                      PBCRouteSP route,
-                     PBCMotion motion) :
+                     PBCMotionSP motion) :
     _role(role),
     _color(color),
     _pos(pos),

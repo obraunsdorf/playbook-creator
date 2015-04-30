@@ -3,6 +3,7 @@
 
 #include "util/pbcDeclarations.h"
 #include "models/pbcRoute.h"
+#include "models/pbcMotion.h"
 #include "models/pbcPath.h"
 #include "models/pbcColor.h"
 #include <boost/serialization/access.hpp>
@@ -13,17 +14,14 @@
 #include <vector>
 #include <set>
 
-class PBCPlayer;
-typedef std::vector<PBCPathSP> PBCMotion;
-
-class PBCPlayer  : public PBCDataModel {
+class PBCPlayer {
 friend class boost::serialization::access;
  private:
     PBCRole _role;
     PBCColor _color;
     PBCDPoint _pos;
     PBCRouteSP _route;
-    PBCMotion _motion;
+    PBCMotionSP _motion;
 
     template<class Archive>
     void save(Archive& ar, const unsigned int version) const {  // NOLINT
@@ -64,7 +62,7 @@ friend class boost::serialization::access;
               PBCColor color,
               PBCDPoint pos = PBCDPoint(),
               PBCRouteSP route = NULL,
-              PBCMotion motion = PBCMotion());
+              PBCMotionSP motion = NULL);
     PBCRole role() const;
     void setRole(const PBCRole &role);
     PBCColor color() const;
@@ -73,8 +71,8 @@ friend class boost::serialization::access;
     void setPos(const PBCDPoint &pos);
     PBCRouteSP route() const;
     void setRoute(const PBCRouteSP &route);
-    PBCMotion motion() const;
-    void setMotion(const PBCMotion &motion);
+    PBCMotionSP motion() const;
+    void setMotion(const PBCMotionSP &motion);
 };
 
 typedef boost::shared_ptr<PBCPlayer> PBCPlayerSP;

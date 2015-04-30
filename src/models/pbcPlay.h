@@ -17,7 +17,7 @@
 class PBCPlay;
 typedef boost::shared_ptr<PBCPlay> PBCPlaySP;
 
-class PBCPlay : public PBCDataModel {
+class PBCPlay {
 friend class boost::serialization::access;
  private:
     std::string _name;

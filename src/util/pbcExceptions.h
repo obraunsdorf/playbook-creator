@@ -15,6 +15,17 @@ class PBCException : public std::exception {
     }
 };
 
+class PBCRuleBreakException : public PBCException {
+ private:
+    std::string _msg;
+ public:
+    explicit PBCRuleBreakException(const std::string& msg = "") : _msg(msg) {}
+    const char* what() const noexcept {
+        std::string msg = "You are breaking football rules: " + _msg;
+        return msg.c_str();
+    }
+};
+
 class PBCStorageException : public PBCException {
  private:
     std::string _msg;

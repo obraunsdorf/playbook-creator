@@ -26,24 +26,36 @@ PBCPlayerView::PBCPlayerView(PBCPlayerSP playerSP) : _playerSP(playerSP) {
     this->addToGroup(_playerEllipseSP.get());
     this->setFlag(QGraphicsItem::ItemIsMovable);
 
+    if(_playerSP->motion() != NULL) {
+        applyMotion(_playerSP->motion());
+    }
     if(_playerSP->route() != NULL) {
         applyRoute(_playerSP->route());
     }
 }
 
 void PBCPlayerView::applyRoute(PBCRouteSP route) {
-    for(boost::shared_ptr<QGraphicsLineItem> line : _routeLines) {
+    for(boost::shared_ptr<QGraphicsLineItem> line : _routePaths) {
         this->removeFromGroup(line.get());
     }
-    _routeLines.clear();
+    _routePaths.clear();
 
     _playerSP->setRoute(route);
     QRectF ellipseRect = _playerEllipseSP->rect();
-    double baseX = ellipseRect.x() +
+    double playerPosX = ellipseRect.x() +
             _playerEllipseSP->scenePos().x() +  // TODO(obr): check why we need this // NOLINT
             ellipseRect.width() / 2;
 
-    double baseY = ellipseRect.y() + _playerEllipseSP->scenePos().y();
+    double playerPosY = ellipseRect.y() + _playerEllipseSP->scenePos().y();
+
+    PBCDPoint base;
+    if(_playerSP->motion() != NULL) {
+        base = PBCPositionTranslator::getInstance()->translatePos(_playerSP->motion()->motionEndPoint(), PBCDPoint(playerPosX, playerPosY));  // NOLINT
+    } else {
+        base = PBCDPoint(playerPosX, playerPosY);
+    }
+    double baseX = base.get<0>();
+    double baseY = base.get<1>();
     double lastX = baseX;
     double lastY = baseY;
     for(PBCPathSP path : route->paths()) {
@@ -59,13 +71,84 @@ void PBCPlayerView::applyRoute(PBCRouteSP route) {
                     new QGraphicsLineItem(lastX, lastY, newX, newY));
         PBCColor color = _playerSP->color();
         lineSP->setPen(QPen(QColor(color.r(), color.g(), color.b())));
-        _routeLines.push_back(lineSP);
+        _routePaths.push_back(lineSP);
         lastX = newX;
         lastY = newY;
     }
 
-    for(boost::shared_ptr<QGraphicsLineItem> line : _routeLines) {
+    for(boost::shared_ptr<QGraphicsLineItem> line : _routePaths) {
         this->addToGroup(line.get());
+    }
+}
+
+void PBCPlayerView::applyMotion(PBCMotionSP motion) {
+    for(boost::shared_ptr<QGraphicsItem> item : _motionPaths) {
+        this->removeFromGroup(item.get());
+    }
+    _motionPaths.clear();
+
+    _playerSP->setMotion(motion);
+
+    QRectF ellipseRect = _playerEllipseSP->rect();
+    double baseX = ellipseRect.x() +
+            _playerEllipseSP->scenePos().x() +  // TODO(obr): check why we need this // NOLINT
+            ellipseRect.width() / 2;
+
+    double baseY = ellipseRect.y() +
+            _playerEllipseSP->scenePos().y();
+
+    double lastX = baseX;
+    double lastY = baseY;
+    for(PBCPathSP path : *motion) {
+        if(path->isArc()) {
+            PBCDPoint arcBottom = PBCPositionTranslator::getInstance()->translatePos(path->endpoint(), PBCDPoint(lastX, lastY)); //NOLINT
+            QPointF arcTopleft(lastX - 2 * (lastX - arcBottom.get<0>()), lastY - (arcBottom.get<1>() - lastY)); //NOLINT
+            QPainterPath motionArc(QPointF(0, 0));
+            motionArc.arcMoveTo(arcTopleft.x(),
+                                arcTopleft.y(),
+                                lastX - arcTopleft.x(),
+                                arcBottom.get<1>() - arcTopleft.y(),
+                                0);
+            motionArc.arcTo(arcTopleft.x(),
+                            arcTopleft.y(),
+                            lastX - arcTopleft.x(),
+                            arcBottom.get<1>() - arcTopleft.y(),
+                            0,
+                            -90);
+            boost::shared_ptr<QGraphicsPathItem> motionPathSP(new QGraphicsPathItem(motionArc, this)); //NOLINT
+            PBCColor color = _playerSP->color();
+            motionPathSP->setPen(QPen(QBrush(QColor(color.r(),
+                                                    color.g(),
+                                                    color.b())),
+                                      1,
+                                      Qt::DashLine));
+            _motionPaths.push_back(motionPathSP);
+            lastX = motionArc.currentPosition().x();
+            lastY = motionArc.currentPosition().y();
+        } else {
+            PBCDPoint endPoint = PBCPositionTranslator::getInstance()->translatePos(path->endpoint(), PBCDPoint(baseX, baseY));  // NOLINT
+            double newX = endPoint.get<0>();
+            double newY = endPoint.get<1>();
+            boost::shared_ptr<QGraphicsLineItem> lineSP(
+                        new QGraphicsLineItem(lastX, lastY, newX, newY));
+            PBCColor color = _playerSP->color();
+            lineSP->setPen(QPen(QBrush(QColor(color.r(),
+                                              color.g(),
+                                              color.b())),
+                                1,
+                                Qt::DashLine));
+            _motionPaths.push_back(lineSP);
+            lastX = newX;
+            lastY = newY;
+        }
+    }
+
+    for(boost::shared_ptr<QGraphicsItem> item : _motionPaths) {
+        this->addToGroup(item.get());
+    }
+
+    if(_playerSP->route() != NULL) {
+        applyRoute(_playerSP->route());
     }
 }
 
@@ -83,7 +166,7 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
     routeMenu->addSeparator();
     QAction* action_CustomRouteCreate =
             routeMenu->addAction("Create Custom Route");
-    // QAction* motion = menu.addAction(QString("Apply Motion"));
+    QAction* action_ApplyMotion = menu.addAction(QString("Apply Motion"));
     QAction* clicked = menu.exec(event->screenPos());
     setEnabled(false);
     setEnabled(true);
@@ -103,6 +186,11 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
             if(createdRoute != NULL) {
                 this->applyRoute(createdRoute);
             }
+        } else if(clicked == action_ApplyMotion) {
+            PBCMotionSP motionSP(new PBCMotion());
+            motionSP->addPath(PBCPathSP(new PBCPath(-4, -5, true)));
+            motionSP->addPath(PBCPathSP(new PBCPath(-20, -5)));
+            this->applyMotion(motionSP);
         } else {
             assert(clicked == NULL);
         }
