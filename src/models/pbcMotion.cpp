@@ -4,11 +4,11 @@
 PBCMotion::PBCMotion() : _motionEndPoint(0, 0) {
 }
 
-void PBCMotion::addPath(PBCPathSP pathSP) {
+void PBCMotion::addPath(const PBCPathSP& pathSP) {
     if(pathSP->endpoint().get<1>() > _motionEndPoint.get<1>()) {
         throw PBCRuleBreakException("A motion cannot go towards the LOS.");
     }
-    this->push_back(pathSP);
+    PBCVirtualMovement::addPath(pathSP);
     _motionEndPoint = pathSP->endpoint();
 }
 

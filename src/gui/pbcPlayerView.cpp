@@ -9,6 +9,7 @@
 #include <utility>
 #include "QDebug"
 #include <vector>
+#include "dialogs/pbcCreateMotionRouteDialog.h"
 
 
 PBCPlayerView::PBCPlayerView(PBCPlayerSP playerSP) : _playerSP(playerSP) {
@@ -34,9 +35,64 @@ PBCPlayerView::PBCPlayerView(PBCPlayerSP playerSP) : _playerSP(playerSP) {
     }
 }
 
+void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
+                              std::vector<QGraphicsItemSP>* graphicItems,
+                              PBCDPoint basePoint) {
+    assert(graphicItems == &_routePaths || graphicItems == &_motionPaths);
+    PBCColor color = _playerSP->color();
+    QPen pen((QColor(color.r(), color.g(), color.b())));
+    if(graphicItems == &_motionPaths) {
+        pen.setStyle(Qt::DashLine);
+    }
+    double baseX = basePoint.get<0>();
+    double baseY = basePoint.get<1>();
+    double lastX = baseX;
+    double lastY = baseY;
+    for(PBCPathSP path : paths) {
+        PBCDPoint endPoint = PBCPositionTranslator::getInstance()->translatePos(path->endpoint(), PBCDPoint(baseX, baseY)); //NOLINT
+        if(path->isArc() == true) {
+            QPointF arcTopleft(lastX - 2 * (lastX - endPoint.get<0>()), lastY - (endPoint.get<1>() - lastY)); //NOLINT
+            QPainterPath motionArc(QPointF(0, 0));
+            motionArc.arcMoveTo(arcTopleft.x(),
+                                arcTopleft.y(),
+                                lastX - arcTopleft.x(),
+                                endPoint.get<1>() - arcTopleft.y(),
+                                0);
+            motionArc.arcTo(arcTopleft.x(),
+                            arcTopleft.y(),
+                            lastX - arcTopleft.x(),
+                            endPoint.get<1>() - arcTopleft.y(),
+                            0,
+                            -90);
+            boost::shared_ptr<QGraphicsPathItem> motionPathSP(
+                        new QGraphicsPathItem(motionArc, this));
+
+            motionPathSP->setPen(pen);
+            graphicItems->push_back(motionPathSP);
+            lastX = motionArc.currentPosition().x();
+            lastY = motionArc.currentPosition().y();
+        } else {
+            int newX = -1;
+            if(baseX < PBCConfig::getInstance()->canvasWidth() / 2) {
+                newX = endPoint.get<0>();
+            } else {
+                newX = 2 * baseX - endPoint.get<0>();
+            }
+            int newY = endPoint.get<1>();
+            boost::shared_ptr<QGraphicsLineItem> lineSP(
+                        new QGraphicsLineItem(lastX, lastY, newX, newY));
+
+            lineSP->setPen(pen);
+            graphicItems->push_back(lineSP);
+            lastX = newX;
+            lastY = newY;
+        }
+    }
+}
+
 void PBCPlayerView::applyRoute(PBCRouteSP route) {
-    for(boost::shared_ptr<QGraphicsLineItem> line : _routePaths) {
-        this->removeFromGroup(line.get());
+    for(QGraphicsItemSP item : _routePaths) {
+        this->removeFromGroup(item.get());
     }
     _routePaths.clear();
 
@@ -54,30 +110,11 @@ void PBCPlayerView::applyRoute(PBCRouteSP route) {
     } else {
         base = PBCDPoint(playerPosX, playerPosY);
     }
-    double baseX = base.get<0>();
-    double baseY = base.get<1>();
-    double lastX = baseX;
-    double lastY = baseY;
-    for(PBCPathSP path : route->paths()) {
-        PBCDPoint pos = PBCPositionTranslator::getInstance()->translatePos(path->endpoint(), PBCDPoint(baseX, baseY));  // NOLINT
-        int newX = -1;
-        if(baseX < PBCConfig::getInstance()->canvasWidth() / 2) {
-            newX = pos.get<0>();
-        } else {
-            newX = 2 * baseX - pos.get<0>();
-        }
-        int newY = pos.get<1>();
-        boost::shared_ptr<QGraphicsLineItem> lineSP(
-                    new QGraphicsLineItem(lastX, lastY, newX, newY));
-        PBCColor color = _playerSP->color();
-        lineSP->setPen(QPen(QColor(color.r(), color.g(), color.b())));
-        _routePaths.push_back(lineSP);
-        lastX = newX;
-        lastY = newY;
-    }
 
-    for(boost::shared_ptr<QGraphicsLineItem> line : _routePaths) {
-        this->addToGroup(line.get());
+    joinPaths(route->paths(), &_routePaths, base);
+
+    for(boost::shared_ptr<QGraphicsItem> item : _routePaths) {
+        this->addToGroup(item.get());
     }
 }
 
@@ -97,51 +134,7 @@ void PBCPlayerView::applyMotion(PBCMotionSP motion) {
     double baseY = ellipseRect.y() +
             _playerEllipseSP->scenePos().y();
 
-    double lastX = baseX;
-    double lastY = baseY;
-    for(PBCPathSP path : *motion) {
-        if(path->isArc()) {
-            PBCDPoint arcBottom = PBCPositionTranslator::getInstance()->translatePos(path->endpoint(), PBCDPoint(lastX, lastY)); //NOLINT
-            QPointF arcTopleft(lastX - 2 * (lastX - arcBottom.get<0>()), lastY - (arcBottom.get<1>() - lastY)); //NOLINT
-            QPainterPath motionArc(QPointF(0, 0));
-            motionArc.arcMoveTo(arcTopleft.x(),
-                                arcTopleft.y(),
-                                lastX - arcTopleft.x(),
-                                arcBottom.get<1>() - arcTopleft.y(),
-                                0);
-            motionArc.arcTo(arcTopleft.x(),
-                            arcTopleft.y(),
-                            lastX - arcTopleft.x(),
-                            arcBottom.get<1>() - arcTopleft.y(),
-                            0,
-                            -90);
-            boost::shared_ptr<QGraphicsPathItem> motionPathSP(new QGraphicsPathItem(motionArc, this)); //NOLINT
-            PBCColor color = _playerSP->color();
-            motionPathSP->setPen(QPen(QBrush(QColor(color.r(),
-                                                    color.g(),
-                                                    color.b())),
-                                      1,
-                                      Qt::DashLine));
-            _motionPaths.push_back(motionPathSP);
-            lastX = motionArc.currentPosition().x();
-            lastY = motionArc.currentPosition().y();
-        } else {
-            PBCDPoint endPoint = PBCPositionTranslator::getInstance()->translatePos(path->endpoint(), PBCDPoint(baseX, baseY));  // NOLINT
-            double newX = endPoint.get<0>();
-            double newY = endPoint.get<1>();
-            boost::shared_ptr<QGraphicsLineItem> lineSP(
-                        new QGraphicsLineItem(lastX, lastY, newX, newY));
-            PBCColor color = _playerSP->color();
-            lineSP->setPen(QPen(QBrush(QColor(color.r(),
-                                              color.g(),
-                                              color.b())),
-                                1,
-                                Qt::DashLine));
-            _motionPaths.push_back(lineSP);
-            lastX = newX;
-            lastY = newY;
-        }
-    }
+    joinPaths(motion->paths(), &_motionPaths, PBCDPoint(baseX, baseY));
 
     for(boost::shared_ptr<QGraphicsItem> item : _motionPaths) {
         this->addToGroup(item.get());
@@ -165,7 +158,10 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
 
     routeMenu->addSeparator();
     QAction* action_CustomRouteCreate =
-            routeMenu->addAction("Create Custom Route");
+            routeMenu->addAction("Create custom route");
+    QAction* action_CustomRouteCreate_Graphical =
+            routeMenu->addAction("Create custom route (graphical)");
+
     QAction* action_ApplyMotion = menu.addAction(QString("Apply Motion"));
     QAction* clicked = menu.exec(event->screenPos());
     setEnabled(false);
@@ -179,18 +175,25 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
         }
     }
     if(routeClicked == false) {
-        if(clicked == action_CustomRouteCreate) {
+        if(clicked == action_CustomRouteCreate_Graphical) {
             PBCCustomRouteDialog dialog;
             dialog.setWindowModality(Qt::ApplicationModal);
             PBCRouteSP createdRoute = dialog.exec();
             if(createdRoute != NULL) {
                 this->applyRoute(createdRoute);
             }
+        } else if(clicked == action_CustomRouteCreate) {
+            PBCCreateMotionRouteDialog dialog;
+            PBCRouteSP createdRoute = dialog.getCreatedRoute();
+            if(createdRoute != NULL) {
+                this->applyRoute(createdRoute);
+            }
         } else if(clicked == action_ApplyMotion) {
-            PBCMotionSP motionSP(new PBCMotion());
-            motionSP->addPath(PBCPathSP(new PBCPath(-4, -5, true)));
-            motionSP->addPath(PBCPathSP(new PBCPath(-20, -5)));
-            this->applyMotion(motionSP);
+            PBCCreateMotionRouteDialog dialog;
+            PBCMotionSP createdMotion = dialog.getCreatedMotion();
+            if(createdMotion != NULL) {
+                this->applyMotion(createdMotion);
+            }
         } else {
             assert(clicked == NULL);
         }
@@ -201,11 +204,12 @@ void PBCPlayerView::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
     QGraphicsItemGroup::mouseReleaseEvent(event);
     QPointF pixelDelta = this->pos();
     QPointF newPixelPos = QPointF(_originalPos.get<0>(),
-                                  _originalPos.get<1>()) + pixelDelta;
+                                  _originalPos.get<1>())
+                          + pixelDelta;
+
     PBCDPoint newPos = PBCPositionTranslator::getInstance()->retranslatePos(PBCDPoint(newPixelPos.x(), newPixelPos.y()));  //NOLINT
     std::cout << pixelDelta.x() << ", " << pixelDelta.y() << std::endl;
     std::cout << newPos.get<0>() << ", " << newPos.get<1>() << std::endl;
     std::cout << "----------------------------------" << std::endl;
     _playerSP->setPos(newPos);
 }
-

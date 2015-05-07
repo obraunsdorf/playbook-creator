@@ -14,6 +14,9 @@
 #include <vector>
 #include <set>
 
+class PBCPlayer;
+typedef boost::shared_ptr<PBCPlayer> PBCPlayerSP;
+
 class PBCPlayer {
 friend class boost::serialization::access;
  private:
@@ -32,7 +35,7 @@ friend class boost::serialization::access;
         ar << _pos.get<0>();
         ar << _pos.get<1>();
         ar << _route;
-        // todo motion
+        ar << _motion;
     }
 
     template<class Archive>
@@ -48,11 +51,11 @@ friend class boost::serialization::access;
         ar >> x;
         ar >> y;
         ar >> _route;
+        ar >> _motion;
         _role.fullName = fullName;
         _role.shortName = shortName;
         _pos.set<0>(x);
         _pos.set<1>(y);
-        // TODO(obr): motion
     }
     BOOST_SERIALIZATION_SPLIT_MEMBER()
     PBCPlayer() {}
@@ -74,7 +77,5 @@ friend class boost::serialization::access;
     PBCMotionSP motion() const;
     void setMotion(const PBCMotionSP &motion);
 };
-
-typedef boost::shared_ptr<PBCPlayer> PBCPlayerSP;
 
 #endif  // PBCPLAYER_H

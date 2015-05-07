@@ -1,6 +1,7 @@
 #ifndef PBCROUTE_H
 #define PBCROUTE_H
 
+#include "models/pbcVirtualMovement.h"
 #include "util/pbcDeclarations.h"
 #include "models/pbcPath.h"
 
@@ -14,30 +15,27 @@
 class PBCRoute;
 typedef boost::shared_ptr<PBCRoute> PBCRouteSP;
 
-class PBCRoute {
+class PBCRoute : public PBCVirtualMovement{
 friend class boost::serialization::access;
  private:
     std::string _name;
     std::string _codeName;
-    std::vector<PBCPathSP> _paths;
 
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version) {  // NOLINT
         assert(version == 0);
+        ar & boost::serialization::base_object<PBCVirtualMovement>(*this);
         ar & _name;
         ar & _codeName;
-        ar & _paths;
     }
     PBCRoute() {}
 
  public:
     PBCRoute(const std::string& name,
              const std::string& codeName,
-             const std::vector<PBCPathSP>& paths = std::vector<PBCPathSP>());
+             const std::vector<PBCPathSP>& paths);
     std::string name() const;
     std::string codeName() const;
-    std::vector<PBCPathSP> paths() const;
-    void setPaths(const std::vector<PBCPathSP> &paths);
 };
 
 #endif  // PBCROUTE_H

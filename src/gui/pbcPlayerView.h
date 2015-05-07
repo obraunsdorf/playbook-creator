@@ -10,6 +10,7 @@
 
 class PBCPlayerView;
 typedef boost::shared_ptr<PBCPlayerView> PBCPlayerViewSP;
+typedef boost::shared_ptr<QGraphicsItem> QGraphicsItemSP;
 
 class PBCPlayerView : public QObject, public QGraphicsItemGroup {
     Q_OBJECT
@@ -20,11 +21,14 @@ class PBCPlayerView : public QObject, public QGraphicsItemGroup {
     PBCPlayerSP _playerSP;
     PBCDPoint _originalPos;
     boost::shared_ptr<QGraphicsEllipseItem> _playerEllipseSP;
-    std::vector<boost::shared_ptr<QGraphicsLineItem>> _routePaths;
+    std::vector<boost::shared_ptr<QGraphicsItem>> _routePaths;
     std::vector<boost::shared_ptr<QGraphicsItem>> _motionPaths;
 
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void joinPaths(const std::vector<PBCPathSP>& paths,
+                   std::vector<QGraphicsItemSP>* graphicItems,
+                   PBCDPoint basePoint);
     void applyRoute(PBCRouteSP route);
     void applyMotion(PBCMotionSP motion);
 };

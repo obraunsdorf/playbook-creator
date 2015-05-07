@@ -53,6 +53,7 @@ PBCPlay::PBCPlay(const PBCPlay &other) :
         PBCPlayerSP playerSP = *it;
         PBCPlayerSP otherPlayerSP = *otherIt;
         playerSP->setRoute(otherPlayerSP->route());
+        playerSP->setMotion(otherPlayerSP->motion());
         ++it;
         ++otherIt;
     }

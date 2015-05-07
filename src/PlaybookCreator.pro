@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     models/pbcColor.cpp \
     util/pbcStorage.cpp \
     dialogs/pbcExportPdfDialog.cpp \
-    models/pbcMotion.cpp
+    models/pbcMotion.cpp \
+    dialogs/pbcCreateMotionRouteDialog.cpp
 
 HEADERS  += pbcVersion.h \
     dialogs/mainDialog.h \
@@ -57,8 +58,11 @@ HEADERS  += pbcVersion.h \
     util/pbcStorage.h \
     util/pbcExceptions.h \
     dialogs/pbcExportPdfDialog.h \
-    models/pbcMotion.h
+    models/pbcMotion.h \
+    dialogs/pbcCreateMotionRouteDialog.h \
+    models/pbcVirtualMovement.h
 
 FORMS    += dialogs/mainDialog.ui \
     dialogs/pbcCustomRouteDialog.ui \
-    dialogs/pbcExportPdfDialog.ui
+    dialogs/pbcExportPdfDialog.ui \
+    dialogs/pbcCreateMotionRouteDialog.ui
