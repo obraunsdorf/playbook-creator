@@ -9,10 +9,16 @@
 #include <utility>
 #include "QDebug"
 #include <vector>
+#include <set>
 #include "dialogs/pbcCreateMotionRouteDialog.h"
+#include <QColorDialog>
 
 
 PBCPlayerView::PBCPlayerView(PBCPlayerSP playerSP) : _playerSP(playerSP) {
+    repaint();
+}
+
+void PBCPlayerView::repaint() {
     _originalPos = PBCPositionTranslator::getInstance()->translatePos(_playerSP->pos());  // NOLINT
     unsigned int playerWidth = PBCConfig::getInstance()->playerWidth();
     double playerPosX = _originalPos.get<0>() - playerWidth / 2;
@@ -48,44 +54,70 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
     double baseY = basePoint.get<1>();
     double lastX = baseX;
     double lastY = baseY;
+    int inOutFactor = -1;
+    if (basePoint.get<0>() < PBCConfig::getInstance()->canvasWidth() / 2) {
+        inOutFactor = 1;
+    }
     for(PBCPathSP path : paths) {
-        PBCDPoint endPoint = PBCPositionTranslator::getInstance()->translatePos(path->endpoint(), PBCDPoint(baseX, baseY)); //NOLINT
+        PBCDPoint endPointYd(inOutFactor * path->endpoint().get<0>(),
+                             path->endpoint().get<1>());
+        PBCDPoint endPointPixel = PBCPositionTranslator::getInstance()->translatePos(endPointYd, basePoint); //NOLINT
+        unsigned int endPointX = endPointPixel.get<0>();
+        unsigned int endPointY = endPointPixel.get<1>();
         if(path->isArc() == true) {
-            QPointF arcTopleft(lastX - 2 * (lastX - endPoint.get<0>()), lastY - (endPoint.get<1>() - lastY)); //NOLINT
-            QPainterPath motionArc(QPointF(0, 0));
-            motionArc.arcMoveTo(arcTopleft.x(),
-                                arcTopleft.y(),
-                                lastX - arcTopleft.x(),
-                                endPoint.get<1>() - arcTopleft.y(),
-                                0);
-            motionArc.arcTo(arcTopleft.x(),
-                            arcTopleft.y(),
-                            lastX - arcTopleft.x(),
-                            endPoint.get<1>() - arcTopleft.y(),
-                            0,
-                            -90);
+            PBCDPoint topleftYd;
+            PBCDPoint bottomrightYd;
+            if(endPointX > baseX) {
+                // motion to the right
+                topleftYd =     PBCDPoint(0,
+                                          -1 * endPointYd.get<1>());
+                bottomrightYd = PBCDPoint(2 * endPointYd.get<0>(),
+                                          endPointYd.get<1>());
+
+            } else if(endPointX < baseX) {
+                // motion to the left
+                topleftYd =     PBCDPoint(2 * endPointYd.get<0>(),
+                                          -1 * endPointYd.get<1>());
+                bottomrightYd = PBCDPoint(0,
+                                          endPointYd.get<1>());
+
+            } else {
+                assert(false);  // TODO(obr): message to user: no strait motions
+            }
+            PBCDPoint topleftPixel = PBCPositionTranslator::getInstance()->translatePos(topleftYd, PBCDPoint(lastX, lastY)); //NOLINT
+            PBCDPoint bottomrightPixel = PBCPositionTranslator::getInstance()->translatePos(bottomrightYd, PBCDPoint(lastX, lastY)); //NOLINT
+            QPointF topleft(topleftPixel.get<0>(),
+                            topleftPixel.get<1>());
+            QPointF bottomright(bottomrightPixel.get<0>(),
+                                bottomrightPixel.get<1>());
+            QRectF arcRect(topleft, bottomright);
+            QPainterPath motionArc(QPointF(topleft.x(), topleft.y()));
+            motionArc.arcMoveTo(arcRect, 0);
+            motionArc.arcTo(arcRect, 0, -90);
             boost::shared_ptr<QGraphicsPathItem> motionPathSP(
                         new QGraphicsPathItem(motionArc, this));
 
             motionPathSP->setPen(pen);
             graphicItems->push_back(motionPathSP);
+            /*graphicItems->push_back(boost::shared_ptr<QGraphicsRectItem>(
+                                         new QGraphicsRectItem(arcRect)));*/
             lastX = motionArc.currentPosition().x();
             lastY = motionArc.currentPosition().y();
+            /*graphicItems->push_back(boost::shared_ptr<QGraphicsEllipseItem>(
+                                        new QGraphicsEllipseItem(lastX,
+                                                                 lastY,
+                                                                 20, 20)));*/
         } else {
-            int newX = -1;
-            if(baseX < PBCConfig::getInstance()->canvasWidth() / 2) {
-                newX = endPoint.get<0>();
-            } else {
-                newX = 2 * baseX - endPoint.get<0>();
-            }
-            int newY = endPoint.get<1>();
             boost::shared_ptr<QGraphicsLineItem> lineSP(
-                        new QGraphicsLineItem(lastX, lastY, newX, newY));
+                        new QGraphicsLineItem(lastX,
+                                              lastY,
+                                              endPointX,
+                                              endPointY));
 
             lineSP->setPen(pen);
             graphicItems->push_back(lineSP);
-            lastX = newX;
-            lastY = newY;
+            lastX = endPointX;
+            lastY = endPointY;
         }
     }
 }
@@ -97,21 +129,14 @@ void PBCPlayerView::applyRoute(PBCRouteSP route) {
     _routePaths.clear();
 
     _playerSP->setRoute(route);
-    QRectF ellipseRect = _playerEllipseSP->rect();
-    double playerPosX = ellipseRect.x() +
-            _playerEllipseSP->scenePos().x() +  // TODO(obr): check why we need this // NOLINT
-            ellipseRect.width() / 2;
 
-    double playerPosY = ellipseRect.y() + _playerEllipseSP->scenePos().y();
-
-    PBCDPoint base;
+    PBCDPoint playerPos = PBCPositionTranslator::getInstance()->translatePos(_playerSP->pos()); //NOLINT
     if(_playerSP->motion() != NULL) {
-        base = PBCPositionTranslator::getInstance()->translatePos(_playerSP->motion()->motionEndPoint(), PBCDPoint(playerPosX, playerPosY));  // NOLINT
+        PBCDPoint base = PBCPositionTranslator::getInstance()->translatePos(_playerSP->motion()->motionEndPoint(), playerPos);  // NOLINT
+        joinPaths(route->paths(), &_routePaths, base);
     } else {
-        base = PBCDPoint(playerPosX, playerPosY);
+        joinPaths(route->paths(), &_routePaths, playerPos);
     }
-
-    joinPaths(route->paths(), &_routePaths, base);
 
     for(boost::shared_ptr<QGraphicsItem> item : _routePaths) {
         this->addToGroup(item.get());
@@ -126,15 +151,8 @@ void PBCPlayerView::applyMotion(PBCMotionSP motion) {
 
     _playerSP->setMotion(motion);
 
-    QRectF ellipseRect = _playerEllipseSP->rect();
-    double baseX = ellipseRect.x() +
-            _playerEllipseSP->scenePos().x() +  // TODO(obr): check why we need this // NOLINT
-            ellipseRect.width() / 2;
-
-    double baseY = ellipseRect.y() +
-            _playerEllipseSP->scenePos().y();
-
-    joinPaths(motion->paths(), &_motionPaths, PBCDPoint(baseX, baseY));
+    PBCDPoint playerPos = PBCPositionTranslator::getInstance()->translatePos(_playerSP->pos()); //NOLINT
+    joinPaths(motion->paths(), &_motionPaths, playerPos);
 
     for(boost::shared_ptr<QGraphicsItem> item : _motionPaths) {
         this->addToGroup(item.get());
@@ -143,6 +161,11 @@ void PBCPlayerView::applyMotion(PBCMotionSP motion) {
     if(_playerSP->route() != NULL) {
         applyRoute(_playerSP->route());
     }
+}
+
+void PBCPlayerView::setColor(PBCColor color) {
+    _playerSP->setColor(color);
+    repaint();
 }
 
 
@@ -163,6 +186,7 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
             routeMenu->addAction("Create custom route (graphical)");
 
     QAction* action_ApplyMotion = menu.addAction(QString("Apply Motion"));
+    QAction* action_SetColor = menu.addAction(QString("Set Color"));
     QAction* clicked = menu.exec(event->screenPos());
     setEnabled(false);
     setEnabled(true);
@@ -193,6 +217,13 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
             PBCMotionSP createdMotion = dialog.getCreatedMotion();
             if(createdMotion != NULL) {
                 this->applyMotion(createdMotion);
+            }
+        } else if(clicked == action_SetColor) {
+            QColor color = QColorDialog::getColor(Qt::black);
+            if(color.isValid()) {
+                this->setColor(PBCColor(color.red(),
+                                        color.green(),
+                                        color.blue()));
             }
         } else {
             assert(clicked == NULL);

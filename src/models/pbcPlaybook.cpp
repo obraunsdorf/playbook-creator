@@ -42,23 +42,23 @@ void PBCPlaybook::resetToNewEmptyPlaybook(const std::string &name) {
 
     PBCFormationSP formation(new PBCFormation("PBC_StandardFormation"));
     formation->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Center", "C"},
-                                                   PBCColor(255, 255, 0),
+                                                   PBCColor(),
                                                    PBCDPoint(0, 0))));
 
     formation->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Quarterback", "QB"},
-                                                   PBCColor(255, 0, 0),
+                                                   PBCColor(),
                                                    PBCDPoint(0, -1))));
 
     formation->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Wide Receiver Left", "WRL"},  // NOLINT
-                                                   PBCColor(0, 255, 0),
+                                                   PBCColor(),
                                                    PBCDPoint(-15, 0))));
 
     formation->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Wide Receiver Right", "WRR"}, // NOLINT
-                                                   PBCColor(0, 0, 255),
+                                                   PBCColor(),
                                                    PBCDPoint(15, 0))));
 
     formation->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Runningback", "RB"},
-                                                   PBCColor(0, 0, 0),
+                                                   PBCColor(),
                                                    PBCDPoint(0, -5))));
 
     std::pair<PBCModelMap<PBCFormationSP>::iterator, bool> result =

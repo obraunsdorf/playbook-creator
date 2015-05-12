@@ -12,6 +12,19 @@ PBCPlayView::PBCPlayView(PBCPlaySP playSP, QObject *parent) :
     repaint();
 }
 
+void PBCPlayView::paintPlayName(unsigned int yPos,
+                                unsigned int textSize,
+                                PBCColor color) {
+    QGraphicsTextItem* text = this->addText(QString::fromStdString(
+                                                _currentPlay->codeName()),
+                                            QFont("Helvetica",
+                                                  textSize,
+                                                  textSize,
+                                                  true));
+    text->setY(yPos);
+    text->setDefaultTextColor(QColor(color.r(), color.g(), color.b()));
+}
+
 
 void PBCPlayView::repaint() {
     this->clear();
@@ -34,6 +47,11 @@ void PBCPlayView::repaint() {
         for(PBCPlayerSP playerSP : *(_currentPlay->formation())) {
             this->addItem(new PBCPlayerView(playerSP));
         }
+
+        unsigned int textSize = PBCConfig::getInstance()->playNameSize();
+        paintPlayName(PBCConfig::getInstance()->canvasHeight() - 2 * textSize,
+                      textSize,
+                      PBCConfig::getInstance()->playNameColor());
     }
 }
 

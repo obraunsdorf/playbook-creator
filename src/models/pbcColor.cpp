@@ -2,6 +2,9 @@
 #include <vector>
 
 PBCColor::PBCColor() {
+    _r = 0;
+    _g = 0;
+    _b = 0;
 }
 
 

@@ -21,6 +21,8 @@ friend class PBCSingleton<PBCConfig>;
     double _fiveYdYFactor;
     PBCColor _ballColor;
     double _ballWidthYd;
+    PBCColor _playNameColor;
+    unsigned int _playNameSize;
     double _playerWidthYd;
 
 
@@ -41,6 +43,8 @@ friend class PBCSingleton<PBCConfig>;
        _fiveYdYFactor(0.25),
        _ballColor(139U, 69U, 19U),
        _ballWidthYd(1),
+       _playNameColor(128U, 128U, 128U),
+       _playNameSize(30),
        _playerWidthYd(1.5),
        _canvasWidth(200),
        _canvasHeight(200) {
@@ -103,6 +107,14 @@ friend class PBCSingleton<PBCConfig>;
 
     unsigned int ballWidth() {
         return _ballWidthYd * ydInPixel();
+    }
+
+    PBCColor playNameColor() {
+        return _playNameColor;
+    }
+
+    unsigned int playNameSize() {
+        return _playNameSize;
     }
 
     double ydInPixel() {

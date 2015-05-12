@@ -20,8 +20,8 @@ class PBCVersion {
  public:
     static const unsigned int MAJOR = 0;
     static const unsigned int MINOR = 2;
-    static const unsigned int REVISION = 19;
-    static const unsigned int BUILD = 150507122;
+    static const unsigned int REVISION = 20;
+    static const unsigned int BUILD = 15051327;
     static int compare(const std::string& versionString) {
         std::vector<std::string> versionNumbers;
         std::stringstream ss(versionString);
