@@ -216,6 +216,13 @@ void PBCStorage::exportAsPDF(const std::string& fileName,
 
     printer.setPageMargins(0.0, 0.0, 0.0, 0.0, QPrinter::Millimeter);
     QPainter painter(&printer);
+    bool paintBorder = true;
+    if(marginLeft == 0 &&
+       marginRight == 0 &&
+       marginTop == 0 &&
+       marginBottom == 0) {
+        paintBorder = false;
+    }
     painter.setPen(QPen(QBrush(Qt::red), 20, Qt::DashLine));
     QRectF borderRect(10,
                       10,
@@ -244,7 +251,9 @@ void PBCStorage::exportAsPDF(const std::string& fileName,
         if(rowCount > rows) {
             bool successful = printer.newPage();
             assert(successful == true);
-            painter.drawRect(borderRect);
+            if(paintBorder == true) {
+                painter.drawRect(borderRect);
+            }
             rowCount = 0;
             y = 0;
         }

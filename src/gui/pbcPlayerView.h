@@ -33,6 +33,7 @@ class PBCPlayerView : public QObject, public QGraphicsItemGroup {
     void applyRoute(PBCRouteSP route);
     void applyMotion(PBCMotionSP motion);
     void setColor(PBCColor color);
+    void setPosition(double x, double y);
 };
 
 #endif  // PBCPLAYERVIEW_H

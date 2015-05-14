@@ -18,6 +18,8 @@ class PBCCreateMotionRouteDialog : public QDialog {
     Ui::PBCCreateMotionRouteDialog *ui;
     std::vector<PBCPathSP> _createdPaths;
     void exec();
+    void saveRoute(PBCRouteSP routeSP);
+    void savePlaybookOnRouteCreation();
 
  public:
     explicit PBCCreateMotionRouteDialog(QWidget *parent = 0);

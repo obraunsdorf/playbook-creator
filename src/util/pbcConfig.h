@@ -22,8 +22,9 @@ friend class PBCSingleton<PBCConfig>;
     PBCColor _ballColor;
     double _ballWidthYd;
     PBCColor _playNameColor;
-    unsigned int _playNameSize;
+    double _playNameSizeYd;
     double _playerWidthYd;
+    double _routeWidthYd;
 
 
     unsigned int _canvasWidth;
@@ -44,8 +45,9 @@ friend class PBCSingleton<PBCConfig>;
        _ballColor(139U, 69U, 19U),
        _ballWidthYd(1),
        _playNameColor(128U, 128U, 128U),
-       _playNameSize(30),
+       _playNameSizeYd(2.5),
        _playerWidthYd(1.5),
+       _routeWidthYd(0.25),
        _canvasWidth(200),
        _canvasHeight(200) {
        // TODO(obr): initialize from File
@@ -114,7 +116,7 @@ friend class PBCSingleton<PBCConfig>;
     }
 
     unsigned int playNameSize() {
-        return _playNameSize;
+        return _playNameSizeYd * ydInPixel();
     }
 
     double ydInPixel() {
@@ -123,6 +125,10 @@ friend class PBCSingleton<PBCConfig>;
 
     unsigned int playerWidth() {
         return _playerWidthYd * ydInPixel();
+    }
+
+    unsigned int routeWidth() {
+        return _routeWidthYd * ydInPixel();
     }
 };
 

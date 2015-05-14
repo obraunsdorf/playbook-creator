@@ -12,6 +12,7 @@
 #include <set>
 #include "dialogs/pbcCreateMotionRouteDialog.h"
 #include <QColorDialog>
+#include <QInputDialog>
 
 
 PBCPlayerView::PBCPlayerView(PBCPlayerSP playerSP) : _playerSP(playerSP) {
@@ -46,7 +47,8 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
                               PBCDPoint basePoint) {
     assert(graphicItems == &_routePaths || graphicItems == &_motionPaths);
     PBCColor color = _playerSP->color();
-    QPen pen((QColor(color.r(), color.g(), color.b())));
+    QPen pen(QBrush((QColor(color.r(), color.g(), color.b()))),
+             PBCConfig::getInstance()->routeWidth());
     if(graphicItems == &_motionPaths) {
         pen.setStyle(Qt::DashLine);
     }
@@ -67,12 +69,16 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
         if(path->isArc() == true) {
             PBCDPoint topleftYd;
             PBCDPoint bottomrightYd;
+            unsigned int startAngle;
+            int arcLength;
             if(endPointX > baseX) {
                 // motion to the right
                 topleftYd =     PBCDPoint(0,
                                           -1 * endPointYd.get<1>());
                 bottomrightYd = PBCDPoint(2 * endPointYd.get<0>(),
                                           endPointYd.get<1>());
+                startAngle = 180;
+                arcLength = 90;
 
             } else if(endPointX < baseX) {
                 // motion to the left
@@ -80,6 +86,8 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
                                           -1 * endPointYd.get<1>());
                 bottomrightYd = PBCDPoint(0,
                                           endPointYd.get<1>());
+                startAngle = 0;
+                arcLength = -90;
 
             } else {
                 assert(false);  // TODO(obr): message to user: no strait motions
@@ -92,21 +100,15 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
                                 bottomrightPixel.get<1>());
             QRectF arcRect(topleft, bottomright);
             QPainterPath motionArc(QPointF(topleft.x(), topleft.y()));
-            motionArc.arcMoveTo(arcRect, 0);
-            motionArc.arcTo(arcRect, 0, -90);
+            motionArc.arcMoveTo(arcRect, startAngle);
+            motionArc.arcTo(arcRect, startAngle, arcLength);
             boost::shared_ptr<QGraphicsPathItem> motionPathSP(
                         new QGraphicsPathItem(motionArc, this));
 
             motionPathSP->setPen(pen);
             graphicItems->push_back(motionPathSP);
-            /*graphicItems->push_back(boost::shared_ptr<QGraphicsRectItem>(
-                                         new QGraphicsRectItem(arcRect)));*/
             lastX = motionArc.currentPosition().x();
             lastY = motionArc.currentPosition().y();
-            /*graphicItems->push_back(boost::shared_ptr<QGraphicsEllipseItem>(
-                                        new QGraphicsEllipseItem(lastX,
-                                                                 lastY,
-                                                                 20, 20)));*/
         } else {
             boost::shared_ptr<QGraphicsLineItem> lineSP(
                         new QGraphicsLineItem(lastX,
@@ -131,8 +133,15 @@ void PBCPlayerView::applyRoute(PBCRouteSP route) {
     _playerSP->setRoute(route);
 
     PBCDPoint playerPos = PBCPositionTranslator::getInstance()->translatePos(_playerSP->pos()); //NOLINT
+    int inOutFactor = -1;
+    if(playerPos.get<0>() < PBCConfig::getInstance()->canvasWidth() / 2) {
+        inOutFactor = 1;
+    }
     if(_playerSP->motion() != NULL) {
-        PBCDPoint base = PBCPositionTranslator::getInstance()->translatePos(_playerSP->motion()->motionEndPoint(), playerPos);  // NOLINT
+        PBCDPoint correctMotionEndPoint(inOutFactor * _playerSP->motion()->motionEndPoint().get<0>(),  //NOLINT
+                                        _playerSP->motion()->motionEndPoint().get<1>());               //NOLINT
+
+        PBCDPoint base = PBCPositionTranslator::getInstance()->translatePos(correctMotionEndPoint, playerPos);  // NOLINT
         joinPaths(route->paths(), &_routePaths, base);
     } else {
         joinPaths(route->paths(), &_routePaths, playerPos);
@@ -168,6 +177,12 @@ void PBCPlayerView::setColor(PBCColor color) {
     repaint();
 }
 
+void PBCPlayerView::setPosition(double x, double y) {
+    PBCDPoint pos(x, y);
+    _playerSP->setPos(pos);
+    repaint();
+}
+
 
 void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
     QMenu menu;
@@ -185,8 +200,9 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
     QAction* action_CustomRouteCreate_Graphical =
             routeMenu->addAction("Create custom route (graphical)");
 
-    QAction* action_ApplyMotion = menu.addAction(QString("Apply Motion"));
-    QAction* action_SetColor = menu.addAction(QString("Set Color"));
+    QAction* action_ApplyMotion = menu.addAction("Apply Motion");
+    QAction* action_SetColor = menu.addAction("Set Color");
+    QAction* action_SetPosition = menu.addAction("Set Position");
     QAction* clicked = menu.exec(event->screenPos());
     setEnabled(false);
     setEnabled(true);
@@ -224,6 +240,27 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
                 this->setColor(PBCColor(color.red(),
                                         color.green(),
                                         color.blue()));
+            }
+        } else if(clicked == action_SetPosition) {
+            bool ok1, ok2;
+            double x = QInputDialog::getDouble(NULL,
+                                               "Set player position",
+                                               "Horizontal position in yd",
+                                               0,
+                                               -2147483647,
+                                               2147483647,
+                                               1,
+                                               &ok1);
+            double y = QInputDialog::getDouble(NULL,
+                                               "Set player position",
+                                               "Vertical position in yd",
+                                               0,
+                                               -2147483647,
+                                               2147483647,
+                                               1,
+                                               &ok2);
+            if(ok1 == true && ok2 == true) {
+                this->setPosition(x, y);
             }
         } else {
             assert(clicked == NULL);
