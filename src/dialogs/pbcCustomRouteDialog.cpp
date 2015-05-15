@@ -63,36 +63,38 @@ PBCRouteSP PBCCustomRouteDialog::exec() {
 
 void PBCCustomRouteDialog::accept() {
     std::string routeName = ui->nameEdit->text().toStdString();
-    std::string routeCodeName = ui->codeNameEdit->text().toStdString();
-    _createdRoute = _crv->createRoute(routeName, routeCodeName);
-    bool successful = false;
-    try {
-        successful = PBCPlaybook::getInstance()->addRoute(_createdRoute);
-    } catch(const PBCStorageException& e) {
-        QMessageBox::information(this, "", "You have to save the playbook to a file before you can add routes");  //NOLINT
-        savePlaybookOnRouteCreation();
-        return;
-    }
-    if(successful == false) {
-        QMessageBox::StandardButton button =
-                QMessageBox::question(this,
-                                      "blub",
-                                      QString::fromStdString("There already exists a route named '" + routeName + "'. Do you want to overwrite it?"),  // NOLINT
-                                      QMessageBox::Ok | QMessageBox::Cancel);
+    if(routeName != "") {
+        std::string routeCodeName = ui->codeNameEdit->text().toStdString();
+        _createdRoute = _crv->createRoute(routeName, routeCodeName);
+        bool successful = false;
+        try {
+            successful = PBCPlaybook::getInstance()->addRoute(_createdRoute);
+        } catch(const PBCStorageException& e) {
+            QMessageBox::information(this, "", "You have to save the playbook to a file before you can add routes");  //NOLINT
+            savePlaybookOnRouteCreation();
+            return;
+        }
+        if(successful == false) {
+            QMessageBox::StandardButton button =
+                    QMessageBox::question(this,
+                                          "Create custom route",
+                                          QString::fromStdString("There already exists a route named '" + routeName + "'. Do you want to overwrite it?"),  // NOLINT
+                                          QMessageBox::Ok | QMessageBox::Cancel); //NOLINT
 
-        if(button == QMessageBox::Ok) {
-            bool result;
-            try {
-                result = PBCPlaybook::getInstance()->addRoute(_createdRoute,
-                                                              true);
-            } catch(const PBCStorageException& e) {
-                QMessageBox::information(this, "", "You have to save the playbook to a file before you can add routes");  //NOLINT
-                savePlaybookOnRouteCreation();
+            if(button == QMessageBox::Ok) {
+                bool result;
+                try {
+                    result = PBCPlaybook::getInstance()->addRoute(_createdRoute,
+                                                                  true);
+                } catch(const PBCStorageException& e) {
+                    QMessageBox::information(this, "", "You have to save the playbook to a file before you can add routes");  //NOLINT
+                    savePlaybookOnRouteCreation();
+                    return;
+                }
+                assert(result == true);
+            } else {
                 return;
             }
-            assert(result == true);
-        } else {
-            return;
         }
     }
 

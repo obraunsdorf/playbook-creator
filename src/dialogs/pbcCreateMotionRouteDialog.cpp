@@ -27,7 +27,7 @@ void PBCCreateMotionRouteDialog::saveRoute(PBCRouteSP routeSP) {
     if(successful == false) {
         QMessageBox::StandardButton button =
                 QMessageBox::question(this,
-                                      "blub",
+                                      "Create custom route",
                                       QString::fromStdString("There already exists a route named '" + routeSP->name() + "'. Do you want to overwrite it?"),  // NOLINT
                                       QMessageBox::Ok | QMessageBox::Cancel);
 
@@ -106,7 +106,9 @@ PBCRouteSP PBCCreateMotionRouteDialog::getCreatedRoute() {
         PBCRouteSP createdRoute(new PBCRoute(routeName,
                                              routeCodeName,
                                              _createdPaths));
-        saveRoute(createdRoute);
+        if(routeName != "") {
+            saveRoute(createdRoute);
+        }
         return createdRoute;
     }
 }

@@ -228,7 +228,9 @@ void PBCStorage::exportAsPDF(const std::string& fileName,
                       10,
                       printer.paperRect().width() - 10,
                       printer.paperRect().height() - 10);
-    painter.drawRect(printer.paperRect());
+    if(paintBorder == true) {
+        painter.drawRect(printer.paperRect());
+    }
 
 
     unsigned int x = 0;
