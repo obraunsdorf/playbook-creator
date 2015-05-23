@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>237</width>
+    <width>274</width>
     <height>367</height>
    </rect>
   </property>
@@ -68,6 +68,13 @@
          <widget class="QCheckBox" name="isArcCheckBox">
           <property name="text">
            <string>is arc</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="isConcaveCheckBox">
+          <property name="text">
+           <string>is concave</string>
           </property>
          </widget>
         </item>

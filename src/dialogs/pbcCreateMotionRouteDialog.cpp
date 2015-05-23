@@ -117,11 +117,16 @@ PBCRouteSP PBCCreateMotionRouteDialog::getCreatedRoute() {
 void PBCCreateMotionRouteDialog::addPath() {
     PBCPathSP path(new PBCPath(ui->xSpinBox->value(),
                                ui->ySpinBox->value(),
-                               ui->isArcCheckBox->isChecked()));
+                               ui->isArcCheckBox->isChecked(),
+                               ui->isConcaveCheckBox->isChecked()));
     _createdPaths.push_back(path);
     QString s;
     if(path->isArc() == true) {
-        s = "arc : ";
+        if(path->isConcave()) {
+            s = "arc(concave): ";
+        } else {
+            s = "arc(convex): ";
+        }
     } else {
         s = "line: ";
     }

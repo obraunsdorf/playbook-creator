@@ -10,7 +10,7 @@ buildDir=$baseDir"build-PlaybookCreator-Desktop-Debug/"
 srcDir=$baseDir"src/"
 
 MAJOR_VERSION_NUMBER=0
-MINOR_VERSION_NUMBER=2
+MINOR_VERSION_NUMBER=3
 
 echo "build directory: " $buildDir
 

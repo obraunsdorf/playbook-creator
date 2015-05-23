@@ -71,26 +71,49 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
             PBCDPoint bottomrightYd;
             unsigned int startAngle;
             int arcLength;
-            if(endPointX > baseX) {
-                // motion to the right
-                topleftYd =     PBCDPoint(0,
-                                          -1 * endPointYd.get<1>());
-                bottomrightYd = PBCDPoint(2 * endPointYd.get<0>(),
-                                          endPointYd.get<1>());
-                startAngle = 180;
+            if(path->isConcave() == false) {
+                // motion is concave
+                topleftYd =     PBCDPoint(-1 * endPointYd.get<0>(),
+                                          2 * endPointYd.get<1>());
+                bottomrightYd = PBCDPoint(endPointYd.get<0>(),
+                                          0);
+                startAngle = 270;
                 arcLength = 90;
-
-            } else if(endPointX < baseX) {
-                // motion to the left
-                topleftYd =     PBCDPoint(2 * endPointYd.get<0>(),
-                                          -1 * endPointYd.get<1>());
-                bottomrightYd = PBCDPoint(0,
-                                          endPointYd.get<1>());
-                startAngle = 0;
-                arcLength = -90;
+                /*if(endPointX > baseX) {
+                    // motion to the right
+                    arcLength = 90;
+                } else if(endPointX < baseX) {
+                    // motion to the left
+                    arcLength = -90;
+                } else {
+                    // TODO(obr): message to user: no strait motions
+                    assert(false);
+                }*/
 
             } else {
-                assert(false);  // TODO(obr): message to user: no strait motions
+                // motion is convex
+                if(endPointX > baseX) {
+                    // motion to the right
+                    topleftYd =     PBCDPoint(0,
+                                              -1 * endPointYd.get<1>());
+                    bottomrightYd = PBCDPoint(2 * endPointYd.get<0>(),
+                                              endPointYd.get<1>());
+                    startAngle = 180;
+                    arcLength = 90;
+
+                } else if(endPointX < baseX) {
+                    // motion to the left
+                    topleftYd =     PBCDPoint(2 * endPointYd.get<0>(),
+                                              -1 * endPointYd.get<1>());
+                    bottomrightYd = PBCDPoint(0,
+                                              endPointYd.get<1>());
+                    startAngle = 0;
+                    arcLength = -90;
+
+                } else {
+                    // TODO(obr): message to user: no strait motions
+                    assert(false);
+                }
             }
             PBCDPoint topleftPixel = PBCPositionTranslator::getInstance()->translatePos(topleftYd, PBCDPoint(lastX, lastY)); //NOLINT
             PBCDPoint bottomrightPixel = PBCPositionTranslator::getInstance()->translatePos(bottomrightYd, PBCDPoint(lastX, lastY)); //NOLINT

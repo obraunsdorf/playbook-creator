@@ -11,6 +11,7 @@ PBCPlaybook::PBCPlaybook() : _name("new Playbook") {
 }
 
 void PBCPlaybook::resetToNewEmptyPlaybook(const std::string &name) {
+    _builtWithPBCVersion = PBCVersion::getVersionString();
     _name = name;
     _formations.clear();
     _routes.clear();
@@ -135,6 +136,10 @@ bool PBCPlaybook::addPlay(PBCPlaySP play, bool overwrite) {
         }
         return result.second;
     }
+}
+
+std::string PBCPlaybook::builtWithPBCVersion() {
+    return _builtWithPBCVersion;
 }
 
 std::string PBCPlaybook::name() const {

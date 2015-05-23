@@ -3,10 +3,7 @@
 
 #include "util/pbcSingleton.h"
 #include <list>
-#include "models/pbcFormation.h"
-#include "models/pbcRoute.h"
 #include "models/pbcCategory.h"
-#include "models/pbcPlay.h"
 #include <ostream>
 #include <boost/serialization/map.hpp>
 #include <boost/serialization/access.hpp>
@@ -15,11 +12,18 @@
 #include <utility>
 #include <vector>
 
+class PBCFormation;
+typedef boost::shared_ptr<PBCFormation> PBCFormationSP;
+class PBCRoute;
+typedef boost::shared_ptr<PBCRoute> PBCRouteSP;
+
 class PBCPlaybook : public PBCSingleton<PBCPlaybook> {
 friend class PBCSingleton<PBCPlaybook>;
 friend class boost::serialization::access;
  private:
     template<typename T> using PBCModelMap = std::map<std::string, T>;
+
+    std::string _builtWithPBCVersion;
     std::string _name;
     PBCModelMap<PBCFormationSP> _formations;
     PBCModelMap<PBCRouteSP> _routes;
@@ -42,6 +46,7 @@ friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version) {  // NOLINT
         assert(version == 0);
+        ar & _builtWithPBCVersion;
         ar & _name;
         ar & _formations;
         ar & _routes;
@@ -59,6 +64,7 @@ friend class boost::serialization::access;
     bool addRoute(PBCRouteSP route, bool overwrite = false);
     bool addCategory(PBCCategorySP category, bool overwrite = false);
     bool addPlay(PBCPlaySP play, bool overwrite = false);
+    std::string builtWithPBCVersion();
     std::string name() const;
     std::list<PBCFormationSP> formations() const;
     std::list<PBCRouteSP> routes() const;

@@ -18,7 +18,7 @@
 
 void PBCStorage::checkVersion(const std::string &version) {
     // TODO(obr): do better version checking
-    int result = PBCVersion::compare(version);
+    int result = PBCVersion::compareCurrentVersionTo(version);
     if(result < 0) {
         throw PBCStorageException("Cannot load playbook because it's created by a newer version of Playbook-Creator. Please download the latest version of Playbook-Creator!");  //NOLINT
     }
@@ -125,6 +125,7 @@ void PBCStorage::writeToCurrentPlaybookFile() {
     ostream << PBCVersion::getVersionString() << "\n";
     boost::archive::text_oarchive archive(ostream);
     archive << *PBCPlaybook::getInstance();
+
     std::ofstream ofstream(_currentPlaybookFileName,
                            std::ios_base::out | std::ios_base::binary);
 
@@ -158,8 +159,9 @@ void PBCStorage::loadPlaybook(const std::string &password,
 
     std::istream istream(&buff);
 
-    int kBuffSize = 17;
+    int kBuffSize = 100;
     char buffer[kBuffSize];
+
     istream.getline(buffer, kBuffSize);
     std::string pbcString(buffer);
     assert(pbcString == "Playbook-Creator");
