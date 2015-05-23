@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>226</width>
+    <width>352</width>
     <height>646</height>
    </rect>
   </property>
@@ -15,7 +15,62 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QListWidget" name="listWidget"/>
+    <widget class="QGroupBox" name="groupBox_6">
+     <property name="title">
+      <string>GroupBox</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QListWidget" name="allPlaysListWidget"/>
+      </item>
+      <item row="0" column="1">
+       <widget class="QGroupBox" name="groupBox_7">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="title">
+         <string/>
+        </property>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="1" column="0">
+          <widget class="QPushButton" name="outButton">
+           <property name="text">
+            <string>&lt;</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QPushButton" name="downButton">
+           <property name="text">
+            <string>v</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QPushButton" name="inButton">
+           <property name="text">
+            <string>&gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QPushButton" name="upButton">
+           <property name="text">
+            <string>^</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QListWidget" name="selectedPlaysListWidget"/>
+      </item>
+     </layout>
+    </widget>
    </item>
    <item>
     <widget class="QGroupBox" name="groupBox_2">
@@ -192,5 +247,75 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>inButton</sender>
+   <signal>clicked()</signal>
+   <receiver>PBCExportPDFDialog</receiver>
+   <slot>inButtonPressed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>175</x>
+     <y>97</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>175</x>
+     <y>322</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>outButton</sender>
+   <signal>clicked()</signal>
+   <receiver>PBCExportPDFDialog</receiver>
+   <slot>outButtonPressed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>175</x>
+     <y>143</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>175</x>
+     <y>322</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>upButton</sender>
+   <signal>clicked()</signal>
+   <receiver>PBCExportPDFDialog</receiver>
+   <slot>upButtonPressed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>175</x>
+     <y>189</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>175</x>
+     <y>322</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>downButton</sender>
+   <signal>clicked()</signal>
+   <receiver>PBCExportPDFDialog</receiver>
+   <slot>downButtonPressed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>175</x>
+     <y>235</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>175</x>
+     <y>322</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>inButtonPressed()</slot>
+  <slot>outButtonPressed()</slot>
+  <slot>upButtonPressed()</slot>
+  <slot>downButtonPressed()</slot>
+ </slots>
 </ui>

@@ -16,10 +16,11 @@ PBCExportPDFDialog::PBCExportPDFDialog(QWidget *parent) :
     for(std::string& name : playNames) {
         QListWidgetItem* listItem =
                 new QListWidgetItem(QString::fromStdString(name),
-                                    ui->listWidget);
-        ui->listWidget->addItem(listItem);
+                                    ui->allPlaysListWidget);
+        ui->allPlaysListWidget->addItem(listItem);
     }
-    ui->listWidget->setSelectionMode(QAbstractItemView::MultiSelection);
+    ui->allPlaysListWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);  //NOLINT
+    ui->selectedPlaysListWidget->setSelectionMode(QAbstractItemView::SingleSelection); //NOLINT
 }
 
 PBCExportPDFDialog::~PBCExportPDFDialog() {
@@ -32,18 +33,69 @@ boost::shared_ptr<QStringList> PBCExportPDFDialog::exec(boost::shared_ptr<Return
         returnStruct->paperWidth = ui->paperWidthSpinBox->value();
         returnStruct->paperHeight = ui->paperHeightSpinBox->value();
         returnStruct->columns = ui->columnsSpinBox->value();
-        returnStruct->rows = ui->columnsSpinBox->value();
+        returnStruct->rows = ui->rowsSpinBox->value();
         returnStruct->marginLeft = ui->marginLeftSpinBox->value();
         returnStruct->marginRight = ui->marginRightSpinBox->value();
         returnStruct->marginTop = ui->marginTopSpinBox->value();
         returnStruct->marginBottom = ui->marginBottomSpinBox->value();
         boost::shared_ptr<QStringList> playNamesSP(new QStringList());
-        QList<QListWidgetItem*> selectedItems = ui->listWidget->selectedItems();
-        for(QListWidgetItem* item : selectedItems) {
-                playNamesSP->append(item->text());
+        for(int i = 0; i < ui->selectedPlaysListWidget->count(); ++i) {
+            QListWidgetItem* item = ui->selectedPlaysListWidget->item(i);
+            assert(item != NULL);
+            playNamesSP->append(item->text());
         }
         return playNamesSP;
     } else {
         return NULL;
+    }
+}
+
+void PBCExportPDFDialog::inButtonPressed() {
+    QList<QListWidgetItem*> selectedItems = ui->allPlaysListWidget->selectedItems(); //NOLINT
+    for(QListWidgetItem* item : selectedItems) {
+        ui->selectedPlaysListWidget->addItem(item->text());
+    }
+    ui->allPlaysListWidget->clearSelection();
+}
+
+void PBCExportPDFDialog::outButtonPressed() {
+    QList<QListWidgetItem*> selectedItems = ui->selectedPlaysListWidget->selectedItems(); //NOLINT
+    assert(selectedItems.size() <= 1);
+    for(QListWidgetItem* item : selectedItems) {
+        delete item;
+        item = NULL;
+    }
+    ui->selectedPlaysListWidget->clearSelection();
+}
+
+void PBCExportPDFDialog::upButtonPressed() {
+    QList<QListWidgetItem*> selectedItems = ui->selectedPlaysListWidget->selectedItems(); //NOLINT
+    assert(selectedItems.size() <= 1);
+    for(QListWidgetItem* item : selectedItems) {
+        int row = ui->selectedPlaysListWidget->row(item);
+        assert(row >= 0);
+        if(row != 0) {
+            QListWidgetItem* taken = ui->selectedPlaysListWidget->takeItem(row);
+            assert(taken == item);
+            ui->selectedPlaysListWidget->insertItem(row - 1, item);
+            ui->selectedPlaysListWidget->clearSelection();
+            item->setSelected(true);
+        }
+    }
+}
+
+void PBCExportPDFDialog::downButtonPressed() {
+    QList<QListWidgetItem*> selectedItems = ui->selectedPlaysListWidget->selectedItems(); //NOLINT
+    assert(selectedItems.size() <= 1);
+    for(QListWidgetItem* item : selectedItems) {
+        int row = ui->selectedPlaysListWidget->row(item);
+        assert(row >= 0);
+        if(row != ui->selectedPlaysListWidget->count() - 1) {
+            QListWidgetItem* taken = ui->selectedPlaysListWidget->takeItem(row);
+            assert(taken == item);
+            ui->selectedPlaysListWidget->insertItem(row + 1, item);
+            ui->selectedPlaysListWidget->clearSelection();
+            item->setSelected(true);
+        }
     }
 }

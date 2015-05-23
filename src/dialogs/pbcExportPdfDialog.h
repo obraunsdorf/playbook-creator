@@ -30,6 +30,12 @@ class PBCExportPDFDialog : public QDialog {
 
  private:
     Ui::PBCExportPDFDialog *ui;
+
+ private slots:
+    void inButtonPressed();
+    void outButtonPressed();
+    void upButtonPressed();
+    void downButtonPressed();
 };
 
 #endif  // PBCEXPORTPDFDIALOG_H
