@@ -79,17 +79,6 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
                                           0);
                 startAngle = 270;
                 arcLength = 90;
-                /*if(endPointX > baseX) {
-                    // motion to the right
-                    arcLength = 90;
-                } else if(endPointX < baseX) {
-                    // motion to the left
-                    arcLength = -90;
-                } else {
-                    // TODO(obr): message to user: no strait motions
-                    assert(false);
-                }*/
-
             } else {
                 // motion is convex
                 if(endPointX > baseX) {

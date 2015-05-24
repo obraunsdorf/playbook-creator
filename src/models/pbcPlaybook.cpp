@@ -92,7 +92,8 @@ bool PBCPlaybook::addFormation(PBCFormationSP formation, bool overwrite) {
 
 bool PBCPlaybook::addRoute(PBCRouteSP route, bool overwrite) {
     if(overwrite == true ) {
-        _routes[route->name()] = route;
+        *_routes[route->name()] = *route;  // TODO(obr): does this create memory leaks?  //NOLINT
+        // _routes[route->name()] = route;  --> Routes in Plays are not changed when you overwrite them // NOLINT
         PBCStorage::getInstance()->automaticSavePlaybook();
         return true;
     } else {
