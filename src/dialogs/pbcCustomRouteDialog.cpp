@@ -63,9 +63,9 @@ PBCRouteSP PBCCustomRouteDialog::exec() {
 
 void PBCCustomRouteDialog::accept() {
     std::string routeName = ui->nameEdit->text().toStdString();
+    std::string routeCodeName = ui->codeNameEdit->text().toStdString();
+    _createdRoute = _crv->createRoute(routeName, routeCodeName);
     if(routeName != "") {
-        std::string routeCodeName = ui->codeNameEdit->text().toStdString();
-        _createdRoute = _crv->createRoute(routeName, routeCodeName);
         bool successful = false;
         try {
             successful = PBCPlaybook::getInstance()->addRoute(_createdRoute);
