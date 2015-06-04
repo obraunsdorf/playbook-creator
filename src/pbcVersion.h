@@ -19,8 +19,8 @@ class PBCVersion {
  public:
     static const unsigned int MAJOR = 0;
     static const unsigned int MINOR = 3;
-    static const unsigned int REVISION = 26;
-    static const unsigned int BUILD = 1505251006;
+    static const unsigned int REVISION = 27;
+    static const unsigned int BUILD = 1506011024;
 
     static int compareCurrentVersionTo(const std::string& otherVersion) {
         return compareVersions(getVersionString(), otherVersion);

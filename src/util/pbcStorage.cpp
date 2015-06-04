@@ -258,7 +258,7 @@ void PBCStorage::exportAsPDF(const std::string& fileName,
             if(paintBorder == true) {
                 painter.drawRect(borderRect);
             }
-            rowCount = 0;
+            rowCount = 1;
             y = 0;
         }
     }
