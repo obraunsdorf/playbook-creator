@@ -1,0 +1,9 @@
+<map id="PBCGridIronView::paintBall" name="PBCGridIronView::paintBall">
+<area shape="rect" id="node2" href="$classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145" title="PBCSingleton\&lt; PBCConfig\l \&gt;::getInstance" alt="" coords="238,5,421,46"/>
+<area shape="rect" id="node3" href="$classPBCConfig.html#abb36b4eb9f9604822d0e6f2c8e53b523" title="PBCConfig::ballColor" alt="" coords="256,71,403,97"/>
+<area shape="rect" id="node4" href="$classPBCColor.html#a9bd938a1ea8488f5169e22d6284c086b" title="PBCColor::r" alt="" coords="283,121,376,148"/>
+<area shape="rect" id="node5" href="$classPBCColor.html#a4b5056b93c013a32d3c99d0ede37fa68" title="PBCColor::g" alt="" coords="281,172,377,199"/>
+<area shape="rect" id="node6" href="$classPBCColor.html#a5529702cce647e074061b135e9641133" title="PBCColor::b" alt="" coords="281,223,377,249"/>
+<area shape="rect" id="node7" href="$classPBCConfig.html#af545ab28aa4a5a23828489e94115ca5c" title="PBCConfig::ballWidth" alt="" coords="254,273,405,300"/>
+<area shape="rect" id="node8" href="$classPBCConfig.html#a2f4125b43133f05c382d959c990d76df" title="PBCConfig::ydInPixel" alt="" coords="470,273,621,300"/>
+</map>

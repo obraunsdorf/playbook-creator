@@ -1,0 +1,30 @@
+<map id="src/pbcVersion.h" name="src/pbcVersion.h">
+<area shape="rect" id="node2" href="$mainDialog_8cpp.html" title="src/dialogs/mainDialog.cpp" alt="" coords="196,717,375,744"/>
+<area shape="rect" id="node3" href="$main_8cpp.html" title="This is the main file. " alt="" coords="35,717,132,744"/>
+<area shape="rect" id="node4" href="$pbcPath_8h.html" title="src/models/pbcPath.h" alt="" coords="465,80,613,107"/>
+<area shape="rect" id="node23" href="$pbcStorage_8cpp.html" title="src/util/pbcStorage.cpp" alt="" coords="1321,717,1476,744"/>
+<area shape="rect" id="node5" href="$pbcCustomRouteView_8h.html" title="src/gui/pbcCustomRouteView.h" alt="" coords="189,312,395,339"/>
+<area shape="rect" id="node10" href="$pbcMotion_8h.html" title="src/models/pbcMotion.h" alt="" coords="755,229,916,256"/>
+<area shape="rect" id="node14" href="$pbcPlayer_8h.html" title="src/models/pbcPlayer.h" alt="" coords="1077,312,1235,339"/>
+<area shape="rect" id="node26" href="$pbcPath_8cpp.html" title="src/models/pbcPath.cpp" alt="" coords="289,155,452,181"/>
+<area shape="rect" id="node27" href="$pbcRoute_8h.html" title="src/models/pbcRoute.h" alt="" coords="549,229,707,256"/>
+<area shape="rect" id="node29" href="$pbcVirtualMovement_8h.html" title="src/models/pbcVirtualMovement.h" alt="" coords="578,155,797,181"/>
+<area shape="rect" id="node6" href="$pbcCustomRouteDialog_8h.html" title="src/dialogs/pbcCustomRoute\lDialog.h" alt="" coords="434,395,624,437"/>
+<area shape="rect" id="node9" href="$pbcCustomRouteView_8cpp.html" title="src/gui/pbcCustomRouteView.cpp" alt="" coords="188,403,409,429"/>
+<area shape="rect" id="node7" href="$pbcCustomRouteDialog_8cpp.html" title="src/dialogs/pbcCustomRoute\lDialog.cpp" alt="" coords="510,710,700,751"/>
+<area shape="rect" id="node8" href="$pbcPlayerView_8cpp.html" title="src/gui/pbcPlayerView.cpp" alt="" coords="567,485,744,512"/>
+<area shape="rect" id="node11" href="$pbcCreateMotionRouteDialog_8h.html" title="src/dialogs/pbcCreateMotion\lRouteDialog.h" alt="" coords="666,305,853,346"/>
+<area shape="rect" id="node13" href="$pbcMotion_8cpp.html" title="src/models/pbcMotion.cpp" alt="" coords="878,312,1052,339"/>
+<area shape="rect" id="node12" href="$pbcCreateMotionRouteDialog_8cpp.html" title="src/dialogs/pbcCreateMotion\lRouteDialog.cpp" alt="" coords="843,710,1031,751"/>
+<area shape="rect" id="node15" href="$pbcPlayerView_8h.html" title="src/gui/pbcPlayerView.h" alt="" coords="700,403,863,429"/>
+<area shape="rect" id="node17" href="$pbcFormation_8h.html" title="src/models/pbcFormation.h" alt="" coords="1190,403,1369,429"/>
+<area shape="rect" id="node18" href="$pbcPlay_8h.html" title="src/models/pbcPlay.h" alt="" coords="1097,485,1244,512"/>
+<area shape="rect" id="node25" href="$pbcPlayer_8cpp.html" title="src/models/pbcPlayer.cpp" alt="" coords="941,403,1115,429"/>
+<area shape="rect" id="node16" href="$pbcPlayView_8cpp.html" title="src/gui/pbcPlayView.cpp" alt="" coords="931,635,1097,661"/>
+<area shape="rect" id="node19" href="$pbcPlayView_8h.html" title="src/gui/pbcPlayView.h" alt="" coords="981,560,1133,587"/>
+<area shape="rect" id="node21" href="$pbcStorage_8h.html" title="src/util/pbcStorage.h" alt="" coords="1122,635,1264,661"/>
+<area shape="rect" id="node24" href="$pbcPlay_8cpp.html" title="src/models/pbcPlay.cpp" alt="" coords="1208,560,1371,587"/>
+<area shape="rect" id="node20" href="$mainDialog_8h.html" title="src/dialogs/mainDialog.h" alt="" coords="43,635,207,661"/>
+<area shape="rect" id="node22" href="$pbcPlaybook_8cpp.html" title="src/models/pbcPlaybook.cpp" alt="" coords="1098,717,1288,744"/>
+<area shape="rect" id="node28" href="$pbcRoute_8cpp.html" title="src/models/pbcRoute.cpp" alt="" coords="420,312,591,339"/>
+</map>

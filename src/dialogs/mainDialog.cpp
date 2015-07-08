@@ -1,3 +1,24 @@
+/** @file mainDialog.cpp
+    This file is part of Playbook Creator.
+
+    Playbook Creator is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Playbook Creator is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Playbook Creator.  If not, see <http://www.gnu.org/licenses/>.
+
+    Copyright 2015 Oliver Braunsdorf
+
+    @author Oliver Braunsdorf
+*/
+
 #include "mainDialog.h"
 #include "ui_mainDialog.h"
 #include "QResizeEvent"
@@ -31,6 +52,9 @@ MainDialog::MainDialog(QWidget *parent) :
     updateTitle(false);
 }
 
+/**
+ * @brief shows the main window graphically at application startup
+ */
 void MainDialog::show() {
     QMainWindow::show();
 
@@ -60,6 +84,11 @@ void MainDialog::show() {
     }
 }
 
+/**
+ * @brief adds / deletes an "*" to / from the window title depending on
+ * saved / modified state of the current playbook
+ * @param saved true if the playbook is saved, false if it is modified
+ */
 void MainDialog::updateTitle(bool saved) {
     // TODO(obr): refactor this whole method and logic behind
     std::string windowTitle = "Playbook Creator V" +
@@ -73,6 +102,12 @@ void MainDialog::updateTitle(bool saved) {
     this->setWindowTitle(QString::fromStdString(windowTitle));
 }
 
+/**
+ * @brief Enables all menu actions.
+ *
+ * Some of the menu actions are disabled at application startup, because they
+ * don't make sense when no playbook is loaded (e.g. action for saving a playbook)
+ */
 void MainDialog::enableMenuOptions() {
     QList<QAction*> actionList = this->findChildren<QAction*>();
     for(QAction* action : actionList) {
@@ -82,6 +117,13 @@ void MainDialog::enableMenuOptions() {
     }
 }
 
+
+/**
+ * @brief A Qt dialog slot which is triggered when the main window is resized.
+ *
+ * It forces the embedded PBCPlayView to repaint adapting the new size
+ * @param e contains resizing meta data
+ */
 void MainDialog::resizeEvent(QResizeEvent* e) {
     unsigned int width = ui->graphicsView->width();
     unsigned int height = ui->graphicsView->height();
@@ -93,10 +135,18 @@ void MainDialog::resizeEvent(QResizeEvent* e) {
     }
 }
 
+
+/**
+ * @brief Terminates the application
+ */
 void MainDialog::exit() {
     QApplication::quit();
 }
 
+
+/**
+ * @brief Loads a new play into the embedded PBCPlayView
+ */
 void MainDialog::showNewPlay() {
     QMessageBox::StandardButton button =
             QMessageBox::warning(this,
@@ -136,6 +186,11 @@ void MainDialog::showNewPlay() {
     }
 }
 
+
+/**
+ * @brief Gets a play by name from the Playbook and loads it into the embedded
+ * PBCPlayView
+ */
 void MainDialog::openPlay() {
     bool ok;
     QStringList playList;
@@ -170,10 +225,16 @@ void MainDialog::openPlay() {
     }
 }
 
+/**
+ * @brief Shows a simple dialog with information about the application
+ */
 void MainDialog::showAboutDialog() {
     QMessageBox::about(this, "About", "Playbook Creator by Oliver Braunsdorf");
 }
 
+/**
+ * @brief Saves the current play displayed by the embedded PBCPlayView to the playbook
+ */
 void MainDialog::savePlay() {
     try {
         _playView->savePlay();
@@ -185,6 +246,10 @@ void MainDialog::savePlay() {
     updateTitle(true);
 }
 
+/**
+ * @brief Saves the current play displayed by the embedded PBCPlayView with a
+ * new name to the playbook.
+ */
 void MainDialog::savePlayAs() {
     bool nameOk;
     bool codeOk;
@@ -212,6 +277,11 @@ void MainDialog::savePlayAs() {
     }
 }
 
+
+/**
+ * @brief Saves the current formation from the play displayed by the embedded
+ * PBCPlayView with a new name to the playbook.
+ */
 void MainDialog::saveFormationAs() {
     bool ok;
     QString formationName = QInputDialog::getText(
@@ -230,6 +300,9 @@ void MainDialog::saveFormationAs() {
     }
 }
 
+/**
+ * @brief Resets the application and create a new empty playbook
+ */
 void MainDialog::newPlaybook() {
     bool ok;
     QString name = QInputDialog::getText(
@@ -244,6 +317,9 @@ void MainDialog::newPlaybook() {
     }
 }
 
+/**
+ * @brief Saves the playbook persistently to a file after asking for a file name.
+ */
 void MainDialog::savePlaybookAs() {
     std::string stdFile = PBCPlaybook::getInstance()->name() + ".pbc";
     QFileDialog fileDialog(
@@ -271,6 +347,9 @@ void MainDialog::savePlaybookAs() {
     }
 }
 
+/**
+ * @brief Loads a playbook from a file which is specified by an open-dialog.
+ */
 void MainDialog::openPlaybook() {
     QFileDialog fileDialog(this, "Open Playbook", "",
                            "PBC Files (*.pbc);;All Files (*.*)");
@@ -295,6 +374,14 @@ void MainDialog::openPlaybook() {
     }
 }
 
+/**
+ * @brief Exports the playbook to a PDF file.
+ *
+ * After file name and location have been asked, the PBCExportPDFDialog is
+ * invoked to ask for the printing parameters. The PBCStorage is called, which
+ * actually implements the PDF printing logic
+ *
+ */
 void MainDialog::exportAsPDF() {
     PBCExportPDFDialog exportDialog;
     exportDialog.setWindowModality(Qt::ApplicationModal);

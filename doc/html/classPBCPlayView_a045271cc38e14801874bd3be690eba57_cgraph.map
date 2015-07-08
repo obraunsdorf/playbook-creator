@@ -1,0 +1,7 @@
+<map id="PBCPlayView::saveFormation" name="PBCPlayView::saveFormation">
+<area shape="rect" id="node2" href="$classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145" title="PBCSingleton\&lt; PBCPlaybook\l \&gt;::getInstance" alt="" coords="971,23,1170,65"/>
+<area shape="rect" id="node3" href="$classPBCPlaybook.html#a5ff4f751239998b9d357085ce53afc92" title="PBCPlaybook::addFormation" alt="" coords="254,31,445,57"/>
+<area shape="rect" id="node4" href="$classPBCStorage.html#a0a2a4dfd0303176fb524407204822ffd" title="PBCStorage::automaticSave\lPlaybook" alt="" coords="494,82,685,123"/>
+<area shape="rect" id="node5" href="$classPBCStorage.html#affea0f13e99cce945d62c098ed007c38" title="PBCStorage::writeToCurrent\lPlaybookFile" alt="" coords="733,82,923,123"/>
+<area shape="rect" id="node6" href="$classPBCVersion.html#adfce927070fc1e2574951b15f7b19b66" title="PBCVersion::getVersionString" alt="" coords="971,89,1170,116"/>
+</map>

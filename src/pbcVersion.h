@@ -1,9 +1,34 @@
+/** @file pbcVersion.h
+    This file is part of Playbook Creator.
+
+    Playbook Creator is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Playbook Creator is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Playbook Creator.  If not, see <http://www.gnu.org/licenses/>.
+
+    Copyright 2015 Oliver Braunsdorf
+
+    @author Oliver Braunsdorf
+    @brief This is the version file. It has been created automatically by version.py which is located in the base directory.
+*/
 #ifndef VERSION_H
 #define VERSION_H
 
 #include <string>
 #include <sstream>
 #include <vector>
+
+/**
+ * @brief The PBCVersion class is used to determine the version of Playbook Creator at runtime and compare it to the version of playbooks saved in .pbc files
+ */
 class PBCVersion {
  private:
     static int compareInt(int n, int m) {
@@ -19,13 +44,24 @@ class PBCVersion {
  public:
     static const unsigned int MAJOR = 0;
     static const unsigned int MINOR = 3;
-    static const unsigned int REVISION = 27;
-    static const unsigned int BUILD = 1506011024;
+    static const unsigned int REVISION = 28;
+    static const unsigned int BUILD = 1507081100;
 
+	/**
+    * @brief compares the string of the current version to another version string
+    * @param otherVersion the other versionx string
+    * @return the result of compareVersions()
+    */
     static int compareCurrentVersionTo(const std::string& otherVersion) {
         return compareVersions(getVersionString(), otherVersion);
     }
 
+    /**
+     * @brief compares two version strings
+     * @param v1
+     * @param v2
+     * @return -1 if v1 < v2, 0 if v1 == v2 and 1 if v1 > v2
+     */
     static int compareVersions(const std::string& v1, const std::string& v2) {
         std::vector<std::string> versionNumbers1;
         std::stringstream ss1(v1);
@@ -70,6 +106,10 @@ class PBCVersion {
         }
     }
 
+    /**
+     * @brief builds the full version string
+     * @return the full version string
+     */
     static std::string getVersionString() {
         std::stringstream versionString;
         versionString << MAJOR << '.'
@@ -79,6 +119,10 @@ class PBCVersion {
         return versionString.str();
     }
 
+    /**
+     * @brief builds a simple version string which only includes MAJOR and MINOR version numbers
+     * @return a simple version string
+     */
     static std::string getSimpleVersionString() {
         std::stringstream versionString;
         versionString << MAJOR << '.' << MINOR;

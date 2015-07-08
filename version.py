@@ -58,6 +58,27 @@ def main():
 	# writer version header file
 	versionFile = open(versionFileName, "w+")
 
+	versionFile.write("/** @file pbcVersion.h\n")
+	versionFile.write("    This file is part of Playbook Creator.\n\n")
+
+	versionFile.write("    Playbook Creator is free software: you can redistribute it and/or modify\n")
+	versionFile.write("    it under the terms of the GNU General Public License as published by\n")
+	versionFile.write("    the Free Software Foundation, either version 3 of the License, or\n")
+	versionFile.write("    (at your option) any later version.\n\n")
+
+	versionFile.write("    Playbook Creator is distributed in the hope that it will be useful,\n")
+	versionFile.write("    but WITHOUT ANY WARRANTY; without even the implied warranty of\n")
+	versionFile.write("    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n")
+	versionFile.write("    GNU General Public License for more details.\n\n")
+
+	versionFile.write("    You should have received a copy of the GNU General Public License\n")
+	versionFile.write("    along with Playbook Creator.  If not, see <http://www.gnu.org/licenses/>.\n\n")
+	versionFile.write("    Copyright 2015 Oliver Braunsdorf\n\n")
+
+	versionFile.write("    @author Oliver Braunsdorf\n")
+	versionFile.write("    @brief This is the version file. It has been created automatically by version.py which is located in the base directory.\n")
+	versionFile.write("*/\n")
+
 	versionFile.write("#ifndef VERSION_H\n")
 	versionFile.write("#define VERSION_H\n")
 	versionFile.write("\n")
@@ -65,7 +86,11 @@ def main():
 	versionFile.write("#include <string>\n")
 	versionFile.write("#include <sstream>\n")
 	versionFile.write("#include <vector>\n")
+	versionFile.write("\n")
 
+	versionFile.write("/**\n")
+	versionFile.write(" * @brief The PBCVersion class is used to determine the version of Playbook Creator at runtime and compare it to the version of playbooks saved in .pbc files\n")
+	versionFile.write(" */\n")
 	versionFile.write("class PBCVersion {\n")
 	versionFile.write(" private:\n")
 	versionFile.write("    static int compareInt(int n, int m) {\n")
@@ -86,11 +111,23 @@ def main():
 	versionFile.write("    static const unsigned int BUILD = " + str(BUILD) + ";\n")
 	versionFile.write("\n")
 
+	versionFile.write("	/**\n")
+	versionFile.write("    * @brief compares the string of the current version to another version string\n")
+	versionFile.write("    * @param otherVersion the other versionx string\n")
+	versionFile.write("    * @return the result of compareVersions()\n")
+	versionFile.write("    */\n")
 	versionFile.write("    static int compareCurrentVersionTo(const std::string& otherVersion) {\n")
 	versionFile.write("        return compareVersions(getVersionString(), otherVersion);\n")
 	versionFile.write("    }\n")
 	versionFile.write("\n")
 
+	
+	versionFile.write("    /**\n")
+	versionFile.write("     * @brief compares two version strings\n")
+	versionFile.write("     * @param v1\n")
+	versionFile.write("     * @param v2\n")
+	versionFile.write("     * @return -1 if v1 < v2, 0 if v1 == v2 and 1 if v1 > v2\n")
+	versionFile.write("     */\n")
 	versionFile.write("    static int compareVersions(const std::string& v1, const std::string& v2) {\n")
 	versionFile.write("        std::vector<std::string> versionNumbers1;\n")
 	versionFile.write("        std::stringstream ss1(v1);\n")
@@ -138,6 +175,10 @@ def main():
 	versionFile.write("    }\n")
 	versionFile.write("\n")
 
+	versionFile.write("    /**\n")
+	versionFile.write("     * @brief builds the full version string\n")
+	versionFile.write("     * @return the full version string\n")
+	versionFile.write("     */\n")
 	versionFile.write("    static std::string getVersionString() {\n")
 	versionFile.write("        std::stringstream versionString;\n")
 	versionFile.write("        versionString << MAJOR << '.'\n")
@@ -148,6 +189,10 @@ def main():
 	versionFile.write("    }\n")
 	versionFile.write("\n")
 
+	versionFile.write("    /**\n")
+	versionFile.write("     * @brief builds a simple version string which only includes MAJOR and MINOR version numbers\n")
+	versionFile.write("     * @return a simple version string\n")
+	versionFile.write("     */\n")
 	versionFile.write("    static std::string getSimpleVersionString() {\n")
 	versionFile.write("        std::stringstream versionString;\n")
 	versionFile.write("        versionString << MAJOR << '.' << MINOR;\n")

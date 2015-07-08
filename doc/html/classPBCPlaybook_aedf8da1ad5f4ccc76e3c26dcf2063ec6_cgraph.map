@@ -1,0 +1,6 @@
+<map id="PBCPlaybook::addCategory" name="PBCPlaybook::addCategory">
+<area shape="rect" id="node2" href="$classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145" title="PBCSingleton\&lt; PBCStorage\l \&gt;::getInstance" alt="" coords="723,5,912,46"/>
+<area shape="rect" id="node3" href="$classPBCStorage.html#a0a2a4dfd0303176fb524407204822ffd" title="PBCStorage::automaticSave\lPlaybook" alt="" coords="241,63,431,105"/>
+<area shape="rect" id="node4" href="$classPBCStorage.html#affea0f13e99cce945d62c098ed007c38" title="PBCStorage::writeToCurrent\lPlaybookFile" alt="" coords="480,63,669,105"/>
+<area shape="rect" id="node5" href="$classPBCVersion.html#adfce927070fc1e2574951b15f7b19b66" title="PBCVersion::getVersionString" alt="" coords="718,71,917,97"/>
+</map>

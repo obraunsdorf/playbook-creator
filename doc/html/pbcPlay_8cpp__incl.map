@@ -1,0 +1,15 @@
+<map id="src/models/pbcPlay.cpp" name="src/models/pbcPlay.cpp">
+<area shape="rect" id="node2" href="$pbcPlay_8h.html" title="pbcPlay.h" alt="" coords="869,80,948,107"/>
+<area shape="rect" id="node5" href="$pbcPlaybook_8h.html" title="models/pbcPlaybook.h" alt="" coords="844,560,997,587"/>
+<area shape="rect" id="node10" href="$pbcCategory_8h.html" title="models/pbcCategory.h" alt="" coords="347,643,500,669"/>
+<area shape="rect" id="node19" href="$pbcDeclarations_8h.html" title="util/pbcDeclarations.h" alt="" coords="1334,560,1481,587"/>
+<area shape="rect" id="node22" href="$pbcPlayer_8h.html" title="models/pbcPlayer.h" alt="" coords="1547,229,1684,256"/>
+<area shape="rect" id="node34" href="$pbcFormation_8h.html" title="models/pbcFormation.h" alt="" coords="1537,155,1695,181"/>
+<area shape="rect" id="node6" href="$pbcSingleton_8h.html" title="util/pbcSingleton.h" alt="" coords="525,643,653,669"/>
+<area shape="rect" id="node23" href="$pbcRoute_8h.html" title="models/pbcRoute.h" alt="" coords="1801,312,1935,339"/>
+<area shape="rect" id="node25" href="$pbcPath_8h.html" title="models/pbcPath.h" alt="" coords="1523,485,1649,512"/>
+<area shape="rect" id="node31" href="$pbcMotion_8h.html" title="models/pbcMotion.h" alt="" coords="1293,312,1432,339"/>
+<area shape="rect" id="node32" href="$pbcColor_8h.html" title="models/pbcColor.h" alt="" coords="1877,560,2007,587"/>
+<area shape="rect" id="node24" href="$pbcVirtualMovement_8h.html" title="models/pbcVirtualMovement.h" alt="" coords="1806,403,2004,429"/>
+<area shape="rect" id="node26" href="$pbcVersion_8h.html" title="This is the version file. It has been created automatically by version.py which is located in the bas..." alt="" coords="2032,560,2131,587"/>
+</map>

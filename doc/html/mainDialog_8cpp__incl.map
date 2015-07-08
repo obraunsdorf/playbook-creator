@@ -1,0 +1,21 @@
+<map id="src/dialogs/mainDialog.cpp" name="src/dialogs/mainDialog.cpp">
+<area shape="rect" id="node2" href="$mainDialog_8h.html" title="mainDialog.h" alt="" coords="1809,80,1908,107"/>
+<area shape="rect" id="node16" href="$pbcPlaybook_8h.html" title="models/pbcPlaybook.h" alt="" coords="2155,576,2308,603"/>
+<area shape="rect" id="node28" href="$pbcVersion_8h.html" title="This is the version file. It has been created automatically by version.py which is located in the bas..." alt="" coords="1131,576,1229,603"/>
+<area shape="rect" id="node35" href="$pbcConfig_8h.html" title="util/pbcConfig.h" alt="" coords="1929,493,2041,520"/>
+<area shape="rect" id="node36" href="$pbcPlayerView_8h.html" title="gui/pbcPlayerView.h" alt="" coords="371,229,511,256"/>
+<area shape="rect" id="node39" href="$pbcExportPdfDialog_8h.html" title="dialogs/pbcExportPdfDialog.h" alt="" coords="109,80,304,107"/>
+<area shape="rect" id="node44" href="$pbcStorage_8h.html" title="util/pbcStorage.h" alt="" coords="2519,80,2639,107"/>
+<area shape="rect" id="node46" href="$pbcExceptions_8h.html" title="util/pbcExceptions.h" alt="" coords="3115,80,3255,107"/>
+<area shape="rect" id="node4" href="$pbcPlayView_8h.html" title="gui/pbcPlayView.h" alt="" coords="2016,155,2145,181"/>
+<area shape="rect" id="node5" href="$pbcGridIronView_8h.html" title="gui/pbcGridIronView.h" alt="" coords="1601,493,1751,520"/>
+<area shape="rect" id="node15" href="$pbcPlay_8h.html" title="models/pbcPlay.h" alt="" coords="2118,229,2244,256"/>
+<area shape="rect" id="node6" href="$pbcDeclarations_8h.html" title="util/pbcDeclarations.h" alt="" coords="1387,576,1535,603"/>
+<area shape="rect" id="node11" href="$pbcColor_8h.html" title="models/pbcColor.h" alt="" coords="1635,576,1764,603"/>
+<area shape="rect" id="node20" href="$pbcCategory_8h.html" title="models/pbcCategory.h" alt="" coords="2525,659,2677,685"/>
+<area shape="rect" id="node25" href="$pbcPlayer_8h.html" title="models/pbcPlayer.h" alt="" coords="1101,312,1237,339"/>
+<area shape="rect" id="node17" href="$pbcSingleton_8h.html" title="util/pbcSingleton.h" alt="" coords="2855,659,2984,685"/>
+<area shape="rect" id="node26" href="$pbcRoute_8h.html" title="models/pbcRoute.h" alt="" coords="1155,403,1289,429"/>
+<area shape="rect" id="node27" href="$pbcPath_8h.html" title="models/pbcPath.h" alt="" coords="1195,493,1321,520"/>
+<area shape="rect" id="node31" href="$pbcMotion_8h.html" title="models/pbcMotion.h" alt="" coords="789,403,928,429"/>
+</map>

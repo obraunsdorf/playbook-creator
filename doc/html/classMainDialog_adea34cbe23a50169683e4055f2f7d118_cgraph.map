@@ -1,0 +1,26 @@
+<map id="MainDialog::show" name="MainDialog::show">
+<area shape="rect" id="node2" href="$classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145" title="PBCSingleton\&lt; PBCConfig\l \&gt;::getInstance" alt="" coords="1139,201,1322,242"/>
+<area shape="rect" id="node3" href="$classPBCConfig.html#aa53e90655aa5b8b1c6e2cc2d31649f42" title="PBCConfig::setCanvasSize" alt="" coords="182,339,367,365"/>
+<area shape="rect" id="node6" href="$classMainDialog.html#a2b31fc8d3c34d3805d85c60bfb493ef3" title="MainDialog::newPlaybook" alt="" coords="884,60,1057,87"/>
+<area shape="rect" id="node11" href="$classMainDialog.html#ac61e42f39d9d59204ccd9ccab0c9e439" title="MainDialog::openPlaybook" alt="" coords="186,212,363,239"/>
+<area shape="rect" id="node4" href="$classPBCConfig.html#a2c32c5c9d4b30628a792b031ff6c7367" title="PBCConfig::canvasWidth" alt="" coords="418,339,590,365"/>
+<area shape="rect" id="node5" href="$classPBCConfig.html#a23212fbdf16e45599fdf6ba9121c26c4" title="PBCConfig::canvasHeight" alt="" coords="416,389,592,416"/>
+<area shape="rect" id="node7" href="$classPBCPlaybook.html#a0caea9069b3a788439ddd76c27dd3644" title="PBCPlaybook::resetToNewEmpty\lPlaybook" alt="" coords="1120,23,1341,65"/>
+<area shape="rect" id="node10" href="$classPBCStorage.html#aaf7035643b7ab3f271e5afc79602df49" title="PBCStorage::init" alt="" coords="1171,89,1291,116"/>
+<area shape="rect" id="node8" href="$classPBCVersion.html#adfce927070fc1e2574951b15f7b19b66" title="PBCVersion::getVersionString" alt="" coords="1390,5,1589,32"/>
+<area shape="rect" id="node9" href="$classPBCPlaybook.html#acda790f9c44395f55dbdb28980ffb643" title="PBCPlaybook::name" alt="" coords="1417,56,1561,83"/>
+<area shape="rect" id="node12" href="$classPBCStorage.html#a2ca6fb0847d9cb1f7a556e9283b22a5c" title="PBCStorage::loadPlaybook" alt="" coords="640,237,821,264"/>
+<area shape="rect" id="node13" href="$classPBCPlayView.html#a0e51c3b992fc0ad4f24d5d0ddb5139ff" title="PBCPlayView::resetPlay" alt="" coords="420,288,588,315"/>
+<area shape="rect" id="node14" href="$classPBCPlayView.html#a56b25c32d584ac9a60e4bfaa3e5a2c52" title="PBCPlayView::repaint" alt="" coords="655,389,807,416"/>
+<area shape="rect" id="node15" href="$classPBCGridIronView.html#ab5a5b9d1fa0347628a96eb68142d946c" title="PBCGridIronView::paintLine" alt="" coords="878,440,1063,467"/>
+<area shape="rect" id="node19" href="$classPBCGridIronView.html#a8e6c906cc82605d52e309231e23e22df" title="PBCGridIronView::paintBall" alt="" coords="879,389,1062,416"/>
+<area shape="rect" id="node23" href="$classPBCGridIronView.html#a22e804cb91fb256dbc8dcae500115bc5" title="PBCGridIronView::paintBorder" alt="" coords="871,339,1070,365"/>
+<area shape="rect" id="node24" href="$classPBCConfig.html#a2c78b92ce2c979cb5e9ced8df0656758" title="PBCConfig::playNameSize" alt="" coords="880,541,1061,568"/>
+<area shape="rect" id="node25" href="$classPBCPlayView.html#a02d4f151181bdce8ade1e607efeb1ebe" title="PBCPlayView::paintPlayName" alt="" coords="869,491,1072,517"/>
+<area shape="rect" id="node16" href="$classPBCColor.html#a9bd938a1ea8488f5169e22d6284c086b" title="PBCColor::r" alt="" coords="1184,389,1277,416"/>
+<area shape="rect" id="node17" href="$classPBCColor.html#a4b5056b93c013a32d3c99d0ede37fa68" title="PBCColor::g" alt="" coords="1183,440,1279,467"/>
+<area shape="rect" id="node18" href="$classPBCColor.html#a5529702cce647e074061b135e9641133" title="PBCColor::b" alt="" coords="1183,491,1279,517"/>
+<area shape="rect" id="node20" href="$classPBCConfig.html#abb36b4eb9f9604822d0e6f2c8e53b523" title="PBCConfig::ballColor" alt="" coords="1157,288,1304,315"/>
+<area shape="rect" id="node21" href="$classPBCConfig.html#af545ab28aa4a5a23828489e94115ca5c" title="PBCConfig::ballWidth" alt="" coords="1155,339,1306,365"/>
+<area shape="rect" id="node22" href="$classPBCConfig.html#a2f4125b43133f05c382d959c990d76df" title="PBCConfig::ydInPixel" alt="" coords="1414,440,1565,467"/>
+</map>

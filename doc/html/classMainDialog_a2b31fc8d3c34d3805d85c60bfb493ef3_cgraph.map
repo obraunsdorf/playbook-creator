@@ -1,0 +1,7 @@
+<map id="MainDialog::newPlaybook" name="MainDialog::newPlaybook">
+<area shape="rect" id="node2" href="$classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145" title="PBCSingleton\&lt; PBCPlaybook\l \&gt;::getInstance" alt="" coords="238,5,437,46"/>
+<area shape="rect" id="node3" href="$classPBCPlaybook.html#a0caea9069b3a788439ddd76c27dd3644" title="PBCPlaybook::resetToNewEmpty\lPlaybook" alt="" coords="227,70,448,111"/>
+<area shape="rect" id="node6" href="$classPBCStorage.html#aaf7035643b7ab3f271e5afc79602df49" title="PBCStorage::init" alt="" coords="277,136,397,163"/>
+<area shape="rect" id="node4" href="$classPBCVersion.html#adfce927070fc1e2574951b15f7b19b66" title="PBCVersion::getVersionString" alt="" coords="497,52,695,79"/>
+<area shape="rect" id="node5" href="$classPBCPlaybook.html#acda790f9c44395f55dbdb28980ffb643" title="PBCPlaybook::name" alt="" coords="524,103,668,129"/>
+</map>

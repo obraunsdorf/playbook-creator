@@ -1,0 +1,22 @@
+<map id="PBCVersion::getVersionString" name="PBCVersion::getVersionString">
+<area shape="rect" id="node2" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="1080,25,1131,52"/>
+<area shape="rect" id="node3" href="$classPBCPlaybook.html#a0caea9069b3a788439ddd76c27dd3644" title="PBCPlaybook::resetToNewEmpty\lPlaybook" alt="" coords="253,54,475,95"/>
+<area shape="rect" id="node7" href="$classPBCVersion.html#a3a511e7360288edbcb4c48b383022173" title="PBCVersion::compareCurrent\lVersionTo" alt="" coords="267,119,461,161"/>
+<area shape="rect" id="node8" href="$classPBCStorage.html#affea0f13e99cce945d62c098ed007c38" title="PBCStorage::writeToCurrent\lPlaybookFile" alt="" coords="269,191,459,233"/>
+<area shape="rect" id="node4" href="$classMainDialog.html#a2b31fc8d3c34d3805d85c60bfb493ef3" title="MainDialog::newPlaybook" alt="" coords="533,101,707,128"/>
+<area shape="rect" id="node6" href="$classPBCPlaybook.html#a4c837cadd31b392e76aca691c9db7660" title="PBCPlaybook::PBCPlaybook" alt="" coords="523,51,717,77"/>
+<area shape="rect" id="node5" href="$classMainDialog.html#adea34cbe23a50169683e4055f2f7d118" title="MainDialog::show" alt="" coords="798,51,925,77"/>
+<area shape="rect" id="node9" href="$classPBCStorage.html#aa4227135351e78990b614fe8ae22528d" title="PBCStorage::savePlaybook" alt="" coords="527,285,713,312"/>
+<area shape="rect" id="node14" href="$classPBCStorage.html#a0a2a4dfd0303176fb524407204822ffd" title="PBCStorage::automaticSave\lPlaybook" alt="" coords="525,191,715,233"/>
+<area shape="rect" id="node10" href="$classMainDialog.html#a77c48e54c77429c2ccd312882fbb8314" title="MainDialog::savePlaybookAs" alt="" coords="1009,257,1202,284"/>
+<area shape="rect" id="node11" href="$classMainDialog.html#a07bf9c63196e3734da8d55a3ac8d95d7" title="MainDialog::savePlay" alt="" coords="1277,257,1427,284"/>
+<area shape="rect" id="node12" href="$classMainDialog.html#a8da35770b3156f7ed4372f80d253e035" title="MainDialog::savePlayAs" alt="" coords="1269,308,1435,335"/>
+<area shape="rect" id="node13" href="$classMainDialog.html#a9f64cdb2db46aa45933e1b56649e0da5" title="MainDialog::saveFormationAs" alt="" coords="1253,207,1451,233"/>
+<area shape="rect" id="node15" href="$classPBCPlaybook.html#a5ff4f751239998b9d357085ce53afc92" title="PBCPlaybook::addFormation" alt="" coords="766,203,957,229"/>
+<area shape="rect" id="node17" href="$classPBCPlaybook.html#abdd81cb820053d92190e4da1ca7dfb25" title="PBCPlaybook::addRoute" alt="" coords="777,152,945,179"/>
+<area shape="rect" id="node19" href="$classPBCPlaybook.html#aedf8da1ad5f4ccc76e3c26dcf2063ec6" title="PBCPlaybook::addCategory" alt="" coords="768,101,955,128"/>
+<area shape="rect" id="node20" href="$classPBCPlaybook.html#aa3f6f02fe94cecfee7d499a187730557" title="PBCPlaybook::addPlay" alt="" coords="782,253,941,280"/>
+<area shape="rect" id="node16" href="$classPBCPlayView.html#a045271cc38e14801874bd3be690eba57" title="PBCPlayView::saveFormation" alt="" coords="1006,207,1205,233"/>
+<area shape="rect" id="node18" href="$classPBCCustomRouteDialog.html#ad712365d49d86d3ddf17db4868e3467c" title="PBCCustomRouteDialog\l::accept" alt="" coords="1021,141,1189,182"/>
+<area shape="rect" id="node21" href="$classPBCPlayView.html#aa686eb7c0be0e4664f9ebe0ebf66c643" title="PBCPlayView::savePlay" alt="" coords="1022,308,1189,335"/>
+</map>

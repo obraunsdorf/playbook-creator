@@ -1,0 +1,13 @@
+<map id="PBCPlaybook::name" name="PBCPlaybook::name">
+<area shape="rect" id="node2" href="$classMainDialog.html#a77c48e54c77429c2ccd312882fbb8314" title="MainDialog::savePlaybookAs" alt="" coords="211,56,405,83"/>
+<area shape="rect" id="node6" href="$classMainDialog.html#a567b1e30661d4bfbceb68dc79d5f8ba6" title="MainDialog::exportAsPDF" alt="" coords="221,107,395,133"/>
+<area shape="rect" id="node7" href="$classPBCPlaybook.html#a0caea9069b3a788439ddd76c27dd3644" title="PBCPlaybook::resetToNewEmpty\lPlaybook" alt="" coords="197,158,419,199"/>
+<area shape="rect" id="node12" href="$classPBCPlaybook.html#a6005ef57c150f2a36d91747989f76649" title="PBCPlaybook::setName" alt="" coords="225,224,391,251"/>
+<area shape="rect" id="node3" href="$classMainDialog.html#a07bf9c63196e3734da8d55a3ac8d95d7" title="MainDialog::savePlay" alt="" coords="491,5,640,32"/>
+<area shape="rect" id="node4" href="$classMainDialog.html#a8da35770b3156f7ed4372f80d253e035" title="MainDialog::savePlayAs" alt="" coords="483,56,648,83"/>
+<area shape="rect" id="node5" href="$classMainDialog.html#a9f64cdb2db46aa45933e1b56649e0da5" title="MainDialog::saveFormationAs" alt="" coords="467,107,664,133"/>
+<area shape="rect" id="node8" href="$classMainDialog.html#a2b31fc8d3c34d3805d85c60bfb493ef3" title="MainDialog::newPlaybook" alt="" coords="479,161,652,188"/>
+<area shape="rect" id="node11" href="$classPBCPlaybook.html#a4c837cadd31b392e76aca691c9db7660" title="PBCPlaybook::PBCPlaybook" alt="" coords="468,212,663,239"/>
+<area shape="rect" id="node9" href="$classMainDialog.html#adea34cbe23a50169683e4055f2f7d118" title="MainDialog::show" alt="" coords="713,161,839,188"/>
+<area shape="rect" id="node10" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="888,161,939,188"/>
+</map>

@@ -1,17 +1,16 @@
 #!/bin/bash
 
-### only edit here #################################
-baseDir="/home/oliver/workspace/playbook-creator/" #
-####################################################
-
+baseDir=$(pwd)"/"
 
 toolDir=$baseDir"tools/"
-buildDir=$baseDir"build-PlaybookCreator-Desktop-Debug/"
+buildDir=$baseDir"build/"
 srcDir=$baseDir"src/"
+binDir=$baseDir"bin/"
 
 MAJOR_VERSION_NUMBER=0
 MINOR_VERSION_NUMBER=3
 
+echo "base directory: " $baseDir
 echo "build directory: " $buildDir
 
 set -e
@@ -21,3 +20,6 @@ set -e
 (cd $toolDir && python checkStyle.py)
 (cd $buildDir && qmake $srcDir"PlaybookCreator.pro" -r -spec linux-g++-64 CONFIG+=debug)
 (cd $buildDir && make)
+(cd $baseDir && mkdir -p $binDir)
+(mv $buildDir"PlaybookCreator" $binDir)
+(cd $baseDir && doxygen)

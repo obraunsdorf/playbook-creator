@@ -1,0 +1,12 @@
+<map id="PBCGridIronView::paintBorder" name="PBCGridIronView::paintBorder">
+<area shape="rect" id="node2" href="$classPBCPlayView.html#a56b25c32d584ac9a60e4bfaa3e5a2c52" title="PBCPlayView::repaint" alt="" coords="253,81,405,108"/>
+<area shape="rect" id="node3" href="$classPBCPlayView.html#ad58eb69c8cdfc98c34cdcee24c52613f" title="PBCPlayView::PBCPlayView" alt="" coords="457,5,653,32"/>
+<area shape="rect" id="node4" href="$classPBCPlayView.html#a0e51c3b992fc0ad4f24d5d0ddb5139ff" title="PBCPlayView::resetPlay" alt="" coords="471,56,639,83"/>
+<area shape="rect" id="node8" href="$classPBCPlayView.html#abaeb0d52eecf6b3d534744ec2df78dd9" title="PBCPlayView::createNewPlay" alt="" coords="453,107,656,133"/>
+<area shape="rect" id="node10" href="$classPBCPlayView.html#adaa2f8faaca76814a17e8b3438f3953b" title="PBCPlayView::showPlay" alt="" coords="469,157,640,184"/>
+<area shape="rect" id="node5" href="$classMainDialog.html#ac61e42f39d9d59204ccd9ccab0c9e439" title="MainDialog::openPlaybook" alt="" coords="705,56,882,83"/>
+<area shape="rect" id="node6" href="$classMainDialog.html#adea34cbe23a50169683e4055f2f7d118" title="MainDialog::show" alt="" coords="931,56,1058,83"/>
+<area shape="rect" id="node7" href="$main_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97" title="main" alt="" coords="1107,56,1157,83"/>
+<area shape="rect" id="node9" href="$classMainDialog.html#a7ce9538f3910d024a5052f4dbcb8adae" title="MainDialog::showNewPlay" alt="" coords="704,107,883,133"/>
+<area shape="rect" id="node11" href="$classMainDialog.html#ac0233e5c20e5f57b724210bb8014dbfa" title="MainDialog::openPlay" alt="" coords="719,157,868,184"/>
+</map>

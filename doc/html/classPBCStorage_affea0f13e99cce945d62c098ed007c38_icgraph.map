@@ -1,0 +1,15 @@
+<map id="PBCStorage::writeToCurrentPlaybookFile" name="PBCStorage::writeToCurrentPlaybookFile">
+<area shape="rect" id="node2" href="$classPBCStorage.html#aa4227135351e78990b614fe8ae22528d" title="PBCStorage::savePlaybook" alt="" coords="246,31,431,57"/>
+<area shape="rect" id="node7" href="$classPBCStorage.html#a0a2a4dfd0303176fb524407204822ffd" title="PBCStorage::automaticSave\lPlaybook" alt="" coords="243,103,434,145"/>
+<area shape="rect" id="node3" href="$classMainDialog.html#a77c48e54c77429c2ccd312882fbb8314" title="MainDialog::savePlaybookAs" alt="" coords="726,56,919,83"/>
+<area shape="rect" id="node4" href="$classMainDialog.html#a07bf9c63196e3734da8d55a3ac8d95d7" title="MainDialog::savePlay" alt="" coords="995,107,1144,133"/>
+<area shape="rect" id="node5" href="$classMainDialog.html#a8da35770b3156f7ed4372f80d253e035" title="MainDialog::savePlayAs" alt="" coords="987,56,1152,83"/>
+<area shape="rect" id="node6" href="$classMainDialog.html#a9f64cdb2db46aa45933e1b56649e0da5" title="MainDialog::saveFormationAs" alt="" coords="971,5,1168,32"/>
+<area shape="rect" id="node8" href="$classPBCPlaybook.html#a5ff4f751239998b9d357085ce53afc92" title="PBCPlaybook::addFormation" alt="" coords="483,60,674,87"/>
+<area shape="rect" id="node10" href="$classPBCPlaybook.html#abdd81cb820053d92190e4da1ca7dfb25" title="PBCPlaybook::addRoute" alt="" coords="495,161,663,188"/>
+<area shape="rect" id="node12" href="$classPBCPlaybook.html#aedf8da1ad5f4ccc76e3c26dcf2063ec6" title="PBCPlaybook::addCategory" alt="" coords="485,212,672,239"/>
+<area shape="rect" id="node13" href="$classPBCPlaybook.html#aa3f6f02fe94cecfee7d499a187730557" title="PBCPlaybook::addPlay" alt="" coords="499,111,658,137"/>
+<area shape="rect" id="node9" href="$classPBCPlayView.html#a045271cc38e14801874bd3be690eba57" title="PBCPlayView::saveFormation" alt="" coords="723,5,922,32"/>
+<area shape="rect" id="node11" href="$classPBCCustomRouteDialog.html#ad712365d49d86d3ddf17db4868e3467c" title="PBCCustomRouteDialog\l::accept" alt="" coords="739,158,907,199"/>
+<area shape="rect" id="node14" href="$classPBCPlayView.html#aa686eb7c0be0e4664f9ebe0ebf66c643" title="PBCPlayView::savePlay" alt="" coords="739,107,906,133"/>
+</map>

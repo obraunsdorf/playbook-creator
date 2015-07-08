@@ -1,0 +1,11 @@
+<map id="MainDialog::savePlay" name="MainDialog::savePlay">
+<area shape="rect" id="node2" href="$classPBCPlayView.html#aa686eb7c0be0e4664f9ebe0ebf66c643" title="PBCPlayView::savePlay" alt="" coords="203,50,370,76"/>
+<area shape="rect" id="node8" href="$classMainDialog.html#a77c48e54c77429c2ccd312882fbb8314" title="MainDialog::savePlaybookAs" alt="" coords="419,150,613,176"/>
+<area shape="rect" id="node3" href="$classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145" title="PBCSingleton\&lt; PBCPlaybook\l \&gt;::getInstance" alt="" coords="1139,142,1338,184"/>
+<area shape="rect" id="node4" href="$classPBCPlaybook.html#aa3f6f02fe94cecfee7d499a187730557" title="PBCPlaybook::addPlay" alt="" coords="437,50,595,76"/>
+<area shape="rect" id="node5" href="$classPBCStorage.html#a0a2a4dfd0303176fb524407204822ffd" title="PBCStorage::automaticSave\lPlaybook" alt="" coords="662,72,853,113"/>
+<area shape="rect" id="node6" href="$classPBCStorage.html#affea0f13e99cce945d62c098ed007c38" title="PBCStorage::writeToCurrent\lPlaybookFile" alt="" coords="901,213,1091,254"/>
+<area shape="rect" id="node7" href="$classPBCVersion.html#adfce927070fc1e2574951b15f7b19b66" title="PBCVersion::getVersionString" alt="" coords="1139,220,1338,247"/>
+<area shape="rect" id="node9" href="$classPBCPlaybook.html#acda790f9c44395f55dbdb28980ffb643" title="PBCPlaybook::name" alt="" coords="685,212,829,239"/>
+<area shape="rect" id="node10" href="$classPBCStorage.html#aa4227135351e78990b614fe8ae22528d" title="PBCStorage::savePlaybook" alt="" coords="665,263,850,290"/>
+</map>
