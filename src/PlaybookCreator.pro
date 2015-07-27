@@ -35,8 +35,11 @@ TEMPLATE = app
 QMAKE_CXXFLAGS += -std=c++11
 
 INCLUDEPATH += /usr/local/include/botan-1.10/
-LIBS += -lboost_serialization \
-    -lbotan-1.10
+#LIBS += -lboost_serialization \
+#    -lbotan-1.10
+
+LIBS += /usr/local/lib/libbotan-1.10.a \
+    /usr/lib/x86_64-linux-gnu/libboost_serialization.a
 
 SOURCES += main.cpp\
     dialogs/mainDialog.cpp \
