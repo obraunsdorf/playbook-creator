@@ -32,11 +32,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = PlaybookCreator
 TEMPLATE = app
 
-QMAKE_CXXFLAGS += -std=c++11
+QMAKE_CXXFLAGS += -std=c++11 -Wno-unused-local-typedefs
 
-INCLUDEPATH += /usr/local/include/botan-1.10/
-#LIBS += -lboost_serialization \
-#    -lbotan-1.10
+INCLUDEPATH += ../include/
 
 LIBS += /usr/local/lib/libbotan-1.10.a \
     /usr/lib/x86_64-linux-gnu/libboost_serialization.a
