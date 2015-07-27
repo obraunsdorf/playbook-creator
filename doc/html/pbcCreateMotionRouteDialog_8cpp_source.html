@@ -88,168 +88,169 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">pbcCreateMotionRouteDialog.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="pbcCreateMotionRouteDialog_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pbcCreateMotionRouteDialog_8h.html">pbcCreateMotionRouteDialog.h</a>&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;ui_pbcCreateMotionRouteDialog.h&quot;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pbcExceptions_8h.html">util/pbcExceptions.h</a>&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pbcPlaybook_8h.html">models/pbcPlaybook.h</a>&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pbcStorage_8h.html">util/pbcStorage.h</a>&quot;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;QFileDialog&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;QMessageBox&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;QInputDialog&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keywordtype">void</span> PBCCreateMotionRouteDialog::exec() {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordtype">int</span> returnCode = QDialog::exec();</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">if</span>(returnCode == QDialog::Rejected) {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        _createdPaths.clear();</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    }</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;}</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keywordtype">void</span> PBCCreateMotionRouteDialog::saveRoute(<a class="code" href="pbcPlaybook_8h.html#af6391670c42755423ed1fc2045ccc8c5">PBCRouteSP</a> routeSP) {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">bool</span> successful = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        successful = <a class="code" href="classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145">PBCPlaybook::getInstance</a>()-&gt;<a class="code" href="classPBCPlaybook.html#abdd81cb820053d92190e4da1ca7dfb25">addRoute</a>(routeSP);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    } <span class="keywordflow">catch</span>(<span class="keyword">const</span> <a class="code" href="classPBCStorageException.html">PBCStorageException</a>&amp; e) {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        QMessageBox::information(<span class="keyword">this</span>, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;You have to save the playbook to a file before you can add routes&quot;</span>);  <span class="comment">//NOLINT</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        savePlaybookOnRouteCreation();</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    }</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordflow">if</span>(successful == <span class="keyword">false</span>) {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        QMessageBox::StandardButton button =</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                QMessageBox::question(<span class="keyword">this</span>,</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                                      <span class="stringliteral">&quot;Create custom route&quot;</span>,</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                                      QString::fromStdString(<span class="stringliteral">&quot;There already exists a route named &#39;&quot;</span> + routeSP-&gt;name() + <span class="stringliteral">&quot;&#39;. Do you want to overwrite it?&quot;</span>),  <span class="comment">// NOLINT</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                                      QMessageBox::Ok | QMessageBox::Cancel);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordflow">if</span>(button == QMessageBox::Ok) {</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            <span class="keywordtype">bool</span> result;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <span class="keywordflow">try</span> {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                result = <a class="code" href="classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145">PBCPlaybook::getInstance</a>()-&gt;<a class="code" href="classPBCPlaybook.html#abdd81cb820053d92190e4da1ca7dfb25">addRoute</a>(routeSP,</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                                                              <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            } <span class="keywordflow">catch</span>(<span class="keyword">const</span> <a class="code" href="classPBCStorageException.html">PBCStorageException</a>&amp; e) {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                QMessageBox::information(<span class="keyword">this</span>, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;You have to save the playbook to a file before you can add routes&quot;</span>);  <span class="comment">//NOLINT</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                savePlaybookOnRouteCreation();</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            }</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            assert(result == <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        }</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    }</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keywordtype">void</span> PBCCreateMotionRouteDialog::savePlaybookOnRouteCreation() {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    std::string stdFile = <a class="code" href="classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145">PBCPlaybook::getInstance</a>()-&gt;<a class="code" href="classPBCPlaybook.html#acda790f9c44395f55dbdb28980ffb643">name</a>() + <span class="stringliteral">&quot;.pbc&quot;</span>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    QFileDialog fileDialog(</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                <span class="keyword">this</span>, <span class="stringliteral">&quot;Save Playbook&quot;</span>,</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                QString::fromStdString(stdFile),</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                <span class="stringliteral">&quot;PBC Files (*.pbc);;All Files (*.*)&quot;</span>);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    fileDialog.setFileMode(QFileDialog::AnyFile);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    fileDialog.setAcceptMode(QFileDialog::AcceptSave);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">if</span>(fileDialog.exec() == <span class="keyword">true</span>) {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        QStringList files = fileDialog.selectedFiles();</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        assert(files.size() == 1);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        QString fileName = files.first();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordtype">bool</span> ok;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        QString password = QInputDialog::getText(<span class="keyword">this</span>, <span class="stringliteral">&quot;Save Playbook&quot;</span>,</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                                                 <span class="stringliteral">&quot;Enter encryption password&quot;</span>,</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                                                 QLineEdit::Password, <span class="stringliteral">&quot;&quot;</span>, &amp;ok);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">if</span>(ok == <span class="keyword">true</span>) {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <a class="code" href="classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145">PBCStorage::getInstance</a>()-&gt;<a class="code" href="classPBCStorage.html#aa4227135351e78990b614fe8ae22528d">savePlaybook</a>(password.toStdString(),</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                                                    fileName.toStdString());</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        }</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    }</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="classPBCCreateMotionRouteDialog.html#a329bad7deaeffe908374f1041fd7f75a">   76</a></span>&#160;<a class="code" href="classPBCCreateMotionRouteDialog.html#a329bad7deaeffe908374f1041fd7f75a">PBCCreateMotionRouteDialog::PBCCreateMotionRouteDialog</a>(QWidget *parent) :</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    QDialog(parent),</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    ui(new Ui::<a class="code" href="classPBCCreateMotionRouteDialog.html">PBCCreateMotionRouteDialog</a>) {</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    ui-&gt;setupUi(<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    this-&gt;setWindowModality(Qt::ApplicationModal);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    exec();</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="classPBCCreateMotionRouteDialog.html#a0a843b57d258051a3601e99a3b7e4dd4">   84</a></span>&#160;<a class="code" href="classPBCCreateMotionRouteDialog.html#a0a843b57d258051a3601e99a3b7e4dd4">PBCCreateMotionRouteDialog::~PBCCreateMotionRouteDialog</a>() {</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keyword">delete</span> ui;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="classPBCCreateMotionRouteDialog.html#a55a86662fefdf9de1263ca5ad4a35da9">   88</a></span>&#160;<a class="code" href="pbcMotion_8h.html#ab56060b5319c46b4545e52e71e2e5453">PBCMotionSP</a> <a class="code" href="classPBCCreateMotionRouteDialog.html#a55a86662fefdf9de1263ca5ad4a35da9">PBCCreateMotionRouteDialog::getCreatedMotion</a>() {</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordflow">if</span>(_createdPaths.size() == 0) {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <a class="code" href="pbcMotion_8h.html#ab56060b5319c46b4545e52e71e2e5453">PBCMotionSP</a> createdMotion(<span class="keyword">new</span> <a class="code" href="classPBCMotion.html">PBCMotion</a>());</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keywordflow">for</span>(<a class="code" href="pbcPath_8h.html#a2f401523016ba2408538d2e998086fce">PBCPathSP</a> path : _createdPaths) {</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            createdMotion-&gt;addPath(path);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        }</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keywordflow">return</span> createdMotion;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    }</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;}</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
-<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="classPBCCreateMotionRouteDialog.html#ac38bba31e3cf0aa23a1a7bf794f7492a">  100</a></span>&#160;<a class="code" href="pbcPlaybook_8h.html#af6391670c42755423ed1fc2045ccc8c5">PBCRouteSP</a> <a class="code" href="classPBCCreateMotionRouteDialog.html#ac38bba31e3cf0aa23a1a7bf794f7492a">PBCCreateMotionRouteDialog::getCreatedRoute</a>() {</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">if</span>(_createdPaths.size() == 0) {</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        std::string routeName = ui-&gt;nameEdit-&gt;text().toStdString();</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        std::string routeCodeName = ui-&gt;codeNameEdit-&gt;text().toStdString();</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <a class="code" href="pbcPlaybook_8h.html#af6391670c42755423ed1fc2045ccc8c5">PBCRouteSP</a> createdRoute(<span class="keyword">new</span> <a class="code" href="classPBCRoute.html">PBCRoute</a>(routeName,</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                                             routeCodeName,</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                                             _createdPaths));</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keywordflow">if</span>(routeName != <span class="stringliteral">&quot;&quot;</span>) {</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            saveRoute(createdRoute);</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        }</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="keywordflow">return</span> createdRoute;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    }</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;}</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
-<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="classPBCCreateMotionRouteDialog.html#a4f1cfa7ac5c55a15f738f5aac087d638">  117</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classPBCCreateMotionRouteDialog.html#a4f1cfa7ac5c55a15f738f5aac087d638">PBCCreateMotionRouteDialog::addPath</a>() {</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <a class="code" href="pbcPath_8h.html#a2f401523016ba2408538d2e998086fce">PBCPathSP</a> path(<span class="keyword">new</span> <a class="code" href="classPBCPath.html">PBCPath</a>(ui-&gt;xSpinBox-&gt;value(),</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                               ui-&gt;ySpinBox-&gt;value(),</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                               ui-&gt;isArcCheckBox-&gt;isChecked(),</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                               ui-&gt;isConcaveCheckBox-&gt;isChecked()));</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    _createdPaths.push_back(path);</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    QString s;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordflow">if</span>(path-&gt;isArc() == <span class="keyword">true</span>) {</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="keywordflow">if</span>(path-&gt;isConcave()) {</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            s = <span class="stringliteral">&quot;arc(concave): &quot;</span>;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            s = <span class="stringliteral">&quot;arc(convex): &quot;</span>;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        }</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        s = <span class="stringliteral">&quot;line: &quot;</span>;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    }</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    s.append(QString::number(path-&gt;endpoint().get&lt;0&gt;()));</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    s.append(<span class="stringliteral">&quot;, &quot;</span>);</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    s.append(QString::number(path-&gt;endpoint().get&lt;1&gt;()));</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    ui-&gt;listWidget-&gt;addItem(s);</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;}</div>
-<div class="ttc" id="classPBCRoute_html"><div class="ttname"><a href="classPBCRoute.html">PBCRoute</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcRoute_8h_source.html#l00018">pbcRoute.h:18</a></div></div>
-<div class="ttc" id="pbcMotion_8h_html_ab56060b5319c46b4545e52e71e2e5453"><div class="ttname"><a href="pbcMotion_8h.html#ab56060b5319c46b4545e52e71e2e5453">PBCMotionSP</a></div><div class="ttdeci">boost::shared_ptr&lt; PBCMotion &gt; PBCMotionSP</div><div class="ttdef"><b>Definition:</b> <a href="pbcMotion_8h_source.html#l00014">pbcMotion.h:14</a></div></div>
-<div class="ttc" id="classPBCStorage_html_aa4227135351e78990b614fe8ae22528d"><div class="ttname"><a href="classPBCStorage.html#aa4227135351e78990b614fe8ae22528d">PBCStorage::savePlaybook</a></div><div class="ttdeci">void savePlaybook(const std::string &amp;password, const std::string &amp;fileName)</div><div class="ttdef"><b>Definition:</b> <a href="pbcStorage_8cpp_source.html#l00102">pbcStorage.cpp:102</a></div></div>
+<a href="pbcCreateMotionRouteDialog_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pbcCreateMotionRouteDialog_8h.html">pbcCreateMotionRouteDialog.h</a>&quot;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &quot;ui_pbcCreateMotionRouteDialog.h&quot;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pbcExceptions_8h.html">util/pbcExceptions.h</a>&quot;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pbcPlaybook_8h.html">models/pbcPlaybook.h</a>&quot;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pbcStorage_8h.html">util/pbcStorage.h</a>&quot;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;QFileDialog&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;QMessageBox&gt;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;QInputDialog&gt;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keywordtype">void</span> PBCCreateMotionRouteDialog::exec() {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">int</span> returnCode = QDialog::exec();</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">if</span>(returnCode == QDialog::Rejected) {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        _createdPaths.clear();</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    }</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keywordtype">void</span> PBCCreateMotionRouteDialog::saveRoute(<a class="code" href="pbcPlaybook_8h.html#af6391670c42755423ed1fc2045ccc8c5">PBCRouteSP</a> routeSP) {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">bool</span> successful = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        successful = <a class="code" href="classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145">PBCPlaybook::getInstance</a>()-&gt;<a class="code" href="classPBCPlaybook.html#abdd81cb820053d92190e4da1ca7dfb25">addRoute</a>(routeSP);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    } <span class="keywordflow">catch</span>(<span class="keyword">const</span> <a class="code" href="classPBCStorageException.html">PBCStorageException</a>&amp; e) {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        QMessageBox::information(<span class="keyword">this</span>, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;You have to save the playbook to a file before you can add routes&quot;</span>);  <span class="comment">//NOLINT</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        savePlaybookOnRouteCreation();</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    }</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">if</span>(successful == <span class="keyword">false</span>) {</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        QMessageBox::StandardButton button =</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                QMessageBox::question(<span class="keyword">this</span>,</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                                      <span class="stringliteral">&quot;Create custom route&quot;</span>,</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                                      QString::fromStdString(<span class="stringliteral">&quot;There already exists a route named &#39;&quot;</span> + routeSP-&gt;name() + <span class="stringliteral">&quot;&#39;. Do you want to overwrite it?&quot;</span>),  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                                      QMessageBox::Ok | QMessageBox::Cancel);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">if</span>(button == QMessageBox::Ok) {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keywordtype">bool</span> result;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                result = <a class="code" href="classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145">PBCPlaybook::getInstance</a>()-&gt;<a class="code" href="classPBCPlaybook.html#abdd81cb820053d92190e4da1ca7dfb25">addRoute</a>(routeSP,</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                                                              <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            } <span class="keywordflow">catch</span>(<span class="keyword">const</span> <a class="code" href="classPBCStorageException.html">PBCStorageException</a>&amp; e) {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                QMessageBox::information(<span class="keyword">this</span>, <span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;You have to save the playbook to a file before you can add routes&quot;</span>);  <span class="comment">//NOLINT</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                savePlaybookOnRouteCreation();</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            assert(result == <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    }</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;}</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keywordtype">void</span> PBCCreateMotionRouteDialog::savePlaybookOnRouteCreation() {</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    std::string stdFile = <a class="code" href="classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145">PBCPlaybook::getInstance</a>()-&gt;<a class="code" href="classPBCPlaybook.html#acda790f9c44395f55dbdb28980ffb643">name</a>() + <span class="stringliteral">&quot;.pbc&quot;</span>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    QFileDialog fileDialog(</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                <span class="keyword">this</span>, <span class="stringliteral">&quot;Save Playbook&quot;</span>,</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                QString::fromStdString(stdFile),</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                <span class="stringliteral">&quot;PBC Files (*.pbc);;All Files (*.*)&quot;</span>);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    fileDialog.setFileMode(QFileDialog::AnyFile);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    fileDialog.setAcceptMode(QFileDialog::AcceptSave);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordflow">if</span>(fileDialog.exec() == <span class="keyword">true</span>) {</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        QStringList files = fileDialog.selectedFiles();</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        assert(files.size() == 1);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        QString fileName = files.first();</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keywordtype">bool</span> ok;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        QString password = QInputDialog::getText(<span class="keyword">this</span>, <span class="stringliteral">&quot;Save Playbook&quot;</span>,</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                                                 <span class="stringliteral">&quot;Enter encryption password&quot;</span>,</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                                                 QLineEdit::Password, <span class="stringliteral">&quot;&quot;</span>, &amp;ok);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="keywordflow">if</span>(ok == <span class="keyword">true</span>) {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            <a class="code" href="classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145">PBCStorage::getInstance</a>()-&gt;<a class="code" href="classPBCStorage.html#aa4227135351e78990b614fe8ae22528d">savePlaybook</a>(password.toStdString(),</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                                                    fileName.toStdString());</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        }</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    }</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;}</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
+<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="classPBCCreateMotionRouteDialog.html#a329bad7deaeffe908374f1041fd7f75a">   97</a></span>&#160;<a class="code" href="classPBCCreateMotionRouteDialog.html#a329bad7deaeffe908374f1041fd7f75a">PBCCreateMotionRouteDialog::PBCCreateMotionRouteDialog</a>(QWidget *parent) :</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    QDialog(parent),</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    ui(new Ui::<a class="code" href="classPBCCreateMotionRouteDialog.html">PBCCreateMotionRouteDialog</a>) {</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    ui-&gt;setupUi(<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    this-&gt;setWindowModality(Qt::ApplicationModal);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    exec();</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;}</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="classPBCCreateMotionRouteDialog.html#a0a843b57d258051a3601e99a3b7e4dd4">  105</a></span>&#160;<a class="code" href="classPBCCreateMotionRouteDialog.html#a0a843b57d258051a3601e99a3b7e4dd4">PBCCreateMotionRouteDialog::~PBCCreateMotionRouteDialog</a>() {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keyword">delete</span> ui;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;}</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00109"></a><span class="lineno"><a class="line" href="classPBCCreateMotionRouteDialog.html#a55a86662fefdf9de1263ca5ad4a35da9">  109</a></span>&#160;<a class="code" href="pbcMotion_8h.html#ab56060b5319c46b4545e52e71e2e5453">PBCMotionSP</a> <a class="code" href="classPBCCreateMotionRouteDialog.html#a55a86662fefdf9de1263ca5ad4a35da9">PBCCreateMotionRouteDialog::getCreatedMotion</a>() {</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordflow">if</span>(_createdPaths.size() == 0) {</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <a class="code" href="pbcMotion_8h.html#ab56060b5319c46b4545e52e71e2e5453">PBCMotionSP</a> createdMotion(<span class="keyword">new</span> <a class="code" href="classPBCMotion.html">PBCMotion</a>());</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keywordflow">for</span>(<a class="code" href="pbcPath_8h.html#a2f401523016ba2408538d2e998086fce">PBCPathSP</a> path : _createdPaths) {</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            createdMotion-&gt;addPath(path);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        }</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="keywordflow">return</span> createdMotion;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    }</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;}</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
+<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="classPBCCreateMotionRouteDialog.html#ac38bba31e3cf0aa23a1a7bf794f7492a">  121</a></span>&#160;<a class="code" href="pbcPlaybook_8h.html#af6391670c42755423ed1fc2045ccc8c5">PBCRouteSP</a> <a class="code" href="classPBCCreateMotionRouteDialog.html#ac38bba31e3cf0aa23a1a7bf794f7492a">PBCCreateMotionRouteDialog::getCreatedRoute</a>() {</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordflow">if</span>(_createdPaths.size() == 0) {</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        std::string routeName = ui-&gt;nameEdit-&gt;text().toStdString();</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        std::string routeCodeName = ui-&gt;codeNameEdit-&gt;text().toStdString();</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <a class="code" href="pbcPlaybook_8h.html#af6391670c42755423ed1fc2045ccc8c5">PBCRouteSP</a> createdRoute(<span class="keyword">new</span> <a class="code" href="classPBCRoute.html">PBCRoute</a>(routeName,</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                                             routeCodeName,</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                                             _createdPaths));</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <span class="keywordflow">if</span>(routeName != <span class="stringliteral">&quot;&quot;</span>) {</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            saveRoute(createdRoute);</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        }</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <span class="keywordflow">return</span> createdRoute;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    }</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;}</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
+<div class="line"><a name="l00138"></a><span class="lineno"><a class="line" href="classPBCCreateMotionRouteDialog.html#a4f1cfa7ac5c55a15f738f5aac087d638">  138</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classPBCCreateMotionRouteDialog.html#a4f1cfa7ac5c55a15f738f5aac087d638">PBCCreateMotionRouteDialog::addPath</a>() {</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <a class="code" href="pbcPath_8h.html#a2f401523016ba2408538d2e998086fce">PBCPathSP</a> path(<span class="keyword">new</span> <a class="code" href="classPBCPath.html">PBCPath</a>(ui-&gt;xSpinBox-&gt;value(),</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                               ui-&gt;ySpinBox-&gt;value(),</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                               ui-&gt;isArcCheckBox-&gt;isChecked(),</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                               ui-&gt;isConcaveCheckBox-&gt;isChecked()));</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    _createdPaths.push_back(path);</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    QString s;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordflow">if</span>(path-&gt;isArc() == <span class="keyword">true</span>) {</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        <span class="keywordflow">if</span>(path-&gt;isConcave()) {</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            s = <span class="stringliteral">&quot;arc(concave): &quot;</span>;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            s = <span class="stringliteral">&quot;arc(convex): &quot;</span>;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        }</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        s = <span class="stringliteral">&quot;line: &quot;</span>;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    }</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    s.append(QString::number(path-&gt;endpoint().get&lt;0&gt;()));</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    s.append(<span class="stringliteral">&quot;, &quot;</span>);</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    s.append(QString::number(path-&gt;endpoint().get&lt;1&gt;()));</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    ui-&gt;listWidget-&gt;addItem(s);</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;}</div>
+<div class="ttc" id="classPBCRoute_html"><div class="ttname"><a href="classPBCRoute.html">PBCRoute</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcRoute_8h_source.html#l00039">pbcRoute.h:39</a></div></div>
+<div class="ttc" id="pbcMotion_8h_html_ab56060b5319c46b4545e52e71e2e5453"><div class="ttname"><a href="pbcMotion_8h.html#ab56060b5319c46b4545e52e71e2e5453">PBCMotionSP</a></div><div class="ttdeci">boost::shared_ptr&lt; PBCMotion &gt; PBCMotionSP</div><div class="ttdef"><b>Definition:</b> <a href="pbcMotion_8h_source.html#l00035">pbcMotion.h:35</a></div></div>
+<div class="ttc" id="classPBCStorage_html_aa4227135351e78990b614fe8ae22528d"><div class="ttname"><a href="classPBCStorage.html#aa4227135351e78990b614fe8ae22528d">PBCStorage::savePlaybook</a></div><div class="ttdeci">void savePlaybook(const std::string &amp;password, const std::string &amp;fileName)</div><div class="ttdef"><b>Definition:</b> <a href="pbcStorage_8cpp_source.html#l00123">pbcStorage.cpp:123</a></div></div>
 <div class="ttc" id="pbcCreateMotionRouteDialog_8h_html"><div class="ttname"><a href="pbcCreateMotionRouteDialog_8h.html">pbcCreateMotionRouteDialog.h</a></div></div>
-<div class="ttc" id="classPBCCreateMotionRouteDialog_html_a329bad7deaeffe908374f1041fd7f75a"><div class="ttname"><a href="classPBCCreateMotionRouteDialog.html#a329bad7deaeffe908374f1041fd7f75a">PBCCreateMotionRouteDialog::PBCCreateMotionRouteDialog</a></div><div class="ttdeci">PBCCreateMotionRouteDialog(QWidget *parent=0)</div><div class="ttdef"><b>Definition:</b> <a href="pbcCreateMotionRouteDialog_8cpp_source.html#l00076">pbcCreateMotionRouteDialog.cpp:76</a></div></div>
+<div class="ttc" id="classPBCCreateMotionRouteDialog_html_a329bad7deaeffe908374f1041fd7f75a"><div class="ttname"><a href="classPBCCreateMotionRouteDialog.html#a329bad7deaeffe908374f1041fd7f75a">PBCCreateMotionRouteDialog::PBCCreateMotionRouteDialog</a></div><div class="ttdeci">PBCCreateMotionRouteDialog(QWidget *parent=0)</div><div class="ttdef"><b>Definition:</b> <a href="pbcCreateMotionRouteDialog_8cpp_source.html#l00097">pbcCreateMotionRouteDialog.cpp:97</a></div></div>
 <div class="ttc" id="pbcPlaybook_8h_html"><div class="ttname"><a href="pbcPlaybook_8h.html">pbcPlaybook.h</a></div></div>
 <div class="ttc" id="pbcStorage_8h_html"><div class="ttname"><a href="pbcStorage_8h.html">pbcStorage.h</a></div></div>
-<div class="ttc" id="classPBCPlaybook_html_abdd81cb820053d92190e4da1ca7dfb25"><div class="ttname"><a href="classPBCPlaybook.html#abdd81cb820053d92190e4da1ca7dfb25">PBCPlaybook::addRoute</a></div><div class="ttdeci">bool addRoute(PBCRouteSP route, bool overwrite=false)</div><div class="ttdef"><b>Definition:</b> <a href="pbcPlaybook_8cpp_source.html#l00093">pbcPlaybook.cpp:93</a></div></div>
+<div class="ttc" id="classPBCPlaybook_html_abdd81cb820053d92190e4da1ca7dfb25"><div class="ttname"><a href="classPBCPlaybook.html#abdd81cb820053d92190e4da1ca7dfb25">PBCPlaybook::addRoute</a></div><div class="ttdeci">bool addRoute(PBCRouteSP route, bool overwrite=false)</div><div class="ttdef"><b>Definition:</b> <a href="pbcPlaybook_8cpp_source.html#l00114">pbcPlaybook.cpp:114</a></div></div>
 <div class="ttc" id="pbcExceptions_8h_html"><div class="ttname"><a href="pbcExceptions_8h.html">pbcExceptions.h</a></div></div>
-<div class="ttc" id="classPBCCreateMotionRouteDialog_html_a4f1cfa7ac5c55a15f738f5aac087d638"><div class="ttname"><a href="classPBCCreateMotionRouteDialog.html#a4f1cfa7ac5c55a15f738f5aac087d638">PBCCreateMotionRouteDialog::addPath</a></div><div class="ttdeci">void addPath()</div><div class="ttdef"><b>Definition:</b> <a href="pbcCreateMotionRouteDialog_8cpp_source.html#l00117">pbcCreateMotionRouteDialog.cpp:117</a></div></div>
-<div class="ttc" id="classPBCCreateMotionRouteDialog_html_ac38bba31e3cf0aa23a1a7bf794f7492a"><div class="ttname"><a href="classPBCCreateMotionRouteDialog.html#ac38bba31e3cf0aa23a1a7bf794f7492a">PBCCreateMotionRouteDialog::getCreatedRoute</a></div><div class="ttdeci">PBCRouteSP getCreatedRoute()</div><div class="ttdef"><b>Definition:</b> <a href="pbcCreateMotionRouteDialog_8cpp_source.html#l00100">pbcCreateMotionRouteDialog.cpp:100</a></div></div>
-<div class="ttc" id="pbcPlaybook_8h_html_af6391670c42755423ed1fc2045ccc8c5"><div class="ttname"><a href="pbcPlaybook_8h.html#af6391670c42755423ed1fc2045ccc8c5">PBCRouteSP</a></div><div class="ttdeci">boost::shared_ptr&lt; PBCRoute &gt; PBCRouteSP</div><div class="ttdef"><b>Definition:</b> <a href="pbcPlaybook_8h_source.html#l00017">pbcPlaybook.h:17</a></div></div>
-<div class="ttc" id="classPBCSingleton_html_aa9c8c2f34a8b5b2c47ad1440c9950145"><div class="ttname"><a href="classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145">PBCSingleton&lt; PBCPlaybook &gt;::getInstance</a></div><div class="ttdeci">static PBCPlaybook * getInstance()</div><div class="ttdef"><b>Definition:</b> <a href="pbcSingleton_8h_source.html#l00018">pbcSingleton.h:18</a></div></div>
-<div class="ttc" id="pbcPath_8h_html_a2f401523016ba2408538d2e998086fce"><div class="ttname"><a href="pbcPath_8h.html#a2f401523016ba2408538d2e998086fce">PBCPathSP</a></div><div class="ttdeci">boost::shared_ptr&lt; PBCPath &gt; PBCPathSP</div><div class="ttdef"><b>Definition:</b> <a href="pbcPath_8h_source.html#l00054">pbcPath.h:54</a></div></div>
-<div class="ttc" id="classPBCMotion_html"><div class="ttname"><a href="classPBCMotion.html">PBCMotion</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcMotion_8h_source.html#l00017">pbcMotion.h:17</a></div></div>
-<div class="ttc" id="classPBCStorageException_html"><div class="ttname"><a href="classPBCStorageException.html">PBCStorageException</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcExceptions_8h_source.html#l00029">pbcExceptions.h:29</a></div></div>
-<div class="ttc" id="classPBCCreateMotionRouteDialog_html_a0a843b57d258051a3601e99a3b7e4dd4"><div class="ttname"><a href="classPBCCreateMotionRouteDialog.html#a0a843b57d258051a3601e99a3b7e4dd4">PBCCreateMotionRouteDialog::~PBCCreateMotionRouteDialog</a></div><div class="ttdeci">~PBCCreateMotionRouteDialog()</div><div class="ttdef"><b>Definition:</b> <a href="pbcCreateMotionRouteDialog_8cpp_source.html#l00084">pbcCreateMotionRouteDialog.cpp:84</a></div></div>
-<div class="ttc" id="classPBCPath_html"><div class="ttname"><a href="classPBCPath.html">PBCPath</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcPath_8h_source.html#l00010">pbcPath.h:10</a></div></div>
-<div class="ttc" id="classPBCCreateMotionRouteDialog_html"><div class="ttname"><a href="classPBCCreateMotionRouteDialog.html">PBCCreateMotionRouteDialog</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcCreateMotionRouteDialog_8h_source.html#l00014">pbcCreateMotionRouteDialog.h:14</a></div></div>
-<div class="ttc" id="classPBCCreateMotionRouteDialog_html_a55a86662fefdf9de1263ca5ad4a35da9"><div class="ttname"><a href="classPBCCreateMotionRouteDialog.html#a55a86662fefdf9de1263ca5ad4a35da9">PBCCreateMotionRouteDialog::getCreatedMotion</a></div><div class="ttdeci">PBCMotionSP getCreatedMotion()</div><div class="ttdef"><b>Definition:</b> <a href="pbcCreateMotionRouteDialog_8cpp_source.html#l00088">pbcCreateMotionRouteDialog.cpp:88</a></div></div>
-<div class="ttc" id="classPBCPlaybook_html_acda790f9c44395f55dbdb28980ffb643"><div class="ttname"><a href="classPBCPlaybook.html#acda790f9c44395f55dbdb28980ffb643">PBCPlaybook::name</a></div><div class="ttdeci">std::string name() const </div><div class="ttdef"><b>Definition:</b> <a href="pbcPlaybook_8cpp_source.html#l00146">pbcPlaybook.cpp:146</a></div></div>
+<div class="ttc" id="classPBCCreateMotionRouteDialog_html_a4f1cfa7ac5c55a15f738f5aac087d638"><div class="ttname"><a href="classPBCCreateMotionRouteDialog.html#a4f1cfa7ac5c55a15f738f5aac087d638">PBCCreateMotionRouteDialog::addPath</a></div><div class="ttdeci">void addPath()</div><div class="ttdef"><b>Definition:</b> <a href="pbcCreateMotionRouteDialog_8cpp_source.html#l00138">pbcCreateMotionRouteDialog.cpp:138</a></div></div>
+<div class="ttc" id="classPBCCreateMotionRouteDialog_html_ac38bba31e3cf0aa23a1a7bf794f7492a"><div class="ttname"><a href="classPBCCreateMotionRouteDialog.html#ac38bba31e3cf0aa23a1a7bf794f7492a">PBCCreateMotionRouteDialog::getCreatedRoute</a></div><div class="ttdeci">PBCRouteSP getCreatedRoute()</div><div class="ttdef"><b>Definition:</b> <a href="pbcCreateMotionRouteDialog_8cpp_source.html#l00121">pbcCreateMotionRouteDialog.cpp:121</a></div></div>
+<div class="ttc" id="pbcPlaybook_8h_html_af6391670c42755423ed1fc2045ccc8c5"><div class="ttname"><a href="pbcPlaybook_8h.html#af6391670c42755423ed1fc2045ccc8c5">PBCRouteSP</a></div><div class="ttdeci">boost::shared_ptr&lt; PBCRoute &gt; PBCRouteSP</div><div class="ttdef"><b>Definition:</b> <a href="pbcPlaybook_8h_source.html#l00038">pbcPlaybook.h:38</a></div></div>
+<div class="ttc" id="classPBCSingleton_html_aa9c8c2f34a8b5b2c47ad1440c9950145"><div class="ttname"><a href="classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145">PBCSingleton&lt; PBCPlaybook &gt;::getInstance</a></div><div class="ttdeci">static PBCPlaybook * getInstance()</div><div class="ttdef"><b>Definition:</b> <a href="pbcSingleton_8h_source.html#l00039">pbcSingleton.h:39</a></div></div>
+<div class="ttc" id="pbcPath_8h_html_a2f401523016ba2408538d2e998086fce"><div class="ttname"><a href="pbcPath_8h.html#a2f401523016ba2408538d2e998086fce">PBCPathSP</a></div><div class="ttdeci">boost::shared_ptr&lt; PBCPath &gt; PBCPathSP</div><div class="ttdef"><b>Definition:</b> <a href="pbcPath_8h_source.html#l00075">pbcPath.h:75</a></div></div>
+<div class="ttc" id="classPBCMotion_html"><div class="ttname"><a href="classPBCMotion.html">PBCMotion</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcMotion_8h_source.html#l00038">pbcMotion.h:38</a></div></div>
+<div class="ttc" id="classPBCStorageException_html"><div class="ttname"><a href="classPBCStorageException.html">PBCStorageException</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcExceptions_8h_source.html#l00050">pbcExceptions.h:50</a></div></div>
+<div class="ttc" id="classPBCCreateMotionRouteDialog_html_a0a843b57d258051a3601e99a3b7e4dd4"><div class="ttname"><a href="classPBCCreateMotionRouteDialog.html#a0a843b57d258051a3601e99a3b7e4dd4">PBCCreateMotionRouteDialog::~PBCCreateMotionRouteDialog</a></div><div class="ttdeci">~PBCCreateMotionRouteDialog()</div><div class="ttdef"><b>Definition:</b> <a href="pbcCreateMotionRouteDialog_8cpp_source.html#l00105">pbcCreateMotionRouteDialog.cpp:105</a></div></div>
+<div class="ttc" id="classPBCPath_html"><div class="ttname"><a href="classPBCPath.html">PBCPath</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcPath_8h_source.html#l00031">pbcPath.h:31</a></div></div>
+<div class="ttc" id="classPBCCreateMotionRouteDialog_html"><div class="ttname"><a href="classPBCCreateMotionRouteDialog.html">PBCCreateMotionRouteDialog</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcCreateMotionRouteDialog_8h_source.html#l00035">pbcCreateMotionRouteDialog.h:35</a></div></div>
+<div class="ttc" id="classPBCCreateMotionRouteDialog_html_a55a86662fefdf9de1263ca5ad4a35da9"><div class="ttname"><a href="classPBCCreateMotionRouteDialog.html#a55a86662fefdf9de1263ca5ad4a35da9">PBCCreateMotionRouteDialog::getCreatedMotion</a></div><div class="ttdeci">PBCMotionSP getCreatedMotion()</div><div class="ttdef"><b>Definition:</b> <a href="pbcCreateMotionRouteDialog_8cpp_source.html#l00109">pbcCreateMotionRouteDialog.cpp:109</a></div></div>
+<div class="ttc" id="classPBCPlaybook_html_acda790f9c44395f55dbdb28980ffb643"><div class="ttname"><a href="classPBCPlaybook.html#acda790f9c44395f55dbdb28980ffb643">PBCPlaybook::name</a></div><div class="ttdeci">std::string name() const </div><div class="ttdef"><b>Definition:</b> <a href="pbcPlaybook_8cpp_source.html#l00167">pbcPlaybook.cpp:167</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 8 2015 18:23:39 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jul 27 2015 11:52:44 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

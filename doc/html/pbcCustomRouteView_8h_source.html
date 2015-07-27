@@ -88,48 +88,49 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">pbcCustomRouteView.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="pbcCustomRouteView_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef PBCCUSTOMROUTEVIEW_H</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define PBCCUSTOMROUTEVIEW_H</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pbcGridIronView_8h.html">gui/pbcGridIronView.h</a>&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pbcPath_8h.html">models/pbcPath.h</a>&quot;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pbcRoute_8h.html">models/pbcRoute.h</a>&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;QGraphicsLineItem&gt;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="classPBCCustomRouteView.html">   11</a></span>&#160;<span class="keyword">class </span><a class="code" href="classPBCCustomRouteView.html">PBCCustomRouteView</a> : <span class="keyword">public</span> <a class="code" href="classPBCGridIronView.html">PBCGridIronView</a> {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="classPBCCustomRouteView.html#a1ac0be76e114aa8600455bbc1d7cca65">PBCCustomRouteView</a>(QObject *parent = 0);</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="pbcPlaybook_8h.html#af6391670c42755423ed1fc2045ccc8c5">PBCRouteSP</a> <a class="code" href="classPBCCustomRouteView.html#a7fb062bbd7b93701173ea8da4d481bc1">createRoute</a>(<span class="keyword">const</span> std::string&amp; name,</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                           <span class="keyword">const</span> std::string&amp; codeName);</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classPBCCustomRouteView.html#ad4002a9756c29d5190a9c7afe134efa5">mouseMoveEvent</a>(QGraphicsSceneMouseEvent *event);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classPBCCustomRouteView.html#af9466edd6826e60b9cc9dc1f0dfac684">mouseReleaseEvent</a>(QGraphicsSceneMouseEvent *event);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    QGraphicsLineItem* _lastLine;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    QPointF _routeStartPos;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    QPointF _lastPressPoint;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    std::vector&lt;PBCPathSP&gt; _paths;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;};</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#endif  // PBCCUSTOMROUTEVIEW_H</span></div>
-<div class="ttc" id="classPBCCustomRouteView_html_a1ac0be76e114aa8600455bbc1d7cca65"><div class="ttname"><a href="classPBCCustomRouteView.html#a1ac0be76e114aa8600455bbc1d7cca65">PBCCustomRouteView::PBCCustomRouteView</a></div><div class="ttdeci">PBCCustomRouteView(QObject *parent=0)</div><div class="ttdef"><b>Definition:</b> <a href="pbcCustomRouteView_8cpp_source.html#l00009">pbcCustomRouteView.cpp:9</a></div></div>
-<div class="ttc" id="classPBCCustomRouteView_html"><div class="ttname"><a href="classPBCCustomRouteView.html">PBCCustomRouteView</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcCustomRouteView_8h_source.html#l00011">pbcCustomRouteView.h:11</a></div></div>
+<a href="pbcCustomRouteView_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#ifndef PBCCUSTOMROUTEVIEW_H</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define PBCCUSTOMROUTEVIEW_H</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pbcGridIronView_8h.html">gui/pbcGridIronView.h</a>&quot;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pbcPath_8h.html">models/pbcPath.h</a>&quot;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pbcRoute_8h.html">models/pbcRoute.h</a>&quot;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;QGraphicsLineItem&gt;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="classPBCCustomRouteView.html">   32</a></span>&#160;<span class="keyword">class </span><a class="code" href="classPBCCustomRouteView.html">PBCCustomRouteView</a> : <span class="keyword">public</span> <a class="code" href="classPBCGridIronView.html">PBCGridIronView</a> {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="classPBCCustomRouteView.html#a1ac0be76e114aa8600455bbc1d7cca65">PBCCustomRouteView</a>(QObject *parent = 0);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="pbcPlaybook_8h.html#af6391670c42755423ed1fc2045ccc8c5">PBCRouteSP</a> <a class="code" href="classPBCCustomRouteView.html#a7fb062bbd7b93701173ea8da4d481bc1">createRoute</a>(<span class="keyword">const</span> std::string&amp; name,</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                           <span class="keyword">const</span> std::string&amp; codeName);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classPBCCustomRouteView.html#ad4002a9756c29d5190a9c7afe134efa5">mouseMoveEvent</a>(QGraphicsSceneMouseEvent *event);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classPBCCustomRouteView.html#af9466edd6826e60b9cc9dc1f0dfac684">mouseReleaseEvent</a>(QGraphicsSceneMouseEvent *event);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    QGraphicsLineItem* _lastLine;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    QPointF _routeStartPos;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    QPointF _lastPressPoint;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    std::vector&lt;PBCPathSP&gt; _paths;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;};</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#endif  // PBCCUSTOMROUTEVIEW_H</span></div>
+<div class="ttc" id="classPBCCustomRouteView_html_a1ac0be76e114aa8600455bbc1d7cca65"><div class="ttname"><a href="classPBCCustomRouteView.html#a1ac0be76e114aa8600455bbc1d7cca65">PBCCustomRouteView::PBCCustomRouteView</a></div><div class="ttdeci">PBCCustomRouteView(QObject *parent=0)</div><div class="ttdef"><b>Definition:</b> <a href="pbcCustomRouteView_8cpp_source.html#l00030">pbcCustomRouteView.cpp:30</a></div></div>
+<div class="ttc" id="classPBCCustomRouteView_html"><div class="ttname"><a href="classPBCCustomRouteView.html">PBCCustomRouteView</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcCustomRouteView_8h_source.html#l00032">pbcCustomRouteView.h:32</a></div></div>
 <div class="ttc" id="pbcRoute_8h_html"><div class="ttname"><a href="pbcRoute_8h.html">pbcRoute.h</a></div></div>
-<div class="ttc" id="pbcPlaybook_8h_html_af6391670c42755423ed1fc2045ccc8c5"><div class="ttname"><a href="pbcPlaybook_8h.html#af6391670c42755423ed1fc2045ccc8c5">PBCRouteSP</a></div><div class="ttdeci">boost::shared_ptr&lt; PBCRoute &gt; PBCRouteSP</div><div class="ttdef"><b>Definition:</b> <a href="pbcPlaybook_8h_source.html#l00017">pbcPlaybook.h:17</a></div></div>
-<div class="ttc" id="classPBCCustomRouteView_html_a7fb062bbd7b93701173ea8da4d481bc1"><div class="ttname"><a href="classPBCCustomRouteView.html#a7fb062bbd7b93701173ea8da4d481bc1">PBCCustomRouteView::createRoute</a></div><div class="ttdeci">PBCRouteSP createRoute(const std::string &amp;name, const std::string &amp;codeName)</div><div class="ttdef"><b>Definition:</b> <a href="pbcCustomRouteView_8cpp_source.html#l00042">pbcCustomRouteView.cpp:42</a></div></div>
+<div class="ttc" id="pbcPlaybook_8h_html_af6391670c42755423ed1fc2045ccc8c5"><div class="ttname"><a href="pbcPlaybook_8h.html#af6391670c42755423ed1fc2045ccc8c5">PBCRouteSP</a></div><div class="ttdeci">boost::shared_ptr&lt; PBCRoute &gt; PBCRouteSP</div><div class="ttdef"><b>Definition:</b> <a href="pbcPlaybook_8h_source.html#l00038">pbcPlaybook.h:38</a></div></div>
+<div class="ttc" id="classPBCCustomRouteView_html_a7fb062bbd7b93701173ea8da4d481bc1"><div class="ttname"><a href="classPBCCustomRouteView.html#a7fb062bbd7b93701173ea8da4d481bc1">PBCCustomRouteView::createRoute</a></div><div class="ttdeci">PBCRouteSP createRoute(const std::string &amp;name, const std::string &amp;codeName)</div><div class="ttdef"><b>Definition:</b> <a href="pbcCustomRouteView_8cpp_source.html#l00063">pbcCustomRouteView.cpp:63</a></div></div>
 <div class="ttc" id="pbcGridIronView_8h_html"><div class="ttname"><a href="pbcGridIronView_8h.html">pbcGridIronView.h</a></div></div>
-<div class="ttc" id="classPBCCustomRouteView_html_af9466edd6826e60b9cc9dc1f0dfac684"><div class="ttname"><a href="classPBCCustomRouteView.html#af9466edd6826e60b9cc9dc1f0dfac684">PBCCustomRouteView::mouseReleaseEvent</a></div><div class="ttdeci">void mouseReleaseEvent(QGraphicsSceneMouseEvent *event)</div><div class="ttdef"><b>Definition:</b> <a href="pbcCustomRouteView_8cpp_source.html#l00064">pbcCustomRouteView.cpp:64</a></div></div>
-<div class="ttc" id="classPBCGridIronView_html"><div class="ttname"><a href="classPBCGridIronView.html">PBCGridIronView</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcGridIronView_8h_source.html#l00009">pbcGridIronView.h:9</a></div></div>
-<div class="ttc" id="classPBCCustomRouteView_html_ad4002a9756c29d5190a9c7afe134efa5"><div class="ttname"><a href="classPBCCustomRouteView.html#ad4002a9756c29d5190a9c7afe134efa5">PBCCustomRouteView::mouseMoveEvent</a></div><div class="ttdeci">void mouseMoveEvent(QGraphicsSceneMouseEvent *event)</div><div class="ttdef"><b>Definition:</b> <a href="pbcCustomRouteView_8cpp_source.html#l00049">pbcCustomRouteView.cpp:49</a></div></div>
+<div class="ttc" id="classPBCCustomRouteView_html_af9466edd6826e60b9cc9dc1f0dfac684"><div class="ttname"><a href="classPBCCustomRouteView.html#af9466edd6826e60b9cc9dc1f0dfac684">PBCCustomRouteView::mouseReleaseEvent</a></div><div class="ttdeci">void mouseReleaseEvent(QGraphicsSceneMouseEvent *event)</div><div class="ttdef"><b>Definition:</b> <a href="pbcCustomRouteView_8cpp_source.html#l00085">pbcCustomRouteView.cpp:85</a></div></div>
+<div class="ttc" id="classPBCGridIronView_html"><div class="ttname"><a href="classPBCGridIronView.html">PBCGridIronView</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcGridIronView_8h_source.html#l00030">pbcGridIronView.h:30</a></div></div>
+<div class="ttc" id="classPBCCustomRouteView_html_ad4002a9756c29d5190a9c7afe134efa5"><div class="ttname"><a href="classPBCCustomRouteView.html#ad4002a9756c29d5190a9c7afe134efa5">PBCCustomRouteView::mouseMoveEvent</a></div><div class="ttdeci">void mouseMoveEvent(QGraphicsSceneMouseEvent *event)</div><div class="ttdef"><b>Definition:</b> <a href="pbcCustomRouteView_8cpp_source.html#l00070">pbcCustomRouteView.cpp:70</a></div></div>
 <div class="ttc" id="pbcPath_8h_html"><div class="ttname"><a href="pbcPath_8h.html">pbcPath.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 8 2015 18:23:39 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jul 27 2015 11:52:44 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

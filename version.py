@@ -1,3 +1,28 @@
+"""
+This file is part of Playbook Creator.
+Playbook Creator is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Playbook Creator is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Playbook Creator.  If not, see <http://www.gnu.org/licenses/>.
+
+Copyright 2015 Oliver Braunsdorf
+
+This Pyton script is responsible for creating creating the full version
+number of the Playbook Creator application. It is invoked by the build 
+system. It takes MAJOR and MINOR version numbers as commandline parameters.
+The REVISION number is taken from the svn revision.
+The BUILD number concatenates year, month, day and minute of the day the
+application is being built.
+"""
+
 from __future__ import print_function
 import sys
 import subprocess
@@ -5,8 +30,6 @@ import datetime
 
 def main():
 	versionFileName = "src/pbcVersion.h"
-	BUILD = 150424
-
 	
 	# read major and minor version number from command line
 	if(len(sys.argv) != 3):
@@ -73,6 +96,7 @@ def main():
 
 	versionFile.write("    You should have received a copy of the GNU General Public License\n")
 	versionFile.write("    along with Playbook Creator.  If not, see <http://www.gnu.org/licenses/>.\n\n")
+	
 	versionFile.write("    Copyright 2015 Oliver Braunsdorf\n\n")
 
 	versionFile.write("    @author Oliver Braunsdorf\n")

@@ -1624,7 +1624,9 @@ def CheckForCopyright(filename, lines, error):
 
   # We'll say it should occur by line 10. Don't forget there's a
   # dummy line at the front.
-  for line in xrange(1, min(len(lines), 11)):
+  ### Changed by Oliver Braundsdorf: for line in xrange(1, min(len(lines), 11))
+  ### For my projects it's okay when the Copyright occurs in the first 20 lines! 
+  for line in xrange(1, min(len(lines), 21)):
     if re.search(r'Copyright', lines[line], re.I): break
   else:                       # means no copyright line was found
     error(filename, 0, 'legal/copyright', 5,
@@ -1858,7 +1860,6 @@ def CheckForMultilineCommentsAndStrings(filename, clean_lines, linenum, error):
     error: The function to call with any errors found.
   """
   line = clean_lines.elided[linenum]
-
   # Remove all \\ (escaped backslashes) from the line. They are OK, and the
   # second (escaped) slash may trigger later \" detection erroneously.
   line = line.replace('\\\\', '')
@@ -1870,6 +1871,8 @@ def CheckForMultilineCommentsAndStrings(filename, clean_lines, linenum, error):
           'Consider replacing these with //-style comments, '
           'with #if 0...#endif, '
           'or with more clearly structured multi-line comments.')
+    error(filename, linenum, 'readability/multiline_comment', 5,
+          'count is ' + str(line.count('/*')))
 
   if (line.count('"') - line.count('\\"')) % 2:
     error(filename, linenum, 'readability/multiline_string', 5,

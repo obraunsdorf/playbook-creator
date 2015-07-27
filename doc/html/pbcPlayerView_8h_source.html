@@ -88,60 +88,61 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">pbcPlayerView.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="pbcPlayerView_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef PBCPLAYERVIEW_H</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define PBCPLAYERVIEW_H</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;QGraphicsItemGroup&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;QGraphicsSceneContextMenuEvent&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;boost/shared_ptr.hpp&gt;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pbcPlayer_8h.html">models/pbcPlayer.h</a>&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pbcDeclarations_8h.html">util/pbcDeclarations.h</a>&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="pbcPlayerView_8h.html#aed71bb12ed81897e0ff8ffb36c645b49">   11</a></span>&#160;<span class="keyword">class </span><a class="code" href="classPBCPlayerView.html">PBCPlayerView</a>;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">typedef</span> boost::shared_ptr&lt;PBCPlayerView&gt; <a class="code" href="pbcPlayerView_8h.html#aed71bb12ed81897e0ff8ffb36c645b49">PBCPlayerViewSP</a>;</div>
-<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="pbcPlayerView_8h.html#ac9365cae666a5290d0f177b1ac249e36">   13</a></span>&#160;<span class="keyword">typedef</span> boost::shared_ptr&lt;QGraphicsItem&gt; <a class="code" href="pbcPlayerView_8h.html#ac9365cae666a5290d0f177b1ac249e36">QGraphicsItemSP</a>;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="classPBCPlayerView.html">   15</a></span>&#160;<span class="keyword">class </span><a class="code" href="classPBCPlayerView.html">PBCPlayerView</a> : <span class="keyword">public</span> QObject, <span class="keyword">public</span> QGraphicsItemGroup {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    Q_OBJECT</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="classPBCPlayerView.html#a429525ea8519bf2e81956a1d82abb473">PBCPlayerView</a>(<a class="code" href="pbcPlayer_8h.html#aaf9b2714bf2cb7c23d2737630e45cf09">PBCPlayerSP</a> playerSP);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="code" href="pbcPlayer_8h.html#aaf9b2714bf2cb7c23d2737630e45cf09">PBCPlayerSP</a> _playerSP;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <a class="code" href="pbcDeclarations_8h.html#a4657989e7c733735e6b8db2f71fbdfb1">PBCDPoint</a> _originalPos;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    boost::shared_ptr&lt;QGraphicsEllipseItem&gt; _playerEllipseSP;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    std::vector&lt;boost::shared_ptr&lt;QGraphicsItem&gt;&gt; _routePaths;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    std::vector&lt;boost::shared_ptr&lt;QGraphicsItem&gt;&gt; _motionPaths;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">void</span> repaint();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">void</span> contextMenuEvent(QGraphicsSceneContextMenuEvent *event);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">void</span> mouseReleaseEvent(QGraphicsSceneMouseEvent *event);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">void</span> joinPaths(<span class="keyword">const</span> std::vector&lt;PBCPathSP&gt;&amp; paths,</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                   std::vector&lt;QGraphicsItemSP&gt;* graphicItems,</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                   <a class="code" href="pbcDeclarations_8h.html#a4657989e7c733735e6b8db2f71fbdfb1">PBCDPoint</a> basePoint);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">void</span> applyRoute(<a class="code" href="pbcPlaybook_8h.html#af6391670c42755423ed1fc2045ccc8c5">PBCRouteSP</a> route);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">void</span> applyMotion(<a class="code" href="pbcMotion_8h.html#ab56060b5319c46b4545e52e71e2e5453">PBCMotionSP</a> motion);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">void</span> setColor(<a class="code" href="classPBCColor.html">PBCColor</a> color);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">void</span> setPosition(<span class="keywordtype">double</span> x, <span class="keywordtype">double</span> y);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;};</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif  // PBCPLAYERVIEW_H</span></div>
-<div class="ttc" id="pbcMotion_8h_html_ab56060b5319c46b4545e52e71e2e5453"><div class="ttname"><a href="pbcMotion_8h.html#ab56060b5319c46b4545e52e71e2e5453">PBCMotionSP</a></div><div class="ttdeci">boost::shared_ptr&lt; PBCMotion &gt; PBCMotionSP</div><div class="ttdef"><b>Definition:</b> <a href="pbcMotion_8h_source.html#l00014">pbcMotion.h:14</a></div></div>
-<div class="ttc" id="pbcPlayerView_8h_html_ac9365cae666a5290d0f177b1ac249e36"><div class="ttname"><a href="pbcPlayerView_8h.html#ac9365cae666a5290d0f177b1ac249e36">QGraphicsItemSP</a></div><div class="ttdeci">boost::shared_ptr&lt; QGraphicsItem &gt; QGraphicsItemSP</div><div class="ttdef"><b>Definition:</b> <a href="pbcPlayerView_8h_source.html#l00013">pbcPlayerView.h:13</a></div></div>
+<a href="pbcPlayerView_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#ifndef PBCPLAYERVIEW_H</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define PBCPLAYERVIEW_H</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;QGraphicsItemGroup&gt;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;QGraphicsSceneContextMenuEvent&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;boost/shared_ptr.hpp&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pbcPlayer_8h.html">models/pbcPlayer.h</a>&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pbcDeclarations_8h.html">util/pbcDeclarations.h</a>&quot;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="pbcPlayerView_8h.html#aed71bb12ed81897e0ff8ffb36c645b49">   32</a></span>&#160;<span class="keyword">class </span><a class="code" href="classPBCPlayerView.html">PBCPlayerView</a>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">typedef</span> boost::shared_ptr&lt;PBCPlayerView&gt; <a class="code" href="pbcPlayerView_8h.html#aed71bb12ed81897e0ff8ffb36c645b49">PBCPlayerViewSP</a>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="pbcPlayerView_8h.html#ac9365cae666a5290d0f177b1ac249e36">   34</a></span>&#160;<span class="keyword">typedef</span> boost::shared_ptr&lt;QGraphicsItem&gt; <a class="code" href="pbcPlayerView_8h.html#ac9365cae666a5290d0f177b1ac249e36">QGraphicsItemSP</a>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classPBCPlayerView.html">   36</a></span>&#160;<span class="keyword">class </span><a class="code" href="classPBCPlayerView.html">PBCPlayerView</a> : <span class="keyword">public</span> QObject, <span class="keyword">public</span> QGraphicsItemGroup {</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    Q_OBJECT</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="classPBCPlayerView.html#a429525ea8519bf2e81956a1d82abb473">PBCPlayerView</a>(<a class="code" href="pbcPlayer_8h.html#aaf9b2714bf2cb7c23d2737630e45cf09">PBCPlayerSP</a> playerSP);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="pbcPlayer_8h.html#aaf9b2714bf2cb7c23d2737630e45cf09">PBCPlayerSP</a> _playerSP;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="pbcDeclarations_8h.html#a4657989e7c733735e6b8db2f71fbdfb1">PBCDPoint</a> _originalPos;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    boost::shared_ptr&lt;QGraphicsEllipseItem&gt; _playerEllipseSP;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    std::vector&lt;boost::shared_ptr&lt;QGraphicsItem&gt;&gt; _routePaths;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    std::vector&lt;boost::shared_ptr&lt;QGraphicsItem&gt;&gt; _motionPaths;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> repaint();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> contextMenuEvent(QGraphicsSceneContextMenuEvent *event);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> mouseReleaseEvent(QGraphicsSceneMouseEvent *event);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">void</span> joinPaths(<span class="keyword">const</span> std::vector&lt;PBCPathSP&gt;&amp; paths,</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                   std::vector&lt;QGraphicsItemSP&gt;* graphicItems,</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                   <a class="code" href="pbcDeclarations_8h.html#a4657989e7c733735e6b8db2f71fbdfb1">PBCDPoint</a> basePoint);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">void</span> applyRoute(<a class="code" href="pbcPlaybook_8h.html#af6391670c42755423ed1fc2045ccc8c5">PBCRouteSP</a> route);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">void</span> applyMotion(<a class="code" href="pbcMotion_8h.html#ab56060b5319c46b4545e52e71e2e5453">PBCMotionSP</a> motion);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> setColor(<a class="code" href="classPBCColor.html">PBCColor</a> color);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span> setPosition(<span class="keywordtype">double</span> x, <span class="keywordtype">double</span> y);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;};</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">#endif  // PBCPLAYERVIEW_H</span></div>
+<div class="ttc" id="pbcMotion_8h_html_ab56060b5319c46b4545e52e71e2e5453"><div class="ttname"><a href="pbcMotion_8h.html#ab56060b5319c46b4545e52e71e2e5453">PBCMotionSP</a></div><div class="ttdeci">boost::shared_ptr&lt; PBCMotion &gt; PBCMotionSP</div><div class="ttdef"><b>Definition:</b> <a href="pbcMotion_8h_source.html#l00035">pbcMotion.h:35</a></div></div>
+<div class="ttc" id="pbcPlayerView_8h_html_ac9365cae666a5290d0f177b1ac249e36"><div class="ttname"><a href="pbcPlayerView_8h.html#ac9365cae666a5290d0f177b1ac249e36">QGraphicsItemSP</a></div><div class="ttdeci">boost::shared_ptr&lt; QGraphicsItem &gt; QGraphicsItemSP</div><div class="ttdef"><b>Definition:</b> <a href="pbcPlayerView_8h_source.html#l00034">pbcPlayerView.h:34</a></div></div>
 <div class="ttc" id="pbcDeclarations_8h_html"><div class="ttname"><a href="pbcDeclarations_8h.html">pbcDeclarations.h</a></div></div>
-<div class="ttc" id="pbcPlayer_8h_html_aaf9b2714bf2cb7c23d2737630e45cf09"><div class="ttname"><a href="pbcPlayer_8h.html#aaf9b2714bf2cb7c23d2737630e45cf09">PBCPlayerSP</a></div><div class="ttdeci">boost::shared_ptr&lt; PBCPlayer &gt; PBCPlayerSP</div><div class="ttdef"><b>Definition:</b> <a href="pbcPlayer_8h_source.html#l00017">pbcPlayer.h:17</a></div></div>
-<div class="ttc" id="pbcPlaybook_8h_html_af6391670c42755423ed1fc2045ccc8c5"><div class="ttname"><a href="pbcPlaybook_8h.html#af6391670c42755423ed1fc2045ccc8c5">PBCRouteSP</a></div><div class="ttdeci">boost::shared_ptr&lt; PBCRoute &gt; PBCRouteSP</div><div class="ttdef"><b>Definition:</b> <a href="pbcPlaybook_8h_source.html#l00017">pbcPlaybook.h:17</a></div></div>
-<div class="ttc" id="classPBCPlayerView_html_a429525ea8519bf2e81956a1d82abb473"><div class="ttname"><a href="classPBCPlayerView.html#a429525ea8519bf2e81956a1d82abb473">PBCPlayerView::PBCPlayerView</a></div><div class="ttdeci">PBCPlayerView(PBCPlayerSP playerSP)</div><div class="ttdef"><b>Definition:</b> <a href="pbcPlayerView_8cpp_source.html#l00018">pbcPlayerView.cpp:18</a></div></div>
-<div class="ttc" id="classPBCColor_html"><div class="ttname"><a href="classPBCColor.html">PBCColor</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcColor_8h_source.html#l00008">pbcColor.h:8</a></div></div>
-<div class="ttc" id="pbcPlayerView_8h_html_aed71bb12ed81897e0ff8ffb36c645b49"><div class="ttname"><a href="pbcPlayerView_8h.html#aed71bb12ed81897e0ff8ffb36c645b49">PBCPlayerViewSP</a></div><div class="ttdeci">boost::shared_ptr&lt; PBCPlayerView &gt; PBCPlayerViewSP</div><div class="ttdef"><b>Definition:</b> <a href="pbcPlayerView_8h_source.html#l00011">pbcPlayerView.h:11</a></div></div>
+<div class="ttc" id="pbcPlayer_8h_html_aaf9b2714bf2cb7c23d2737630e45cf09"><div class="ttname"><a href="pbcPlayer_8h.html#aaf9b2714bf2cb7c23d2737630e45cf09">PBCPlayerSP</a></div><div class="ttdeci">boost::shared_ptr&lt; PBCPlayer &gt; PBCPlayerSP</div><div class="ttdef"><b>Definition:</b> <a href="pbcPlayer_8h_source.html#l00038">pbcPlayer.h:38</a></div></div>
+<div class="ttc" id="pbcPlaybook_8h_html_af6391670c42755423ed1fc2045ccc8c5"><div class="ttname"><a href="pbcPlaybook_8h.html#af6391670c42755423ed1fc2045ccc8c5">PBCRouteSP</a></div><div class="ttdeci">boost::shared_ptr&lt; PBCRoute &gt; PBCRouteSP</div><div class="ttdef"><b>Definition:</b> <a href="pbcPlaybook_8h_source.html#l00038">pbcPlaybook.h:38</a></div></div>
+<div class="ttc" id="classPBCPlayerView_html_a429525ea8519bf2e81956a1d82abb473"><div class="ttname"><a href="classPBCPlayerView.html#a429525ea8519bf2e81956a1d82abb473">PBCPlayerView::PBCPlayerView</a></div><div class="ttdeci">PBCPlayerView(PBCPlayerSP playerSP)</div><div class="ttdef"><b>Definition:</b> <a href="pbcPlayerView_8cpp_source.html#l00039">pbcPlayerView.cpp:39</a></div></div>
+<div class="ttc" id="classPBCColor_html"><div class="ttname"><a href="classPBCColor.html">PBCColor</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcColor_8h_source.html#l00029">pbcColor.h:29</a></div></div>
+<div class="ttc" id="pbcPlayerView_8h_html_aed71bb12ed81897e0ff8ffb36c645b49"><div class="ttname"><a href="pbcPlayerView_8h.html#aed71bb12ed81897e0ff8ffb36c645b49">PBCPlayerViewSP</a></div><div class="ttdeci">boost::shared_ptr&lt; PBCPlayerView &gt; PBCPlayerViewSP</div><div class="ttdef"><b>Definition:</b> <a href="pbcPlayerView_8h_source.html#l00032">pbcPlayerView.h:32</a></div></div>
 <div class="ttc" id="pbcPlayer_8h_html"><div class="ttname"><a href="pbcPlayer_8h.html">pbcPlayer.h</a></div></div>
-<div class="ttc" id="pbcDeclarations_8h_html_a4657989e7c733735e6b8db2f71fbdfb1"><div class="ttname"><a href="pbcDeclarations_8h.html#a4657989e7c733735e6b8db2f71fbdfb1">PBCDPoint</a></div><div class="ttdeci">point&lt; double, 2, boost::geometry::cs::cartesian &gt; PBCDPoint</div><div class="ttdef"><b>Definition:</b> <a href="pbcDeclarations_8h_source.html#l00015">pbcDeclarations.h:15</a></div></div>
-<div class="ttc" id="classPBCPlayerView_html"><div class="ttname"><a href="classPBCPlayerView.html">PBCPlayerView</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcPlayerView_8h_source.html#l00015">pbcPlayerView.h:15</a></div></div>
+<div class="ttc" id="pbcDeclarations_8h_html_a4657989e7c733735e6b8db2f71fbdfb1"><div class="ttname"><a href="pbcDeclarations_8h.html#a4657989e7c733735e6b8db2f71fbdfb1">PBCDPoint</a></div><div class="ttdeci">point&lt; double, 2, boost::geometry::cs::cartesian &gt; PBCDPoint</div><div class="ttdef"><b>Definition:</b> <a href="pbcDeclarations_8h_source.html#l00036">pbcDeclarations.h:36</a></div></div>
+<div class="ttc" id="classPBCPlayerView_html"><div class="ttname"><a href="classPBCPlayerView.html">PBCPlayerView</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcPlayerView_8h_source.html#l00036">pbcPlayerView.h:36</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 8 2015 18:23:39 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jul 27 2015 11:52:44 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

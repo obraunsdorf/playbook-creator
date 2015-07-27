@@ -1,3 +1,26 @@
+"""
+This file is part of Playbook Creator.
+Playbook Creator is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Playbook Creator is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Playbook Creator.  If not, see <http://www.gnu.org/licenses/>.
+
+Copyright 2015 Oliver Braunsdorf
+
+This Pyton script checks the coding style of the Playbook Creator source files.
+Every source file that has changed since the last build, is given to the
+"cpplint.py" script, which checks Google's code conventions. To detect that a 
+file has changed, this script will calculate an md5 hash of the source file
+and compare it to a previous hash from the last build that is stored in "hashRegister.txt"
+"""
 import os.path
 import subprocess
 import sys
@@ -32,7 +55,7 @@ def writeNewHashes(hashRegister, prevHash):
 
 def main():
 	root = "../src"
-	filterOut = ["legal", "whitespace/parens", "build/include_order", "build/header_guard"]
+	filterOut = ["whitespace/parens", "build/include_order", "build/header_guard"]
 	filterIn = []
 	hashRegister = "hashRegister.txt"
 
