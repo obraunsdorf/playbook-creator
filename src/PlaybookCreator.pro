@@ -36,8 +36,8 @@ QMAKE_CXXFLAGS += -std=c++11 -Wno-unused-local-typedefs
 
 INCLUDEPATH += ../include/
 
-LIBS += /usr/local/lib/libbotan-1.10.a \
-    /usr/lib/x86_64-linux-gnu/libboost_serialization.a
+LIBS += ../lib/libbotan-1.10.a \
+    ../lib/libboost_serialization.a
 
 SOURCES += main.cpp\
     dialogs/mainDialog.cpp \
