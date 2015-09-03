@@ -23,17 +23,38 @@
 #include <string>
 #include <vector>
 
+/**
+ * @class PBCRoute
+ * @brief This is a data model class, which represents a players route.
+ *
+ * It is inherited from PBCAbstractMovement.
+ */
+
+/**
+ * @brief The constructor
+ * @param name The name of the created route
+ * @param codeName The code name of the created route
+ * @param paths The paths that the created route consists of
+ */
 PBCRoute::PBCRoute(const std::string &name,
                    const std::string &codeName,
                    const std::vector<PBCPathSP>& paths) :
-    PBCVirtualMovement(paths),
+    PBCAbstractMovement(paths),
     _name(name),
     _codeName(codeName) {}
 
+/**
+ * @brief Getter for the name of the route
+ * @return the route's name
+ */
 std::string PBCRoute::name() const {
     return _name;
 }
 
+/**
+ * @brief Getter for the code name of the route
+ * @return the route's code name
+ */
 std::string PBCRoute::codeName() const {
     return _codeName;
 }

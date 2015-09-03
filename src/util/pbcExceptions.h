@@ -25,6 +25,10 @@
 #include <exception>
 #include <string>
 
+/**
+ * @class PBCException
+ * @brief The basic exception for the Playbook Creator application
+ */
 class PBCException : public std::exception {
  private:
     std::string _msg;
@@ -36,6 +40,11 @@ class PBCException : public std::exception {
     }
 };
 
+/**
+ * @class PBCRuleBreakException
+ * @brief An exception that is thrown when some user action violates football
+ * rules
+ */
 class PBCRuleBreakException : public PBCException {
  private:
     std::string _msg;
@@ -47,6 +56,11 @@ class PBCRuleBreakException : public PBCException {
     }
 };
 
+/**
+ * @class PBCStorageException
+ * @brief An exception that is thrown when something went wrong with the storage
+ * component.
+ */
 class PBCStorageException : public PBCException {
  private:
     std::string _msg;
@@ -58,6 +72,10 @@ class PBCStorageException : public PBCException {
     }
 };
 
+/**
+ * @class PBCDecryptionException
+ * @brief An exception that is thrown when something went wrong with the decryption.
+ */
 class PBCDecryptionException : public PBCException {
  private:
     std::string _msg;

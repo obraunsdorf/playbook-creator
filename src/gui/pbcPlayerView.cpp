@@ -35,11 +35,26 @@
 #include <QColorDialog>
 #include <QInputDialog>
 
+/**
+ * @class PBCPlayerView
+ * @brief A graphical representation of a football player.
+ *
+ * This includes the player's "body", motion and route. They are all QGraphicItems
+ * which are combined as an QGraphicsItemGroup. Instances of
+ * PBCPlayerView are typically displayed in PBCPlayView and PBCCustomRouteDialog.
+ */
 
+/**
+ * @brief The constructor.
+ * @param playerSP The data model of the player to display
+ */
 PBCPlayerView::PBCPlayerView(PBCPlayerSP playerSP) : _playerSP(playerSP) {
     repaint();
 }
 
+/**
+ * @brief Painting the player represented  by _playerSP
+ */
 void PBCPlayerView::repaint() {
     _originalPos = PBCPositionTranslator::getInstance()->translatePos(_playerSP->pos());  // NOLINT
     unsigned int playerWidth = PBCConfig::getInstance()->playerWidth();
@@ -63,6 +78,17 @@ void PBCPlayerView::repaint() {
     }
 }
 
+
+/**
+ * @brief Concatenates the lines of the motion and the
+ * route of the player.
+ *
+ * I wrote that function some time ago and it confuses me now^^. I don't know
+ * what the meaning of the parameters is..but it works ;)
+ * @param paths
+ * @param graphicItems
+ * @param basePoint
+ */
 void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
                               std::vector<QGraphicsItemSP>* graphicItems,
                               PBCDPoint basePoint) {
@@ -160,6 +186,10 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
     }
 }
 
+/**
+ * @brief Sets a player's route and paints it.
+ * @param route The route to apply
+ */
 void PBCPlayerView::applyRoute(PBCRouteSP route) {
     for(QGraphicsItemSP item : _routePaths) {
         this->removeFromGroup(item.get());
@@ -188,6 +218,10 @@ void PBCPlayerView::applyRoute(PBCRouteSP route) {
     }
 }
 
+/**
+ * @brief Sets a player's motion and paints it.
+ * @param motion The motion to apply
+ */
 void PBCPlayerView::applyMotion(PBCMotionSP motion) {
     for(boost::shared_ptr<QGraphicsItem> item : _motionPaths) {
         this->removeFromGroup(item.get());
@@ -208,11 +242,21 @@ void PBCPlayerView::applyMotion(PBCMotionSP motion) {
     }
 }
 
+/**
+ * @brief Changes the color of the player
+ * @param color The new color
+ */
 void PBCPlayerView::setColor(PBCColor color) {
     _playerSP->setColor(color);
     repaint();
 }
 
+
+/**
+ * @brief Changes the position of the player
+ * @param x The horizontal position in yards
+ * @param y The vertical position in yards
+ */
 void PBCPlayerView::setPosition(double x, double y) {
     PBCDPoint pos(x, y);
     _playerSP->setPos(pos);
@@ -220,6 +264,14 @@ void PBCPlayerView::setPosition(double x, double y) {
 }
 
 
+/**
+ * @brief Handles context menu clicks
+ *
+ * This is a Qt event hander that is triggered when a right click is performed
+ * on an instance of PBCPlayerView. It displays the context menu and detects
+ * which menu item has been selected.
+ * @param event event datastructure, includes position of context menu click
+ */
 void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
     QMenu menu;
     QMenu* routeMenu = menu.addMenu(QString::fromStdString("Apply Route"));
@@ -309,6 +361,11 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
     }
 }
 
+/**
+ * @brief Handles Qt events that occur when
+ * players' graphical representations of bodies are dragged and dropped.
+ * @param event event datastructure, includes position of context menu click
+ */
 void PBCPlayerView::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
     QGraphicsItemGroup::mouseReleaseEvent(event);
     QPointF pixelDelta = this->pos();

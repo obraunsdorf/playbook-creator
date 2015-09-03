@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['pbcabstractmovement',['PBCAbstractMovement',['../classPBCAbstractMovement.html',1,'']]],
   ['pbccategory',['PBCCategory',['../classPBCCategory.html',1,'']]],
   ['pbccolor',['PBCColor',['../classPBCColor.html',1,'']]],
   ['pbcconfig',['PBCConfig',['../classPBCConfig.html',1,'']]],
@@ -29,6 +30,5 @@ var searchData=
   ['pbcsingleton_3c_20pbcstorage_20_3e',['PBCSingleton&lt; PBCStorage &gt;',['../classPBCSingleton.html',1,'']]],
   ['pbcstorage',['PBCStorage',['../classPBCStorage.html',1,'']]],
   ['pbcstorageexception',['PBCStorageException',['../classPBCStorageException.html',1,'']]],
-  ['pbcversion',['PBCVersion',['../classPBCVersion.html',1,'']]],
-  ['pbcvirtualmovement',['PBCVirtualMovement',['../classPBCVirtualMovement.html',1,'']]]
+  ['pbcversion',['PBCVersion',['../classPBCVersion.html',1,'']]]
 ];

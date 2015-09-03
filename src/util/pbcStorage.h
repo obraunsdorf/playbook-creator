@@ -55,7 +55,7 @@ friend class PBCSingleton<PBCStorage>;
                  std::ifstream& inFile); // NOLINT
 
  protected:
-    PBCStorage();
+    PBCStorage() {}
 
  public:
     void init(const std::string& fileName);

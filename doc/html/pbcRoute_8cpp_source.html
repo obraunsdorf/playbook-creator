@@ -93,28 +93,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classPBCRoute.html#ab85e6e4e7be74fb8a4020a279eacffcb">   26</a></span>&#160;PBCRoute::PBCRoute(<span class="keyword">const</span> std::string &amp;name,</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                   <span class="keyword">const</span> std::string &amp;codeName,</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                   <span class="keyword">const</span> std::vector&lt;PBCPathSP&gt;&amp; paths) :</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <a class="code" href="classPBCVirtualMovement.html">PBCVirtualMovement</a>(paths),</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    _name(name),</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    _codeName(codeName) {}</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="classPBCRoute.html#adc3be11fdc605476829f3bc0221a228f">   33</a></span>&#160;std::string <a class="code" href="classPBCRoute.html#adc3be11fdc605476829f3bc0221a228f">PBCRoute::name</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">return</span> _name;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classPBCRoute.html#a797db5360ff64a05736808f91e67833e">   37</a></span>&#160;std::string <a class="code" href="classPBCRoute.html#a797db5360ff64a05736808f91e67833e">PBCRoute::codeName</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">return</span> _codeName;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
-<div class="ttc" id="classPBCVirtualMovement_html"><div class="ttname"><a href="classPBCVirtualMovement.html">PBCVirtualMovement</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcVirtualMovement_8h_source.html#l00028">pbcVirtualMovement.h:28</a></div></div>
-<div class="ttc" id="classPBCRoute_html_a797db5360ff64a05736808f91e67833e"><div class="ttname"><a href="classPBCRoute.html#a797db5360ff64a05736808f91e67833e">PBCRoute::codeName</a></div><div class="ttdeci">std::string codeName() const </div><div class="ttdef"><b>Definition:</b> <a href="pbcRoute_8cpp_source.html#l00037">pbcRoute.cpp:37</a></div></div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="classPBCRoute.html#ab85e6e4e7be74fb8a4020a279eacffcb">   39</a></span>&#160;PBCRoute::PBCRoute(<span class="keyword">const</span> std::string &amp;name,</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                   <span class="keyword">const</span> std::string &amp;codeName,</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                   <span class="keyword">const</span> std::vector&lt;PBCPathSP&gt;&amp; paths) :</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="classPBCAbstractMovement.html">PBCAbstractMovement</a>(paths),</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    _name(name),</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    _codeName(codeName) {}</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classPBCRoute.html#adc3be11fdc605476829f3bc0221a228f">   50</a></span>&#160;std::string <a class="code" href="classPBCRoute.html#adc3be11fdc605476829f3bc0221a228f">PBCRoute::name</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">return</span> _name;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="classPBCRoute.html#a797db5360ff64a05736808f91e67833e">   58</a></span>&#160;std::string <a class="code" href="classPBCRoute.html#a797db5360ff64a05736808f91e67833e">PBCRoute::codeName</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">return</span> _codeName;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;}</div>
+<div class="ttc" id="classPBCRoute_html_a797db5360ff64a05736808f91e67833e"><div class="ttname"><a href="classPBCRoute.html#a797db5360ff64a05736808f91e67833e">PBCRoute::codeName</a></div><div class="ttdeci">std::string codeName() const </div><div class="ttdoc">Getter for the code name of the route. </div><div class="ttdef"><b>Definition:</b> <a href="pbcRoute_8cpp_source.html#l00058">pbcRoute.cpp:58</a></div></div>
 <div class="ttc" id="pbcRoute_8h_html"><div class="ttname"><a href="pbcRoute_8h.html">pbcRoute.h</a></div></div>
-<div class="ttc" id="classPBCRoute_html_adc3be11fdc605476829f3bc0221a228f"><div class="ttname"><a href="classPBCRoute.html#adc3be11fdc605476829f3bc0221a228f">PBCRoute::name</a></div><div class="ttdeci">std::string name() const </div><div class="ttdef"><b>Definition:</b> <a href="pbcRoute_8cpp_source.html#l00033">pbcRoute.cpp:33</a></div></div>
+<div class="ttc" id="classPBCRoute_html_adc3be11fdc605476829f3bc0221a228f"><div class="ttname"><a href="classPBCRoute.html#adc3be11fdc605476829f3bc0221a228f">PBCRoute::name</a></div><div class="ttdeci">std::string name() const </div><div class="ttdoc">Getter for the name of the route. </div><div class="ttdef"><b>Definition:</b> <a href="pbcRoute_8cpp_source.html#l00050">pbcRoute.cpp:50</a></div></div>
+<div class="ttc" id="classPBCAbstractMovement_html"><div class="ttname"><a href="classPBCAbstractMovement.html">PBCAbstractMovement</a></div><div class="ttdoc">An abstract class that handles the similarity (consisting of paths) of routes and motions...</div><div class="ttdef"><b>Definition:</b> <a href="pbcAbstractMovement_8h_source.html#l00034">pbcAbstractMovement.h:34</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 27 2015 18:43:54 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 3 2015 23:34:25 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

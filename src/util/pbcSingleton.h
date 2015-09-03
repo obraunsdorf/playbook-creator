@@ -25,6 +25,16 @@
 #include <stddef.h>
 #include <assert.h>
 
+/**
+ * @class PBCSingleton
+ * @brief A generic class that enforces the singleton pattern for every class
+ * that inherits PBCSingleton.
+ *
+ * A class C has to inherit PBCSingleton<C> and must have a protected
+ * constructor. Then it is enforced to have only one instance in the whole
+ * application. For more information on the singleton pattern see
+ * https://en.wikipedia.org/wiki/Singleton_pattern
+ */
 template <class T>
 class PBCSingleton {
  private:

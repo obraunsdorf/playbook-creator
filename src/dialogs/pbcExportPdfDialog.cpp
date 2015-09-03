@@ -27,6 +27,20 @@
 #include <QStandardItemModel>
 #include <QCheckBox>
 
+/**
+ * @class PBCExportPDFDialog
+ * @brief This class creates a dialog in which you can specify options for pdf
+ * exporting.
+ *
+ * You can choose which plays to export, in how many columns and rows the plays
+ * will be displayed and how large the paper is that you want to print on and
+ * margins of that paper.
+ */
+
+/**
+ * @brief The Constructor
+ * @param parent The parent widget this dialog belongs to.
+ */
 PBCExportPDFDialog::PBCExportPDFDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PBCExportPDFDialog) {
@@ -44,10 +58,19 @@ PBCExportPDFDialog::PBCExportPDFDialog(QWidget *parent) :
     ui->selectedPlaysListWidget->setSelectionMode(QAbstractItemView::SingleSelection); //NOLINT
 }
 
+/**
+ * @brief The Destructor
+ */
 PBCExportPDFDialog::~PBCExportPDFDialog() {
     delete ui;
 }
 
+/**
+ * @brief executes this dialog
+ * @param returnStruct a smart pointer to a simple struct that stores paper
+ * dimensions, margins and rows/colums
+ * @return a smart pointer to a list of play names that were choosen to export
+ */
 boost::shared_ptr<QStringList> PBCExportPDFDialog::exec(boost::shared_ptr<ReturnStruct> returnStruct) {  //NOLINT
     int returnCode = QDialog::exec();
     if(returnCode == QDialog::Accepted) {
@@ -71,6 +94,11 @@ boost::shared_ptr<QStringList> PBCExportPDFDialog::exec(boost::shared_ptr<Return
     }
 }
 
+/**
+ * @brief Qt slot that is triggered when
+ * the button is pressed, which adds a selected play to the list of exported
+ * plays
+ */
 void PBCExportPDFDialog::inButtonPressed() {
     QList<QListWidgetItem*> selectedItems = ui->allPlaysListWidget->selectedItems(); //NOLINT
     for(QListWidgetItem* item : selectedItems) {
@@ -79,6 +107,11 @@ void PBCExportPDFDialog::inButtonPressed() {
     ui->allPlaysListWidget->clearSelection();
 }
 
+/**
+ * @brief Qt slot that is triggered when
+ * the button is pressed, which removes a selected play from the list of
+ * exported plays
+ */
 void PBCExportPDFDialog::outButtonPressed() {
     QList<QListWidgetItem*> selectedItems = ui->selectedPlaysListWidget->selectedItems(); //NOLINT
     assert(selectedItems.size() <= 1);
@@ -89,6 +122,10 @@ void PBCExportPDFDialog::outButtonPressed() {
     ui->selectedPlaysListWidget->clearSelection();
 }
 
+/**
+ * @brief Qt slot that is triggered when
+ * the button is pressed, which moves a play up in the order of exported plays
+ */
 void PBCExportPDFDialog::upButtonPressed() {
     QList<QListWidgetItem*> selectedItems = ui->selectedPlaysListWidget->selectedItems(); //NOLINT
     assert(selectedItems.size() <= 1);
@@ -105,6 +142,10 @@ void PBCExportPDFDialog::upButtonPressed() {
     }
 }
 
+/**
+ * @brief Qt slot that is triggered when
+ * the button is pressed, which moves a play down in the order of exported plays
+ */
 void PBCExportPDFDialog::downButtonPressed() {
     QList<QListWidgetItem*> selectedItems = ui->selectedPlaysListWidget->selectedItems(); //NOLINT
     assert(selectedItems.size() <= 1);

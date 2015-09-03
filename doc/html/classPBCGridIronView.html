@@ -91,13 +91,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>A canvas class that paints a grid iron on it.  
+ <a href="classPBCGridIronView.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="pbcGridIronView_8h_source.html">pbcGridIronView.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for PBCGridIronView:</div>
 <div class="dyncontent">
 <div class="center"><img src="classPBCGridIronView__inherit__graph.png" border="0" usemap="#PBCGridIronView_inherit__map" alt="Inheritance graph"/></div>
 <map name="PBCGridIronView_inherit__map" id="PBCGridIronView_inherit__map">
-<area shape="rect" id="node3" href="classPBCCustomRouteView.html" title="PBCCustomRouteView" alt="" coords="5,155,164,181"/><area shape="rect" id="node4" href="classPBCPlayView.html" title="PBCPlayView" alt="" coords="189,155,293,181"/></map>
+<area shape="rect" id="node3" href="classPBCCustomRouteView.html" title="A subclass of PBCGridIronView to display a grid iron and a custom route that has been created..." alt="" coords="5,155,164,181"/><area shape="rect" id="node4" href="classPBCPlayView.html" title="A subclass of PBCGridIronView to display a play from the playbook inside the main dialog..." alt="" coords="189,155,293,181"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
 Collaboration diagram for PBCGridIronView:</div>
@@ -108,19 +111,25 @@ Collaboration diagram for PBCGridIronView:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a31dd741de5c08cb2d10046821ecbaf65"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCGridIronView.html#a31dd741de5c08cb2d10046821ecbaf65">PBCGridIronView</a> (QObject *parent=0)</td></tr>
+<tr class="memdesc:a31dd741de5c08cb2d10046821ecbaf65"><td class="mdescLeft">&#160;</td><td class="mdescRight">The constructor.  <a href="#a31dd741de5c08cb2d10046821ecbaf65">More...</a><br/></td></tr>
 <tr class="separator:a31dd741de5c08cb2d10046821ecbaf65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:ab5a5b9d1fa0347628a96eb68142d946c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCGridIronView.html#ab5a5b9d1fa0347628a96eb68142d946c">paintLine</a> (unsigned int yPos, unsigned int width, unsigned int lineWidth, <a class="el" href="classPBCColor.html">PBCColor</a> color)</td></tr>
+<tr class="memdesc:ab5a5b9d1fa0347628a96eb68142d946c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Paints a line.  <a href="#ab5a5b9d1fa0347628a96eb68142d946c">More...</a><br/></td></tr>
 <tr class="separator:ab5a5b9d1fa0347628a96eb68142d946c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e6c906cc82605d52e309231e23e22df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCGridIronView.html#a8e6c906cc82605d52e309231e23e22df">paintBall</a> (unsigned int xPos, unsigned int yPos, unsigned int zValue=100)</td></tr>
+<tr class="memdesc:a8e6c906cc82605d52e309231e23e22df"><td class="mdescLeft">&#160;</td><td class="mdescRight">Paints the ball.  <a href="#a8e6c906cc82605d52e309231e23e22df">More...</a><br/></td></tr>
 <tr class="separator:a8e6c906cc82605d52e309231e23e22df"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a22e804cb91fb256dbc8dcae500115bc5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCGridIronView.html#a22e804cb91fb256dbc8dcae500115bc5">paintBorder</a> ()</td></tr>
+<tr class="memdesc:a22e804cb91fb256dbc8dcae500115bc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Paints the border lines of the grid iron.  <a href="#a22e804cb91fb256dbc8dcae500115bc5">More...</a><br/></td></tr>
 <tr class="separator:a22e804cb91fb256dbc8dcae500115bc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
+<div class="textblock"><p>A canvas class that paints a grid iron on it. </p>
+<p>This class extends a QGraphicsscene. An instance of this class can be seen as a canvas on which it paints a grid iron itself. In this context a grid iron is an american football field, consisting of a few lines (line of scrimmage, 5yd marking line, 10yd marking line,...) and a ball (the football) </p>
+
 <p>Definition at line <a class="el" href="pbcGridIronView_8h_source.html#l00030">30</a> of file <a class="el" href="pbcGridIronView_8h_source.html">pbcGridIronView.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a31dd741de5c08cb2d10046821ecbaf65"></a>
@@ -145,10 +154,16 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="pbcGridIronView_8cpp_source.html#l00027">27</a> of file <a class="el" href="pbcGridIronView_8cpp_source.html">pbcGridIronView.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                                                :</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    QGraphicsScene(parent) {}</div>
-</div><!-- fragment -->
+<p>The constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parent</td><td>The parent object this dialog belongs to. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="pbcGridIronView_8cpp_source.html#l00042">42</a> of file <a class="el" href="pbcGridIronView_8cpp_source.html">pbcGridIronView.cpp</a>.</p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -190,28 +205,18 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="pbcGridIronView_8cpp_source.html#l00039">39</a> of file <a class="el" href="pbcGridIronView_8cpp_source.html">pbcGridIronView.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                                                     {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="classPBCColor.html">PBCColor</a> color = <a class="code" href="classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145">PBCConfig::getInstance</a>()-&gt;<a class="code" href="classPBCConfig.html#abb36b4eb9f9604822d0e6f2c8e53b523">ballColor</a>();</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    QColor ballColor(color.<a class="code" href="classPBCColor.html#a9bd938a1ea8488f5169e22d6284c086b">r</a>(), color.<a class="code" href="classPBCColor.html#a4b5056b93c013a32d3c99d0ede37fa68">g</a>(), color.<a class="code" href="classPBCColor.html#a5529702cce647e074061b135e9641133">b</a>());</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    QPen ballPen(ballColor);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    QBrush ballBrush(ballColor);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> ballWidth = <a class="code" href="classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145">PBCConfig::getInstance</a>()-&gt;<a class="code" href="classPBCConfig.html#af545ab28aa4a5a23828489e94115ca5c">ballWidth</a>();</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    QGraphicsEllipseItem* ball = this-&gt;addEllipse(xPos - ballWidth / 2,</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                                                  yPos - ballWidth, ballWidth,</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                                                  2 * ballWidth,</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                                                  ballPen,</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                                                  ballBrush);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    ball-&gt;setZValue(zValue);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
-<div class="ttc" id="classPBCColor_html_a5529702cce647e074061b135e9641133"><div class="ttname"><a href="classPBCColor.html#a5529702cce647e074061b135e9641133">PBCColor::b</a></div><div class="ttdeci">unsigned int b() const </div><div class="ttdef"><b>Definition:</b> <a href="pbcColor_8cpp_source.html#l00056">pbcColor.cpp:56</a></div></div>
-<div class="ttc" id="classPBCConfig_html_abb36b4eb9f9604822d0e6f2c8e53b523"><div class="ttname"><a href="classPBCConfig.html#abb36b4eb9f9604822d0e6f2c8e53b523">PBCConfig::ballColor</a></div><div class="ttdeci">PBCColor ballColor()</div><div class="ttdef"><b>Definition:</b> <a href="pbcConfig_8h_source.html#l00127">pbcConfig.h:127</a></div></div>
-<div class="ttc" id="classPBCColor_html_a9bd938a1ea8488f5169e22d6284c086b"><div class="ttname"><a href="classPBCColor.html#a9bd938a1ea8488f5169e22d6284c086b">PBCColor::r</a></div><div class="ttdeci">unsigned int r() const </div><div class="ttdef"><b>Definition:</b> <a href="pbcColor_8cpp_source.html#l00048">pbcColor.cpp:48</a></div></div>
-<div class="ttc" id="classPBCSingleton_html_aa9c8c2f34a8b5b2c47ad1440c9950145"><div class="ttname"><a href="classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145">PBCSingleton&lt; PBCConfig &gt;::getInstance</a></div><div class="ttdeci">static PBCConfig * getInstance()</div><div class="ttdef"><b>Definition:</b> <a href="pbcSingleton_8h_source.html#l00039">pbcSingleton.h:39</a></div></div>
-<div class="ttc" id="classPBCColor_html_a4b5056b93c013a32d3c99d0ede37fa68"><div class="ttname"><a href="classPBCColor.html#a4b5056b93c013a32d3c99d0ede37fa68">PBCColor::g</a></div><div class="ttdeci">unsigned int g() const </div><div class="ttdef"><b>Definition:</b> <a href="pbcColor_8cpp_source.html#l00052">pbcColor.cpp:52</a></div></div>
-<div class="ttc" id="classPBCConfig_html_af545ab28aa4a5a23828489e94115ca5c"><div class="ttname"><a href="classPBCConfig.html#af545ab28aa4a5a23828489e94115ca5c">PBCConfig::ballWidth</a></div><div class="ttdeci">unsigned int ballWidth()</div><div class="ttdef"><b>Definition:</b> <a href="pbcConfig_8h_source.html#l00131">pbcConfig.h:131</a></div></div>
-<div class="ttc" id="classPBCColor_html"><div class="ttname"><a href="classPBCColor.html">PBCColor</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcColor_8h_source.html#l00029">pbcColor.h:29</a></div></div>
-</div><!-- fragment -->
+<p>Paints the ball. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xPos</td><td>The horizontal position of the ball in coordinates of the <a class="el" href="classPBCGridIronView.html" title="A canvas class that paints a grid iron on it. ">PBCGridIronView</a> instance (pixels) </td></tr>
+    <tr><td class="paramname">yPos</td><td>The vertical position of the ball in coordinates of the <a class="el" href="classPBCGridIronView.html" title="A canvas class that paints a grid iron on it. ">PBCGridIronView</a> instance (pixels) </td></tr>
+    <tr><td class="paramname">zValue</td><td>The 3D z-value of the ball. Used to render the ball on top of the <a class="el" href="classPBCPlayerView.html" title="A graphical representation of a football player. ">PBCPlayerView</a> instances or below </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="pbcGridIronView_8cpp_source.html#l00072">72</a> of file <a class="el" href="pbcGridIronView_8cpp_source.html">pbcGridIronView.cpp</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="a22e804cb91fb256dbc8dcae500115bc5"></a>
@@ -235,15 +240,10 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="pbcGridIronView_8cpp_source.html#l00055">55</a> of file <a class="el" href="pbcGridIronView_8cpp_source.html">pbcGridIronView.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                                  {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    this-&gt;addRect(0,</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                  0,</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                  <a class="code" href="classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145">PBCConfig::getInstance</a>()-&gt;canvasWidth(),</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                  <a class="code" href="classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145">PBCConfig::getInstance</a>()-&gt;canvasHeight());</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;}</div>
-<div class="ttc" id="classPBCSingleton_html_aa9c8c2f34a8b5b2c47ad1440c9950145"><div class="ttname"><a href="classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145">PBCSingleton&lt; PBCConfig &gt;::getInstance</a></div><div class="ttdeci">static PBCConfig * getInstance()</div><div class="ttdef"><b>Definition:</b> <a href="pbcSingleton_8h_source.html#l00039">pbcSingleton.h:39</a></div></div>
-</div><!-- fragment -->
+<p>Paints the border lines of the grid iron. </p>
+
+<p>Definition at line <a class="el" href="pbcGridIronView_8cpp_source.html#l00091">91</a> of file <a class="el" href="pbcGridIronView_8cpp_source.html">pbcGridIronView.cpp</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="ab5a5b9d1fa0347628a96eb68142d946c"></a>
@@ -290,16 +290,19 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="pbcGridIronView_8cpp_source.html#l00030">30</a> of file <a class="el" href="pbcGridIronView_8cpp_source.html">pbcGridIronView.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                                                {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    QPen pen(QColor(color.<a class="code" href="classPBCColor.html#a9bd938a1ea8488f5169e22d6284c086b">r</a>(), color.<a class="code" href="classPBCColor.html#a4b5056b93c013a32d3c99d0ede37fa68">g</a>(), color.<a class="code" href="classPBCColor.html#a5529702cce647e074061b135e9641133">b</a>()));</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    pen.setWidth(lineWidth);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    this-&gt;addLine(0, yPos, width - pen.width(), yPos, pen);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
-<div class="ttc" id="classPBCColor_html_a5529702cce647e074061b135e9641133"><div class="ttname"><a href="classPBCColor.html#a5529702cce647e074061b135e9641133">PBCColor::b</a></div><div class="ttdeci">unsigned int b() const </div><div class="ttdef"><b>Definition:</b> <a href="pbcColor_8cpp_source.html#l00056">pbcColor.cpp:56</a></div></div>
-<div class="ttc" id="classPBCColor_html_a9bd938a1ea8488f5169e22d6284c086b"><div class="ttname"><a href="classPBCColor.html#a9bd938a1ea8488f5169e22d6284c086b">PBCColor::r</a></div><div class="ttdeci">unsigned int r() const </div><div class="ttdef"><b>Definition:</b> <a href="pbcColor_8cpp_source.html#l00048">pbcColor.cpp:48</a></div></div>
-<div class="ttc" id="classPBCColor_html_a4b5056b93c013a32d3c99d0ede37fa68"><div class="ttname"><a href="classPBCColor.html#a4b5056b93c013a32d3c99d0ede37fa68">PBCColor::g</a></div><div class="ttdeci">unsigned int g() const </div><div class="ttdef"><b>Definition:</b> <a href="pbcColor_8cpp_source.html#l00052">pbcColor.cpp:52</a></div></div>
-</div><!-- fragment -->
+<p>Paints a line. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">yPos</td><td>The vertical position of the line in coordinates of the <a class="el" href="classPBCGridIronView.html" title="A canvas class that paints a grid iron on it. ">PBCGridIronView</a> instance (pixels) </td></tr>
+    <tr><td class="paramname">width</td><td>The horizontal stretch of the line in pixels </td></tr>
+    <tr><td class="paramname">lineWidth</td><td>The width of the line </td></tr>
+    <tr><td class="paramname">color</td><td>The color of the line </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="pbcGridIronView_8cpp_source.html#l00053">53</a> of file <a class="el" href="pbcGridIronView_8cpp_source.html">pbcGridIronView.cpp</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
@@ -309,7 +312,7 @@ Protected Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 27 2015 18:43:54 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 3 2015 23:34:25 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

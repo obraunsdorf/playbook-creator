@@ -1,5 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node2" href="$classPBCGridIronView.html" title="PBCGridIronView" alt="" coords="176,31,301,57"/>
-<area shape="rect" id="node3" href="$classPBCCustomRouteView.html" title="PBCCustomRouteView" alt="" coords="349,5,509,32"/>
-<area shape="rect" id="node4" href="$classPBCPlayView.html" title="PBCPlayView" alt="" coords="377,56,482,83"/>
+<area shape="rect" id="node1" href="$classPBCCategory.html" title="PBCCategory" alt="" coords="6,5,109,32"/>
+<area shape="rect" id="node2" href="$classPBCFormation.html" title="A model class that stores information about a formation. " alt="" coords="158,31,266,57"/>
 </map>

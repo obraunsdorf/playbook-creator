@@ -40,6 +40,16 @@
 #include <list>
 #include <pbcVersion.h>
 
+/**
+ * @class MainDialog
+ * @brief This class creates the application's main dialog
+ */
+
+/**
+ * @brief MainDialog::MainDialog The constructor
+ * @param parent The parent widget this dialog belongs to. It should be NULL
+ * since this is the main window which contains all other dialogs.
+ */
 MainDialog::MainDialog(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainDialog),
@@ -188,8 +198,8 @@ void MainDialog::showNewPlay() {
 
 
 /**
- * @brief Gets a play by name from the Playbook and loads it into the embedded
- * PBCPlayView
+ * @brief Gets a play by name from the Playbook and loads
+ * it into the embedded PBCPlayView
  */
 void MainDialog::openPlay() {
     bool ok;
@@ -226,10 +236,11 @@ void MainDialog::openPlay() {
 }
 
 /**
- * @brief Shows a simple dialog with information about the application
+ * @brief Shows a simple dialog with information
+ * about the application
  */
 void MainDialog::showAboutDialog() {
-    QMessageBox::about(this, "About", "Playbook Creator by Oliver Braunsdorf");
+    QMessageBox::about(this, "About", QString::fromStdString(PBCVersion::getVersionString()).prepend("Playbook Creator by Oliver Braunsdorf\nVersion: ")); //NOLINT
 }
 
 /**
@@ -301,7 +312,7 @@ void MainDialog::saveFormationAs() {
 }
 
 /**
- * @brief Resets the application and create a new empty playbook
+ * @brief Resets the application and creates a new empty playbook
  */
 void MainDialog::newPlaybook() {
     bool ok;
@@ -422,6 +433,9 @@ void MainDialog::exportAsPDF() {
     }
 }
 
+/**
+ * @brief The destructor
+ */
 MainDialog::~MainDialog() {
     delete ui;
 }

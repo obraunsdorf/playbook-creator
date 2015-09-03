@@ -1,4 +1,4 @@
-/** @file pbcPositionTranslator.cpp
+/** @file pbcStorage.cpp
     This file is part of Playbook Creator.
 
     Playbook Creator is free software: you can redistribute it and/or modify
@@ -37,6 +37,20 @@
 #include <QPainter>
 #include "pbcVersion.h"
 
+/**
+ * @class PBCStorage
+ * @brief PBCStorage is the responsible class for persistent storage of created
+ * playbooks.
+ *
+ * This includes binary export and import in a self defined (encrypted) "*.pbc"
+ * file format as well as graphical export of the playbooks in PDF file format.
+ */
+
+/**
+ * @brief Checks whether the version of a loaded playbook is newer than the
+ * application's version
+ * @param version The version string of the loaded playbook
+ */
 void PBCStorage::checkVersion(const std::string &version) {
     // TODO(obr): do better version checking
     int result = PBCVersion::compareCurrentVersionTo(version);
@@ -47,6 +61,11 @@ void PBCStorage::checkVersion(const std::string &version) {
     assert(BOTAN_VERSION_CODE >= BOTAN_VERSION_CODE_FOR(1, 10, 9));
 }
 
+/**
+ * @brief Generates a cryptographic key from a password and a random salt value
+ * and set them as the current key and salt
+ * @param password The password that the key is derived from
+ */
 void PBCStorage::generateAndSetKey(const std::string &password) {
     Botan::AutoSeeded_RNG rng;
     Botan::SecureVector<Botan::byte> salt = rng.random_vec(_SALT_SIZE);
@@ -57,12 +76,22 @@ void PBCStorage::generateAndSetKey(const std::string &password) {
     setCryptoKey(key, salt);
 }
 
+/**
+ * @brief Resets the current key and salt
+ * @param key The new key
+ * @param salt The new salt
+ */
 void PBCStorage::setCryptoKey(Botan::OctetString key,
                         Botan::SecureVector<Botan::byte> salt) {
     _saltSP.reset(new Botan::SecureVector<Botan::byte>(salt));
     _keySP.reset(new Botan::OctetString(key));
 }
 
+/**
+ * @brief Encrypts the input string and writes the result to a file stream
+ * @param input The input string (usually the serialized playbook)
+ * @param outFile The output file
+ */
 void PBCStorage::encrypt(const std::string& input,
                          std::ofstream& outFile) {
     assert(_keySP != NULL && _saltSP != NULL);
@@ -81,6 +110,13 @@ void PBCStorage::encrypt(const std::string& input,
     encryptor.process_msg(input);
 }
 
+/**
+ * @brief Decrypts the given file using a password and writes the result to
+ * an  output stream
+ * @param password The password string, which the decryption key is derived from
+ * @param ostream The output stream to which the decrypted playbook is written
+ * @param inFile The file where the encrypted playbook is stored
+ */
 void PBCStorage::decrypt(const std::string &password,
                          std::ostream &ostream,
                          std::ifstream &inFile) {
@@ -111,15 +147,23 @@ void PBCStorage::decrypt(const std::string &password,
     }
 }
 
-PBCStorage::PBCStorage() {
-}
-
+/**
+ * @brief Initializes the PBCStorage instance when a new playbook loaded. Hence
+ * the key and the salt have to be reset.
+ * @param fileName The file name of the new playbook
+ */
 void PBCStorage::init(const std::string &fileName) {
     _currentPlaybookFileName = fileName;
     _keySP.reset();
     _saltSP.reset();
 }
 
+/**
+ * @brief Wrapper function which generates key and salt and sets the file name
+ * first and the actual saving algorithm is implemented in writeToCurrentPlaybookFile()
+ * @param password
+ * @param fileName
+ */
 void PBCStorage::savePlaybook(const std::string& password,
                               const std::string& fileName) {
     generateAndSetKey(password);
@@ -127,6 +171,10 @@ void PBCStorage::savePlaybook(const std::string& password,
     writeToCurrentPlaybookFile();
 }
 
+/**
+ * @brief Checks if key and salt are set before saving the playbook, so we don't
+ * need to enter the password again.
+ */
 void PBCStorage::automaticSavePlaybook() {
     if(_keySP != NULL && _saltSP != NULL) {
         writeToCurrentPlaybookFile();
@@ -135,6 +183,12 @@ void PBCStorage::automaticSavePlaybook() {
     }
 }
 
+/**
+ * @brief Writes the playbook to a string buffer using Boost serialization
+ * framework.
+ *
+ * Encrypting and writing to file is done via PBCStorage::encrypt() function
+ */
 void PBCStorage::writeToCurrentPlaybookFile() {
     assert(_currentPlaybookFileName != "");
     std::string extension = _currentPlaybookFileName.substr(_currentPlaybookFileName.size() - 4);  //NOLINT
@@ -161,6 +215,13 @@ void PBCStorage::writeToCurrentPlaybookFile() {
     ofstream.close();
 }
 
+/**
+ * @brief Passes a file to the PBCStorage::decrypt() function to decrypt it and
+ * write it to a string buffer. The buffer is then read and deserialized to a
+ * PBCPlaybook instance using Boost serialization framework
+ * @param password The decryption password
+ * @param fileName The path to the file where the playbook ist stored
+ */
 void PBCStorage::loadPlaybook(const std::string &password,
                               const std::string &fileName) {
     std::string extension = fileName.substr(fileName.size() - 4);
@@ -199,6 +260,22 @@ void PBCStorage::loadPlaybook(const std::string &password,
     archive >> *PBCPlaybook::getInstance();
 }
 
+/**
+ * @brief Graphically exports the playbook in PDF file format.
+ *
+ * The plays are arranged in a grid.
+ * @param fileName The PDF file to which the playbook is exported
+ * @param playViews A list of PBCPlayViews in which the exported plays are
+ * graphically rendered using the Qt framework
+ * @param paperWidth The width of one page
+ * @param paperHeight The height of one page
+ * @param columns The number of columns on one page
+ * @param rows The number of rows on one page
+ * @param marginLeft The left margin
+ * @param marginRight The right margin
+ * @param marginTop The margin from the top
+ * @param marginBottom The margin from the bottom
+ */
 void PBCStorage::exportAsPDF(const std::string& fileName,
                              std::list<boost::shared_ptr<PBCPlayView>> playViews,  //NOLINT
                              const unsigned int paperWidth,

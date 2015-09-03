@@ -91,6 +91,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>This class creates a dialog in which you can specify options for pdf exporting.  
+ <a href="classPBCExportPDFDialog.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="pbcExportPdfDialog_8h_source.html">pbcExportPdfDialog.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for PBCExportPDFDialog:</div>
@@ -111,14 +114,19 @@ Classes</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a4f2f5d6128d2e669d6c605c1a3678c5f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCExportPDFDialog.html#a4f2f5d6128d2e669d6c605c1a3678c5f">PBCExportPDFDialog</a> (QWidget *parent=0)</td></tr>
+<tr class="memdesc:a4f2f5d6128d2e669d6c605c1a3678c5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Constructor.  <a href="#a4f2f5d6128d2e669d6c605c1a3678c5f">More...</a><br/></td></tr>
 <tr class="separator:a4f2f5d6128d2e669d6c605c1a3678c5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e8255c45fd04f1e837d9a7d7a8f7479"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCExportPDFDialog.html#a6e8255c45fd04f1e837d9a7d7a8f7479">~PBCExportPDFDialog</a> ()</td></tr>
+<tr class="memdesc:a6e8255c45fd04f1e837d9a7d7a8f7479"><td class="mdescLeft">&#160;</td><td class="mdescRight">The Destructor.  <a href="#a6e8255c45fd04f1e837d9a7d7a8f7479">More...</a><br/></td></tr>
 <tr class="separator:a6e8255c45fd04f1e837d9a7d7a8f7479"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4779fb354ec58cc0f85efbc21c083040"><td class="memItemLeft" align="right" valign="top">boost::shared_ptr&lt; QStringList &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCExportPDFDialog.html#a4779fb354ec58cc0f85efbc21c083040">exec</a> (boost::shared_ptr&lt; <a class="el" href="structPBCExportPDFDialog_1_1ReturnStruct.html">ReturnStruct</a> &gt; returnStruct)</td></tr>
+<tr class="memdesc:a4779fb354ec58cc0f85efbc21c083040"><td class="mdescLeft">&#160;</td><td class="mdescRight">executes this dialog  <a href="#a4779fb354ec58cc0f85efbc21c083040">More...</a><br/></td></tr>
 <tr class="separator:a4779fb354ec58cc0f85efbc21c083040"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
+<div class="textblock"><p>This class creates a dialog in which you can specify options for pdf exporting. </p>
+<p>You can choose which plays to export, in how many columns and rows the plays will be displayed and how large the paper is that you want to print on and margins of that paper. </p>
+
 <p>Definition at line <a class="el" href="pbcExportPdfDialog_8h_source.html#l00032">32</a> of file <a class="el" href="pbcExportPdfDialog_8h_source.html">pbcExportPdfDialog.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a4f2f5d6128d2e669d6c605c1a3678c5f"></a>
@@ -143,26 +151,16 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="pbcExportPdfDialog_8cpp_source.html#l00030">30</a> of file <a class="el" href="pbcExportPdfDialog_8cpp_source.html">pbcExportPdfDialog.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                                                      :</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    QDialog(parent),</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    ui(<span class="keyword">new</span> Ui::PBCExportPDFDialog) {</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    ui-&gt;setupUi(<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    std::vector&lt;std::string&gt; playNames =</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            <a class="code" href="classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145">PBCPlaybook::getInstance</a>()-&gt;<a class="code" href="classPBCPlaybook.html#a3f7ea3c77bbeb2db2d1718286396e77a">getPlayNames</a>();</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">for</span>(std::string&amp; name : playNames) {</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        QListWidgetItem* listItem =</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                <span class="keyword">new</span> QListWidgetItem(QString::fromStdString(name),</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                                    ui-&gt;allPlaysListWidget);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        ui-&gt;allPlaysListWidget-&gt;addItem(listItem);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    }</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    ui-&gt;allPlaysListWidget-&gt;setSelectionMode(QAbstractItemView::ExtendedSelection);  <span class="comment">//NOLINT</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    ui-&gt;selectedPlaysListWidget-&gt;setSelectionMode(QAbstractItemView::SingleSelection); <span class="comment">//NOLINT</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
-<div class="ttc" id="classPBCSingleton_html_aa9c8c2f34a8b5b2c47ad1440c9950145"><div class="ttname"><a href="classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145">PBCSingleton&lt; PBCPlaybook &gt;::getInstance</a></div><div class="ttdeci">static PBCPlaybook * getInstance()</div><div class="ttdef"><b>Definition:</b> <a href="pbcSingleton_8h_source.html#l00039">pbcSingleton.h:39</a></div></div>
-<div class="ttc" id="classPBCPlaybook_html_a3f7ea3c77bbeb2db2d1718286396e77a"><div class="ttname"><a href="classPBCPlaybook.html#a3f7ea3c77bbeb2db2d1718286396e77a">PBCPlaybook::getPlayNames</a></div><div class="ttdeci">std::vector&lt; std::string &gt; getPlayNames() const </div><div class="ttdef"><b>Definition:</b> <a href="pbcPlaybook_8cpp_source.html#l00206">pbcPlaybook.cpp:206</a></div></div>
-</div><!-- fragment -->
+<p>The Constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parent</td><td>The parent widget this dialog belongs to. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="pbcExportPdfDialog_8cpp_source.html#l00044">44</a> of file <a class="el" href="pbcExportPdfDialog_8cpp_source.html">pbcExportPdfDialog.cpp</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="a6e8255c45fd04f1e837d9a7d7a8f7479"></a>
@@ -178,11 +176,10 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="pbcExportPdfDialog_8cpp_source.html#l00047">47</a> of file <a class="el" href="pbcExportPdfDialog_8cpp_source.html">pbcExportPdfDialog.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                                        {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">delete</span> ui;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
-</div><!-- fragment -->
+<p>The Destructor. </p>
+
+<p>Definition at line <a class="el" href="pbcExportPdfDialog_8cpp_source.html#l00064">64</a> of file <a class="el" href="pbcExportPdfDialog_8cpp_source.html">pbcExportPdfDialog.cpp</a>.</p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -200,30 +197,17 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="pbcExportPdfDialog_8cpp_source.html#l00051">51</a> of file <a class="el" href="pbcExportPdfDialog_8cpp_source.html">pbcExportPdfDialog.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                                                                                                {  <span class="comment">//NOLINT</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">int</span> returnCode = QDialog::exec();</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">if</span>(returnCode == QDialog::Accepted) {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        returnStruct-&gt;paperWidth = ui-&gt;paperWidthSpinBox-&gt;value();</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        returnStruct-&gt;paperHeight = ui-&gt;paperHeightSpinBox-&gt;value();</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        returnStruct-&gt;columns = ui-&gt;columnsSpinBox-&gt;value();</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        returnStruct-&gt;rows = ui-&gt;rowsSpinBox-&gt;value();</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        returnStruct-&gt;marginLeft = ui-&gt;marginLeftSpinBox-&gt;value();</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        returnStruct-&gt;marginRight = ui-&gt;marginRightSpinBox-&gt;value();</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        returnStruct-&gt;marginTop = ui-&gt;marginTopSpinBox-&gt;value();</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        returnStruct-&gt;marginBottom = ui-&gt;marginBottomSpinBox-&gt;value();</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        boost::shared_ptr&lt;QStringList&gt; playNamesSP(<span class="keyword">new</span> QStringList());</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; ui-&gt;selectedPlaysListWidget-&gt;count(); ++i) {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            QListWidgetItem* item = ui-&gt;selectedPlaysListWidget-&gt;item(i);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            assert(item != NULL);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            playNamesSP-&gt;append(item-&gt;text());</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        }</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keywordflow">return</span> playNamesSP;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordflow">return</span> NULL;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div>
-</div><!-- fragment -->
+<p>executes this dialog </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">returnStruct</td><td>a smart pointer to a simple struct that stores paper dimensions, margins and rows/colums </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>a smart pointer to a list of play names that were choosen to export </dd></dl>
+
+<p>Definition at line <a class="el" href="pbcExportPdfDialog_8cpp_source.html#l00074">74</a> of file <a class="el" href="pbcExportPdfDialog_8cpp_source.html">pbcExportPdfDialog.cpp</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
@@ -233,7 +217,7 @@ Public Member Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 27 2015 18:43:54 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 3 2015 23:34:25 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

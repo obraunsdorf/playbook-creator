@@ -82,7 +82,7 @@ HEADERS  += pbcVersion.h \
     dialogs/pbcExportPdfDialog.h \
     models/pbcMotion.h \
     dialogs/pbcCreateMotionRouteDialog.h \
-    models/pbcVirtualMovement.h
+    models/pbcAbstractMovement.h
 
 FORMS    += dialogs/mainDialog.ui \
     dialogs/pbcCustomRouteDialog.ui \

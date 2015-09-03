@@ -23,39 +23,84 @@
 #include <string>
 #include <list>
 
+/**
+ * @class PBCPlay
+ * @brief A model class that stores information about a play
+ */
 
+/**
+ * @brief Getter function for the name of the play
+ * @return the name of the play
+ */
 std::string PBCPlay::name() const {
     return _name;
 }
 
+/**
+ * @brief Setter function for the name of the play
+ * @param name the new name of the play
+ */
 void PBCPlay::setName(const std::string &name) {
     _name = name;
 }
 
+/**
+ * @brief Getter function for the code name of the play
+ * @return the code name of the play
+ */
 std::string PBCPlay::codeName() const {
     return _codeName;
 }
 
+/**
+ * @brief Setter function for the code name of the play
+ * @param codeName the new code name of the play
+ */
 void PBCPlay::setCodeName(const std::string &codeName) {
     _codeName = codeName;
 }
 
+
+/**
+ * @brief Getter function for the formation of the play
+ * @return the formation of the play
+ */
 PBCFormationSP PBCPlay::formation() const {
     return _formation;
 }
 
+/**
+ * @brief Setter function for the formation of the play
+ * @param formation the new formation of the play
+ */
 void PBCPlay::setFormation(const PBCFormationSP &formation) {
     _formation = formation;
 }
 
+/**
+ * @brief Getter function for the categories that the play belongs to
+ * @return a list of the categories
+ */
 std::list<PBCCategorySP> PBCPlay::categories() const {
     return _categories;
 }
 
+/**
+ * @brief Setter function for the categories that the play belongs to
+ * @param categories a list of new categories
+ */
 void PBCPlay::setCategories(const std::list<PBCCategorySP> &categories) {
     _categories = categories;
 }
 
+/**
+ * @brief The constructor
+ * @param name the name of the created play
+ * @param codeName the code name of the created play
+ * @param formationName the formation name of the play
+ *
+ * The formation is fetched from the playbook by its name
+ */
 PBCPlay::PBCPlay(const std::string &name,
                  const std::string &codeName,
                  const std::string& formationName) :
@@ -63,6 +108,15 @@ PBCPlay::PBCPlay(const std::string &name,
     _codeName(codeName),
     _formation(PBCPlaybook::getInstance()->getFormation(formationName)) {}
 
+/**
+ * @brief The copy constructor
+ *
+ * The name, code name and categories of the play are simply copied. The
+ * formation needs special treatment because the copy constructor of
+ * PBCFormation does not copy the players routes and motions but only their
+ * positions. So we need to set the routes and motions here manually.
+ * @param other the PBCPlay instance to copy
+ */
 PBCPlay::PBCPlay(const PBCPlay &other) :
     _name(other.name()),
     _codeName(other.codeName()),

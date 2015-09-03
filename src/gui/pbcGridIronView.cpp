@@ -24,9 +24,32 @@
 #include <QGraphicsEllipseItem>
 #include <vector>
 
+
+/**
+ * @class PBCGridIronView
+ * @brief A canvas class that paints a grid iron on it.
+ *
+ * This class extends a QGraphicsscene. An instance of this class can be seen as
+ * a canvas on which it paints a grid iron itself. In this context a grid iron
+ * is an american football field, consisting of a few lines (line of scrimmage,
+ * 5yd marking line, 10yd marking line,...) and a ball (the football)
+ */
+
+/**
+ * @brief The constructor
+ * @param parent The parent object this dialog belongs to.
+ */
 PBCGridIronView::PBCGridIronView(QObject *parent) :
     QGraphicsScene(parent) {}
 
+/**
+ * @brief Paints a line.
+ * @param yPos The vertical position of the line in coordinates of the
+ * PBCGridIronView instance (pixels)
+ * @param width The horizontal stretch of the line in pixels
+ * @param lineWidth The width of the line
+ * @param color The color of the line
+ */
 void PBCGridIronView::paintLine(unsigned int yPos,
                                 unsigned int width,
                                 unsigned int lineWidth,
@@ -36,6 +59,16 @@ void PBCGridIronView::paintLine(unsigned int yPos,
     this->addLine(0, yPos, width - pen.width(), yPos, pen);
 }
 
+
+/**
+ * @brief Paints the ball.
+ * @param xPos The horizontal position of the ball in coordinates of the
+ * PBCGridIronView instance (pixels)
+ * @param yPos The vertical position of the ball in coordinates of the
+ * PBCGridIronView instance (pixels)
+ * @param zValue The 3D z-value of the ball. Used to render the ball on top of
+ * the PBCPlayerView instances or below
+ */
 void PBCGridIronView::paintBall(unsigned int xPos,
                                 unsigned int yPos,
                                 unsigned int zValue) {
@@ -52,6 +85,9 @@ void PBCGridIronView::paintBall(unsigned int xPos,
     ball->setZValue(zValue);
 }
 
+/**
+ * @brief Paints the border lines of the grid iron.
+ */
 void PBCGridIronView::paintBorder() {
     this->addRect(0,
                   0,

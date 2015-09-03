@@ -91,37 +91,46 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>This is a data model class, which represents a players route.  
+ <a href="classPBCRoute.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="pbcRoute_8h_source.html">pbcRoute.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for PBCRoute:</div>
 <div class="dyncontent">
 <div class="center"><img src="classPBCRoute__inherit__graph.png" border="0" usemap="#PBCRoute_inherit__map" alt="Inheritance graph"/></div>
 <map name="PBCRoute_inherit__map" id="PBCRoute_inherit__map">
-<area shape="rect" id="node2" href="classPBCVirtualMovement.html" title="PBCVirtualMovement" alt="" coords="5,5,152,32"/></map>
+<area shape="rect" id="node2" href="classPBCAbstractMovement.html" title="An abstract class that handles the similarity (consisting of paths) of routes and motions..." alt="" coords="4,5,163,32"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
 Collaboration diagram for PBCRoute:</div>
 <div class="dyncontent">
 <div class="center"><img src="classPBCRoute__coll__graph.png" border="0" usemap="#PBCRoute_coll__map" alt="Collaboration graph"/></div>
 <map name="PBCRoute_coll__map" id="PBCRoute_coll__map">
-<area shape="rect" id="node2" href="classPBCVirtualMovement.html" title="PBCVirtualMovement" alt="" coords="5,5,152,32"/></map>
+<area shape="rect" id="node2" href="classPBCAbstractMovement.html" title="An abstract class that handles the similarity (consisting of paths) of routes and motions..." alt="" coords="4,5,163,32"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab85e6e4e7be74fb8a4020a279eacffcb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCRoute.html#ab85e6e4e7be74fb8a4020a279eacffcb">PBCRoute</a> (const std::string &amp;<a class="el" href="classPBCRoute.html#adc3be11fdc605476829f3bc0221a228f">name</a>, const std::string &amp;<a class="el" href="classPBCRoute.html#a797db5360ff64a05736808f91e67833e">codeName</a>, const std::vector&lt; <a class="el" href="pbcPath_8h.html#a2f401523016ba2408538d2e998086fce">PBCPathSP</a> &gt; &amp;<a class="el" href="classPBCVirtualMovement.html#aef77d4818bce97f4467f1a1e7f29881e">paths</a>)</td></tr>
+<tr class="memitem:ab85e6e4e7be74fb8a4020a279eacffcb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCRoute.html#ab85e6e4e7be74fb8a4020a279eacffcb">PBCRoute</a> (const std::string &amp;<a class="el" href="classPBCRoute.html#adc3be11fdc605476829f3bc0221a228f">name</a>, const std::string &amp;<a class="el" href="classPBCRoute.html#a797db5360ff64a05736808f91e67833e">codeName</a>, const std::vector&lt; <a class="el" href="pbcPath_8h.html#a2f401523016ba2408538d2e998086fce">PBCPathSP</a> &gt; &amp;<a class="el" href="classPBCAbstractMovement.html#ab58d63ca464d9da2d194afae2f4699e5">paths</a>)</td></tr>
+<tr class="memdesc:ab85e6e4e7be74fb8a4020a279eacffcb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The constructor.  <a href="#ab85e6e4e7be74fb8a4020a279eacffcb">More...</a><br/></td></tr>
 <tr class="separator:ab85e6e4e7be74fb8a4020a279eacffcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc3be11fdc605476829f3bc0221a228f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCRoute.html#adc3be11fdc605476829f3bc0221a228f">name</a> () const </td></tr>
+<tr class="memdesc:adc3be11fdc605476829f3bc0221a228f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for the name of the route.  <a href="#adc3be11fdc605476829f3bc0221a228f">More...</a><br/></td></tr>
 <tr class="separator:adc3be11fdc605476829f3bc0221a228f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a797db5360ff64a05736808f91e67833e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCRoute.html#a797db5360ff64a05736808f91e67833e">codeName</a> () const </td></tr>
+<tr class="memdesc:a797db5360ff64a05736808f91e67833e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for the code name of the route.  <a href="#a797db5360ff64a05736808f91e67833e">More...</a><br/></td></tr>
 <tr class="separator:a797db5360ff64a05736808f91e67833e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classPBCVirtualMovement"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classPBCVirtualMovement')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classPBCVirtualMovement.html">PBCVirtualMovement</a></td></tr>
-<tr class="memitem:aef77d4818bce97f4467f1a1e7f29881e inherit pub_methods_classPBCVirtualMovement"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="pbcPath_8h.html#a2f401523016ba2408538d2e998086fce">PBCPathSP</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCVirtualMovement.html#aef77d4818bce97f4467f1a1e7f29881e">paths</a> () const </td></tr>
-<tr class="separator:aef77d4818bce97f4467f1a1e7f29881e inherit pub_methods_classPBCVirtualMovement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72f22f0dba8cab536f6b99b3d16d0c35 inherit pub_methods_classPBCVirtualMovement"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCVirtualMovement.html#a72f22f0dba8cab536f6b99b3d16d0c35">setPaths</a> (const std::vector&lt; <a class="el" href="pbcPath_8h.html#a2f401523016ba2408538d2e998086fce">PBCPathSP</a> &gt; <a class="el" href="classPBCVirtualMovement.html#aef77d4818bce97f4467f1a1e7f29881e">paths</a>)</td></tr>
-<tr class="separator:a72f22f0dba8cab536f6b99b3d16d0c35 inherit pub_methods_classPBCVirtualMovement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a141a163990a877186f8e205a7e533b74 inherit pub_methods_classPBCVirtualMovement"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCVirtualMovement.html#a141a163990a877186f8e205a7e533b74">addPath</a> (const <a class="el" href="pbcPath_8h.html#a2f401523016ba2408538d2e998086fce">PBCPathSP</a> &amp;path)</td></tr>
-<tr class="separator:a141a163990a877186f8e205a7e533b74 inherit pub_methods_classPBCVirtualMovement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classPBCAbstractMovement"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classPBCAbstractMovement')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classPBCAbstractMovement.html">PBCAbstractMovement</a></td></tr>
+<tr class="memitem:ab58d63ca464d9da2d194afae2f4699e5 inherit pub_methods_classPBCAbstractMovement"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="pbcPath_8h.html#a2f401523016ba2408538d2e998086fce">PBCPathSP</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCAbstractMovement.html#ab58d63ca464d9da2d194afae2f4699e5">paths</a> () const </td></tr>
+<tr class="memdesc:ab58d63ca464d9da2d194afae2f4699e5 inherit pub_methods_classPBCAbstractMovement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Getter for the movement's path vector.  <a href="#ab58d63ca464d9da2d194afae2f4699e5">More...</a><br/></td></tr>
+<tr class="separator:ab58d63ca464d9da2d194afae2f4699e5 inherit pub_methods_classPBCAbstractMovement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bd86f8a80ed6147fefe2cd2f87274ba inherit pub_methods_classPBCAbstractMovement"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCAbstractMovement.html#a9bd86f8a80ed6147fefe2cd2f87274ba">setPaths</a> (const std::vector&lt; <a class="el" href="pbcPath_8h.html#a2f401523016ba2408538d2e998086fce">PBCPathSP</a> &gt; <a class="el" href="classPBCAbstractMovement.html#ab58d63ca464d9da2d194afae2f4699e5">paths</a>)</td></tr>
+<tr class="memdesc:a9bd86f8a80ed6147fefe2cd2f87274ba inherit pub_methods_classPBCAbstractMovement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Setter for the movement's path vector.  <a href="#a9bd86f8a80ed6147fefe2cd2f87274ba">More...</a><br/></td></tr>
+<tr class="separator:a9bd86f8a80ed6147fefe2cd2f87274ba inherit pub_methods_classPBCAbstractMovement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60f0e9c107597d60005cf7d9098a1466 inherit pub_methods_classPBCAbstractMovement"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCAbstractMovement.html#a60f0e9c107597d60005cf7d9098a1466">addPath</a> (const <a class="el" href="pbcPath_8h.html#a2f401523016ba2408538d2e998086fce">PBCPathSP</a> &amp;path)</td></tr>
+<tr class="memdesc:a60f0e9c107597d60005cf7d9098a1466 inherit pub_methods_classPBCAbstractMovement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds one path to the path vector.  <a href="#a60f0e9c107597d60005cf7d9098a1466">More...</a><br/></td></tr>
+<tr class="separator:a60f0e9c107597d60005cf7d9098a1466 inherit pub_methods_classPBCAbstractMovement"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -130,14 +139,18 @@ Friends</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pro_methods_classPBCVirtualMovement"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classPBCVirtualMovement')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classPBCVirtualMovement.html">PBCVirtualMovement</a></td></tr>
-<tr class="memitem:a9dd0184bd5d4b2fd10ccd948fc03c7ca inherit pro_methods_classPBCVirtualMovement"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCVirtualMovement.html#a9dd0184bd5d4b2fd10ccd948fc03c7ca">PBCVirtualMovement</a> ()</td></tr>
-<tr class="separator:a9dd0184bd5d4b2fd10ccd948fc03c7ca inherit pro_methods_classPBCVirtualMovement"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a485e36208a3f66494b6b5c5d663bd9c5 inherit pro_methods_classPBCVirtualMovement"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCVirtualMovement.html#a485e36208a3f66494b6b5c5d663bd9c5">PBCVirtualMovement</a> (const std::vector&lt; <a class="el" href="pbcPath_8h.html#a2f401523016ba2408538d2e998086fce">PBCPathSP</a> &gt; <a class="el" href="classPBCVirtualMovement.html#aef77d4818bce97f4467f1a1e7f29881e">paths</a>)</td></tr>
-<tr class="separator:a485e36208a3f66494b6b5c5d663bd9c5 inherit pro_methods_classPBCVirtualMovement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classPBCAbstractMovement"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classPBCAbstractMovement')"><img src="closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="classPBCAbstractMovement.html">PBCAbstractMovement</a></td></tr>
+<tr class="memitem:a93aaa6f2ced04df4b7f09e956fb50311 inherit pro_methods_classPBCAbstractMovement"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCAbstractMovement.html#a93aaa6f2ced04df4b7f09e956fb50311">PBCAbstractMovement</a> ()</td></tr>
+<tr class="memdesc:a93aaa6f2ced04df4b7f09e956fb50311 inherit pro_methods_classPBCAbstractMovement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Empty default constructor, needed by Boost Serialization.  <a href="#a93aaa6f2ced04df4b7f09e956fb50311">More...</a><br/></td></tr>
+<tr class="separator:a93aaa6f2ced04df4b7f09e956fb50311 inherit pro_methods_classPBCAbstractMovement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88d72008d07f394f871a7eb313197445 inherit pro_methods_classPBCAbstractMovement"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCAbstractMovement.html#a88d72008d07f394f871a7eb313197445">PBCAbstractMovement</a> (const std::vector&lt; <a class="el" href="pbcPath_8h.html#a2f401523016ba2408538d2e998086fce">PBCPathSP</a> &gt; <a class="el" href="classPBCAbstractMovement.html#ab58d63ca464d9da2d194afae2f4699e5">paths</a>)</td></tr>
+<tr class="memdesc:a88d72008d07f394f871a7eb313197445 inherit pro_methods_classPBCAbstractMovement"><td class="mdescLeft">&#160;</td><td class="mdescRight">The constructor.  <a href="#a88d72008d07f394f871a7eb313197445">More...</a><br/></td></tr>
+<tr class="separator:a88d72008d07f394f871a7eb313197445 inherit pro_methods_classPBCAbstractMovement"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
+<div class="textblock"><p>This is a data model class, which represents a players route. </p>
+<p>It is inherited from <a class="el" href="classPBCAbstractMovement.html" title="An abstract class that handles the similarity (consisting of paths) of routes and motions...">PBCAbstractMovement</a>. </p>
+
 <p>Definition at line <a class="el" href="pbcRoute_8h_source.html#l00039">39</a> of file <a class="el" href="pbcRoute_8h_source.html">pbcRoute.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ab85e6e4e7be74fb8a4020a279eacffcb"></a>
@@ -170,16 +183,18 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="pbcRoute_8cpp_source.html#l00026">26</a> of file <a class="el" href="pbcRoute_8cpp_source.html">pbcRoute.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                                                      :</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <a class="code" href="classPBCVirtualMovement.html#a9dd0184bd5d4b2fd10ccd948fc03c7ca">PBCVirtualMovement</a>(<a class="code" href="classPBCVirtualMovement.html#aef77d4818bce97f4467f1a1e7f29881e">paths</a>),</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    _name(<a class="code" href="classPBCRoute.html#adc3be11fdc605476829f3bc0221a228f">name</a>),</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    _codeName(<a class="code" href="classPBCRoute.html#a797db5360ff64a05736808f91e67833e">codeName</a>) {}</div>
-<div class="ttc" id="classPBCVirtualMovement_html_aef77d4818bce97f4467f1a1e7f29881e"><div class="ttname"><a href="classPBCVirtualMovement.html#aef77d4818bce97f4467f1a1e7f29881e">PBCVirtualMovement::paths</a></div><div class="ttdeci">const std::vector&lt; PBCPathSP &gt; &amp; paths() const </div><div class="ttdef"><b>Definition:</b> <a href="pbcVirtualMovement_8h_source.html#l00045">pbcVirtualMovement.h:45</a></div></div>
-<div class="ttc" id="classPBCRoute_html_a797db5360ff64a05736808f91e67833e"><div class="ttname"><a href="classPBCRoute.html#a797db5360ff64a05736808f91e67833e">PBCRoute::codeName</a></div><div class="ttdeci">std::string codeName() const </div><div class="ttdef"><b>Definition:</b> <a href="pbcRoute_8cpp_source.html#l00037">pbcRoute.cpp:37</a></div></div>
-<div class="ttc" id="classPBCRoute_html_adc3be11fdc605476829f3bc0221a228f"><div class="ttname"><a href="classPBCRoute.html#adc3be11fdc605476829f3bc0221a228f">PBCRoute::name</a></div><div class="ttdeci">std::string name() const </div><div class="ttdef"><b>Definition:</b> <a href="pbcRoute_8cpp_source.html#l00033">pbcRoute.cpp:33</a></div></div>
-<div class="ttc" id="classPBCVirtualMovement_html_a9dd0184bd5d4b2fd10ccd948fc03c7ca"><div class="ttname"><a href="classPBCVirtualMovement.html#a9dd0184bd5d4b2fd10ccd948fc03c7ca">PBCVirtualMovement::PBCVirtualMovement</a></div><div class="ttdeci">PBCVirtualMovement()</div><div class="ttdef"><b>Definition:</b> <a href="pbcVirtualMovement_8h_source.html#l00040">pbcVirtualMovement.h:40</a></div></div>
-</div><!-- fragment -->
+<p>The constructor. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>The name of the created route </td></tr>
+    <tr><td class="paramname">codeName</td><td>The code name of the created route </td></tr>
+    <tr><td class="paramname">paths</td><td>The paths that the created route consists of </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="pbcRoute_8cpp_source.html#l00039">39</a> of file <a class="el" href="pbcRoute_8cpp_source.html">pbcRoute.cpp</a>.</p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -196,11 +211,11 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="pbcRoute_8cpp_source.html#l00037">37</a> of file <a class="el" href="pbcRoute_8cpp_source.html">pbcRoute.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                                   {</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">return</span> _codeName;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
-</div><!-- fragment -->
+<p>Getter for the code name of the route. </p>
+<dl class="section return"><dt>Returns</dt><dd>the route's code name </dd></dl>
+
+<p>Definition at line <a class="el" href="pbcRoute_8cpp_source.html#l00058">58</a> of file <a class="el" href="pbcRoute_8cpp_source.html">pbcRoute.cpp</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="adc3be11fdc605476829f3bc0221a228f"></a>
@@ -216,11 +231,11 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="pbcRoute_8cpp_source.html#l00033">33</a> of file <a class="el" href="pbcRoute_8cpp_source.html">pbcRoute.cpp</a>.</p>
-<div class="fragment"><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                               {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">return</span> _name;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
-</div><!-- fragment -->
+<p>Getter for the name of the route. </p>
+<dl class="section return"><dt>Returns</dt><dd>the route's name </dd></dl>
+
+<p>Definition at line <a class="el" href="pbcRoute_8cpp_source.html#l00050">50</a> of file <a class="el" href="pbcRoute_8cpp_source.html">pbcRoute.cpp</a>.</p>
+
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
@@ -253,7 +268,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 27 2015 18:43:54 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 3 2015 23:34:25 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

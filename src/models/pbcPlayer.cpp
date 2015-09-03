@@ -21,47 +21,108 @@
 
 #include "pbcPlayer.h"
 
+/**
+ * @class PBCPlayer
+ * @brief A model class that stores information about a player
+ */
 
+/**
+ * @brief Getter for the player's role
+ *
+ * Here a role is a synonym for the players position (Quarterback, Runningback, Center)
+ * @return the player's role
+ */
 PBCRole PBCPlayer::role() const {
     return _role;
 }
 
+
+/**
+ * @brief Setter for the player's role
+ *
+ * Here a role is a synonym for the players position (Quarterback, Runningback, Center)
+ * @param role The player's role
+ */
 void PBCPlayer::setRole(const PBCRole &role) {
     _role = role;
 }
 
+/**
+ * @brief Getter for the player's color
+ *
+ * This color is used for painting the player's body, route and motion.
+ * @return the player's color
+ */
 PBCColor PBCPlayer::color() const {
     return _color;
 }
 
+/**
+ * @brief Setter for the player's color
+ *
+ * This color is used for painting the player's body, route and motion.
+ * @param color The new color of the player
+ */
 void PBCPlayer::setColor(const PBCColor &color) {
     _color = color;
 }
 
+/**
+ * @brief Getter for the (geographical) position of the player (in yd)
+ * @return the player's position
+ */
 PBCDPoint PBCPlayer::pos() const {
     return _pos;
 }
 
+/**
+ * @brief @brief Setter for the (geographical) position of the player (in yd)
+ * @param pos The player's new position
+ */
 void PBCPlayer::setPos(const PBCDPoint &pos) {
     _pos = pos;
 }
 
+/**
+ * @brief Getter for the route of the player
+ * @return the player's route
+ */
 PBCRouteSP PBCPlayer::route() const {
     return _route;
 }
 
+/**
+ * @brief Setter for the route of the player
+ * @param route The player's new route
+ */
 void PBCPlayer::setRoute(const PBCRouteSP &route) {
     _route = route;
 }
 
+/**
+ * @brief Getter for the motion of the player
+ * @return the player's motion
+ */
 PBCMotionSP PBCPlayer::motion() const {
     return _motion;
 }
 
+/**
+ * @brief Setter for the motion of the player
+ * @param motion The player's new motion
+ */
 void PBCPlayer::setMotion(const PBCMotionSP &motion) {
     _motion = motion;
 }
 
+/**
+ * @brief The constructor
+ * @param role The role of the created player
+ * @param color The color of the created player
+ * @param pos The position of the created player
+ * @param route The route of the created player
+ * @param motion The motion of the created player
+ */
 PBCPlayer::PBCPlayer(PBCRole role,
                      PBCColor color,
                      PBCDPoint pos,

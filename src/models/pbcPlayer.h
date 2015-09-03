@@ -38,6 +38,17 @@
 class PBCPlayer;
 typedef boost::shared_ptr<PBCPlayer> PBCPlayerSP;
 
+/**
+ * @brief A role is a synonym for the players position.
+ *
+ * fullName is the long term, e.g. "Quarterback".
+ * shortname is the short term, e.g. "QB". It is limited to four chars.
+ */
+struct PBCRole {
+    std::string fullName;
+    boost::array<char, 4> shortName;
+};
+
 class PBCPlayer {
 friend class boost::serialization::access;
  private:

@@ -91,37 +91,36 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a href="pbcPath_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pbcPath_8h.html">pbcPath.h</a>&quot;</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classPBCPath.html#a9665743c88b98eddfb79efbd61243bed">   25</a></span>&#160;<a class="code" href="pbcDeclarations_8h.html#a4657989e7c733735e6b8db2f71fbdfb1">PBCDPoint</a> <a class="code" href="classPBCPath.html#a9665743c88b98eddfb79efbd61243bed">PBCPath::endpoint</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordflow">return</span> _endpoint;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="classPBCPath.html#a92fbd3803de128a838b3288c3f467839">   29</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classPBCPath.html#a92fbd3803de128a838b3288c3f467839">PBCPath::isArc</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordflow">return</span> _arc;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;}</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="classPBCPath.html#ad3931813514824d6388033d4dfb354ee">   33</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classPBCPath.html#ad3931813514824d6388033d4dfb354ee">PBCPath::isConcave</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">return</span> _concave;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classPBCPath.html#ac2324b779eb36dc07afee7729858afcd">   37</a></span>&#160;PBCPath::PBCPath(<a class="code" href="pbcDeclarations_8h.html#a4657989e7c733735e6b8db2f71fbdfb1">PBCDPoint</a> endpoint, <span class="keywordtype">bool</span> arc, <span class="keywordtype">bool</span> concave) :</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    _endpoint(endpoint),</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    _arc(arc),</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    _concave(concave) {}</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="classPBCPath.html#a95191e7e844aeb02811d6c102d62378f">   42</a></span>&#160;PBCPath::PBCPath(<span class="keywordtype">double</span> endpointX, <span class="keywordtype">double</span> endpointY, <span class="keywordtype">bool</span> arc, <span class="keywordtype">bool</span> concave) :</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    _endpoint(<a class="code" href="pbcDeclarations_8h.html#a4657989e7c733735e6b8db2f71fbdfb1">PBCDPoint</a>(endpointX, endpointY)),</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    _arc(arc),</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    _concave(concave) {}</div>
-<div class="ttc" id="classPBCPath_html_ad3931813514824d6388033d4dfb354ee"><div class="ttname"><a href="classPBCPath.html#ad3931813514824d6388033d4dfb354ee">PBCPath::isConcave</a></div><div class="ttdeci">bool isConcave() const </div><div class="ttdef"><b>Definition:</b> <a href="pbcPath_8cpp_source.html#l00033">pbcPath.cpp:33</a></div></div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="classPBCPath.html#a9665743c88b98eddfb79efbd61243bed">   39</a></span>&#160;<a class="code" href="pbcDeclarations_8h.html#a4657989e7c733735e6b8db2f71fbdfb1">PBCDPoint</a> <a class="code" href="classPBCPath.html#a9665743c88b98eddfb79efbd61243bed">PBCPath::endpoint</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">return</span> _endpoint;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="classPBCPath.html#a92fbd3803de128a838b3288c3f467839">   47</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classPBCPath.html#a92fbd3803de128a838b3288c3f467839">PBCPath::isArc</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">return</span> _arc;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classPBCPath.html#ad3931813514824d6388033d4dfb354ee">   56</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="classPBCPath.html#ad3931813514824d6388033d4dfb354ee">PBCPath::isConcave</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">return</span> _concave;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="classPBCPath.html#ac2324b779eb36dc07afee7729858afcd">   66</a></span>&#160;PBCPath::PBCPath(<a class="code" href="pbcDeclarations_8h.html#a4657989e7c733735e6b8db2f71fbdfb1">PBCDPoint</a> endpoint, <span class="keywordtype">bool</span> arc, <span class="keywordtype">bool</span> concave) :</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    _endpoint(endpoint),</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    _arc(arc),</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    _concave(concave) {}</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="classPBCPath.html#a95191e7e844aeb02811d6c102d62378f">   78</a></span>&#160;PBCPath::PBCPath(<span class="keywordtype">double</span> endpointX, <span class="keywordtype">double</span> endpointY, <span class="keywordtype">bool</span> arc, <span class="keywordtype">bool</span> concave) :</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    _endpoint(<a class="code" href="pbcDeclarations_8h.html#a4657989e7c733735e6b8db2f71fbdfb1">PBCDPoint</a>(endpointX, endpointY)),</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    _arc(arc),</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    _concave(concave) {}</div>
+<div class="ttc" id="classPBCPath_html_ad3931813514824d6388033d4dfb354ee"><div class="ttname"><a href="classPBCPath.html#ad3931813514824d6388033d4dfb354ee">PBCPath::isConcave</a></div><div class="ttdeci">bool isConcave() const </div><div class="ttdoc">Determines whether the arc path is concave or convex. </div><div class="ttdef"><b>Definition:</b> <a href="pbcPath_8cpp_source.html#l00056">pbcPath.cpp:56</a></div></div>
 <div class="ttc" id="pbcPath_8h_html"><div class="ttname"><a href="pbcPath_8h.html">pbcPath.h</a></div></div>
-<div class="ttc" id="pbcDeclarations_8h_html_a4657989e7c733735e6b8db2f71fbdfb1"><div class="ttname"><a href="pbcDeclarations_8h.html#a4657989e7c733735e6b8db2f71fbdfb1">PBCDPoint</a></div><div class="ttdeci">point&lt; double, 2, boost::geometry::cs::cartesian &gt; PBCDPoint</div><div class="ttdef"><b>Definition:</b> <a href="pbcDeclarations_8h_source.html#l00036">pbcDeclarations.h:36</a></div></div>
-<div class="ttc" id="classPBCPath_html_a9665743c88b98eddfb79efbd61243bed"><div class="ttname"><a href="classPBCPath.html#a9665743c88b98eddfb79efbd61243bed">PBCPath::endpoint</a></div><div class="ttdeci">PBCDPoint endpoint() const </div><div class="ttdef"><b>Definition:</b> <a href="pbcPath_8cpp_source.html#l00025">pbcPath.cpp:25</a></div></div>
-<div class="ttc" id="classPBCPath_html_a92fbd3803de128a838b3288c3f467839"><div class="ttname"><a href="classPBCPath.html#a92fbd3803de128a838b3288c3f467839">PBCPath::isArc</a></div><div class="ttdeci">bool isArc() const </div><div class="ttdef"><b>Definition:</b> <a href="pbcPath_8cpp_source.html#l00029">pbcPath.cpp:29</a></div></div>
+<div class="ttc" id="pbcDeclarations_8h_html_a4657989e7c733735e6b8db2f71fbdfb1"><div class="ttname"><a href="pbcDeclarations_8h.html#a4657989e7c733735e6b8db2f71fbdfb1">PBCDPoint</a></div><div class="ttdeci">point&lt; double, 2, boost::geometry::cs::cartesian &gt; PBCDPoint</div><div class="ttdoc">PBCDPoint is a 2D point consisting of two coordinates of type double. </div><div class="ttdef"><b>Definition:</b> <a href="pbcDeclarations_8h_source.html#l00033">pbcDeclarations.h:33</a></div></div>
+<div class="ttc" id="classPBCPath_html_a9665743c88b98eddfb79efbd61243bed"><div class="ttname"><a href="classPBCPath.html#a9665743c88b98eddfb79efbd61243bed">PBCPath::endpoint</a></div><div class="ttdeci">PBCDPoint endpoint() const </div><div class="ttdoc">A getter function for the path&#39;s endpoint. </div><div class="ttdef"><b>Definition:</b> <a href="pbcPath_8cpp_source.html#l00039">pbcPath.cpp:39</a></div></div>
+<div class="ttc" id="classPBCPath_html_a92fbd3803de128a838b3288c3f467839"><div class="ttname"><a href="classPBCPath.html#a92fbd3803de128a838b3288c3f467839">PBCPath::isArc</a></div><div class="ttdeci">bool isArc() const </div><div class="ttdoc">Determines whether the path is straight or an arc. </div><div class="ttdef"><b>Definition:</b> <a href="pbcPath_8cpp_source.html#l00047">pbcPath.cpp:47</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 27 2015 18:43:54 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 3 2015 23:34:25 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

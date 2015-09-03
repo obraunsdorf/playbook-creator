@@ -29,9 +29,17 @@
 #include "models/pbcPlayer.h"
 #include <boost/serialization/vector.hpp>
 
+
 class PBCFormation;
 typedef boost::shared_ptr<PBCFormation> PBCFormationSP;
 
+/**
+ * @class PBCFormation
+ * @brief A model class that stores information about a formation
+ *
+ * A formation is a vector of players (which store the position information) and
+ * also a category.
+ */
 class PBCFormation : public PBCCategory, public std::vector<PBCPlayerSP> {
 friend class boost::serialization::access;
 
@@ -46,6 +54,14 @@ friend class boost::serialization::access;
 
  public:
     explicit PBCFormation(const std::string& name) : PBCCategory(name) {}
+
+    /**
+     * @brief The copy constructor
+     *
+     * Copies the formation, which means copying the players without their
+     * routes and motions.
+     * @param other The formation to copy
+     */
     explicit PBCFormation(const PBCFormation& other) :
         PBCCategory(other.name()), std::vector<PBCPlayerSP>() {
         for(PBCPlayerSP otherPlayer : other) {

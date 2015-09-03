@@ -1,3 +1,3 @@
 <map id="PBCRoute" name="PBCRoute">
-<area shape="rect" id="node2" href="$classPBCVirtualMovement.html" title="PBCVirtualMovement" alt="" coords="5,5,152,32"/>
+<area shape="rect" id="node2" href="$classPBCAbstractMovement.html" title="An abstract class that handles the similarity (consisting of paths) of routes and motions..." alt="" coords="4,5,163,32"/>
 </map>

@@ -22,17 +22,39 @@
 #include "pbcMotion.h"
 #include "util/pbcExceptions.h"
 
+/**
+ * @class PBCMotion
+ * @brief This is a data model class, which represents a players motion before
+ * the snap.
+ *
+ * It is inherited from PBCAbstractMovement.
+ */
+
+/**
+ * @brief The default constructor. Creates an empty motion.
+ */
 PBCMotion::PBCMotion() : _motionEndPoint(0, 0) {
 }
 
+/**
+ * @brief Adds a path to the motion.
+ * @param pathSP The path to add
+ */
 void PBCMotion::addPath(const PBCPathSP& pathSP) {
     if(pathSP->endpoint().get<1>() > _motionEndPoint.get<1>()) {
         throw PBCRuleBreakException("A motion cannot go towards the LOS.");
     }
-    PBCVirtualMovement::addPath(pathSP);
+    PBCAbstractMovement::addPath(pathSP);
     _motionEndPoint = pathSP->endpoint();
 }
 
+/**
+ * @brief A getter Function for the motion's endpoint
+ *
+ * The motion's endpoint is the position (in yd) where the player will stand
+ * when he has finished his motion
+ * @return The motion endpoint
+ */
 PBCDPoint PBCMotion::motionEndPoint() const {
     return _motionEndPoint;
 }

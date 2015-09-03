@@ -27,10 +27,30 @@
 #include "util/pbcExceptions.h"
 #include "util/pbcStorage.h"
 
+/**
+ * @class PBCPlaybook
+ * @brief This is a data model class representing a playbook.
+ *
+ * PBCPlaybook is a Singleton class (it inherits PBCSingleton). Thus the
+ * application handles only one playbook at a time. It stores the plays,
+ * formations, routes, and categories.
+ */
+
+/**
+ * @brief The default constructor. It is only called by PBCSingleton and creates
+ * a new empty playbook when the application is started.
+ */
 PBCPlaybook::PBCPlaybook() : _name("new Playbook") {
     resetToNewEmptyPlaybook(_name);
 }
 
+
+/**
+ * @brief Resets the playbook if the user wants to create a new one.
+ *
+ * Standard Routes (5 In, Post, Fly, Slant) and a I-Formation are inserted.
+ * @param name The name of the new Playbook
+ */
 void PBCPlaybook::resetToNewEmptyPlaybook(const std::string &name) {
     _builtWithPBCVersion = PBCVersion::getVersionString();
     _name = name;
@@ -89,10 +109,17 @@ void PBCPlaybook::resetToNewEmptyPlaybook(const std::string &name) {
     assert(result.second == true);
 }
 
-void PBCPlaybook::setName(const std::string &name) {
-    _name = name;
-}
-
+/**
+ * @brief Adds a copy of a formation to the playbook.
+ * @param formation The formation to add.
+ * @param overwrite Specifies if a formation with the same name should be overwritten.
+ *
+ * If overwrite is false and the formation has the same name
+ * as a formation that has been added to the playbook already, then the new
+ * formation is not added to the playbook. If overwrite is true, a formation
+ * with the same name is overwritten by the new formation.
+ * @return true if the formation has been successfully added to the playbook
+ */
 bool PBCPlaybook::addFormation(PBCFormationSP formation, bool overwrite) {
     if(overwrite == true ) {
         PBCFormationSP formationCopy(new PBCFormation(*formation));
@@ -111,6 +138,22 @@ bool PBCPlaybook::addFormation(PBCFormationSP formation, bool overwrite) {
     }
 }
 
+/**
+ * @brief Adds a route to the playbook.
+ *
+ * Actually this function adds a pointer to a route. When overwriting a route
+ * later, this pointer is used so that the routes which have the same name will
+ * be overwritten in all plays. So you only have to change a route one time and
+ * it is changed automatically in the whole playbook
+ * @param route The route to add
+ * @param overwrite Specifies if a route with the same name should be overwritten.
+ *
+ * If overwrite is false and the route has the same name as an formation that
+ * has been added to the playbook already, then the new route is not added to
+ * the playbook. If overwrite is true, a route with the same name is overwritten
+ * by the new route.
+ * @return true if the route has been successfully added to the playbook
+ */
 bool PBCPlaybook::addRoute(PBCRouteSP route, bool overwrite) {
     if(overwrite == true ) {
         *_routes[route->name()] = *route;  // TODO(obr): does this create memory leaks?  //NOLINT
@@ -127,6 +170,17 @@ bool PBCPlaybook::addRoute(PBCRouteSP route, bool overwrite) {
     }
 }
 
+/**
+ * @brief Adds a category to the playbook.
+ * @param category The category to add.
+ * @param overwrite Specifies if a formation with the same name should be overwritten.
+ *
+ * If overwrite is false and the category has the same name
+ * as a category that has been added to the playbook already, then the new
+ * category is not added to the playbook. If overwrite is true, a category
+ * with the same name is overwritten by the new category.
+ * @return true if the category has been successfully added to the playbook
+ */
 bool PBCPlaybook::addCategory(PBCCategorySP category, bool overwrite) {
     if(overwrite == true) {
         _categories[category->name()] = category;
@@ -142,6 +196,17 @@ bool PBCPlaybook::addCategory(PBCCategorySP category, bool overwrite) {
     }
 }
 
+/**
+ * @brief Adds a copy of a play to the playbook.
+ * @param play The formation to add.
+ * @param overwrite Specifies if a play with the same name should be overwritten.
+ *
+ * If overwrite is false and the play has the same name
+ * as a play that has been added to the playbook already, then the new
+ * play is not added to the playbook. If overwrite is true, a play
+ * with the same name is overwritten by the new play.
+ * @return true if the play has been successfully added to the playbook
+ */
 bool PBCPlaybook::addPlay(PBCPlaySP play, bool overwrite) {
     if(overwrite == true) {
         PBCPlaySP playCopy(new PBCPlay(*play));
@@ -160,26 +225,61 @@ bool PBCPlaybook::addPlay(PBCPlaySP play, bool overwrite) {
     }
 }
 
+/**
+ * @brief Getter function to get the version of the application that this
+ * playbook was created with.
+ * @return the version string
+ */
 std::string PBCPlaybook::builtWithPBCVersion() {
     return _builtWithPBCVersion;
 }
 
+/**
+ * @brief Setter function for the playbook's name
+ * @param name The new name of the playbook
+ */
+void PBCPlaybook::setName(const std::string &name) {
+    _name = name;
+}
+
+/**
+ * @brief Getter function for the playbook's name
+ * @return The playbook's name
+ */
 std::string PBCPlaybook::name() const {
     return _name;
 }
 
+/**
+ * @brief Getter function for the formations of the playbook
+ * @return A list of the playbook's formations
+ */
 std::list<PBCFormationSP> PBCPlaybook::formations() const {
     return mapToList<PBCFormationSP>(_formations);
 }
 
+/**
+ * @brief Getter function for the routes of the playbook
+ * @return A list of the playbook's routes
+ */
 std::list<PBCRouteSP> PBCPlaybook::routes() const {
     return mapToList<PBCRouteSP>(_routes);
 }
 
+/**
+ * @brief Getter function for the plays of the playbook
+ * @return A list of the playbook's plays
+ */
 std::list<PBCPlaySP> PBCPlaybook::plays() const {
     return mapToList<PBCPlaySP>(_plays);
 }
 
+/**
+ * @brief Selects a formation by name
+ * @param name The name of the formation
+ * @return The formation with the given name. If no formation with the given
+ * name is in the playbook, an exception is thrown (should be ;) )
+ */
 PBCFormationSP PBCPlaybook::getFormation(const std::string &name) {
     const auto& it = _formations.find(name);
     assert(it != _formations.end());  // TODO(obr): throw exception
@@ -187,6 +287,12 @@ PBCFormationSP PBCPlaybook::getFormation(const std::string &name) {
     return PBCFormationSP(new PBCFormation(*formation));
 }
 
+/**
+ * @brief Selects a play by name
+ * @param name The name of the play
+ * @return The play with the given name. If no play with the given
+ * name is in the playbook, an exception is thrown (should be ;) )
+ */
 PBCPlaySP PBCPlaybook::getPlay(const std::string &name) {
     const auto& it = _plays.find(name);
     assert(it != _plays.end());  // TODO(obr) throw exception
@@ -194,6 +300,10 @@ PBCPlaySP PBCPlaybook::getPlay(const std::string &name) {
     return PBCPlaySP(new PBCPlay(*play));
 }
 
+/**
+ * @brief Gets the names of the playbook's formations
+ * @return a list of formation names
+ */
 std::vector<std::string> PBCPlaybook::getFormationNames() const {
     std::vector<std::string> formationNames;
     for(const auto& kv : _formations) {
@@ -203,6 +313,10 @@ std::vector<std::string> PBCPlaybook::getFormationNames() const {
     return formationNames;
 }
 
+/**
+ * @brief Gets the names of the playbook's play
+ * @return a list of play names
+ */
 std::vector<std::string> PBCPlaybook::getPlayNames() const {
     std::vector<std::string> playNames;
     for(const auto& kv : _plays) {

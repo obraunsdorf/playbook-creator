@@ -22,7 +22,7 @@
 #ifndef PBCMOTION_H
 #define PBCMOTION_H
 
-#include "models/pbcVirtualMovement.h"
+#include "models/pbcAbstractMovement.h"
 #include "models/pbcPath.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/serialization/string.hpp>
@@ -35,7 +35,7 @@
 class PBCMotion;
 typedef boost::shared_ptr<PBCMotion> PBCMotionSP;
 
-class PBCMotion : public PBCVirtualMovement {
+class PBCMotion : public PBCAbstractMovement {
 friend class boost::serialization::access;
  private:
     PBCDPoint _motionEndPoint;
@@ -43,7 +43,7 @@ friend class boost::serialization::access;
     template<class Archive>
     void save(Archive& ar, const unsigned int version) const {  // NOLINT
         assert(version == 0);
-        ar << boost::serialization::base_object<PBCVirtualMovement>(*this);
+        ar << boost::serialization::base_object<PBCAbstractMovement>(*this);
         ar << _motionEndPoint.get<0>();
         ar << _motionEndPoint.get<1>();
     }
@@ -51,7 +51,7 @@ friend class boost::serialization::access;
     template<class Archive>
     void load(Archive& ar, const unsigned int version) {  // NOLINT
         assert(version == 0);
-        ar >> boost::serialization::base_object<PBCVirtualMovement>(*this);
+        ar >> boost::serialization::base_object<PBCAbstractMovement>(*this);
         double x;
         double y;
         ar >> x;

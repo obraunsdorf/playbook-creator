@@ -22,17 +22,14 @@
 #ifndef PBCDECLARATIONS_H
 #define PBCDECLARATIONS_H
 
-#include <string>
 #include <boost/shared_ptr.hpp>
 #include <boost/geometry.hpp>
 #include <boost/array.hpp>
 
-struct PBCRole {
-    std::string fullName;
-    boost::array<char, 4> shortName;
-};
-
 using boost::geometry::model::point;
+/**
+ * @brief PBCDPoint is a 2D point consisting of two coordinates of type double
+ */
 typedef point<double, 2, boost::geometry::cs::cartesian> PBCDPoint;
 
 

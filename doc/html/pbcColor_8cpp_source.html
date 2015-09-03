@@ -92,50 +92,48 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="pbcColor_8h.html">pbcColor.h</a>&quot;</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="classPBCColor.html#ad1eb66691ca555c554853e0391d79d7c">   25</a></span>&#160;<a class="code" href="classPBCColor.html#ad1eb66691ca555c554853e0391d79d7c">PBCColor::PBCColor</a>() {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    _r = 0;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    _g = 0;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    _b = 0;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;}</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="classPBCColor.html#a0a5feb4e255d0d3074f9a13015168431">   32</a></span>&#160;<a class="code" href="classPBCColor.html#ad1eb66691ca555c554853e0391d79d7c">PBCColor::PBCColor</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> r, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> g, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> b) {</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    assert(r &lt;= 255);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    assert(g &lt;= 255);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    assert(b &lt;= 255);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    _r = <a class="code" href="classPBCColor.html#a9bd938a1ea8488f5169e22d6284c086b">r</a>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    _g = <a class="code" href="classPBCColor.html#a4b5056b93c013a32d3c99d0ede37fa68">g</a>;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    _b = <a class="code" href="classPBCColor.html#a5529702cce647e074061b135e9641133">b</a>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="classPBCColor.html#ad1eb66691ca555c554853e0391d79d7c">   35</a></span>&#160;<a class="code" href="classPBCColor.html#ad1eb66691ca555c554853e0391d79d7c">PBCColor::PBCColor</a>() {</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    _r = 0;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    _g = 0;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    _b = 0;</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="classPBCColor.html#a549257b210a48a33513d13f67f3da307">   42</a></span>&#160;<a class="code" href="classPBCColor.html#ad1eb66691ca555c554853e0391d79d7c">PBCColor::PBCColor</a>(<span class="keyword">const</span> <a class="code" href="classPBCColor.html">PBCColor</a> &amp;obj) {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    _r = obj._r;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    _g = obj._g;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    _b = obj._b;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="classPBCColor.html#a9bd938a1ea8488f5169e22d6284c086b">   48</a></span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="classPBCColor.html#a9bd938a1ea8488f5169e22d6284c086b">PBCColor::r</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">return</span> _r;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="classPBCColor.html#a4b5056b93c013a32d3c99d0ede37fa68">   52</a></span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="classPBCColor.html#a4b5056b93c013a32d3c99d0ede37fa68">PBCColor::g</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">return</span> _g;</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="classPBCColor.html#a0a5feb4e255d0d3074f9a13015168431">   47</a></span>&#160;<a class="code" href="classPBCColor.html#ad1eb66691ca555c554853e0391d79d7c">PBCColor::PBCColor</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> r, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> g, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> b) {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    assert(r &lt;= 255);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    assert(g &lt;= 255);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    assert(b &lt;= 255);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    _r = <a class="code" href="classPBCColor.html#a9bd938a1ea8488f5169e22d6284c086b">r</a>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    _g = <a class="code" href="classPBCColor.html#a4b5056b93c013a32d3c99d0ede37fa68">g</a>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    _b = <a class="code" href="classPBCColor.html#a5529702cce647e074061b135e9641133">b</a>;</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;}</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classPBCColor.html#a5529702cce647e074061b135e9641133">   56</a></span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="classPBCColor.html#a5529702cce647e074061b135e9641133">PBCColor::b</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">return</span> _b;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}</div>
-<div class="ttc" id="classPBCColor_html_a5529702cce647e074061b135e9641133"><div class="ttname"><a href="classPBCColor.html#a5529702cce647e074061b135e9641133">PBCColor::b</a></div><div class="ttdeci">unsigned int b() const </div><div class="ttdef"><b>Definition:</b> <a href="pbcColor_8cpp_source.html#l00056">pbcColor.cpp:56</a></div></div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="classPBCColor.html#a549257b210a48a33513d13f67f3da307">   60</a></span>&#160;<a class="code" href="classPBCColor.html#ad1eb66691ca555c554853e0391d79d7c">PBCColor::PBCColor</a>(<span class="keyword">const</span> <a class="code" href="classPBCColor.html">PBCColor</a> &amp;obj) {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    _r = obj._r;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    _g = obj._g;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    _b = obj._b;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="classPBCColor.html#a9bd938a1ea8488f5169e22d6284c086b">   70</a></span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="classPBCColor.html#a9bd938a1ea8488f5169e22d6284c086b">PBCColor::r</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">return</span> _r;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="classPBCColor.html#a4b5056b93c013a32d3c99d0ede37fa68">   78</a></span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="classPBCColor.html#a4b5056b93c013a32d3c99d0ede37fa68">PBCColor::g</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">return</span> _g;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="classPBCColor.html#a5529702cce647e074061b135e9641133">   86</a></span>&#160;<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <a class="code" href="classPBCColor.html#a5529702cce647e074061b135e9641133">PBCColor::b</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">return</span> _b;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;}</div>
+<div class="ttc" id="classPBCColor_html_a5529702cce647e074061b135e9641133"><div class="ttname"><a href="classPBCColor.html#a5529702cce647e074061b135e9641133">PBCColor::b</a></div><div class="ttdeci">unsigned int b() const </div><div class="ttdoc">Getter function for the blue color component. </div><div class="ttdef"><b>Definition:</b> <a href="pbcColor_8cpp_source.html#l00086">pbcColor.cpp:86</a></div></div>
 <div class="ttc" id="pbcColor_8h_html"><div class="ttname"><a href="pbcColor_8h.html">pbcColor.h</a></div></div>
-<div class="ttc" id="classPBCColor_html_ad1eb66691ca555c554853e0391d79d7c"><div class="ttname"><a href="classPBCColor.html#ad1eb66691ca555c554853e0391d79d7c">PBCColor::PBCColor</a></div><div class="ttdeci">PBCColor()</div><div class="ttdef"><b>Definition:</b> <a href="pbcColor_8cpp_source.html#l00025">pbcColor.cpp:25</a></div></div>
-<div class="ttc" id="classPBCColor_html_a9bd938a1ea8488f5169e22d6284c086b"><div class="ttname"><a href="classPBCColor.html#a9bd938a1ea8488f5169e22d6284c086b">PBCColor::r</a></div><div class="ttdeci">unsigned int r() const </div><div class="ttdef"><b>Definition:</b> <a href="pbcColor_8cpp_source.html#l00048">pbcColor.cpp:48</a></div></div>
-<div class="ttc" id="classPBCColor_html_a4b5056b93c013a32d3c99d0ede37fa68"><div class="ttname"><a href="classPBCColor.html#a4b5056b93c013a32d3c99d0ede37fa68">PBCColor::g</a></div><div class="ttdeci">unsigned int g() const </div><div class="ttdef"><b>Definition:</b> <a href="pbcColor_8cpp_source.html#l00052">pbcColor.cpp:52</a></div></div>
-<div class="ttc" id="classPBCColor_html"><div class="ttname"><a href="classPBCColor.html">PBCColor</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcColor_8h_source.html#l00029">pbcColor.h:29</a></div></div>
+<div class="ttc" id="classPBCColor_html_ad1eb66691ca555c554853e0391d79d7c"><div class="ttname"><a href="classPBCColor.html#ad1eb66691ca555c554853e0391d79d7c">PBCColor::PBCColor</a></div><div class="ttdeci">PBCColor()</div><div class="ttdoc">The default constructor. Creates a black color. </div><div class="ttdef"><b>Definition:</b> <a href="pbcColor_8cpp_source.html#l00035">pbcColor.cpp:35</a></div></div>
+<div class="ttc" id="classPBCColor_html_a9bd938a1ea8488f5169e22d6284c086b"><div class="ttname"><a href="classPBCColor.html#a9bd938a1ea8488f5169e22d6284c086b">PBCColor::r</a></div><div class="ttdeci">unsigned int r() const </div><div class="ttdoc">Getter function for the red color component. </div><div class="ttdef"><b>Definition:</b> <a href="pbcColor_8cpp_source.html#l00070">pbcColor.cpp:70</a></div></div>
+<div class="ttc" id="classPBCColor_html_a4b5056b93c013a32d3c99d0ede37fa68"><div class="ttname"><a href="classPBCColor.html#a4b5056b93c013a32d3c99d0ede37fa68">PBCColor::g</a></div><div class="ttdeci">unsigned int g() const </div><div class="ttdoc">Getter function for the green color component. </div><div class="ttdef"><b>Definition:</b> <a href="pbcColor_8cpp_source.html#l00078">pbcColor.cpp:78</a></div></div>
+<div class="ttc" id="classPBCColor_html"><div class="ttname"><a href="classPBCColor.html">PBCColor</a></div><div class="ttdoc">This class stores color information. </div><div class="ttdef"><b>Definition:</b> <a href="pbcColor_8h_source.html#l00029">pbcColor.h:29</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 27 2015 18:43:54 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 3 2015 23:34:25 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

@@ -91,6 +91,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>A model class that stores information about a formation.  
+ <a href="classPBCFormation.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="pbcFormation_8h_source.html">pbcFormation.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for PBCFormation:</div>
@@ -112,6 +115,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0d97a5dc4d3d3b141e7268413b32dae1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCFormation.html#a0d97a5dc4d3d3b141e7268413b32dae1">PBCFormation</a> (const std::string &amp;<a class="el" href="classPBCCategory.html#ac73ade9b565c9b7cf9c5aabb68ac4159">name</a>)</td></tr>
 <tr class="separator:a0d97a5dc4d3d3b141e7268413b32dae1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ead7fa3cc945af5581fada58a79e981"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCFormation.html#a8ead7fa3cc945af5581fada58a79e981">PBCFormation</a> (const <a class="el" href="classPBCFormation.html">PBCFormation</a> &amp;other)</td></tr>
+<tr class="memdesc:a8ead7fa3cc945af5581fada58a79e981"><td class="mdescLeft">&#160;</td><td class="mdescRight">The copy constructor.  <a href="#a8ead7fa3cc945af5581fada58a79e981">More...</a><br/></td></tr>
 <tr class="separator:a8ead7fa3cc945af5581fada58a79e981"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classPBCCategory"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classPBCCategory')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classPBCCategory.html">PBCCategory</a></td></tr>
 <tr class="memitem:a623e6f78b099082f27532d68f3492bf9 inherit pub_methods_classPBCCategory"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCCategory.html#a623e6f78b099082f27532d68f3492bf9">PBCCategory</a> (const std::string &amp;<a class="el" href="classPBCCategory.html#ac73ade9b565c9b7cf9c5aabb68ac4159">name</a>)</td></tr>
@@ -135,8 +139,10 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:ae194299be917af8f7e00f981d94966bc inherit pro_attribs_classPBCCategory"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="pbcFormation_8h_source.html#l00035">35</a> of file <a class="el" href="pbcFormation_8h_source.html">pbcFormation.h</a>.</p>
+<div class="textblock"><p>A model class that stores information about a formation. </p>
+<p>A formation is a vector of players (which store the position information) and also a category. </p>
+
+<p>Definition at line <a class="el" href="pbcFormation_8h_source.html#l00043">43</a> of file <a class="el" href="pbcFormation_8h_source.html">pbcFormation.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a0d97a5dc4d3d3b141e7268413b32dae1"></a>
 <div class="memitem">
@@ -160,11 +166,8 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="pbcFormation_8h_source.html#l00048">48</a> of file <a class="el" href="pbcFormation_8h_source.html">pbcFormation.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;: <a class="code" href="classPBCCategory.html">PBCCategory</a>(<a class="code" href="classPBCCategory.html#ac73ade9b565c9b7cf9c5aabb68ac4159">name</a>) {}</div>
-<div class="ttc" id="classPBCCategory_html"><div class="ttname"><a href="classPBCCategory.html">PBCCategory</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcCategory_8h_source.html#l00039">pbcCategory.h:39</a></div></div>
-<div class="ttc" id="classPBCCategory_html_ac73ade9b565c9b7cf9c5aabb68ac4159"><div class="ttname"><a href="classPBCCategory.html#ac73ade9b565c9b7cf9c5aabb68ac4159">PBCCategory::name</a></div><div class="ttdeci">std::string name() const </div><div class="ttdef"><b>Definition:</b> <a href="pbcCategory_8h_source.html#l00058">pbcCategory.h:58</a></div></div>
-</div><!-- fragment -->
+<p>Definition at line <a class="el" href="pbcFormation_8h_source.html#l00056">56</a> of file <a class="el" href="pbcFormation_8h_source.html">pbcFormation.h</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="a8ead7fa3cc945af5581fada58a79e981"></a>
@@ -189,21 +192,17 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="pbcFormation_8h_source.html#l00049">49</a> of file <a class="el" href="pbcFormation_8h_source.html">pbcFormation.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                                                     :</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <a class="code" href="classPBCCategory.html">PBCCategory</a>(other.<a class="code" href="classPBCCategory.html#ac73ade9b565c9b7cf9c5aabb68ac4159">name</a>()), std::vector&lt;PBCPlayerSP&gt;() {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordflow">for</span>(<a class="code" href="pbcPlayer_8h.html#aaf9b2714bf2cb7c23d2737630e45cf09">PBCPlayerSP</a> otherPlayer : other) {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <a class="code" href="pbcPlayer_8h.html#aaf9b2714bf2cb7c23d2737630e45cf09">PBCPlayerSP</a> player(<span class="keyword">new</span> <a class="code" href="classPBCPlayer.html">PBCPlayer</a>(otherPlayer-&gt;role(),</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                                             otherPlayer-&gt;color(),</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                                             otherPlayer-&gt;pos()));</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            this-&gt;push_back(player);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        }</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    }</div>
-<div class="ttc" id="classPBCCategory_html"><div class="ttname"><a href="classPBCCategory.html">PBCCategory</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcCategory_8h_source.html#l00039">pbcCategory.h:39</a></div></div>
-<div class="ttc" id="classPBCCategory_html_ac73ade9b565c9b7cf9c5aabb68ac4159"><div class="ttname"><a href="classPBCCategory.html#ac73ade9b565c9b7cf9c5aabb68ac4159">PBCCategory::name</a></div><div class="ttdeci">std::string name() const </div><div class="ttdef"><b>Definition:</b> <a href="pbcCategory_8h_source.html#l00058">pbcCategory.h:58</a></div></div>
-<div class="ttc" id="pbcPlayer_8h_html_aaf9b2714bf2cb7c23d2737630e45cf09"><div class="ttname"><a href="pbcPlayer_8h.html#aaf9b2714bf2cb7c23d2737630e45cf09">PBCPlayerSP</a></div><div class="ttdeci">boost::shared_ptr&lt; PBCPlayer &gt; PBCPlayerSP</div><div class="ttdef"><b>Definition:</b> <a href="pbcPlayer_8h_source.html#l00038">pbcPlayer.h:38</a></div></div>
-<div class="ttc" id="classPBCPlayer_html"><div class="ttname"><a href="classPBCPlayer.html">PBCPlayer</a></div><div class="ttdef"><b>Definition:</b> <a href="pbcPlayer_8h_source.html#l00041">pbcPlayer.h:41</a></div></div>
-</div><!-- fragment -->
+<p>The copy constructor. </p>
+<p>Copies the formation, which means copying the players without their routes and motions. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>The formation to copy </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="pbcFormation_8h_source.html#l00065">65</a> of file <a class="el" href="pbcFormation_8h_source.html">pbcFormation.h</a>.</p>
+
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
@@ -225,7 +224,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="pbcFormation_8h_source.html#l00036">36</a> of file <a class="el" href="pbcFormation_8h_source.html">pbcFormation.h</a>.</p>
+<p>Definition at line <a class="el" href="pbcFormation_8h_source.html#l00044">44</a> of file <a class="el" href="pbcFormation_8h_source.html">pbcFormation.h</a>.</p>
 
 </div>
 </div>
@@ -235,7 +234,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 27 2015 18:43:54 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 3 2015 23:34:25 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

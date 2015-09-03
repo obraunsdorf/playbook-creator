@@ -194,27 +194,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="pbcConfig_8h_source.html#l00056">56</a> of file <a class="el" href="pbcConfig_8h_source.html">pbcConfig.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                :</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;       _initialized(<span class="keyword">false</span>),</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;       _minWidth(600),</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;       _minHeight(300),</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;       _losColor(128U, 128U, 128U),</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;       _losWidth(5),</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;       _losYFactor(0.5),</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;       _fiveYdColor(128U, 128U, 128U),</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;       _fiveYdWidth(3),</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;       _fiveYdYFactor(0.25),</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;       _ballColor(139U, 69U, 19U),</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;       _ballWidthYd(1),</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;       _playNameColor(128U, 128U, 128U),</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;       _playNameSizeYd(2.5),</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;       _playerWidthYd(1.5),</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;       _routeWidthYd(0.25),</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;       _canvasWidth(200),</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;       _canvasHeight(200) {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;       <span class="comment">// TODO(obr): initialize from File</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    }</div>
-</div><!-- fragment -->
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -240,10 +220,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="pbcConfig_8h_source.html#l00127">127</a> of file <a class="el" href="pbcConfig_8h_source.html">pbcConfig.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                         {</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="keywordflow">return</span> _ballColor;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    }</div>
-</div><!-- fragment -->
+
 </div>
 </div>
 <a class="anchor" id="af545ab28aa4a5a23828489e94115ca5c"></a>
@@ -268,11 +245,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="pbcConfig_8h_source.html#l00131">131</a> of file <a class="el" href="pbcConfig_8h_source.html">pbcConfig.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                             {</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        <span class="keywordflow">return</span> _ballWidthYd * <a class="code" href="classPBCConfig.html#a2f4125b43133f05c382d959c990d76df">ydInPixel</a>();</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    }</div>
-<div class="ttc" id="classPBCConfig_html_a2f4125b43133f05c382d959c990d76df"><div class="ttname"><a href="classPBCConfig.html#a2f4125b43133f05c382d959c990d76df">PBCConfig::ydInPixel</a></div><div class="ttdeci">double ydInPixel()</div><div class="ttdef"><b>Definition:</b> <a href="pbcConfig_8h_source.html#l00143">pbcConfig.h:143</a></div></div>
-</div><!-- fragment -->
+
 </div>
 </div>
 <a class="anchor" id="a23212fbdf16e45599fdf6ba9121c26c4"></a>
@@ -297,11 +270,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="pbcConfig_8h_source.html#l00089">89</a> of file <a class="el" href="pbcConfig_8h_source.html">pbcConfig.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                                {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        assert(_initialized == <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordflow">return</span> _canvasHeight;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    }</div>
-</div><!-- fragment -->
+
 </div>
 </div>
 <a class="anchor" id="a2c32c5c9d4b30628a792b031ff6c7367"></a>
@@ -326,11 +295,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="pbcConfig_8h_source.html#l00084">84</a> of file <a class="el" href="pbcConfig_8h_source.html">pbcConfig.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                               {</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        assert(_initialized == <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keywordflow">return</span> _canvasWidth;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    }</div>
-</div><!-- fragment -->
+
 </div>
 </div>
 <a class="anchor" id="a87408a142d03ec4f74dc3c5c5c6a8108"></a>
@@ -355,10 +320,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="pbcConfig_8h_source.html#l00114">114</a> of file <a class="el" href="pbcConfig_8h_source.html">pbcConfig.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                           {</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keywordflow">return</span> _fiveYdColor;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    }</div>
-</div><!-- fragment -->
+
 </div>
 </div>
 <a class="anchor" id="ade6897a51f93c6e32ab94c77d4f28d62"></a>
@@ -383,10 +345,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="pbcConfig_8h_source.html#l00118">118</a> of file <a class="el" href="pbcConfig_8h_source.html">pbcConfig.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                               {</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="keywordflow">return</span> _fiveYdWidth;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    }</div>
-</div><!-- fragment -->
+
 </div>
 </div>
 <a class="anchor" id="a9bb71759a81f5c4030bef2556899f00e"></a>
@@ -411,10 +370,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="pbcConfig_8h_source.html#l00122">122</a> of file <a class="el" href="pbcConfig_8h_source.html">pbcConfig.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                           {</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="keywordflow">return</span> _fiveYdYFactor * _canvasHeight;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    }</div>
-</div><!-- fragment -->
+
 </div>
 </div>
 <a class="anchor" id="a558b9bf9e361087abd9dea90cc9d49c6"></a>
@@ -439,10 +395,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="pbcConfig_8h_source.html#l00094">94</a> of file <a class="el" href="pbcConfig_8h_source.html">pbcConfig.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                        {</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keywordflow">return</span> _losColor;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    }</div>
-</div><!-- fragment -->
+
 </div>
 </div>
 <a class="anchor" id="aeb85e344cef5f2cb7c8ea96e90edcd13"></a>
@@ -467,10 +420,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="pbcConfig_8h_source.html#l00098">98</a> of file <a class="el" href="pbcConfig_8h_source.html">pbcConfig.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                      {</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="keywordflow">return</span> _losWidth;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    }</div>
-</div><!-- fragment -->
+
 </div>
 </div>
 <a class="anchor" id="a3fe04d1d749b2fef0b97c1df5c8c0266"></a>
@@ -495,10 +445,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="pbcConfig_8h_source.html#l00110">110</a> of file <a class="el" href="pbcConfig_8h_source.html">pbcConfig.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                        {</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="keywordflow">return</span> _losYFactor * _canvasHeight;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    }</div>
-</div><!-- fragment -->
+
 </div>
 </div>
 <a class="anchor" id="a1e3f3911997dc40e1ae06d98eea3db44"></a>
@@ -523,10 +470,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="pbcConfig_8h_source.html#l00106">106</a> of file <a class="el" href="pbcConfig_8h_source.html">pbcConfig.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                             {</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="keywordflow">return</span> _minHeight;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    }</div>
-</div><!-- fragment -->
+
 </div>
 </div>
 <a class="anchor" id="a18d37ca7dfc32643d3ae3bb888627763"></a>
@@ -551,10 +495,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="pbcConfig_8h_source.html#l00102">102</a> of file <a class="el" href="pbcConfig_8h_source.html">pbcConfig.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                            {</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="keywordflow">return</span> _minWidth;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    }</div>
-</div><!-- fragment -->
+
 </div>
 </div>
 <a class="anchor" id="a417b79272dafba9b3b892094c8b01ba6"></a>
@@ -579,11 +520,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="pbcConfig_8h_source.html#l00147">147</a> of file <a class="el" href="pbcConfig_8h_source.html">pbcConfig.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                               {</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        <span class="keywordflow">return</span> _playerWidthYd * <a class="code" href="classPBCConfig.html#a2f4125b43133f05c382d959c990d76df">ydInPixel</a>();</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    }</div>
-<div class="ttc" id="classPBCConfig_html_a2f4125b43133f05c382d959c990d76df"><div class="ttname"><a href="classPBCConfig.html#a2f4125b43133f05c382d959c990d76df">PBCConfig::ydInPixel</a></div><div class="ttdeci">double ydInPixel()</div><div class="ttdef"><b>Definition:</b> <a href="pbcConfig_8h_source.html#l00143">pbcConfig.h:143</a></div></div>
-</div><!-- fragment -->
+
 </div>
 </div>
 <a class="anchor" id="ab336f9632565409ce2b2ecd8fddfa018"></a>
@@ -608,10 +545,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="pbcConfig_8h_source.html#l00135">135</a> of file <a class="el" href="pbcConfig_8h_source.html">pbcConfig.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                             {</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <span class="keywordflow">return</span> _playNameColor;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    }</div>
-</div><!-- fragment -->
+
 </div>
 </div>
 <a class="anchor" id="a2c78b92ce2c979cb5e9ced8df0656758"></a>
@@ -636,11 +570,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="pbcConfig_8h_source.html#l00139">139</a> of file <a class="el" href="pbcConfig_8h_source.html">pbcConfig.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                                {</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        <span class="keywordflow">return</span> _playNameSizeYd * <a class="code" href="classPBCConfig.html#a2f4125b43133f05c382d959c990d76df">ydInPixel</a>();</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    }</div>
-<div class="ttc" id="classPBCConfig_html_a2f4125b43133f05c382d959c990d76df"><div class="ttname"><a href="classPBCConfig.html#a2f4125b43133f05c382d959c990d76df">PBCConfig::ydInPixel</a></div><div class="ttdeci">double ydInPixel()</div><div class="ttdef"><b>Definition:</b> <a href="pbcConfig_8h_source.html#l00143">pbcConfig.h:143</a></div></div>
-</div><!-- fragment -->
+
 </div>
 </div>
 <a class="anchor" id="afea55be2fa298ca10841174ab04a9c0c"></a>
@@ -665,11 +595,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="pbcConfig_8h_source.html#l00151">151</a> of file <a class="el" href="pbcConfig_8h_source.html">pbcConfig.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                              {</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        <span class="keywordflow">return</span> _routeWidthYd * <a class="code" href="classPBCConfig.html#a2f4125b43133f05c382d959c990d76df">ydInPixel</a>();</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    }</div>
-<div class="ttc" id="classPBCConfig_html_a2f4125b43133f05c382d959c990d76df"><div class="ttname"><a href="classPBCConfig.html#a2f4125b43133f05c382d959c990d76df">PBCConfig::ydInPixel</a></div><div class="ttdeci">double ydInPixel()</div><div class="ttdef"><b>Definition:</b> <a href="pbcConfig_8h_source.html#l00143">pbcConfig.h:143</a></div></div>
-</div><!-- fragment -->
+
 </div>
 </div>
 <a class="anchor" id="aa53e90655aa5b8b1c6e2cc2d31649f42"></a>
@@ -705,14 +631,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="pbcConfig_8h_source.html#l00078">78</a> of file <a class="el" href="pbcConfig_8h_source.html">pbcConfig.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                                                                            {</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        _initialized = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        _canvasWidth = <a class="code" href="classPBCConfig.html#a2c32c5c9d4b30628a792b031ff6c7367">canvasWidth</a>;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        _canvasHeight = <a class="code" href="classPBCConfig.html#a23212fbdf16e45599fdf6ba9121c26c4">canvasHeight</a>;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    }</div>
-<div class="ttc" id="classPBCConfig_html_a23212fbdf16e45599fdf6ba9121c26c4"><div class="ttname"><a href="classPBCConfig.html#a23212fbdf16e45599fdf6ba9121c26c4">PBCConfig::canvasHeight</a></div><div class="ttdeci">unsigned int canvasHeight()</div><div class="ttdef"><b>Definition:</b> <a href="pbcConfig_8h_source.html#l00089">pbcConfig.h:89</a></div></div>
-<div class="ttc" id="classPBCConfig_html_a2c32c5c9d4b30628a792b031ff6c7367"><div class="ttname"><a href="classPBCConfig.html#a2c32c5c9d4b30628a792b031ff6c7367">PBCConfig::canvasWidth</a></div><div class="ttdeci">unsigned int canvasWidth()</div><div class="ttdef"><b>Definition:</b> <a href="pbcConfig_8h_source.html#l00084">pbcConfig.h:84</a></div></div>
-</div><!-- fragment -->
+
 </div>
 </div>
 <a class="anchor" id="a2f4125b43133f05c382d959c990d76df"></a>
@@ -737,10 +656,7 @@ Additional Inherited Members</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Definition at line <a class="el" href="pbcConfig_8h_source.html#l00143">143</a> of file <a class="el" href="pbcConfig_8h_source.html">pbcConfig.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                       {</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        <span class="keywordflow">return</span> (_losYFactor - _fiveYdYFactor) * _canvasHeight / 5.0;</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    }</div>
-</div><!-- fragment -->
+
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
@@ -772,7 +688,7 @@ Additional Inherited Members</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 27 2015 18:43:54 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 3 2015 23:34:25 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

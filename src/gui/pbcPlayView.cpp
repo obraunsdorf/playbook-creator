@@ -27,12 +27,30 @@
 #include "models/pbcPlaybook.h"
 #include <string>
 
+/**
+ * @class PBCPlayView
+ * @brief A subclass of PBCGridIronView to display a play from the playbook
+ * inside the main dialog.
+ */
+
+/**
+ * @brief The constructor.
+ * @param playSP a smart pointer to a PBCPlay instance that should be displayed
+ * @param parent The parent object this dialog belongs to.
+ */
 PBCPlayView::PBCPlayView(PBCPlaySP playSP, QObject *parent) :
     PBCGridIronView(parent),
     _currentPlay(playSP) {
     repaint();
 }
 
+/**
+ * @brief Displays the code name of the current play
+ * @param yPos The vertical position of the line in coordinates of the
+ * PBCPlayView instance (pixels)
+ * @param textSize The size of the displayed name
+ * @param color The color of the displayed name
+ */
 void PBCPlayView::paintPlayName(unsigned int yPos,
                                 unsigned int textSize,
                                 PBCColor color) {
@@ -47,6 +65,9 @@ void PBCPlayView::paintPlayName(unsigned int yPos,
 }
 
 
+/**
+ * @brief Paints grid iron and the current play on it
+ */
 void PBCPlayView::repaint() {
     this->clear();
     paintLine(PBCConfig::getInstance()->losY(),
@@ -76,11 +97,24 @@ void PBCPlayView::repaint() {
     }
 }
 
+/**
+ * @brief Resets the current play and paints it.
+ *
+ * This results in an empty grid iron
+ */
 void PBCPlayView::resetPlay() {
     _currentPlay = NULL;
     repaint();
 }
 
+
+/**
+ * @brief Creates a new play with the given formation
+ * on the grid iron and sets it as the current play
+ * @param name The name of the play
+ * @param codeName The code name of the play
+ * @param formationName The name of the play's formation
+ */
 void PBCPlayView::createNewPlay(const std::string &name,
                                 const std::string &codeName,
                                 const std::string &formationName) {
@@ -94,6 +128,15 @@ void PBCPlayView::createNewPlay(const std::string &name,
     repaint();
 }
 
+
+/**
+ * @brief Adds the current play to the playbook
+ *
+ * If a name is specified, the current play is saved with the given name and
+ * code name. Otherwise it is saved with its original name.
+ * @param name The new name of the play
+ * @param codeName The new code name of the play
+ */
 void PBCPlayView::savePlay(const std::string &name,
                            const std::string &codeName) {
     if(name != "") {
@@ -104,6 +147,10 @@ void PBCPlayView::savePlay(const std::string &name,
 }
 
 
+/**
+ * @brief Gets a play from the playbook and displays it
+ * @param name The name of the play
+ */
 void PBCPlayView::showPlay(const std::string& name) {
     PBCPlaySP play = PBCPlaybook::getInstance()->getPlay(name);
     assert(play != NULL);
@@ -111,6 +158,14 @@ void PBCPlayView::showPlay(const std::string& name) {
     repaint();
 }
 
+/**
+ * @brief saves the (maybe modified) formation of the
+ * current play to the playbook.
+ *
+ * If a formation name is specified, the current formation is saved with the
+ * given name. Otherwise it is saved with its original name.
+ * @param formationName The new name of the formation
+ */
 void PBCPlayView::saveFormation(const std::string &formationName) {
     if(formationName != "") {
         _currentPlay->formation()->setName(formationName);

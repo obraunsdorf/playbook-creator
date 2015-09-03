@@ -1,4 +1,4 @@
-/** @file pbcVirtualMovement.h
+/** @file pbcAbstractMovement.h
     This file is part of Playbook Creator.
 
     Playbook Creator is free software: you can redistribute it and/or modify
@@ -19,13 +19,19 @@
     @author Oliver Braunsdorf
 */
 
-#ifndef PBCVIRTUALMOVEMENT_H
-#define PBCVIRTUALMOVEMENT_H
+#ifndef PBCABSTRACTMOVEMENT_H
+#define PBCABSTRACTMOVEMENT_H
 
 #include "models/pbcPath.h"
 #include <vector>
 
-class PBCVirtualMovement {
+
+/**
+ * @class PBCAbstractMovement
+ * @brief An abstract class that handles the similarity (consisting of paths)
+ * of routes and motions.
+ */
+class PBCAbstractMovement {
 friend class boost::serialization::access;
  private:
     std::vector<PBCPathSP> _paths;
@@ -37,20 +43,42 @@ friend class boost::serialization::access;
     }
 
  protected:
-    PBCVirtualMovement() {}
-    explicit PBCVirtualMovement(const std::vector<PBCPathSP> paths) :
+    /**
+     * @brief Empty default constructor, needed by Boost Serialization
+     */
+    PBCAbstractMovement() {}
+
+    /**
+     * @brief The constructor
+     * @param paths The path vector this movement consists of.
+     */
+    explicit PBCAbstractMovement(const std::vector<PBCPathSP> paths) :
         _paths(paths) {}
 
  public:
+    /**
+     * @brief Getter for the movement's path vector
+     * @return the path vector
+     */
     const std::vector<PBCPathSP>& paths() const {
         return _paths;
     }
+
+    /**
+     * @brief Setter for the movement's path vector
+     * @param paths The movement's new path vector
+     */
     void setPaths(const std::vector<PBCPathSP> paths) {
         _paths = paths;
     }
+
+    /**
+     * @brief Adds one path to the path vector
+     * @param path The path to add
+     */
     void addPath(const PBCPathSP& path) {
         _paths.push_back(path);
     }
 };
 
-#endif  // PBCVIRTUALMOVEMENT_H
+#endif  // PBCABSTRACTMOVEMENT_H

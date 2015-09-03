@@ -27,6 +27,16 @@
 #include <QGraphicsSceneMouseEvent>
 #include <string>
 
+/**
+ * @class PBCCustomRouteView
+ * @brief A subclass of PBCGridIronView to display a grid iron and a custom
+ * route that has been created
+ */
+
+/**
+ * @brief The constructor
+ * @param parent The parent object this dialog belongs to.
+ */
 PBCCustomRouteView::PBCCustomRouteView(QObject *parent) :
     PBCGridIronView(parent),
     _lastLine(NULL) {
@@ -60,6 +70,13 @@ PBCCustomRouteView::PBCCustomRouteView(QObject *parent) :
     _lastPressPoint = _routeStartPos;
 }
 
+/**
+ * @brief Creates a new route from the painted
+ * paths
+ * @param name The name of the new route
+ * @param codeName The code name of the new route
+ * @return a smart pointer to the new route
+ */
 PBCRouteSP PBCCustomRouteView::createRoute(const std::string &name,
                                            const std::string &codeName) {
     PBCRouteSP route(new PBCRoute(name, codeName, _paths));
@@ -67,6 +84,14 @@ PBCRouteSP PBCCustomRouteView::createRoute(const std::string &name,
 }
 
 
+/**
+ * @brief A Qt event handler that is
+ * triggered whe the mouse moves over the PBCCustomRouteView instance
+ *
+ * Paints a new line from the endpoint of the current route to the mouse
+ * position
+ * @param event Contains mouse event data (the position of the mouse)
+ */
 void PBCCustomRouteView::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
     if(_lastLine != NULL) {
         this->removeItem(_lastLine);
@@ -82,6 +107,14 @@ void PBCCustomRouteView::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
 }
 
 
+/**
+ * @brief A Qt event handler that is
+ * triggered whe the mouse is clicked over the PBCCustomRouteView instance
+ *
+ * This will add the line between the endpoint of the current route and the
+ * mouse position to the _paths vector
+ * @param event Contains mouse event data (the position of the mouse)
+ */
 void PBCCustomRouteView::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
     unsigned int newX = event->scenePos().x();
     unsigned int newY = event->scenePos().y();

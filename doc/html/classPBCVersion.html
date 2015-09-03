@@ -117,9 +117,9 @@ Static Public Attributes</h2></td></tr>
 <tr class="separator:a020e0867f3a8abf55ef0cd1ff433bea1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad62e8d25badb47953773025bffd3fdaa"><td class="memItemLeft" align="right" valign="top">static const unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCVersion.html#ad62e8d25badb47953773025bffd3fdaa">MINOR</a> = 3</td></tr>
 <tr class="separator:ad62e8d25badb47953773025bffd3fdaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbb7b76c60f5adf518cb06de26b06dd6"><td class="memItemLeft" align="right" valign="top">static const unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCVersion.html#afbb7b76c60f5adf518cb06de26b06dd6">REVISION</a> = 30</td></tr>
+<tr class="memitem:afbb7b76c60f5adf518cb06de26b06dd6"><td class="memItemLeft" align="right" valign="top">static const unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCVersion.html#afbb7b76c60f5adf518cb06de26b06dd6">REVISION</a> = 34</td></tr>
 <tr class="separator:afbb7b76c60f5adf518cb06de26b06dd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e3ec1f355d857779c8abe32b9b7cd78"><td class="memItemLeft" align="right" valign="top">static const unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCVersion.html#a8e3ec1f355d857779c8abe32b9b7cd78">BUILD</a> = 1507271121</td></tr>
+<tr class="memitem:a8e3ec1f355d857779c8abe32b9b7cd78"><td class="memItemLeft" align="right" valign="top">static const unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPBCVersion.html#a8e3ec1f355d857779c8abe32b9b7cd78">BUILD</a> = 1509031411</td></tr>
 <tr class="separator:a8e3ec1f355d857779c8abe32b9b7cd78"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -159,12 +159,7 @@ Static Public Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>the result of <a class="el" href="classPBCVersion.html#aac296df16cf0295fda7a637cf0ca6b43" title="compares two version strings ">compareVersions()</a> </dd></dl>
 
 <p>Definition at line <a class="el" href="pbcVersion_8h_source.html#l00055">55</a> of file <a class="el" href="pbcVersion_8h_source.html">pbcVersion.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                                                                      {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="classPBCVersion.html#aac296df16cf0295fda7a637cf0ca6b43">compareVersions</a>(<a class="code" href="classPBCVersion.html#adfce927070fc1e2574951b15f7b19b66">getVersionString</a>(), otherVersion);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    }</div>
-<div class="ttc" id="classPBCVersion_html_adfce927070fc1e2574951b15f7b19b66"><div class="ttname"><a href="classPBCVersion.html#adfce927070fc1e2574951b15f7b19b66">PBCVersion::getVersionString</a></div><div class="ttdeci">static std::string getVersionString()</div><div class="ttdoc">builds the full version string </div><div class="ttdef"><b>Definition:</b> <a href="pbcVersion_8h_source.html#l00113">pbcVersion.h:113</a></div></div>
-<div class="ttc" id="classPBCVersion_html_aac296df16cf0295fda7a637cf0ca6b43"><div class="ttname"><a href="classPBCVersion.html#aac296df16cf0295fda7a637cf0ca6b43">PBCVersion::compareVersions</a></div><div class="ttdeci">static int compareVersions(const std::string &amp;v1, const std::string &amp;v2)</div><div class="ttdoc">compares two version strings </div><div class="ttdef"><b>Definition:</b> <a href="pbcVersion_8h_source.html#l00065">pbcVersion.h:65</a></div></div>
-</div><!-- fragment -->
+
 </div>
 </div>
 <a class="anchor" id="aac296df16cf0295fda7a637cf0ca6b43"></a>
@@ -210,50 +205,7 @@ Static Public Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>-1 if v1 &lt; v2, 0 if v1 == v2 and 1 if v1 &gt; v2 </dd></dl>
 
 <p>Definition at line <a class="el" href="pbcVersion_8h_source.html#l00065">65</a> of file <a class="el" href="pbcVersion_8h_source.html">pbcVersion.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                                                                         {</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        std::vector&lt;std::string&gt; versionNumbers1;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        std::stringstream ss1(v1);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        std::string item1;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">while</span>(std::getline(ss1, item1, <span class="charliteral">&#39;.&#39;</span>)) {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            versionNumbers1.push_back(item1);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        assert(versionNumbers1.size() == 4);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> major1 = std::stoul(versionNumbers1[0]);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> minor1 = std::stoul(versionNumbers1[1]);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> revision1 = std::stoul(versionNumbers1[2]);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> build1 = std::stoul(versionNumbers1[3]);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        std::vector&lt;std::string&gt; versionNumbers2;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        std::stringstream ss2(v2);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        std::string item2;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordflow">while</span>(std::getline(ss2, item2, <span class="charliteral">&#39;.&#39;</span>)) {</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            versionNumbers2.push_back(item2);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        }</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        assert(versionNumbers2.size() == 4);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> major2 = std::stoul(versionNumbers2[0]);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> minor2 = std::stoul(versionNumbers2[1]);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> revision2 = std::stoul(versionNumbers2[2]);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> build2 = std::stoul(versionNumbers2[3]);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordtype">int</span> resultMajor = compareInt(major1, major2);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keywordflow">if</span>(resultMajor != 0) {</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            <span class="keywordflow">return</span> resultMajor;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="keywordtype">int</span> resultMinor = compareInt(minor1, minor2);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <span class="keywordflow">if</span>(resultMinor != 0) {</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                <span class="keywordflow">return</span> resultMinor;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                <span class="keywordtype">int</span> resultRevision = compareInt(revision1, revision2);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                <span class="keywordflow">if</span>(resultRevision != 0) {</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                    <span class="keywordflow">return</span> resultRevision;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                    <span class="keywordflow">return</span> compareInt(build1, build2);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                }</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            }</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        }</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    }</div>
-</div><!-- fragment -->
+
 </div>
 </div>
 <a class="anchor" id="a88582b0bc0b350724c39153e90812dd8"></a>
@@ -281,14 +233,7 @@ Static Public Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>a simple version string </dd></dl>
 
 <p>Definition at line <a class="el" href="pbcVersion_8h_source.html#l00126">126</a> of file <a class="el" href="pbcVersion_8h_source.html">pbcVersion.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                                              {</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        std::stringstream versionString;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        versionString &lt;&lt; <a class="code" href="classPBCVersion.html#a020e0867f3a8abf55ef0cd1ff433bea1">MAJOR</a> &lt;&lt; <span class="charliteral">&#39;.&#39;</span> &lt;&lt; <a class="code" href="classPBCVersion.html#ad62e8d25badb47953773025bffd3fdaa">MINOR</a>;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="keywordflow">return</span> versionString.str();</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    }</div>
-<div class="ttc" id="classPBCVersion_html_ad62e8d25badb47953773025bffd3fdaa"><div class="ttname"><a href="classPBCVersion.html#ad62e8d25badb47953773025bffd3fdaa">PBCVersion::MINOR</a></div><div class="ttdeci">static const unsigned int MINOR</div><div class="ttdef"><b>Definition:</b> <a href="pbcVersion_8h_source.html#l00046">pbcVersion.h:46</a></div></div>
-<div class="ttc" id="classPBCVersion_html_a020e0867f3a8abf55ef0cd1ff433bea1"><div class="ttname"><a href="classPBCVersion.html#a020e0867f3a8abf55ef0cd1ff433bea1">PBCVersion::MAJOR</a></div><div class="ttdeci">static const unsigned int MAJOR</div><div class="ttdef"><b>Definition:</b> <a href="pbcVersion_8h_source.html#l00045">pbcVersion.h:45</a></div></div>
-</div><!-- fragment -->
+
 </div>
 </div>
 <a class="anchor" id="adfce927070fc1e2574951b15f7b19b66"></a>
@@ -316,19 +261,7 @@ Static Public Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>the full version string </dd></dl>
 
 <p>Definition at line <a class="el" href="pbcVersion_8h_source.html#l00113">113</a> of file <a class="el" href="pbcVersion_8h_source.html">pbcVersion.h</a>.</p>
-<div class="fragment"><div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                                        {</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        std::stringstream versionString;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        versionString &lt;&lt; <a class="code" href="classPBCVersion.html#a020e0867f3a8abf55ef0cd1ff433bea1">MAJOR</a> &lt;&lt; <span class="charliteral">&#39;.&#39;</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                      &lt;&lt; <a class="code" href="classPBCVersion.html#ad62e8d25badb47953773025bffd3fdaa">MINOR</a> &lt;&lt; <span class="charliteral">&#39;.&#39;</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                      &lt;&lt; <a class="code" href="classPBCVersion.html#afbb7b76c60f5adf518cb06de26b06dd6">REVISION</a> &lt;&lt; <span class="charliteral">&#39;.&#39;</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                      &lt;&lt; <a class="code" href="classPBCVersion.html#a8e3ec1f355d857779c8abe32b9b7cd78">BUILD</a>;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="keywordflow">return</span> versionString.str();</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    }</div>
-<div class="ttc" id="classPBCVersion_html_ad62e8d25badb47953773025bffd3fdaa"><div class="ttname"><a href="classPBCVersion.html#ad62e8d25badb47953773025bffd3fdaa">PBCVersion::MINOR</a></div><div class="ttdeci">static const unsigned int MINOR</div><div class="ttdef"><b>Definition:</b> <a href="pbcVersion_8h_source.html#l00046">pbcVersion.h:46</a></div></div>
-<div class="ttc" id="classPBCVersion_html_a020e0867f3a8abf55ef0cd1ff433bea1"><div class="ttname"><a href="classPBCVersion.html#a020e0867f3a8abf55ef0cd1ff433bea1">PBCVersion::MAJOR</a></div><div class="ttdeci">static const unsigned int MAJOR</div><div class="ttdef"><b>Definition:</b> <a href="pbcVersion_8h_source.html#l00045">pbcVersion.h:45</a></div></div>
-<div class="ttc" id="classPBCVersion_html_afbb7b76c60f5adf518cb06de26b06dd6"><div class="ttname"><a href="classPBCVersion.html#afbb7b76c60f5adf518cb06de26b06dd6">PBCVersion::REVISION</a></div><div class="ttdeci">static const unsigned int REVISION</div><div class="ttdef"><b>Definition:</b> <a href="pbcVersion_8h_source.html#l00047">pbcVersion.h:47</a></div></div>
-<div class="ttc" id="classPBCVersion_html_a8e3ec1f355d857779c8abe32b9b7cd78"><div class="ttname"><a href="classPBCVersion.html#a8e3ec1f355d857779c8abe32b9b7cd78">PBCVersion::BUILD</a></div><div class="ttdeci">static const unsigned int BUILD</div><div class="ttdef"><b>Definition:</b> <a href="pbcVersion_8h_source.html#l00048">pbcVersion.h:48</a></div></div>
-</div><!-- fragment -->
+
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
@@ -340,7 +273,7 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const unsigned int PBCVersion::BUILD = 1507271121</td>
+          <td class="memname">const unsigned int PBCVersion::BUILD = 1509031411</td>
         </tr>
       </table>
   </td>
@@ -406,7 +339,7 @@ Static Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const unsigned int PBCVersion::REVISION = 30</td>
+          <td class="memname">const unsigned int PBCVersion::REVISION = 34</td>
         </tr>
       </table>
   </td>
@@ -426,7 +359,7 @@ Static Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 27 2015 18:43:54 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Sep 3 2015 23:34:25 for Playbook Creator by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

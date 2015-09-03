@@ -33,7 +33,7 @@ friend class PBCSingleton<PBCPositionTranslator>;
     static PBCDPoint ballPos();
 
  protected:
-    PBCPositionTranslator();
+    PBCPositionTranslator() {}
 
  public:
     static PBCDPoint translatePos(PBCDPoint pos, PBCDPoint center = ballPos());
