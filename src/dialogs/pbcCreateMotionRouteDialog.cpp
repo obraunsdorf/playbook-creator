@@ -29,7 +29,7 @@
 #include <QInputDialog>
 #include <string>
 
-void PBCCreateMotionRouteDialog::exec() {
+void PBCCreateMotionRouteDialog::execute() {
     int returnCode = QDialog::exec();
     if(returnCode == QDialog::Rejected) {
         _createdPaths.clear();
@@ -99,7 +99,7 @@ PBCCreateMotionRouteDialog::PBCCreateMotionRouteDialog(QWidget *parent) :
     ui(new Ui::PBCCreateMotionRouteDialog) {
     ui->setupUi(this);
     this->setWindowModality(Qt::ApplicationModal);
-    exec();
+    execute();
 }
 
 PBCCreateMotionRouteDialog::~PBCCreateMotionRouteDialog() {

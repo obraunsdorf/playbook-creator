@@ -311,7 +311,7 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
         if(clicked == action_CustomRouteCreate_Graphical) {
             PBCCustomRouteDialog dialog;
             dialog.setWindowModality(Qt::ApplicationModal);
-            PBCRouteSP createdRoute = dialog.exec();
+            PBCRouteSP createdRoute = dialog.execute();
             if(createdRoute != NULL) {
                 this->applyRoute(createdRoute);
             }

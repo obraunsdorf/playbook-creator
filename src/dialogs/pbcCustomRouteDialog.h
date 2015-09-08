@@ -42,7 +42,7 @@ class PBCCustomRouteDialog : public QDialog {
  public:
     explicit PBCCustomRouteDialog(QWidget *parent = 0);
     ~PBCCustomRouteDialog();
-    PBCRouteSP exec();
+    PBCRouteSP execute();
 
  public slots:
     void accept();

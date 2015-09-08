@@ -72,7 +72,7 @@ PBCCustomRouteDialog::~PBCCustomRouteDialog() {
     delete ui;
 }
 
-PBCRouteSP PBCCustomRouteDialog::exec() {
+PBCRouteSP PBCCustomRouteDialog::execute() {
     int returnCode = QDialog::exec();
     if(returnCode == QDialog::Accepted) {
         assert(_createdRoute != NULL);
