@@ -345,10 +345,15 @@ void MainDialog::savePlaybookAs() {
         assert(files.size() == 1);
         QString fileName = files.first();
 
-        bool ok;
-        QString password = QInputDialog::getText(this, "Save Playbook",
+        bool ok = true;
+        QString password = "";
+        /*QString password = QInputDialog::getText(this, "Save Playbook",
                                                  "Enter encryption password",
-                                                 QLineEdit::Password, "", &ok);
+                                                 QLineEdit::Password, "", &ok);*/
+        QMessageBox::warning(this,
+                             "Save Playbook",
+                             "Encryption/Decryption is currently disabled on Windows");  // NOLINT
+
         if(ok == true) {
             _currentPlaybookFileName = fileName;
             PBCStorage::getInstance()->savePlaybook(password.toStdString(),
@@ -371,10 +376,15 @@ void MainDialog::openPlaybook() {
         assert(files.size() == 1);
         QString fileName = files.first();
 
-        bool ok;
-        QString password = QInputDialog::getText(this, "Open Playbook",
+        bool ok = true;
+        /*QString password = QInputDialog::getText(this, "Open Playbook",
                                                  "Enter decryption password",
-                                                 QLineEdit::Password, "", &ok);
+                                                 QLineEdit::Password, "", &ok);*/
+        QString password = "";
+        QMessageBox::warning(this,
+                             "Open Playbook",
+                             "Encryption/Decryption is currently disabled on Windows");  // NOLINT
+
         if(ok == true) {
             _currentPlaybookFileName = fileName;
             PBCStorage::getInstance()->loadPlaybook(password.toStdString(),
