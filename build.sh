@@ -22,4 +22,4 @@ set -e
 (cd $buildDir && make)
 (cd $baseDir && mkdir -p $binDir)
 (mv $buildDir"PlaybookCreator" $binDir)
-#(cd $baseDir && doxygen)
+(cd $baseDir && doxygen)
