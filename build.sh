@@ -5,7 +5,7 @@ baseDir=$(pwd)"/"
 toolDir=$baseDir"tools/"
 buildDir=$baseDir"build/"
 srcDir=$baseDir"src/"
-binDir=$baseDir"bin/"
+binDir=$baseDir"bin/Linux"
 
 MAJOR_VERSION_NUMBER=0
 MINOR_VERSION_NUMBER=4
@@ -22,4 +22,4 @@ set -e
 (cd $buildDir && make)
 (cd $baseDir && mkdir -p $binDir)
 (mv $buildDir"PlaybookCreator" $binDir)
-(cd $baseDir && doxygen)
+#(cd $baseDir && doxygen)
