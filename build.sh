@@ -8,7 +8,7 @@ srcDir=$baseDir"src/"
 binDir=$baseDir"bin/"
 
 MAJOR_VERSION_NUMBER=0
-MINOR_VERSION_NUMBER=3
+MINOR_VERSION_NUMBER=4
 
 echo "base directory: " $baseDir
 echo "build directory: " $buildDir
