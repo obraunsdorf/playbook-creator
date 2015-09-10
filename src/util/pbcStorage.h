@@ -53,6 +53,8 @@ friend class PBCSingleton<PBCStorage>;
     void decrypt(const std::string& password,
                  std::ostream& ostream,  // NOLINT
                  std::ifstream& inFile); // NOLINT
+    void writeWithoutEncryptionOnWindows();
+    void loadWithoutEncryptionOnWindows(const std::string &fileName);
 
  protected:
     PBCStorage() {}

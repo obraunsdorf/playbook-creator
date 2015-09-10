@@ -190,7 +190,8 @@ void PBCStorage::automaticSavePlaybook() {
  * Encrypting and writing to file is done via PBCStorage::encrypt() function
  */
 void PBCStorage::writeToCurrentPlaybookFile() {
-    assert(_currentPlaybookFileName != "");
+    writeWithoutEncryptionOnWindows();
+    /*assert(_currentPlaybookFileName != "");
     std::string extension = _currentPlaybookFileName.substr(_currentPlaybookFileName.size() - 4);  //NOLINT
     assert(extension == ".pbc");
     std::stringbuf buff;
@@ -212,7 +213,7 @@ void PBCStorage::writeToCurrentPlaybookFile() {
         std::cout << e.what() << std::endl;  // TODO(obr): message to user
     }
 
-    ofstream.close();
+    ofstream.close();*/
 }
 
 /**
@@ -224,7 +225,8 @@ void PBCStorage::writeToCurrentPlaybookFile() {
  */
 void PBCStorage::loadPlaybook(const std::string &password,
                               const std::string &fileName) {
-    std::string extension = fileName.substr(fileName.size() - 4);
+    loadWithoutEncryptionOnWindows(fileName);
+    /*std::string extension = fileName.substr(fileName.size() - 4);
     assert(extension == ".pbc");
     std::stringbuf buff;
     std::ostream ostream(&buff);
@@ -257,7 +259,7 @@ void PBCStorage::loadPlaybook(const std::string &password,
     checkVersion(version);
 
     boost::archive::text_iarchive archive(istream);
-    archive >> *PBCPlaybook::getInstance();
+    archive >> *PBCPlaybook::getInstance();*/
 }
 
 /**
@@ -360,4 +362,47 @@ void PBCStorage::exportAsPDF(const std::string& fileName,
             y = 0;
         }
     }
+}
+
+
+void PBCStorage::writeWithoutEncryptionOnWindows() {
+    assert(_currentPlaybookFileName != "");
+    std::string extension = _currentPlaybookFileName.substr(_currentPlaybookFileName.size() - 4);  //NOLINT
+    assert(extension == ".pbc");
+
+    std::ofstream ostream(_currentPlaybookFileName,
+                           std::ios_base::out | std::ios_base::binary);
+    ostream << "Playbook-Creator" << "\n";
+    ostream << "playbook" << "\n";
+    ostream << PBCVersion::getVersionString() << "\n";
+    boost::archive::text_oarchive archive(ostream);
+    archive << *PBCPlaybook::getInstance();
+}
+
+
+void PBCStorage::loadWithoutEncryptionOnWindows(const std::string &fileName) {
+    std::string extension = fileName.substr(fileName.size() - 4);
+    assert(extension == ".pbc");
+    _currentPlaybookFileName = fileName;
+
+    std::ifstream istream(fileName);
+
+
+    int kBuffSize = 100;
+    char buffer[kBuffSize];
+
+    istream.getline(buffer, kBuffSize);
+    std::string pbcString(buffer);
+    assert(pbcString == "Playbook-Creator");
+
+    istream.getline(buffer, kBuffSize);
+    std::string pbString(buffer);
+    assert(pbString == "playbook");
+
+    istream.getline(buffer, kBuffSize);
+    std::string version(buffer);
+    checkVersion(version);
+
+    boost::archive::text_iarchive archive(istream);
+    archive >> *PBCPlaybook::getInstance();
 }

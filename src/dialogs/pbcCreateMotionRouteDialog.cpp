@@ -83,10 +83,11 @@ void PBCCreateMotionRouteDialog::savePlaybookOnRouteCreation() {
         assert(files.size() == 1);
         QString fileName = files.first();
 
-        bool ok;
-        QString password = QInputDialog::getText(this, "Save Playbook",
+        bool ok = true;
+        /*QString password = QInputDialog::getText(this, "Save Playbook",
                                                  "Enter encryption password",
-                                                 QLineEdit::Password, "", &ok);
+                                                 QLineEdit::Password, "", &ok);*/
+        QString password = "";
         if(ok == true) {
             PBCStorage::getInstance()->savePlaybook(password.toStdString(),
                                                     fileName.toStdString());
