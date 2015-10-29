@@ -44,8 +44,8 @@ class PBCVersion {
  public:
     static const unsigned int MAJOR = 0;
     static const unsigned int MINOR = 4;
-    static const unsigned int REVISION = 44;
-    static const unsigned int BUILD = 150910887;
+    static const unsigned int REVISION = 48;
+    static const unsigned int BUILD = 1510281090;
 
 	/**
     * @brief compares the string of the current version to another version string
