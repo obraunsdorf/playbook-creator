@@ -16,6 +16,7 @@
 \date{\today}
 \begin{document}
 	\maketitle
+	\clearpage
 	\tableofcontents
 	\clearpage
 	
@@ -43,8 +44,10 @@
 		\subsection{Graphical}
 		\subsection{Numerical}
 	\section{Apply a motion to a receiver}
+	\label{sec:motions}
 	\section{Save Formations}
 	\section{Export your playbook}
+	\label{sec:pdfExport}
 	\clearpage
 	\section{Guideline for creating a new playbook}
 	\label{sec:guideline}
@@ -66,22 +69,19 @@
 			
 			\item Create your plays.
 				\begin{enumerate}
-					\item In the main menu click \textit{Play \pfeil New Play}. After typing name and code name of the play, choose one of the formations you created previously. Now you can bring the players in the ultimate position for the specific play you want to design. (Sometimes you want to change the alignment of a specific player or make some other little changes to the formation concerning the play. Then the play still remains associated with the choosen formation.)
+					\item In the main menu click \textit{Play \pfeil New Play}. After typing name and code name of the play, choose one of the formations you created previously. Now you can bring the players in the ultimate position for the specific play you want to design. (Sometimes you want to change the alignment of a specific player or make some other little changes to the formation concerning the play. Then the play still remains associated with the chosen formation.)
 					
-					\item motions
+					\item Apply motions to the receivers. See section \ref{sec:motions} for more information about how to create motions.
 					
-					\item routes
+					\item Apply the routes you created in the previous step.
 					
-					\item save
+					\item When your done with designing your play, save it.
 					
-					\item save as for similar plays
+					\item Sometimes you want to design a play that looks similar to another one that you already designed. If you have that already designed play open, thats fine. Otherwise click \textit{Play \pfeil Open Play} in the main menu and open it. Now make your changes to it and save ot under a new name: click \mbox{\textit{Play \pfeil Save Play \textbf{As}}} and assign a new name and code name to it. You will see no changes in the displayed code name below your play (this is a bug), but your new play is saved under the new name. You can check that by clicking \textit{Play \pfeil Open Play}. You will see the new play and the old play which remains unchanged.
 				\end{enumerate}
 				
-			\item Export to pdf
-				\begin{enumerate}
-					\item first try with example plays to find out printing parameters
-					
-					\item Do it
-				\end{enumerate}
+			\item Save your playbook. As you can read in previous sections of this document, you don't need to save your playbook explicitly. It is automatically saved when you add a play, route or formation to it. If you want to save your playbook despite automatic saving (e.g. to make a backup) you can click \mbox{\textit{Playbook \pfeil Save Playbook As}}.
+			
+			\item Export to PDF. Click \textit{Playbook \pfeil PDF Export} to open the export dialog. See section \ref{sec:pdfExport} for a detailed description of the export dialog. It is recommended to select some random plays (e.g. the first x plays) and export them to see if the export parameters you chose are correct. If feel certain about the parameters, open the export dialog again, select the plays you want and export them.
 		\end{enumerate}
 \end{document}
