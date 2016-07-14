@@ -67,7 +67,7 @@ friend class PBCSingleton<PBCConfig>;
        _ballWidthYd(1),
        _playNameColor(128U, 128U, 128U),
        _playNameSizeYd(2.5),
-       _playerWidthYd(1.5),
+       _playerWidthYd(1),
        _routeWidthYd(0.25),
        _canvasWidth(200),
        _canvasHeight(200) {

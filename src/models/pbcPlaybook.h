@@ -79,7 +79,8 @@ friend class boost::serialization::access;
     PBCPlaybook();
 
  public:
-    void resetToNewEmptyPlaybook(const std::string& name);
+    void resetToNewEmptyPlaybook(const std::string& name,
+                                 const int playerNumber);
     void setName(const std::string& name);
     bool addFormation(PBCFormationSP formation, bool overwrite = false);
     bool addRoute(PBCRouteSP route, bool overwrite = false);

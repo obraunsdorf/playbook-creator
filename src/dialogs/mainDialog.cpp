@@ -315,14 +315,22 @@ void MainDialog::saveFormationAs() {
  * @brief Resets the application and creates a new empty playbook
  */
 void MainDialog::newPlaybook() {
-    bool ok;
+    bool nameOk;
+    bool playerNumberOk;
     QString name = QInputDialog::getText(
                 this, "New Playbook", "Playbook title",
-                QLineEdit::Normal, "", &ok);
+                QLineEdit::Normal, "", &nameOk);
 
-    if(ok == true) {
+    int playerNumber = QInputDialog::getInt(
+                this, "New Playbook", "Number of offense players",
+                5, 5, 11, 2, &playerNumberOk);
+
+    if((nameOk && playerNumberOk) == true) {
         assert(name != "");
-        PBCPlaybook::getInstance()->resetToNewEmptyPlaybook(name.toStdString());
+        assert(playerNumber == 5 || playerNumber == 7 ||
+            playerNumber == 9 || playerNumber == 11);
+        PBCPlaybook::getInstance()->resetToNewEmptyPlaybook(name.toStdString(),
+                                                            playerNumber);
         PBCStorage::getInstance()->init(name.toStdString());
         updateTitle(false);
     }

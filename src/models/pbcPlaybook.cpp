@@ -41,7 +41,7 @@
  * a new empty playbook when the application is started.
  */
 PBCPlaybook::PBCPlaybook() : _name("new Playbook") {
-    resetToNewEmptyPlaybook(_name);
+    resetToNewEmptyPlaybook(_name, 5);
 }
 
 
@@ -51,7 +51,8 @@ PBCPlaybook::PBCPlaybook() : _name("new Playbook") {
  * Standard Routes (5 In, Post, Fly, Slant) and a I-Formation are inserted.
  * @param name The name of the new Playbook
  */
-void PBCPlaybook::resetToNewEmptyPlaybook(const std::string &name) {
+void PBCPlaybook::resetToNewEmptyPlaybook(const std::string &name,
+                                          const int playerNumber) {
     _builtWithPBCVersion = PBCVersion::getVersionString();
     _name = name;
     _formations.clear();
@@ -99,9 +100,39 @@ void PBCPlaybook::resetToNewEmptyPlaybook(const std::string &name) {
                                                    PBCColor(),
                                                    PBCDPoint(15, 0))));
 
-    formation->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Runningback", "RB"},
+    formation->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Halfback", "HB"},
                                                    PBCColor(),
-                                                   PBCDPoint(0, -5))));
+                                                   PBCDPoint(0, -6))));
+
+    if (playerNumber >= 7) {
+        formation->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Left Guard", "LG"}, // NOLINT
+                                                   PBCColor(),
+                                                   PBCDPoint(-1, 0))));
+
+        formation->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Right Guard", "RG"}, // NOLINT
+                                                   PBCColor(),
+                                                   PBCDPoint(1, 0))));
+    }
+
+    if (playerNumber >= 9) {
+        formation->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Fullback", "FB"}, // NOLINT
+                                                   PBCColor(),
+                                                   PBCDPoint(0, -3))));
+
+        formation->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Tight End", ""}, // NOLINT
+                                                   PBCColor(),
+                                                   PBCDPoint(3, -1))));
+    }
+
+    if (playerNumber == 11) {
+        formation->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Left Tackle", "LT"}, // NOLINT
+                                                   PBCColor(),
+                                                   PBCDPoint(-2, 0))));
+
+        formation->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Right Tackle", "RT"}, // NOLINT
+                                                   PBCColor(),
+                                                   PBCDPoint(2, 0))));
+    }
 
     std::pair<PBCModelMap<PBCFormationSP>::iterator, bool> result =
             _formations.insert(std::make_pair(formation->name(), formation));
