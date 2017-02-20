@@ -179,7 +179,7 @@ void PBCStorage::automaticSavePlaybook() {
     if(_keySP != NULL && _saltSP != NULL) {
         writeToCurrentPlaybookFile();
     } else {
-        throw PBCStorageException("Cannot save playbook automatically whitout key. The playbook must be saved manually (invoke savePlaybook()-method) first");  //NOLINT
+        throw PBCStorageException("Cannot save playbook automatically whithout key. The playbook must be saved manually first");  //NOLINT
     }
 }
 

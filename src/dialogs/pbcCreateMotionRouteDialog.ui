@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>274</width>
+    <width>275</width>
     <height>367</height>
    </rect>
   </property>
@@ -20,7 +20,7 @@
    <item>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
-      <string>GroupBox</string>
+      <string>X and Y coordinates</string>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
@@ -93,14 +93,22 @@
    <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>GroupBox</string>
+      <string/>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QLineEdit" name="nameEdit"/>
+       <widget class="QLineEdit" name="nameEdit">
+        <property name="placeholderText">
+         <string>name</string>
+        </property>
+       </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="codeNameEdit"/>
+       <widget class="QLineEdit" name="codeNameEdit">
+        <property name="placeholderText">
+         <string>code name</string>
+        </property>
+       </widget>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">

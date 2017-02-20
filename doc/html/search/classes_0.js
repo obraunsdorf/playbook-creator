@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['maindialog',['MainDialog',['../classMainDialog.html',1,'']]]
+  ['cpp',['cpp',['../classPBCCategory_1_1cpp.html',1,'PBCCategory']]]
 ];

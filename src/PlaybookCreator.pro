@@ -56,7 +56,13 @@ SOURCES += main.cpp\
     util/pbcStorage.cpp \
     dialogs/pbcExportPdfDialog.cpp \
     models/pbcMotion.cpp \
-    dialogs/pbcCreateMotionRouteDialog.cpp
+    dialogs/pbcCreateMotionRouteDialog.cpp \
+    models/pbcCategory.cpp \
+    dialogs/pbcNewPlaybookDialog.cpp \
+    dialogs/pbcNewPlayDialog.cpp \
+    dialogs/pbcOpenPlayDialog.cpp \
+    dialogs/pbcEditCategoriesDialog.cpp \
+    dialogs/pbcSavePlayAsDialog.cpp
 
 HEADERS  += pbcVersion.h \
     dialogs/mainDialog.h \
@@ -82,9 +88,19 @@ HEADERS  += pbcVersion.h \
     dialogs/pbcExportPdfDialog.h \
     models/pbcMotion.h \
     dialogs/pbcCreateMotionRouteDialog.h \
-    models/pbcAbstractMovement.h
+    models/pbcAbstractMovement.h \
+    dialogs/pbcNewPlaybookDialog.h \
+    dialogs/pbcNewPlayDialog.h \
+    dialogs/pbcOpenPlayDialog.h \
+    dialogs/pbcEditCategoriesDialog.h \
+    dialogs/pbcSavePlayAsDialog.h
 
 FORMS    += dialogs/mainDialog.ui \
     dialogs/pbcCustomRouteDialog.ui \
     dialogs/pbcExportPdfDialog.ui \
-    dialogs/pbcCreateMotionRouteDialog.ui
+    dialogs/pbcCreateMotionRouteDialog.ui \
+    dialogs/pbcNewPlaybookDialog.ui \
+    dialogs/pbcNewPlayDialog.ui \
+    dialogs/pbcOpenPlayDialog.ui \
+    dialogs/pbcEditCategoriesDialog.ui \
+    dialogs/pbcSavePlayAsDialog.ui

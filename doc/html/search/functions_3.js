@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['editcategories',['editCategories',['../classPBCEditCategoriesDialog.html#ad9433edf9d7a6bfcda506929a54afd8e',1,'PBCEditCategoriesDialog::editCategories()'],['../classPBCPlayView.html#a9118ed8dbf185253811be1b30cdf90c4',1,'PBCPlayView::editCategories()']]],
   ['endpoint',['endpoint',['../classPBCPath.html#a9665743c88b98eddfb79efbd61243bed',1,'PBCPath']]],
   ['exec',['exec',['../classPBCExportPDFDialog.html#a4779fb354ec58cc0f85efbc21c083040',1,'PBCExportPDFDialog']]],
   ['execute',['execute',['../classPBCCustomRouteDialog.html#afc3af3073d17a71d1fa52299aee899d0',1,'PBCCustomRouteDialog']]],

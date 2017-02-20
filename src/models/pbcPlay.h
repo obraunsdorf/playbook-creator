@@ -32,19 +32,20 @@
 #include "models/pbcFormation.h"
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/string.hpp>
-#include <boost/serialization/list.hpp>
-#include <list>
+#include <boost/serialization/set.hpp>
+#include <set>
 
 class PBCPlay;
 typedef boost::shared_ptr<PBCPlay> PBCPlaySP;
 
 class PBCPlay {
 friend class boost::serialization::access;
+friend class PBCCategory;
  private:
     std::string _name;
     std::string _codeName;
     PBCFormationSP _formation;
-    std::list<PBCCategorySP> _categories;
+    std::set<PBCCategorySP> _categories;
 
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version) {  // NOLINT
@@ -67,8 +68,9 @@ friend class boost::serialization::access;
     void setCodeName(const std::string &codeName);
     PBCFormationSP formation() const;
     void setFormation(const PBCFormationSP &formation);
-    std::list<PBCCategorySP> categories() const;
-    void setCategories(const std::list<PBCCategorySP> &categories);
+    std::set<PBCCategorySP> categories() const;
+    void addCategory(const PBCCategorySP &category);
+    void removeCategory(const PBCCategorySP& category);
 };
 
 #endif  // PBCPLAY_H

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['paperheight',['paperHeight',['../structPBCExportPDFDialog_1_1ReturnStruct.html#a01fd2a08e31616d1cee57b932dfe2433',1,'PBCExportPDFDialog::ReturnStruct']]],
-  ['paperwidth',['paperWidth',['../structPBCExportPDFDialog_1_1ReturnStruct.html#a2dcde1189c16d3ff516a9b67ffedeb2c',1,'PBCExportPDFDialog::ReturnStruct']]]
+  ['name',['name',['../structPBCNewPlayDialog_1_1ReturnStruct.html#a2e62d80b00fbbc154e4cc7dec2f0509e',1,'PBCNewPlayDialog::ReturnStruct::name()'],['../structPBCSavePlayAsDialog_1_1ReturnStruct.html#af5d430e77a08cb80a9388cf8821ca23d',1,'PBCSavePlayAsDialog::ReturnStruct::name()']]]
 ];

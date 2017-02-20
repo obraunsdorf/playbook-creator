@@ -1,9 +1,10 @@
 <map id="src/models/pbcMotion.h" name="src/models/pbcMotion.h">
-<area shape="rect" id="node2" href="$pbcAbstractMovement_8h.html" title="models/pbcAbstractMovement.h" alt="" coords="1014,88,1223,115"/>
-<area shape="rect" id="node3" href="$pbcPath_8h.html" title="models/pbcPath.h" alt="" coords="1056,171,1182,197"/>
-<area shape="rect" id="node4" href="$pbcDeclarations_8h.html" title="util/pbcDeclarations.h" alt="" coords="1181,245,1329,272"/>
-<area shape="rect" id="node8" href="$pbcVersion_8h.html" title="This is the version file. It has been created automatically by version.py which is located in the bas..." alt="" coords="1050,245,1149,272"/>
-<area shape="rect" id="node12" href="$pbcPlaybook_8h.html" title="models/pbcPlaybook.h" alt="" coords="569,245,722,272"/>
-<area shape="rect" id="node13" href="$pbcSingleton_8h.html" title="util/pbcSingleton.h" alt="" coords="228,328,357,355"/>
-<area shape="rect" id="node17" href="$pbcCategory_8h.html" title="models/pbcCategory.h" alt="" coords="433,328,586,355"/>
+<area shape="rect" id="node2" href="$pbcAbstractMovement_8h.html" title="models/pbcAbstractMovement.h" alt="" coords="1219,88,1428,115"/>
+<area shape="rect" id="node3" href="$pbcPath_8h.html" title="models/pbcPath.h" alt="" coords="1118,171,1244,197"/>
+<area shape="rect" id="node4" href="$pbcDeclarations_8h.html" title="util/pbcDeclarations.h" alt="" coords="461,419,608,445"/>
+<area shape="rect" id="node15" href="$pbcVersion_8h.html" title="This is the version file. It has been created automatically by version.py which is located in the bas..." alt="" coords="1280,245,1379,272"/>
+<area shape="rect" id="node18" href="$pbcPlaybook_8h.html" title="models/pbcPlaybook.h" alt="" coords="963,245,1116,272"/>
+<area shape="rect" id="node5" href="$pbcExceptions_8h.html" title="util/pbcExceptions.h" alt="" coords="413,501,552,528"/>
+<area shape="rect" id="node19" href="$pbcSingleton_8h.html" title="util/pbcSingleton.h" alt="" coords="923,328,1052,355"/>
+<area shape="rect" id="node22" href="$pbcCategory_8h.html" title="models/pbcCategory.h" alt="" coords="746,328,899,355"/>
 </map>

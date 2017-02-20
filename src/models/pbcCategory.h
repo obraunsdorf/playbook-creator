@@ -22,13 +22,15 @@
 #ifndef PBCCATEGORY_H
 #define PBCCATEGORY_H
 
+#include "util/pbcDeclarations.h"
 #include <string>
 #include <boost/shared_ptr.hpp>
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/string.hpp>
-#include <boost/serialization/list.hpp>
+#include <boost/serialization/set.hpp>
 #include <assert.h>
 #include <list>
+#include <set>
 
 class PBCPlay;
 typedef boost::shared_ptr<PBCPlay> PBCPlaySP;
@@ -51,12 +53,15 @@ friend class boost::serialization::access;
  protected:
     std::string _name;
     // char _shortName[5];
-    std::list<PBCPlaySP> _plays;
+    std::set<PBCPlaySP> _plays;
 
  public:
     explicit PBCCategory(const std::string& name) : _name(name) {}
-    std::string name() const {return _name;}
-    void setName(const std::string& name) {_name = name;}
+    std::string name() const;
+    void setName(const std::string& name);
+    void addPlay(const PBCPlaySP& play);
+    void removePlay(const PBCPlaySP& play);
+    std::set<PBCPlaySP> plays() const;
 };
 
 #endif  // PBCCATEGORY_H

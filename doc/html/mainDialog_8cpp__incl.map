@@ -1,21 +1,22 @@
 <map id="src/dialogs/mainDialog.cpp" name="src/dialogs/mainDialog.cpp">
-<area shape="rect" id="node2" href="$mainDialog_8h.html" title="mainDialog.h" alt="" coords="1862,80,1960,107"/>
-<area shape="rect" id="node16" href="$pbcPlaybook_8h.html" title="models/pbcPlaybook.h" alt="" coords="2195,576,2348,603"/>
-<area shape="rect" id="node28" href="$pbcVersion_8h.html" title="This is the version file. It has been created automatically by version.py which is located in the bas..." alt="" coords="1968,576,2067,603"/>
-<area shape="rect" id="node35" href="$pbcConfig_8h.html" title="util/pbcConfig.h" alt="" coords="1070,493,1183,520"/>
-<area shape="rect" id="node36" href="$pbcPlayerView_8h.html" title="gui/pbcPlayerView.h" alt="" coords="323,229,463,256"/>
-<area shape="rect" id="node39" href="$pbcExportPdfDialog_8h.html" title="dialogs/pbcExportPdfDialog.h" alt="" coords="936,80,1131,107"/>
-<area shape="rect" id="node44" href="$pbcStorage_8h.html" title="util/pbcStorage.h" alt="" coords="2207,80,2327,107"/>
-<area shape="rect" id="node46" href="$pbcExceptions_8h.html" title="util/pbcExceptions.h" alt="" coords="2618,80,2758,107"/>
-<area shape="rect" id="node4" href="$pbcPlayView_8h.html" title="gui/pbcPlayView.h" alt="" coords="1896,155,2026,181"/>
-<area shape="rect" id="node5" href="$pbcGridIronView_8h.html" title="gui/pbcGridIronView.h" alt="" coords="590,493,740,520"/>
-<area shape="rect" id="node14" href="$pbcPlay_8h.html" title="models/pbcPlay.h" alt="" coords="1869,229,1995,256"/>
-<area shape="rect" id="node6" href="$pbcDeclarations_8h.html" title="util/pbcDeclarations.h" alt="" coords="657,576,804,603"/>
-<area shape="rect" id="node10" href="$pbcColor_8h.html" title="models/pbcColor.h" alt="" coords="927,576,1056,603"/>
-<area shape="rect" id="node20" href="$pbcCategory_8h.html" title="models/pbcCategory.h" alt="" coords="1377,659,1530,685"/>
-<area shape="rect" id="node25" href="$pbcPlayer_8h.html" title="models/pbcPlayer.h" alt="" coords="988,312,1124,339"/>
-<area shape="rect" id="node17" href="$pbcSingleton_8h.html" title="util/pbcSingleton.h" alt="" coords="1852,659,1980,685"/>
-<area shape="rect" id="node26" href="$pbcRoute_8h.html" title="models/pbcRoute.h" alt="" coords="1194,403,1328,429"/>
-<area shape="rect" id="node27" href="$pbcPath_8h.html" title="models/pbcPath.h" alt="" coords="1361,493,1487,520"/>
-<area shape="rect" id="node31" href="$pbcMotion_8h.html" title="models/pbcMotion.h" alt="" coords="830,403,968,429"/>
+<area shape="rect" id="node2" href="$mainDialog_8h.html" title="mainDialog.h" alt="" coords="1069,80,1168,107"/>
+<area shape="rect" id="node7" href="$pbcExceptions_8h.html" title="util/pbcExceptions.h" alt="" coords="29,576,168,603"/>
+<area shape="rect" id="node20" href="$pbcPlaybook_8h.html" title="models/pbcPlaybook.h" alt="" coords="1783,312,1936,339"/>
+<area shape="rect" id="node30" href="$pbcConfig_8h.html" title="util/pbcConfig.h" alt="" coords="766,312,879,339"/>
+<area shape="rect" id="node31" href="$pbcPlayerView_8h.html" title="gui/pbcPlayerView.h" alt="" coords="607,229,747,256"/>
+<area shape="rect" id="node34" href="$pbcExportPdfDialog_8h.html" title="dialogs/pbcExportPdfDialog.h" alt="" coords="2675,155,2869,181"/>
+<area shape="rect" id="node36" href="$pbcNewPlaybookDialog_8h.html" title="dialogs/pbcNewPlaybookDialog.h" alt="" coords="3390,155,3607,181"/>
+<area shape="rect" id="node37" href="$pbcNewPlayDialog_8h.html" title="dialogs/pbcNewPlayDialog.h" alt="" coords="2944,155,3133,181"/>
+<area shape="rect" id="node38" href="$pbcOpenPlayDialog_8h.html" title="dialogs/pbcOpenPlayDialog.h" alt="" coords="2355,155,2548,181"/>
+<area shape="rect" id="node40" href="$pbcSavePlayAsDialog_8h.html" title="dialogs/pbcSavePlayAsDialog.h" alt="" coords="3157,155,3365,181"/>
+<area shape="rect" id="node44" href="$pbcStorage_8h.html" title="util/pbcStorage.h" alt="" coords="1845,80,1965,107"/>
+<area shape="rect" id="node49" href="$pbcVersion_8h.html" title="This is the version file. It has been created automatically by version.py which is located in the bas..." alt="" coords="3208,403,3307,429"/>
+<area shape="rect" id="node4" href="$pbcPlayView_8h.html" title="gui/pbcPlayView.h" alt="" coords="1577,155,1707,181"/>
+<area shape="rect" id="node5" href="$pbcGridIronView_8h.html" title="gui/pbcGridIronView.h" alt="" coords="1006,312,1156,339"/>
+<area shape="rect" id="node19" href="$pbcPlay_8h.html" title="models/pbcPlay.h" alt="" coords="1886,229,2012,256"/>
+<area shape="rect" id="node6" href="$pbcDeclarations_8h.html" title="util/pbcDeclarations.h" alt="" coords="883,493,1031,520"/>
+<area shape="rect" id="node15" href="$pbcColor_8h.html" title="models/pbcColor.h" alt="" coords="1107,403,1236,429"/>
+<area shape="rect" id="node23" href="$pbcCategory_8h.html" title="models/pbcCategory.h" alt="" coords="2017,403,2169,429"/>
+<area shape="rect" id="node27" href="$pbcPlayer_8h.html" title="models/pbcPlayer.h" alt="" coords="1233,312,1369,339"/>
+<area shape="rect" id="node21" href="$pbcSingleton_8h.html" title="util/pbcSingleton.h" alt="" coords="1414,403,1543,429"/>
 </map>

@@ -21,6 +21,7 @@
 
 #include "pbcPlay.h"
 #include <string>
+#include <set>
 #include <list>
 
 /**
@@ -77,21 +78,33 @@ void PBCPlay::setFormation(const PBCFormationSP &formation) {
     _formation = formation;
 }
 
+
 /**
  * @brief Getter function for the categories that the play belongs to
- * @return a list of the categories
+ * @return a set of the categories
  */
-std::list<PBCCategorySP> PBCPlay::categories() const {
+std::set<PBCCategorySP> PBCPlay::categories() const {
     return _categories;
 }
 
+
 /**
- * @brief Setter function for the categories that the play belongs to
- * @param categories a list of new categories
+ * @brief Adds a category to the set of categories that the play belongs to
+ * @param category to add
  */
-void PBCPlay::setCategories(const std::list<PBCCategorySP> &categories) {
-    _categories = categories;
+void PBCPlay::addCategory(const PBCCategorySP &category) {
+    _categories.insert(category);
 }
+
+
+/**
+ * @brief Removes a category from the set of categories that the play belongs to
+ * @param category to add
+ */
+void PBCPlay::removeCategory(const PBCCategorySP &category) {
+    _categories.erase(category);
+}
+
 
 /**
  * @brief The constructor
@@ -113,7 +126,7 @@ PBCPlay::PBCPlay(const std::string &name,
  *
  * The name, code name and categories of the play are simply copied. The
  * formation needs special treatment because the copy constructor of
- * PBCFormation does not copy the players routes and motions but only their
+ * PBCFormation does not copy the players' routes and motions but only their
  * positions. So we need to set the routes and motions here manually.
  * @param other the PBCPlay instance to copy
  */

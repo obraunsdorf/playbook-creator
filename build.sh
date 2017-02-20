@@ -7,8 +7,10 @@ buildDir=$baseDir"build/"
 srcDir=$baseDir"src/"
 binDir=$baseDir"bin/Linux"
 
+cores=2
+
 MAJOR_VERSION_NUMBER=0
-MINOR_VERSION_NUMBER=4
+MINOR_VERSION_NUMBER=6
 
 echo "base directory: " $baseDir
 echo "build directory: " $buildDir
@@ -19,7 +21,7 @@ set -e
 (cd $baseDir && cppcheck $srcDir --error-exitcode=2 --suppress=unusedFunction --inline-suppr --template='{file}:{line}: ({severity}) {message} [{id}]' --enable=all -q)
 (cd $toolDir && python checkStyle.py)
 (cd $buildDir && qmake $srcDir"PlaybookCreator.pro" -r -spec linux-g++-64 CONFIG+=debug)
-(cd $buildDir && make)
+(cd $buildDir && make -j$cores)
 (cd $baseDir && mkdir -p $binDir)
 (mv $buildDir"PlaybookCreator" $binDir)
 (cd $baseDir && doxygen)

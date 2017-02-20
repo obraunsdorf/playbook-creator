@@ -35,7 +35,7 @@
      <x>0</x>
      <y>0</y>
      <width>648</width>
-     <height>20</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -56,6 +56,7 @@
     <addaction name="actionOpen_Play"/>
     <addaction name="actionSave_Play"/>
     <addaction name="actionSave_Play_as"/>
+    <addaction name="actionAdd_play_to_category"/>
     <addaction name="actionSave_formation_as"/>
     <addaction name="actionImport_Play"/>
     <addaction name="actionExport_Play"/>
@@ -66,28 +67,19 @@
     </property>
     <addaction name="actionAbout"/>
    </widget>
-   <widget class="QMenu" name="menuCategory">
-    <property name="title">
-     <string>Category</string>
-    </property>
-    <addaction name="actionAdd_play_to_category"/>
-    <addaction name="actionNew_Category"/>
-    <addaction name="actionDelete_Category"/>
-   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuPlay"/>
-   <addaction name="menuCategory"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNew_Playbook">
    <property name="text">
-    <string>New Playbook</string>
+    <string>New playbook</string>
    </property>
   </action>
   <action name="actionOpen_Playbook">
    <property name="text">
-    <string>Open Playbook</string>
+    <string>Open playbook</string>
    </property>
   </action>
   <action name="actionSave_Playbook">
@@ -97,7 +89,7 @@
   </action>
   <action name="actionSave_Playbook_as">
    <property name="text">
-    <string>Save Playbook as</string>
+    <string>Save playbook as</string>
    </property>
   </action>
   <action name="actionExit">
@@ -107,7 +99,7 @@
   </action>
   <action name="actionNew_Play">
    <property name="text">
-    <string>New Play</string>
+    <string>New play</string>
    </property>
   </action>
   <action name="actionSave_Play">
@@ -115,7 +107,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Save Play</string>
+    <string>Save play</string>
    </property>
   </action>
   <action name="actionSave_Play_as">
@@ -123,12 +115,12 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Save Play as</string>
+    <string>Save play as</string>
    </property>
   </action>
   <action name="actionOpen_Play">
    <property name="text">
-    <string>Open Play</string>
+    <string>Open play</string>
    </property>
   </action>
   <action name="actionExport_Play">
@@ -136,7 +128,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Export Play</string>
+    <string>Export play</string>
    </property>
   </action>
   <action name="actionSave_formation">
@@ -162,7 +154,7 @@
   </action>
   <action name="actionImport_Play">
    <property name="text">
-    <string>Import Play</string>
+    <string>Import play</string>
    </property>
   </action>
   <action name="actionAdd_play_to_category">
@@ -170,7 +162,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Add play to category</string>
+    <string>Edit plays' categories</string>
    </property>
   </action>
   <action name="actionNew_Category">
@@ -179,13 +171,21 @@
    </property>
   </action>
   <action name="actionDelete_Category">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
-    <string>Delete Category</string>
+    <string>Remove play from category</string>
    </property>
   </action>
   <action name="actionPDF_Export">
    <property name="text">
-    <string>PDF Export</string>
+    <string>PDF export</string>
+   </property>
+  </action>
+  <action name="actionOpen_play_by_category">
+   <property name="text">
+    <string>Open play by category</string>
    </property>
   </action>
  </widget>
@@ -368,6 +368,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionAdd_play_to_category</sender>
+   <signal>triggered()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>addPlayToCategory()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showNewPlay()</slot>
@@ -381,5 +397,7 @@
   <slot>savePlaybookAs()</slot>
   <slot>newPlaybook()</slot>
   <slot>exportAsPDF()</slot>
+  <slot>addPlayToCategory()</slot>
+  <slot>openPlayByCategory()</slot>
  </slots>
 </ui>

@@ -27,6 +27,10 @@
 #include "gui/pbcPlayerView.h"
 #include "models/pbcPlaybook.h"
 #include "dialogs/pbcExportPdfDialog.h"
+#include "dialogs/pbcNewPlaybookDialog.h"
+#include "dialogs/pbcNewPlayDialog.h"
+#include "dialogs/pbcOpenPlayDialog.h"
+#include "dialogs/pbcSavePlayAsDialog.h"
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QDebug>
@@ -38,6 +42,7 @@
 #include <string>
 #include <vector>
 #include <list>
+#include <set>
 #include <pbcVersion.h>
 
 /**
@@ -158,41 +163,17 @@ void MainDialog::exit() {
  * @brief Loads a new play into the embedded PBCPlayView
  */
 void MainDialog::showNewPlay() {
-    QMessageBox::StandardButton button =
-            QMessageBox::warning(this,
-                                 "Open Play",
-                                 "This will discard unsaved changes to the current play. Do you want to continue?",  // NOLINT
-                                 QMessageBox::Ok | QMessageBox::Cancel);
+    PBCNewPlayDialog dialog;
+    int returnCode = dialog.exec();
+    if (returnCode == QDialog::Accepted) {
+        PBCNewPlayDialog::ReturnStruct rs = dialog.getReturnStruct();
+        std::string name = rs.name;
+        std::string codeName = rs.codeName;
+        std::string formation = rs.formationName;
 
-    if(button == QMessageBox::Ok) {
-        bool nameOk, codeNameOk, formationOk;
-        QString name = QInputDialog::getText(
-                    this, "New Play", "name of the new Play",
-                    QLineEdit::Normal, "", &nameOk);
+        _playView->createNewPlay(name, codeName, formation);
 
-        QString codeName = QInputDialog::getText(
-                    this, "New Play", "code name of the new Play",
-                    QLineEdit::Normal, "", &codeNameOk);
-
-        QStringList formationList;
-        std::vector<std::string> formationNames =
-                PBCPlaybook::getInstance()->getFormationNames();
-        for(std::string& name : formationNames) {
-            formationList.append(QString::fromStdString(name));
-        }
-        QString formation = QInputDialog::getItem(
-                    this, "New Play",
-                    "from which formation should the play be created?",
-                    formationList, 0, false,
-                    &formationOk);
-
-        if((nameOk && codeNameOk && formationOk) == true) {
-            _playView->createNewPlay(
-                        name.toStdString(),
-                        codeName.toStdString(), formation.toStdString());
-
-            enableMenuOptions();
-        }
+        enableMenuOptions();
     }
 }
 
@@ -202,38 +183,24 @@ void MainDialog::showNewPlay() {
  * it into the embedded PBCPlayView
  */
 void MainDialog::openPlay() {
-    bool ok;
-    QStringList playList;
-    std::vector<std::string> playNames =
-            PBCPlaybook::getInstance()->getPlayNames();
-    for(std::string& name : playNames) {
-        playList.append(QString::fromStdString(name));
-    }
-    if(playList.size() > 0) {
-        QMessageBox::StandardButton button =
-                QMessageBox::warning(this,
-                                     "Open Play",
-                                     "This will discard unsaved changes to the current play. Do you want to continue?",  // NOLINT
-                                     QMessageBox::Ok | QMessageBox::Cancel);
-
-        if(button == QMessageBox::Ok) {
-            QString play = QInputDialog::getItem(
-                        this, "Open Play", "choose a play",
-                        playList, 0, false, &ok);
-
-            if(ok == true) {
-                assert(play != "");
-                _playView->showPlay(play.toStdString());
-                updateTitle(true);
-                enableMenuOptions();
-            }
+    QMessageBox::StandardButton button =
+            QMessageBox::warning(this,
+                                 "Open Play",
+                                 "This will discard unsaved changes to the current play. Do you want to continue?",  // NOLINT
+                                 QMessageBox::Ok | QMessageBox::Cancel);
+    if(button == QMessageBox::Ok) {
+        PBCOpenPlayDialog dialog;
+        int returnCode = dialog.exec();
+        if (returnCode == QDialog::Accepted) {
+            struct PBCOpenPlayDialog::ReturnStruct rs = dialog.getReturnStruct();  // NOLINT
+            std::string playName = rs.playName;
+            _playView->showPlay(playName);
+            updateTitle(true);
+            enableMenuOptions();
         }
-    } else {
-        QMessageBox::information(
-                    this, "Open Play",
-                    "There is no play in your Playbook yet. Please create a new play first"); // NOLINT
     }
 }
+
 
 /**
  * @brief Shows a simple dialog with information
@@ -262,29 +229,19 @@ void MainDialog::savePlay() {
  * new name to the playbook.
  */
 void MainDialog::savePlayAs() {
-    bool nameOk;
-    bool codeOk;
-    QString playName = QInputDialog::getText(this, "Save play as", "play name",
-                                             QLineEdit::Normal, "", &nameOk);
-
-    QString playCodeName = QInputDialog::getText(this, "Save play as",
-                                                 "code name",
-                                                 QLineEdit::Normal,
-                                                 "", &codeOk);
-
-    if((nameOk && codeOk) == true) {
-        assert(playName != "");
+    PBCSavePlayAsDialog dialog;
+    int returnCode = dialog.exec();
+    if (returnCode == QDialog::Accepted) {
+        struct PBCSavePlayAsDialog::ReturnStruct rs = dialog.getReturnStruct();
         try {
-            _playView->savePlay(playName.toStdString(),
-                                playCodeName.toStdString());
+            _playView->savePlay(rs.name, rs.codeName);
         } catch(const PBCStorageException& e) {
-            QMessageBox::information(this, "", "You have to save the playbook to a file before you can add plays");  //NOLINT
-            savePlaybookAs();
-            return;
+            std::string errMsg = "Error saving a play under a different name. Expecting playbook to be saved beforehand.\n";  // NOLINT
+            errMsg += e.what();
+            throw PBCUnexpectedError(errMsg);
         }
         updateTitle(true);
-    } else {
-        // TODO(obr): message to user
+        _playView->showPlay(rs.name);
     }
 }
 
@@ -315,24 +272,22 @@ void MainDialog::saveFormationAs() {
  * @brief Resets the application and creates a new empty playbook
  */
 void MainDialog::newPlaybook() {
-    bool nameOk;
-    bool playerNumberOk;
-    QString name = QInputDialog::getText(
-                this, "New Playbook", "Playbook title",
-                QLineEdit::Normal, "", &nameOk);
+    PBCNewPlaybookDialog dialog;
+    int returnCode = dialog.exec();
+    if (returnCode == QDialog::Accepted) {
+        struct PBCNewPlaybookDialog::ReturnStruct rs = dialog.getReturnStruct();
+        int playerNumber = rs.playerNumber;
+        std::string name = rs.playbookTitle;
 
-    int playerNumber = QInputDialog::getInt(
-                this, "New Playbook", "Number of offense players",
-                5, 5, 11, 2, &playerNumberOk);
-
-    if((nameOk && playerNumberOk) == true) {
-        assert(name != "");
-        assert(playerNumber == 5 || playerNumber == 7 ||
+        pbcAssert(name != "");
+        pbcAssert(playerNumber == 5 || playerNumber == 7 ||
             playerNumber == 9 || playerNumber == 11);
-        PBCPlaybook::getInstance()->resetToNewEmptyPlaybook(name.toStdString(),
+        PBCPlaybook::getInstance()->resetToNewEmptyPlaybook(name,
                                                             playerNumber);
-        PBCStorage::getInstance()->init(name.toStdString());
+        PBCStorage::getInstance()->init(name);
         updateTitle(false);
+    } else {
+        pbcAssert(false);
     }
 }
 
@@ -438,6 +393,21 @@ void MainDialog::exportAsPDF() {
                                                    returnStruct->marginTop,
                                                    returnStruct->marginBottom);
         }
+    }
+}
+
+
+/**
+ * @brief Adds the current play to a category.
+ *
+ */
+void MainDialog::addPlayToCategory() {
+    try {
+        _playView->editCategories();
+    } catch(const PBCStorageException& e) {
+        QMessageBox::information(this, "", "You have to save the playbook before.");  //NOLINT
+        savePlaybookAs();
+        return;
     }
 }
 

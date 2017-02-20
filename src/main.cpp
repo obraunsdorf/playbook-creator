@@ -21,10 +21,28 @@
 */
 
 #include "dialogs/mainDialog.h"
-#include <QApplication>
+#include "util/pbcExceptions.h"
+#include "pbcVersion.h"
 #include <boost/version.hpp>
 #include <botan/botan.h>
-#include "pbcVersion.h"
+#include <QApplication>
+#include <QMessageBox>
+
+class PBCqApplication final : public QApplication {
+ public:
+    PBCqApplication(int& argc, char** argv) : QApplication(argc, argv) {}
+    bool notify(QObject *receiver, QEvent *event) override {
+        try {
+            return QApplication::notify(receiver, event);
+        } catch(std::exception &e) {
+            QString errorString = QString::fromStdString(e.what());
+            errorString += "\nTerminating playbook creator.";
+            QMessageBox::critical(activeWindow(), "", errorString);
+            QApplication::exit(1);
+            return false;
+        }
+    }
+};
 
 /**
  * @brief the main function
@@ -45,7 +63,7 @@ int main(int argc, char *argv[]) {
               << BOTAN_VERSION_MINOR << "."
               << BOTAN_VERSION_PATCH << std::endl;
 
-    QApplication a(argc, argv);
+    PBCqApplication a(argc, argv);
     MainDialog w;
     w.show();
     return a.exec();

@@ -25,6 +25,7 @@
 #include "gui/pbcPlayerView.h"
 #include "QGraphicsEllipseItem"
 #include "models/pbcPlaybook.h"
+#include "dialogs/pbcEditCategoriesDialog.h"
 #include <string>
 
 /**
@@ -144,17 +145,18 @@ void PBCPlayView::savePlay(const std::string &name,
         _currentPlay->setCodeName(codeName);
     }
     PBCPlaybook::getInstance()->addPlay(_currentPlay, true);
+    showPlay(_currentPlay->name());
 }
 
 
 /**
- * @brief Gets a play from the playbook and displays it
+ * @brief Copies a play from the playbook and displays it
  * @param name The name of the play
  */
 void PBCPlayView::showPlay(const std::string& name) {
     PBCPlaySP play = PBCPlaybook::getInstance()->getPlay(name);
     assert(play != NULL);
-    _currentPlay = play;
+    _currentPlay.reset(new PBCPlay(*play));
     repaint();
 }
 
@@ -172,3 +174,19 @@ void PBCPlayView::saveFormation(const std::string &formationName) {
     }
     PBCPlaybook::getInstance()->addFormation(_currentPlay->formation());
 }
+
+
+/**
+ * @brief edits the current play's category assignment
+ *
+ * Opens a dialog for assigning categories to the current play and creating new ones.
+ */
+void PBCPlayView::editCategories() {
+    savePlay();
+    PBCPlaySP originalPlay = PBCPlaybook::getInstance()->getPlay(_currentPlay->name());  // NOLINT
+    PBCEditCategoriesDialog dialog(originalPlay);
+    dialog.editCategories();
+    showPlay(originalPlay->name());
+}
+
+

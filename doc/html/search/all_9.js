@@ -6,6 +6,7 @@ var searchData=
   ['maindialog_2ecpp',['mainDialog.cpp',['../mainDialog_8cpp.html',1,'']]],
   ['maindialog_2eh',['mainDialog.h',['../mainDialog_8h.html',1,'']]],
   ['major',['MAJOR',['../classPBCVersion.html#a020e0867f3a8abf55ef0cd1ff433bea1',1,'PBCVersion']]],
+  ['maptolist',['mapToList',['../pbcDeclarations_8h.html#a33bad2244164f65719aa4500378166df',1,'pbcDeclarations.h']]],
   ['marginbottom',['marginBottom',['../structPBCExportPDFDialog_1_1ReturnStruct.html#aa854848237bf010d4a4caac79d435a28',1,'PBCExportPDFDialog::ReturnStruct']]],
   ['marginleft',['marginLeft',['../structPBCExportPDFDialog_1_1ReturnStruct.html#a600b60817d98541d8639998f3aa3998a',1,'PBCExportPDFDialog::ReturnStruct']]],
   ['marginright',['marginRight',['../structPBCExportPDFDialog_1_1ReturnStruct.html#a1d321e245740d2ff9c35a50a9cd52b51',1,'PBCExportPDFDialog::ReturnStruct']]],

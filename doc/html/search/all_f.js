@@ -7,7 +7,6 @@ var searchData=
   ['saveplaybook',['savePlaybook',['../classPBCStorage.html#aa4227135351e78990b614fe8ae22528d',1,'PBCStorage']]],
   ['saveplaybookas',['savePlaybookAs',['../classMainDialog.html#a77c48e54c77429c2ccd312882fbb8314',1,'MainDialog']]],
   ['setcanvassize',['setCanvasSize',['../classPBCConfig.html#aa53e90655aa5b8b1c6e2cc2d31649f42',1,'PBCConfig']]],
-  ['setcategories',['setCategories',['../classPBCPlay.html#a1475b9ec0466e29b98e5bd6c97599e69',1,'PBCPlay']]],
   ['setcodename',['setCodeName',['../classPBCPlay.html#a0e0d75e19d3ed62f439b6e74f43b851c',1,'PBCPlay']]],
   ['setcolor',['setColor',['../classPBCPlayer.html#a30e77db2b02025fcd34018c855ed8e50',1,'PBCPlayer']]],
   ['setformation',['setFormation',['../classPBCPlay.html#a5efa3ce009dedd476558613c0500ea20',1,'PBCPlay']]],

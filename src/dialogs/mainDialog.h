@@ -60,6 +60,7 @@ class MainDialog : public QMainWindow {
     void openPlaybook();
     void exportAsPDF();
     void showAboutDialog();
+    void addPlayToCategory();
 };
 
 #endif  // MAINDIALOG_H

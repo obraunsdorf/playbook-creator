@@ -50,6 +50,7 @@ PBCPlaybook::PBCPlaybook() : _name("new Playbook") {
  *
  * Standard Routes (5 In, Post, Fly, Slant) and a I-Formation are inserted.
  * @param name The name of the new Playbook
+ * @param playerNumber number of players on the field
  */
 void PBCPlaybook::resetToNewEmptyPlaybook(const std::string &name,
                                           const int playerNumber) {
@@ -204,7 +205,7 @@ bool PBCPlaybook::addRoute(PBCRouteSP route, bool overwrite) {
 /**
  * @brief Adds a category to the playbook.
  * @param category The category to add.
- * @param overwrite Specifies if a formation with the same name should be overwritten.
+ * @param overwrite Specifies if a category with the same name should be overwritten.
  *
  * If overwrite is false and the category has the same name
  * as a category that has been added to the playbook already, then the new
@@ -228,8 +229,8 @@ bool PBCPlaybook::addCategory(PBCCategorySP category, bool overwrite) {
 }
 
 /**
- * @brief Adds a copy of a play to the playbook.
- * @param play The formation to add.
+ * @brief Adds a play to the playbook.
+ * @param play The play to add.
  * @param overwrite Specifies if a play with the same name should be overwritten.
  *
  * If overwrite is false and the play has the same name
@@ -240,15 +241,12 @@ bool PBCPlaybook::addCategory(PBCCategorySP category, bool overwrite) {
  */
 bool PBCPlaybook::addPlay(PBCPlaySP play, bool overwrite) {
     if(overwrite == true) {
-        PBCPlaySP playCopy(new PBCPlay(*play));
-        _plays[playCopy->name()] = playCopy;
+        _plays[play->name()] = play;
         PBCStorage::getInstance()->automaticSavePlaybook();
         return true;
     } else {
-        PBCPlaySP playCopy(new PBCPlay(*play));
-
         InsertResult<PBCPlaySP> result =
-                _plays.insert(std::make_pair(play->name(), playCopy));
+                _plays.insert(std::make_pair(play->name(), play));
         if(result.second == true) {
             PBCStorage::getInstance()->automaticSavePlaybook();
         }
@@ -298,6 +296,14 @@ std::list<PBCRouteSP> PBCPlaybook::routes() const {
 }
 
 /**
+ * @brief Getter function for the categories of the playbook
+ * @return A list of the playbook's categories
+ */
+std::list<PBCCategorySP> PBCPlaybook::categories() const {
+    return mapToList<PBCCategorySP>(_categories);
+}
+
+/**
  * @brief Getter function for the plays of the playbook
  * @return A list of the playbook's plays
  */
@@ -306,29 +312,39 @@ std::list<PBCPlaySP> PBCPlaybook::plays() const {
 }
 
 /**
- * @brief Selects a formation by name
+ * @brief Selects a formation by name. The formation must exist
+ * in the playbook.
  * @param name The name of the formation
- * @return The formation with the given name. If no formation with the given
- * name is in the playbook, an exception is thrown (should be ;) )
+ * @return The formation with the given name
  */
 PBCFormationSP PBCPlaybook::getFormation(const std::string &name) {
     const auto& it = _formations.find(name);
-    assert(it != _formations.end());  // TODO(obr): throw exception
-    PBCFormationSP formation = it->second;
-    return PBCFormationSP(new PBCFormation(*formation));
+    pbcAssert(it != _formations.end());
+    return PBCFormationSP(new PBCFormation(*it->second));
 }
 
 /**
- * @brief Selects a play by name
+ * @brief Selects a play by name. The play must exist
+ * in the playbook.
  * @param name The name of the play
- * @return The play with the given name. If no play with the given
- * name is in the playbook, an exception is thrown (should be ;) )
+ * @return The play with the given name.
  */
 PBCPlaySP PBCPlaybook::getPlay(const std::string &name) {
     const auto& it = _plays.find(name);
-    assert(it != _plays.end());  // TODO(obr) throw exception
-    PBCPlaySP play = it->second;
-    return PBCPlaySP(new PBCPlay(*play));
+    pbcAssert(it != _plays.end());
+    return it->second;
+}
+
+/**
+ * @brief Selects a category by name. The category must exist
+ * in the playbook.
+ * @param name The name of the cateogry
+ * @return The category with the given name.
+ */
+PBCCategorySP PBCPlaybook::getCategory(const std::string& name) {
+    const auto& it = _categories.find(name);
+    pbcAssert(it != _categories.end());
+    return it->second;
 }
 
 /**
@@ -345,7 +361,7 @@ std::vector<std::string> PBCPlaybook::getFormationNames() const {
 }
 
 /**
- * @brief Gets the names of the playbook's play
+ * @brief Gets the names of the playbook's plays
  * @return a list of play names
  */
 std::vector<std::string> PBCPlaybook::getPlayNames() const {

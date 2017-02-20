@@ -1,9 +1,12 @@
 var searchData=
 [
   ['r',['r',['../classPBCColor.html#a9bd938a1ea8488f5169e22d6284c086b',1,'PBCColor']]],
+  ['reject',['reject',['../classPBCNewPlaybookDialog.html#a7278a859c6d754f4ca703a8fda7f1025',1,'PBCNewPlaybookDialog']]],
+  ['removecategory',['removeCategory',['../classPBCPlay.html#ac870d9baa6f94e482fa6264f8c178920',1,'PBCPlay']]],
+  ['removeplay',['removePlay',['../classPBCCategory.html#a361d7796f5d43646de7ed88c0573828a',1,'PBCCategory']]],
   ['repaint',['repaint',['../classPBCPlayView.html#a56b25c32d584ac9a60e4bfaa3e5a2c52',1,'PBCPlayView']]],
   ['resetplay',['resetPlay',['../classPBCPlayView.html#a0e51c3b992fc0ad4f24d5d0ddb5139ff',1,'PBCPlayView']]],
-  ['resettonewemptyplaybook',['resetToNewEmptyPlaybook',['../classPBCPlaybook.html#a0caea9069b3a788439ddd76c27dd3644',1,'PBCPlaybook']]],
+  ['resettonewemptyplaybook',['resetToNewEmptyPlaybook',['../classPBCPlaybook.html#a3df2d3b5d4612baec9c771a88686d0a8',1,'PBCPlaybook']]],
   ['retranslatepos',['retranslatePos',['../classPBCPositionTranslator.html#afc6aed8ec79c63b2eed048097113553d',1,'PBCPositionTranslator']]],
   ['role',['role',['../classPBCPlayer.html#a8dc8b88a7780880e72c59894e930fa57',1,'PBCPlayer']]],
   ['route',['route',['../classPBCPlayer.html#ad86d38e1439894f679b16fbca4443020',1,'PBCPlayer']]],

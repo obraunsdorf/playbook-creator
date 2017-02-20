@@ -1,7 +1,8 @@
 <map id="src/util/pbcPositionTranslator.cpp" name="src/util/pbcPositionTranslator.cpp">
-<area shape="rect" id="node2" href="$pbcPositionTranslator_8h.html" title="pbcPositionTranslator.h" alt="" coords="230,80,388,107"/>
-<area shape="rect" id="node3" href="$pbcSingleton_8h.html" title="pbcSingleton.h" alt="" coords="74,229,181,256"/>
-<area shape="rect" id="node6" href="$pbcDeclarations_8h.html" title="pbcDeclarations.h" alt="" coords="441,229,567,256"/>
-<area shape="rect" id="node10" href="$pbcConfig_8h.html" title="pbcConfig.h" alt="" coords="263,155,355,181"/>
-<area shape="rect" id="node11" href="$pbcColor_8h.html" title="models/pbcColor.h" alt="" coords="207,229,336,256"/>
+<area shape="rect" id="node2" href="$pbcPositionTranslator_8h.html" title="pbcPositionTranslator.h" alt="" coords="346,80,504,107"/>
+<area shape="rect" id="node3" href="$pbcSingleton_8h.html" title="pbcSingleton.h" alt="" coords="103,229,211,256"/>
+<area shape="rect" id="node6" href="$pbcDeclarations_8h.html" title="pbcDeclarations.h" alt="" coords="713,229,839,256"/>
+<area shape="rect" id="node17" href="$pbcConfig_8h.html" title="pbcConfig.h" alt="" coords="379,155,471,181"/>
+<area shape="rect" id="node7" href="$pbcExceptions_8h.html" title="util/pbcExceptions.h" alt="" coords="427,312,567,339"/>
+<area shape="rect" id="node18" href="$pbcColor_8h.html" title="models/pbcColor.h" alt="" coords="284,229,413,256"/>
 </map>

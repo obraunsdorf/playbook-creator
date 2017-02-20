@@ -41,6 +41,7 @@ class PBCPlayView : public PBCGridIronView {
     void savePlay(const std::string& name = "",
                   const std::string& codeName = "");
     void saveFormation(const std::string& formationName = "");
+    void editCategories();
 
  private:
     PBCPlaySP _currentPlay;

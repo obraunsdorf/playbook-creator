@@ -22,22 +22,58 @@
 #ifndef PBCEXCEPTIONS_H
 #define PBCEXCEPTIONS_H
 
-#include <exception>
+#include <stdexcept>
 #include <string>
+#include <execinfo.h>
 
 /**
  * @class PBCException
  * @brief The basic exception for the Playbook Creator application
  */
-class PBCException : public std::exception {
+class PBCException : public std::runtime_error {
  private:
     std::string _msg;
- public:
-    explicit PBCException(const std::string& msg = "") : _msg(msg) {}
-    const char* what() const noexcept {
-        std::string msg = "Error in Playbook Creator: " + _msg;
-        return msg.c_str();
+
+ protected:
+    std::string getStackTrace() const {
+        const unsigned int MAX_DEPTH = 10;
+        void *array[MAX_DEPTH];
+
+        // get void*'s for all entries on the stack
+        size_t depth = backtrace(array, MAX_DEPTH);
+
+        // print out all the frames to stderr
+        char** stack = backtrace_symbols(array, depth);
+        std::string trace = "stack trace:\n";
+        for(unsigned int i = 0; i < depth; i++) {
+            char* line = *stack;
+            std::string s(line);
+            trace += s;
+            trace += "\n";
+            stack++;
+        }
+        return trace;
     }
+
+ public:
+    explicit PBCException(const std::string& msg = "") :
+        std::runtime_error("Error in Playbook Creator: " + msg),
+        _msg("Error in Playbook Creator: " + msg) {}
+    const char* what() const noexcept {
+        return _msg.c_str();
+    }
+};
+
+/**
+ * @class PBCUnexpectedError
+ * @brief An exception that is thrown when an unexpected code branch
+ * was taken, e.g. due to a programming mistake
+ */
+class PBCUnexpectedError : public PBCException {
+ public:
+    explicit PBCUnexpectedError(const std::string& msg = "") :
+        PBCException("An unexpected error occured: "
+                     + msg + "\n" + getStackTrace()) {}
 };
 
 /**
@@ -46,14 +82,9 @@ class PBCException : public std::exception {
  * rules
  */
 class PBCRuleBreakException : public PBCException {
- private:
-    std::string _msg;
  public:
-    explicit PBCRuleBreakException(const std::string& msg = "") : _msg(msg) {}
-    const char* what() const noexcept {
-        std::string msg = "You are breaking football rules: " + _msg;
-        return msg.c_str();
-    }
+    explicit PBCRuleBreakException(const std::string& msg = "") :
+        PBCException("You are breaking football rules: " + msg) {}
 };
 
 /**
@@ -62,14 +93,9 @@ class PBCRuleBreakException : public PBCException {
  * component.
  */
 class PBCStorageException : public PBCException {
- private:
-    std::string _msg;
  public:
-    explicit PBCStorageException(const std::string& msg = "") : _msg(msg) {}
-    const char* what() const noexcept {
-        std::string msg = "Error while executing storage operation: " + _msg;
-        return msg.c_str();
-    }
+    explicit PBCStorageException(const std::string& msg = "") :
+        PBCException("Error while executing storage operation: " + msg) {}
 };
 
 /**
@@ -77,14 +103,9 @@ class PBCStorageException : public PBCException {
  * @brief An exception that is thrown when something went wrong with the decryption.
  */
 class PBCDecryptionException : public PBCException {
- private:
-    std::string _msg;
  public:
-    explicit PBCDecryptionException(const std::string& msg = "") : _msg(msg) {}
-    const char* what() const noexcept {
-        std::string msg = "Error while decrypting file: " + _msg;
-        return msg.c_str();
-    }
+    explicit PBCDecryptionException(const std::string& msg = "") :
+        PBCException("Error while decrypting file: " + msg) {}
 };
 
 #endif  // PBCEXCEPTIONS_H

@@ -22,15 +22,41 @@
 #ifndef PBCDECLARATIONS_H
 #define PBCDECLARATIONS_H
 
+#include "util/pbcExceptions.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/geometry.hpp>
 #include <boost/array.hpp>
+#include <map>
+#include <utility>
+#include <string>
+#include <list>
 
 using boost::geometry::model::point;
 /**
  * @brief PBCDPoint is a 2D point consisting of two coordinates of type double
  */
 typedef point<double, 2, boost::geometry::cs::cartesian> PBCDPoint;
+
+template<typename T> using PBCModelMap = std::map<std::string, T>;
+
+template<typename T>
+    using InsertResult = std::pair<typename PBCModelMap<T>::iterator, bool>;
+
+template<class T>
+std::list<T> mapToList(PBCModelMap<T> map) {
+    std::list<T> list;
+    for(const auto& kv : map) {
+        list.push_back(kv.second);
+    }
+    return list;
+}
+
+#define pbcAssert(x) \
+    if(!(x)) { \
+        std::string expr(#x); \
+        std::string s = "Assertion '" + expr + "' failed"; \
+        throw PBCUnexpectedError(s);\
+    }
 
 
 #endif  // PBCDECLARATIONS_H

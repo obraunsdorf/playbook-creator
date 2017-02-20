@@ -1,6 +1,10 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node2" href="$classPBCException.html" title="The basic exception for the Playbook Creator application. " alt="" coords="134,56,242,83"/>
-<area shape="rect" id="node3" href="$classPBCDecryptionException.html" title="An exception that is thrown when something went wrong with the decryption. " alt="" coords="291,5,461,32"/>
-<area shape="rect" id="node4" href="$classPBCRuleBreakException.html" title="An exception that is thrown when some user action violates football rules. " alt="" coords="291,56,461,83"/>
-<area shape="rect" id="node5" href="$classPBCStorageException.html" title="An exception that is thrown when something went wrong with the storage component. ..." alt="" coords="299,107,453,133"/>
+<area shape="rect" id="node2" href="$classPBCCreateMotionRouteDialog.html" title="PBCCreateMotionRouteDialog" alt="" coords="123,5,323,32"/>
+<area shape="rect" id="node3" href="$classPBCCustomRouteDialog.html" title="PBCCustomRouteDialog" alt="" coords="139,56,307,83"/>
+<area shape="rect" id="node4" href="$classPBCEditCategoriesDialog.html" title="PBCEditCategoriesDialog" alt="" coords="136,107,309,133"/>
+<area shape="rect" id="node5" href="$classPBCExportPDFDialog.html" title="This class creates a dialog in which you can specify options for pdf exporting. " alt="" coords="147,157,299,184"/>
+<area shape="rect" id="node6" href="$classPBCNewPlaybookDialog.html" title="PBCNewPlaybookDialog" alt="" coords="139,208,307,235"/>
+<area shape="rect" id="node7" href="$classPBCNewPlayDialog.html" title="PBCNewPlayDialog" alt="" coords="153,259,293,285"/>
+<area shape="rect" id="node8" href="$classPBCOpenPlayDialog.html" title="PBCOpenPlayDialog" alt="" coords="151,309,295,336"/>
+<area shape="rect" id="node9" href="$classPBCSavePlayAsDialog.html" title="PBCSavePlayAsDialog" alt="" coords="143,360,302,387"/>
 </map>
