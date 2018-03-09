@@ -15,12 +15,9 @@ along with Playbook Creator.  If not, see <http://www.gnu.org/licenses/>.
 
 Copyright 2015 Oliver Braunsdorf
 
-This Pyton script is responsible for creating creating the full version
-number of the Playbook Creator application. It is invoked by the build 
-system. It takes MAJOR and MINOR version numbers as commandline parameters.
-The REVISION number is taken from the svn revision.
-The BUILD number concatenates year, month, day and minute of the day the
-application is being built.
+This Pyton script is responsible for creating the full version
+number of the Playbook Creator application. Semantic versioning is applied
+by reading major, minor and patch version numbers from git tag.
 """
 
 from __future__ import print_function
@@ -40,190 +37,147 @@ def main():
 		print("MAJOR and MINOR version numbers have to be integers. Your parameters were " + str(sys.argv), file=sys.stderr)
 		sys.exit(1)
 
-	MAJOR = int(sys.argv[1])
-	MINOR = int(sys.argv[2])
-	REVISION = 0
-
-
-
-	# determine svn revision number
-	revisionString = subprocess.check_output(["svnversion"])
-	revisionString = revisionString.strip()
-	colonPos = revisionString.find(":")
-	mPos = revisionString.find("M")
-	sPos = revisionString.find("S")
-	pPos = revisionString.find("P")
-	if(colonPos != -1):
-		if(mPos != -1):
-			REVISION = int(revisionString[colonPos+1:mPos])
-		elif(sPos != -1):
-			REVISION = int(revisionString[colonPos+1:sPos])
-		else:
-			REVISION = int(revisionString[colonPos+1:])
-	elif(mPos != -1):
-		REVISION = int(revisionString[0 : mPos])
-	elif(sPos != -1):
-		REVISION = int(revisionString[0 : sPos])
-	elif(pPos != -1):
-		REVISION = int(revisionString[0 : pPos])
-	else:
-		REVISION = int(revisionString)
-
-
-	# determine build time and calculate build number
-	now = datetime.datetime.now()
-	minuteOfDay = now.hour * 60 + now.minute
-	buildTimeString = now.strftime("%y%m%d" + str(minuteOfDay))
-	assert str.isdigit(buildTimeString) == True
-	BUILD = int(buildTimeString)
+	gitVersion = subprocess.check_output(["git", "describe", "--always", "--tags"])
+	assert(gitVersion[0] == "v")
+	gitVersion = gitVersion[1:]
+	split = gitVersion.split("-")
+	versions = split[0]
+	commit = "-".join(split[1:])
+	versionSplit = versions.split(".")
+	MAJOR = int(versionSplit[0])
+	MINOR = int(versionSplit[1])
+	PATCH = int(versionSplit[2])
+	COMMIT = commit
+	print("major: %(MAJOR)s, minor: %(MINOR)s, patch: %(PATCH)s, commit: %(COMMIT)s" % locals())
 
 
 	# writer version header file
 	versionFile = open(versionFileName, "w+")
 
-	versionFile.write("/** @file pbcVersion.h\n")
-	versionFile.write("    This file is part of Playbook Creator.\n\n")
+	versionFile.write('''/** @file pbcVersion.h
+This file is part of Playbook Creator.
 
-	versionFile.write("    Playbook Creator is free software: you can redistribute it and/or modify\n")
-	versionFile.write("    it under the terms of the GNU General Public License as published by\n")
-	versionFile.write("    the Free Software Foundation, either version 3 of the License, or\n")
-	versionFile.write("    (at your option) any later version.\n\n")
+Playbook Creator is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-	versionFile.write("    Playbook Creator is distributed in the hope that it will be useful,\n")
-	versionFile.write("    but WITHOUT ANY WARRANTY; without even the implied warranty of\n")
-	versionFile.write("    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n")
-	versionFile.write("    GNU General Public License for more details.\n\n")
+Playbook Creator is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-	versionFile.write("    You should have received a copy of the GNU General Public License\n")
-	versionFile.write("    along with Playbook Creator.  If not, see <http://www.gnu.org/licenses/>.\n\n")
-	
-	versionFile.write("    Copyright 2015 Oliver Braunsdorf\n\n")
+You should have received a copy of the GNU General Public License
+along with Playbook Creator.  If not, see <http://www.gnu.org/licenses/>.
 
-	versionFile.write("    @author Oliver Braunsdorf\n")
-	versionFile.write("    @brief This is the version file. It has been created automatically by version.py which is located in the base directory.\n")
-	versionFile.write("*/\n")
+Copyright 2015 Oliver Braunsdorf
 
-	versionFile.write("#ifndef VERSION_H\n")
-	versionFile.write("#define VERSION_H\n")
-	versionFile.write("\n")
+@author Oliver Braunsdorf
+@brief This is the version file. It has been created automatically by version.py which is located in the base directory.
+*/
+#ifndef VERSION_H
+#define VERSION_H
 
-	versionFile.write("#include <string>\n")
-	versionFile.write("#include <sstream>\n")
-	versionFile.write("#include <vector>\n")
-	versionFile.write("\n")
+#define MAJOR %(MAJOR)s
+#define MINOR %(MINOR)s
+#define PATCH %(PATCH)s
 
-	versionFile.write("/**\n")
-	versionFile.write(" * @brief The PBCVersion class is used to determine the version of Playbook Creator at runtime and compare it to the version of playbooks saved in .pbc files\n")
-	versionFile.write(" */\n")
-	versionFile.write("class PBCVersion {\n")
-	versionFile.write(" private:\n")
-	versionFile.write("    static int compareInt(int n, int m) {\n")
-	versionFile.write("        if(n == m) {\n")
-	versionFile.write("            return 0;\n")
-	versionFile.write("        } else if (n > m) {\n")
-	versionFile.write("            return 1;\n")
-	versionFile.write("        } else {\n")
-	versionFile.write("            return -1;\n")
-	versionFile.write("        }\n")
-	versionFile.write("    }\n")
-	versionFile.write("\n")
+#include <string>
+#include <sstream>
+#include <vector>
 
-	versionFile.write(" public:\n")
-	versionFile.write("    static const unsigned int MAJOR = " + str(MAJOR) + ";\n")
-	versionFile.write("    static const unsigned int MINOR = " + str(MINOR) + ";\n")
-	versionFile.write("    static const unsigned int REVISION = " + str(REVISION) + ";\n")
-	versionFile.write("    static const unsigned int BUILD = " + str(BUILD) + ";\n")
-	versionFile.write("\n")
+/**
+ * @brief The PBCVersion class is used to determine the version of Playbook Creator at runtime and compare it to the version of playbooks saved in .pbc files
+ */
+class PBCVersion {
+ private:
+    static int compareInt(int n, int m) {
+        if(n == m) {
+            return 0;
+        } else if (n > m) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
 
-	versionFile.write("	/**\n")
-	versionFile.write("    * @brief compares the string of the current version to another version string\n")
-	versionFile.write("    * @param otherVersion the other versionx string\n")
-	versionFile.write("    * @return the result of compareVersions()\n")
-	versionFile.write("    */\n")
-	versionFile.write("    static int compareCurrentVersionTo(const std::string& otherVersion) {\n")
-	versionFile.write("        return compareVersions(getVersionString(), otherVersion);\n")
-	versionFile.write("    }\n")
-	versionFile.write("\n")
+ public:
+	/**
+    * @brief compares the string of the current version to another version string
+    * @param otherVersion the other versionx string
+    * @return the result of compareVersions()
+    */
+    static int compareCurrentVersionTo(const std::string& otherVersion) {
+        return compareVersions(getVersionString(), otherVersion);
+    }
 
-	
-	versionFile.write("    /**\n")
-	versionFile.write("     * @brief compares two version strings\n")
-	versionFile.write("     * @param v1\n")
-	versionFile.write("     * @param v2\n")
-	versionFile.write("     * @return -1 if v1 < v2, 0 if v1 == v2 and 1 if v1 > v2\n")
-	versionFile.write("     */\n")
-	versionFile.write("    static int compareVersions(const std::string& v1, const std::string& v2) {\n")
-	versionFile.write("        std::vector<std::string> versionNumbers1;\n")
-	versionFile.write("        std::stringstream ss1(v1);\n")
-	versionFile.write("        std::string item1;\n")
-	versionFile.write("        while(std::getline(ss1, item1, '.')) {\n")
-	versionFile.write("            versionNumbers1.push_back(item1);\n")
-	versionFile.write("        }\n")
-	versionFile.write("        assert(versionNumbers1.size() == 4);\n")
-	versionFile.write("        unsigned int major1 = std::stoul(versionNumbers1[0]);\n")
-	versionFile.write("        unsigned int minor1 = std::stoul(versionNumbers1[1]);\n")
-	versionFile.write("        unsigned int revision1 = std::stoul(versionNumbers1[2]);\n")
-	versionFile.write("        unsigned int build1 = std::stoul(versionNumbers1[3]);\n")
-	versionFile.write("\n")
+    /**
+     * @brief compares two version strings
+     * @param v1
+     * @param v2
+     * @return -1 if v1 < v2, 0 if v1 == v2 and 1 if v1 > v2
+     */
+    static int compareVersions(const std::string& v1, const std::string& v2) {
+        std::vector<std::string> versionNumbers1;
+        std::stringstream ss1(v1);
+        std::string item1;
+        while(std::getline(ss1, item1, '.')) {
+            versionNumbers1.push_back(item1);
+        }
+        assert(versionNumbers1.size() == 3);
+        unsigned int major1 = std::stoul(versionNumbers1[0]);
+        unsigned int minor1 = std::stoul(versionNumbers1[1]);
+        unsigned int patch1 = std::stoul(versionNumbers1[2]);
 
-	versionFile.write("        std::vector<std::string> versionNumbers2;\n")
-	versionFile.write("        std::stringstream ss2(v2);\n")
-	versionFile.write("        std::string item2;\n")
-	versionFile.write("        while(std::getline(ss2, item2, '.')) {\n")
-	versionFile.write("            versionNumbers2.push_back(item2);\n")
-	versionFile.write("        }\n")
-	versionFile.write("        assert(versionNumbers2.size() == 4);\n")
-	versionFile.write("        unsigned int major2 = std::stoul(versionNumbers2[0]);\n")
-	versionFile.write("        unsigned int minor2 = std::stoul(versionNumbers2[1]);\n")
-	versionFile.write("        unsigned int revision2 = std::stoul(versionNumbers2[2]);\n")
-	versionFile.write("        unsigned int build2 = std::stoul(versionNumbers2[3]);\n")
-	versionFile.write("\n")
-	versionFile.write("\n")
+        std::vector<std::string> versionNumbers2;
+        std::stringstream ss2(v2);
+        std::string item2;
+        while(std::getline(ss2, item2, '.')) {
+            versionNumbers2.push_back(item2);
+        }
+        assert(versionNumbers2.size() == 3);
+        unsigned int major2 = std::stoul(versionNumbers2[0]);
+        unsigned int minor2 = std::stoul(versionNumbers2[1]);
+        unsigned int patch2 = std::stoul(versionNumbers2[2]);
 
-	versionFile.write("        int resultMajor = compareInt(major1, major2);\n")
-	versionFile.write("        if(resultMajor != 0) {\n")
-	versionFile.write("            return resultMajor;\n")
-	versionFile.write("        } else {\n")
-	versionFile.write("            int resultMinor = compareInt(minor1, minor2);\n")
-	versionFile.write("            if(resultMinor != 0) {\n")
-	versionFile.write("                return resultMinor;\n")
-	versionFile.write("            } else {\n")
-	versionFile.write("                int resultRevision = compareInt(revision1, revision2);\n")
-	versionFile.write("                if(resultRevision != 0) {\n")
-	versionFile.write("                    return resultRevision;\n")
-	versionFile.write("                } else {\n")
-	versionFile.write("                    return compareInt(build1, build2);\n")
-	versionFile.write("                }\n")
-	versionFile.write("            }\n")
-	versionFile.write("        }\n")
-	versionFile.write("    }\n")
-	versionFile.write("\n")
 
-	versionFile.write("    /**\n")
-	versionFile.write("     * @brief builds the full version string\n")
-	versionFile.write("     * @return the full version string\n")
-	versionFile.write("     */\n")
-	versionFile.write("    static std::string getVersionString() {\n")
-	versionFile.write("        std::stringstream versionString;\n")
-	versionFile.write("        versionString << MAJOR << '.'\n")
-	versionFile.write("                      << MINOR << '.'\n")
-	versionFile.write("                      << REVISION << '.'\n")
-	versionFile.write("                      << BUILD;\n")
-	versionFile.write("        return versionString.str();\n")
-	versionFile.write("    }\n")
-	versionFile.write("\n")
+        int resultMajor = compareInt(major1, major2);
+        if(resultMajor != 0) {
+            return resultMajor;
+        } else {
+            int resultMinor = compareInt(minor1, minor2);
+            if(resultMinor != 0) {
+                return resultMinor;
+            } else {
+                return compareInt(patch1, patch2);
+            }
+        }
+    }
 
-	versionFile.write("    /**\n")
-	versionFile.write("     * @brief builds a simple version string which only includes MAJOR and MINOR version numbers\n")
-	versionFile.write("     * @return a simple version string\n")
-	versionFile.write("     */\n")
-	versionFile.write("    static std::string getSimpleVersionString() {\n")
-	versionFile.write("        std::stringstream versionString;\n")
-	versionFile.write("        versionString << MAJOR << '.' << MINOR;\n")
-	versionFile.write("        return versionString.str();\n")
-	versionFile.write("    }\n")
-	versionFile.write("};\n")
-	versionFile.write("#endif  // VERSION_H\n")	
+    /**
+     * @brief builds the full version string
+     * @return the full version string
+     */
+    static std::string getVersionString() {
+        std::stringstream versionString;
+        versionString << MAJOR << '.'
+                      << MINOR << '.'
+                      << PATCH;
+        return versionString.str();
+    }
+
+    /**
+     * @brief builds a simple version string which only includes MAJOR and MINOR version numbers
+     * @return a simple version string
+     */
+    static std::string getSimpleVersionString() {
+        std::stringstream versionString;
+        versionString << MAJOR << '.' << MINOR;
+        return versionString.str();
+    }
+};
+#endif  // VERSION_H
+''' % locals() ) 
 
 	versionFile.close()
 

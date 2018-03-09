@@ -1,0 +1,17 @@
+PlaybookCreator.config
+PlaybookCreator.creator
+PlaybookCreator.creator.user
+PlaybookCreator.files
+PlaybookCreator.includes
+pbcVersion.h
+
+#CMake
+Makefile
+CMakeFiles
+cmake_install.cmake
+*.cxx_parameters
+*/*.cxx_parameters
+
+#Qt with CMake moc files
+moc_*.cxx
+ui_*.h
