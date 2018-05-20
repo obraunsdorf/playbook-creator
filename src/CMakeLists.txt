@@ -100,11 +100,13 @@ set ( UIS
     dialogs/pbcSavePlayAsDialog.ui
 )
 
-include_directories(${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src)
+FIND_PACKAGE( Boost 1.54 COMPONENTS serialization REQUIRED )
+
+include_directories(${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src ${Boost_INCLUDE_DIR})
 
 link_directories(${PROJECT_SOURCE_DIR}/lib)
 set ( LIBS
-	libboost_serialization.a
+	#libboost_serialization.a
 	libbotan-1.10.a
 )
 
@@ -122,4 +124,4 @@ QT4_WRAP_CPP( MOC_SRCS ${MOC_HEADERS} )
 add_executable( ${PROJECT_NAME} ${SOURCES} ${MOC_SRCS} ${UI_HEADERS} )
 
 # build it (link libraries)
-target_link_libraries( ${PROJECT_NAME} ${LIBS} ${QT_LIBRARIES})
+target_link_libraries( ${PROJECT_NAME} ${LIBS} ${QT_LIBRARIES} ${Boost_LIBRARIES})

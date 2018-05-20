@@ -14,6 +14,7 @@ if(GIT_FOUND)
 	configure_file(cmake/pbcVersion.h.in src/pbcVersion.h)
 endif()
 
+
 #add_definitions(-DCMAKEVALUE 255)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
