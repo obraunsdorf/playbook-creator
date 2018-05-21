@@ -15,7 +15,6 @@ if(GIT_FOUND)
 endif()
 
 
-#add_definitions(-DCMAKEVALUE 255)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
 add_subdirectory(src)

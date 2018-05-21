@@ -100,15 +100,10 @@ set ( UIS
     dialogs/pbcSavePlayAsDialog.ui
 )
 
-FIND_PACKAGE( Boost 1.54 COMPONENTS serialization REQUIRED )
+find_package( Boost 1.54 COMPONENTS serialization REQUIRED )
+find_package( Botan 1.10 REQUIRED )
 
-include_directories(${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src ${Boost_INCLUDE_DIR})
-
-link_directories(${PROJECT_SOURCE_DIR}/lib)
-set ( LIBS
-	#libboost_serialization.a
-	libbotan-1.10.a
-)
+include_directories(${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src ${Boost_INCLUDE_DIR} ${BOTAN_INCLUDE_DIR})
 
 # Next lines needed for building all Qt projects
 find_package( Qt4 REQUIRED )
@@ -117,11 +112,11 @@ add_definitions( ${QT_DEFINITIONS} )
 
 # Next, using precompiler, compiler and linker
 # using Qt meta-system (precompiler)
-QT4_WRAP_UI( UI_HEADERS ${UIS} )
-QT4_WRAP_CPP( MOC_SRCS ${MOC_HEADERS} )
+qt4_wrap_ui( UI_HEADERS ${UIS} )
+qt4_wrap_cpp( MOC_SRCS ${MOC_HEADERS} )
 
 # compile
 add_executable( ${PROJECT_NAME} ${SOURCES} ${MOC_SRCS} ${UI_HEADERS} )
 
 # build it (link libraries)
-target_link_libraries( ${PROJECT_NAME} ${LIBS} ${QT_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries( ${PROJECT_NAME} ${QT_LIBRARIES} ${Boost_LIBRARIES} ${BOTAN_LIBRARIES})
