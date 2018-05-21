@@ -1,5 +1,0 @@
-<map id="PBCCustomRouteView::mouseReleaseEvent" name="PBCCustomRouteView::mouseReleaseEvent">
-<area shape="rect" id="node2" href="$classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145" title="PBCSingleton\&lt; PBCPosition\lTranslator \&gt;::getInstance" alt="" coords="417,5,607,46"/>
-<area shape="rect" id="node3" href="$classPBCPositionTranslator.html#afc6aed8ec79c63b2eed048097113553d" title="PBCPositionTranslator\l::retranslatePos" alt="" coords="213,63,368,105"/>
-<area shape="rect" id="node4" href="$classPBCConfig.html#a2f4125b43133f05c382d959c990d76df" title="PBCConfig::ydInPixel" alt="" coords="437,71,587,97"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classPBCAbstractMovement.html" title="An abstract class that handles the similarity (consisting of paths) of routes and motions..." alt="" coords="5,31,165,57"/>
-<area shape="rect" id="node2" href="$classPBCMotion.html" title="This is a data model class, which represents a players motion before the snap. " alt="" coords="214,5,303,32"/>
-<area shape="rect" id="node3" href="$classPBCRoute.html" title="This is a data model class, which represents a players route. " alt="" coords="216,56,301,83"/>
-</map>

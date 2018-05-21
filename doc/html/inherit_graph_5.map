@@ -1,7 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node2" href="$classPBCException.html" title="The basic exception for the Playbook Creator application. " alt="" coords="153,81,261,108"/>
-<area shape="rect" id="node3" href="$classPBCDecryptionException.html" title="An exception that is thrown when something went wrong with the decryption. " alt="" coords="309,5,480,32"/>
-<area shape="rect" id="node4" href="$classPBCRuleBreakException.html" title="An exception that is thrown when some user action violates football rules. " alt="" coords="310,56,479,83"/>
-<area shape="rect" id="node5" href="$classPBCStorageException.html" title="An exception that is thrown when something went wrong with the storage component. ..." alt="" coords="318,107,471,133"/>
-<area shape="rect" id="node6" href="$classPBCUnexpectedError.html" title="An exception that is thrown when an unexpected code branch was taken, e.g. due to a programming mista..." alt="" coords="321,157,469,184"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="PBCAbstractMovement" name="PBCAbstractMovement">
-<area shape="rect" id="node2" href="$classPBCMotion.html" title="This is a data model class, which represents a players motion before the snap. " alt="" coords="5,80,93,107"/>
-<area shape="rect" id="node3" href="$classPBCRoute.html" title="This is a data model class, which represents a players route. " alt="" coords="119,80,204,107"/>
-</map>

@@ -1,6 +1,0 @@
-<map id="PBCException" name="PBCException">
-<area shape="rect" id="node3" href="$classPBCDecryptionException.html" title="An exception that is thrown when something went wrong with the decryption. " alt="" coords="5,155,176,181"/>
-<area shape="rect" id="node4" href="$classPBCRuleBreakException.html" title="An exception that is thrown when some user action violates football rules. " alt="" coords="201,155,369,181"/>
-<area shape="rect" id="node5" href="$classPBCStorageException.html" title="An exception that is thrown when something went wrong with the storage component. ..." alt="" coords="394,155,547,181"/>
-<area shape="rect" id="node6" href="$classPBCUnexpectedError.html" title="An exception that is thrown when an unexpected code branch was taken, e.g. due to a programming mista..." alt="" coords="571,155,719,181"/>
-</map>

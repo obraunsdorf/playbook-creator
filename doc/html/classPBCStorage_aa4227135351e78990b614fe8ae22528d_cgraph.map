@@ -1,5 +1,0 @@
-<map id="PBCStorage::savePlaybook" name="PBCStorage::savePlaybook">
-<area shape="rect" id="node2" href="$classPBCStorage.html#affea0f13e99cce945d62c098ed007c38" title="PBCStorage::writeToCurrent\lPlaybookFile" alt="" coords="240,27,429,69"/>
-<area shape="rect" id="node3" href="$classPBCVersion.html#adfce927070fc1e2574951b15f7b19b66" title="PBCVersion::getVersionString" alt="" coords="478,5,677,32"/>
-<area shape="rect" id="node4" href="$classPBCSingleton.html#aa9c8c2f34a8b5b2c47ad1440c9950145" title="PBCSingleton\&lt; PBCPlaybook\l \&gt;::getInstance" alt="" coords="478,57,677,98"/>
-</map>
