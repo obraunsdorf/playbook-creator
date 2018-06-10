@@ -3,7 +3,6 @@ PlaybookCreator.creator
 PlaybookCreator.creator.user
 PlaybookCreator.files
 PlaybookCreator.includes
-pbcVersion.h
 
 #CMake
 Makefile
