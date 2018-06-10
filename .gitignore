@@ -1,6 +1,7 @@
 bin/*
 build/*
 tools/hashRegister.txt
+doc/*
 
 #CMake
 CMakeCache.txt

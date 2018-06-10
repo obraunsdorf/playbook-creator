@@ -77,6 +77,8 @@ def main():
 
 	for path, subdirs, files in os.walk(root):
 	    for name in files:
+	    	if name.startswith("ui") or "." not in name:
+	    		continue
 	    	extension = name.split(".")[1]
 	    	if(extension == "cpp" or extension == "h"):
 	    		filename =  os.path.join(path, name)

@@ -105,6 +105,14 @@ find_package( Botan 1.10 REQUIRED )
 
 include_directories(${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src ${Boost_INCLUDE_DIR} ${BOTAN_INCLUDE_DIR})
 
+# linting
+set (STYLE_CHECKER ${PROJECT_SOURCE_DIR}/tools/checkStyle.py)
+find_package(PythonInterp)
+add_custom_target(style_checking 
+	COMMAND ${PYTHON_EXECUTABLE} ${STYLE_CHECKER}
+	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools
+)
+
 # Next lines needed for building all Qt projects
 find_package( Qt4 REQUIRED )
 include( ${QT_USE_FILE} )
@@ -116,7 +124,8 @@ qt4_wrap_ui( UI_HEADERS ${UIS} )
 qt4_wrap_cpp( MOC_SRCS ${MOC_HEADERS} )
 
 # compile
-add_executable( ${PROJECT_NAME} ${SOURCES} ${MOC_SRCS} ${UI_HEADERS} )
+add_executable( ${PROJECT_NAME} ${SOURCES} ${MOC_SRCS} ${UI_HEADERS})
+add_dependencies(${PROJECT_NAME} style_checking)
 
 # build it (link libraries)
 target_link_libraries( ${PROJECT_NAME} ${QT_LIBRARIES} ${Boost_LIBRARIES} ${BOTAN_LIBRARIES})
