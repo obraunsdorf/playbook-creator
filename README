@@ -3,7 +3,7 @@ Playbook Creator: A free, open-source editor for American (Flag) Football Playbo
 
 ## How to build
 
-	apt-get install libqt4-dev libbotan1.10-dev libboost-serialization1.54-dev
+	apt-get install cmake3 libqt4-dev libbotan1.10-dev libboost-serialization1.54-dev
 
 	git clone https://github.com/brauni91/playbook-creator.git PBC
 	cd PBC
