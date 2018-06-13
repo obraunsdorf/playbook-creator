@@ -1,0 +1,17 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: ubuntu
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Install Dependencies
+          command: |
+            apt update && apt install -y git clang cmake pkg-config qt5-default libbotan-2-dev libboost-serialization-dev
+      - run:
+          name: Build
+          command: |
+            cmake .
+            make

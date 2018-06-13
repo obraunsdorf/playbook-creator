@@ -32,6 +32,7 @@
 #include <boost/serialization/array.hpp>
 #include <boost/serialization/shared_ptr.hpp>
 #include <string>
+#include <array>
 #include <vector>
 #include <set>
 
@@ -46,12 +47,13 @@ typedef boost::shared_ptr<PBCPlayer> PBCPlayerSP;
  */
 struct PBCRole {
     std::string fullName;
-    boost::array<char, 4> shortName;
+    std::array<char, 4> shortName;
 };
 
 class PBCPlayer {
-friend class boost::serialization::access;
- private:
+    friend class boost::serialization::access;
+
+  private:
     PBCRole _role;
     PBCColor _color;
     PBCDPoint _pos;
@@ -59,7 +61,7 @@ friend class boost::serialization::access;
     PBCMotionSP _motion;
 
     template<class Archive>
-    void save(Archive& ar, const unsigned int version) const {  // NOLINT
+    void save(Archive& ar, const unsigned int version) const { // NOLINT
         assert(version == 0);
         ar << _role.fullName;
         ar << _role.shortName;
@@ -71,10 +73,10 @@ friend class boost::serialization::access;
     }
 
     template<class Archive>
-    void load(Archive& ar, const unsigned int version) {  // NOLINT
+    void load(Archive& ar, const unsigned int version) { // NOLINT
         assert(version == 0);
         std::string fullName;
-        boost::array<char, 4> shortName;
+        std::array<char, 4> shortName;
         double x;
         double y;
         ar >> fullName;
@@ -92,22 +94,19 @@ friend class boost::serialization::access;
     BOOST_SERIALIZATION_SPLIT_MEMBER()
     PBCPlayer() {}
 
- public:
-    PBCPlayer(PBCRole role,
-              PBCColor color,
-              PBCDPoint pos = PBCDPoint(),
-              PBCRouteSP route = NULL,
+  public:
+    PBCPlayer(PBCRole role, PBCColor color, PBCDPoint pos = PBCDPoint(), PBCRouteSP route = NULL,
               PBCMotionSP motion = NULL);
     PBCRole role() const;
-    void setRole(const PBCRole &role);
+    void setRole(const PBCRole& role);
     PBCColor color() const;
-    void setColor(const PBCColor &color);
+    void setColor(const PBCColor& color);
     PBCDPoint pos() const;
-    void setPos(const PBCDPoint &pos);
+    void setPos(const PBCDPoint& pos);
     PBCRouteSP route() const;
-    void setRoute(const PBCRouteSP &route);
+    void setRoute(const PBCRouteSP& route);
     PBCMotionSP motion() const;
-    void setMotion(const PBCMotionSP &motion);
+    void setMotion(const PBCMotionSP& motion);
 };
 
-#endif  // PBCPLAYER_H
+#endif // PBCPLAYER_H

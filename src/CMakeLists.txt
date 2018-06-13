@@ -101,31 +101,38 @@ set ( UIS
 )
 
 find_package( Boost 1.54 COMPONENTS serialization REQUIRED )
-find_package( Botan 1.10 REQUIRED )
+find_package( Botan 2.4 REQUIRED )
 
 include_directories(${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src ${Boost_INCLUDE_DIR} ${BOTAN_INCLUDE_DIR})
 
 # linting
 set (STYLE_CHECKER ${PROJECT_SOURCE_DIR}/tools/checkStyle.py)
-find_package(PythonInterp)
+find_package(PythonInterp 3 REQUIRED)
+find_package(PythonLibs 3 REQUIRED)
 add_custom_target(style_checking 
 	COMMAND ${PYTHON_EXECUTABLE} ${STYLE_CHECKER}
 	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools
 )
 
 # Next lines needed for building all Qt projects
-find_package( Qt4 REQUIRED )
-include( ${QT_USE_FILE} )
-add_definitions( ${QT_DEFINITIONS} )
+find_package(Qt5Widgets REQUIRED)
+find_package(Qt5PrintSupport REQUIRED)
+include_directories(${Qt5Widgets_INCLUDE_DIRS})
+add_definitions(${Qt5Widgets_DEFINITIONS})
+
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# Instruct CMake to run moc automatically when needed.
+set(CMAKE_AUTOMOC ON)
 
 # Next, using precompiler, compiler and linker
 # using Qt meta-system (precompiler)
-qt4_wrap_ui( UI_HEADERS ${UIS} )
-qt4_wrap_cpp( MOC_SRCS ${MOC_HEADERS} )
+qt5_wrap_ui( UI_HEADERS ${UIS} )
+qt5_wrap_cpp( MOC_SRCS ${MOC_HEADERS} )
 
 # compile
 add_executable( ${PROJECT_NAME} ${SOURCES} ${MOC_SRCS} ${UI_HEADERS})
 add_dependencies(${PROJECT_NAME} style_checking)
 
 # build it (link libraries)
-target_link_libraries( ${PROJECT_NAME} ${QT_LIBRARIES} ${Boost_LIBRARIES} ${BOTAN_LIBRARIES})
+target_link_libraries( ${PROJECT_NAME} Qt5::Widgets Qt5::PrintSupport ${Boost_LIBRARIES} ${BOTAN_LIBRARIES})

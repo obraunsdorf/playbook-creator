@@ -23,6 +23,7 @@
 #include "dialogs/mainDialog.h"
 #include "util/pbcExceptions.h"
 #include "pbcVersion.h"
+#include <iostream>
 #include <boost/version.hpp>
 #include <botan/botan.h>
 #include <QApplication>
