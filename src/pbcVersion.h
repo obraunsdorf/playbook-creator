@@ -23,7 +23,7 @@ Copyright 2015 Oliver Braunsdorf
 #define VERSION_H
 
 #define MAJOR 0
-#define MINOR 7
+#define MINOR 8
 #define PATCH 0
 
 #include <string>
