@@ -7,7 +7,7 @@ A free, open-source editor for American (Flag) Football Playbooks
 ### Linux (Ubuntu)
 
 ```
-apt-get install git clang cmake pkg-config qt5-default libbotan-2-dev libboost-serialization-dev
+apt-get install git clang cmake pkg-config qt5-default libbotan-2-dev libboost-serialization-dev python3
 cmake .
 make
 ```

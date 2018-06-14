@@ -108,7 +108,6 @@ include_directories(${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src ${Bo
 # linting
 set (STYLE_CHECKER ${PROJECT_SOURCE_DIR}/tools/checkStyle.py)
 find_package(PythonInterp 3 REQUIRED)
-find_package(PythonLibs 3 REQUIRED)
 add_custom_target(style_checking 
 	COMMAND ${PYTHON_EXECUTABLE} ${STYLE_CHECKER}
 	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools

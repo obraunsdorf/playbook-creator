@@ -9,7 +9,7 @@ jobs:
       - run:
           name: Install Dependencies
           command: |
-            apt update && apt install -y git clang cmake pkg-config qt5-default libbotan-2-dev libboost-serialization-dev
+            apt update && apt install -y git clang cmake pkg-config qt5-default libbotan-2-dev libboost-serialization-dev python3
       - run:
           name: Build
           command: |
