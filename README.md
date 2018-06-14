@@ -15,7 +15,7 @@ make
 ### OS X
 
 ```
-brew install cmake boost botan qt
+brew install cmake boost botan qt python3
 cmake -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)
 make
 ```
