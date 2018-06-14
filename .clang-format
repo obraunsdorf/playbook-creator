@@ -1,0 +1,12 @@
+BasedOnStyle: LLVM
+
+IndentWidth: 4
+SortIncludes: false
+ColumnLimit: 100
+
+SpaceAfterTemplateKeyword: false
+AlwaysBreakTemplateDeclarations: true
+
+SpaceBeforeParens: false
+DerivePointerAlignment: false
+PointerAlignment: Left
