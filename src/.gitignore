@@ -12,5 +12,7 @@ cmake_install.cmake
 */*.cxx_parameters
 
 #Qt with CMake moc files
-moc_*.cxx
+PlaybookCreator_automoc.cpp
+moc_*
 ui_*.h
+PlaybookCreator_autogen/*

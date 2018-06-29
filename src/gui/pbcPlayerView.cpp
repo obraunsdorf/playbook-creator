@@ -34,6 +34,7 @@
 #include "dialogs/pbcCreateMotionRouteDialog.h"
 #include <QColorDialog>
 #include <QInputDialog>
+#include <iostream>
 
 /**
  * @class PBCPlayerView

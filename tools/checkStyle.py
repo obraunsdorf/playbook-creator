@@ -27,11 +27,11 @@ import sys
 import hashlib
 
 def hashFileContent(afile, hasher, blocksize=65536):
-    buf = afile.read(blocksize)
-    while len(buf) > 0:
-        hasher.update(buf)
-        buf = afile.read(blocksize)
-    return hasher.hexdigest()
+	buf = afile.read(blocksize)
+	while len(buf) > 0:
+		hasher.update(buf)
+		buf = afile.read(blocksize)
+	return hasher.hexdigest()
 
 def readPreviousHashes(filename):
 	table = {}
@@ -49,7 +49,7 @@ def readPreviousHashes(filename):
 
 def writeNewHashes(hashRegister, prevHash):
 	hashFile = open(hashRegister, "w+")
-	for filename, hashString in prevHash.iteritems():
+	for filename, hashString in prevHash.items():
 		hashFile.write(filename + ":" + hashString + "\n")
 
 
@@ -76,19 +76,20 @@ def main():
 	hasStyleErrors = False
 
 	for path, subdirs, files in os.walk(root):
-	    for name in files:
-	    	if name.startswith("ui") or "." not in name:
-	    		continue
-	    	extension = name.split(".")[1]
-	    	if(extension == "cpp" or extension == "h"):
-	    		filename =  os.path.join(path, name)
-	    		hashString = hashFileContent(open(filename, "rb"), hashlib.md5())
-			if(filename not in prevHash or prevHash[filename] != hashString):
-				try:
-					output = subprocess.check_output(["python", "cpplint.py", filterText, filename])
-					prevHash[filename] = hashString
-				except:
-					hasStyleErrors = True
+		for name in files:
+			if name.startswith("ui") or "." not in name:
+				continue
+				pass
+			extension = name.split(".")[1]
+			if(extension == "cpp" or extension == "h"):
+				filename =  os.path.join(path, name)
+				hashString = hashFileContent(open(filename, "rb"), hashlib.md5())
+				if(filename not in prevHash or prevHash[filename] != hashString):
+					try:
+						output = subprocess.check_output(["python", "cpplint.py", filterText, filename])
+						prevHash[filename] = hashString
+					except:
+						hasStyleErrors = True
 
 	writeNewHashes(hashRegister, prevHash)
 	if(hasStyleErrors == True):

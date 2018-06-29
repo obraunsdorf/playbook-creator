@@ -16,14 +16,14 @@ if(GIT_FOUND)
 	    ERROR_STRIP_TRAILING_WHITESPACE
 	    )
 	if( NOT git_result EQUAL 0 )
-		message(INFO: "no git repository")
+		message(WARNING "no git repository")
 	else()
 		include( MunkeiVersionFromGit )
 		version_from_git(
 	  		GIT_EXECUTABLE
 	  		INCLUDE_HASH True
 		)
-		message("Project version from git tag: ${GIT_TAG}")
+		message(STATUS "Project version from git tag: ${GIT_TAG}")
 		configure_file(cmake/pbcVersion.h.in src/pbcVersion.h)
 	endif()
 endif()

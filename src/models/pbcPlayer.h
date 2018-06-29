@@ -33,6 +33,7 @@
 #include <boost/serialization/shared_ptr.hpp>
 #include <string>
 #include <vector>
+#include <array>
 #include <set>
 
 class PBCPlayer;
@@ -46,7 +47,7 @@ typedef boost::shared_ptr<PBCPlayer> PBCPlayerSP;
  */
 struct PBCRole {
     std::string fullName;
-    boost::array<char, 4> shortName;
+    std::array<char, 4> shortName;
 };
 
 class PBCPlayer {
@@ -74,7 +75,7 @@ friend class boost::serialization::access;
     void load(Archive& ar, const unsigned int version) {  // NOLINT
         assert(version == 0);
         std::string fullName;
-        boost::array<char, 4> shortName;
+        std::array<char, 4> shortName;
         double x;
         double y;
         ar >> fullName;

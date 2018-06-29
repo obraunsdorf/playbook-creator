@@ -100,32 +100,51 @@ set ( UIS
     dialogs/pbcSavePlayAsDialog.ui
 )
 
-find_package( Boost 1.54 COMPONENTS serialization REQUIRED )
-find_package( Botan 1.10 REQUIRED )
+include_directories(${PROJECT_SOURCE_DIR}/src})
 
-include_directories(${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src ${Boost_INCLUDE_DIR} ${BOTAN_INCLUDE_DIR})
+set(Boost_USE_STATIC_LIBS ON)
+set(Boost_USE_STATIC_RUNTIME ON)
+find_package( Boost 1.54 COMPONENTS serialization REQUIRED )
+add_definitions( -DBOOST_ALL_NO_LIB )
+include_directories(${Boost_INCLUDE_DIR})
+
+find_package( Botan 2.4 REQUIRED )
+include_directories(${BOTAN_INCLUDE_DIR})
+
+# Next lines needed for building all Qt projects
+find_package(Qt5 COMPONENTS Widgets PrintSupport REQUIRED)
+include_directories(${Qt5Widgets_INCLUDE_DIRS} ${Qt5PrintSupport_INCLUDE_DIRS})
+
+find_library(Qt5PrintSupport_LIBRARIES Qt5PrintSupport)
+find_library(Qt5Widgets_LIBRARIES Qt5Widgets)
+
+add_definitions(${Qt5Widgets_DEFINITIONS})
+# Find includes in corresponding build directories
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+# Instruct CMake to run moc automatically when needed.
+set(CMAKE_AUTOMOC ON)
+
+# Next, using precompiler, compiler and linker
+# using Qt meta-system (precompiler)
+qt5_wrap_ui( UI_HEADERS ${UIS} )
+qt5_wrap_cpp( MOC_SRCS ${MOC_HEADERS} )
 
 # linting
 set (STYLE_CHECKER ${PROJECT_SOURCE_DIR}/tools/checkStyle.py)
-find_package(PythonInterp)
-add_custom_target(style_checking 
+find_package(PythonInterp 3.0 REQUIRED)
+add_custom_target(style_checking
 	COMMAND ${PYTHON_EXECUTABLE} ${STYLE_CHECKER}
 	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools
 )
 
-# Next lines needed for building all Qt projects
-find_package( Qt4 REQUIRED )
-include( ${QT_USE_FILE} )
-add_definitions( ${QT_DEFINITIONS} )
-
-# Next, using precompiler, compiler and linker
-# using Qt meta-system (precompiler)
-qt4_wrap_ui( UI_HEADERS ${UIS} )
-qt4_wrap_cpp( MOC_SRCS ${MOC_HEADERS} )
-
 # compile
 add_executable( ${PROJECT_NAME} ${SOURCES} ${MOC_SRCS} ${UI_HEADERS})
-add_dependencies(${PROJECT_NAME} style_checking)
+#add_dependencies(${PROJECT_NAME} style_checking)
 
-# build it (link libraries)
-target_link_libraries( ${PROJECT_NAME} ${QT_LIBRARIES} ${Boost_LIBRARIES} ${BOTAN_LIBRARIES})
+# link Microsoft Visual Studio Runtime statically by default (on Windows builds)
+include(ConfigureMSVCRT)
+configure_msvc_runtime()
+
+# link libraries
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::PrintSupport ${Boost_LIBRARIES} ${BOTAN_LIBRARY})
+#target_link_libraries(${PROJECT_NAME} ${Qt5Widgets_LIBRARIES} ${Qt5PrintSupport_LIBRARIES} ${Boost_LIBRARIES} ${BOTAN_LIBRARY})
