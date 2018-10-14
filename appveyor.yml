@@ -12,6 +12,7 @@ cache:
 before_build:
 - cmd: >-
     call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
+    
     PATH=C:\Python36-x64;%PATH%
 
     IF EXIST C:\projects\botan (echo "Using botan build from appveyor cache") ELSE (cd .. && git clone https://github.com/randombit/botan botan && cd botan && git checkout 2.6.0 && python configure.py --disable-shared-library --msvc-runtime=MT --cxxflags="/O2 /Oi /D_ENABLE_EXTENDED_ALIGNED_STORAGE" && nmake && cd ..\playbook-creator\)
@@ -27,6 +28,7 @@ after_build:
     call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
 
     C:\Qt\5.11\msvc2017_64\bin\windeployqt.exe --release --pdb --compiler-runtime "C:\projects\playbook-creator\bin\Release"
+    
     "C:\Program Files (x86)\Inno Setup 5\ISCC" C:\projects\playbook-creator\innosetup.iss
 test_script:
 - ps: '#$blockRdp = $true; iex ((new-object net.webclient).DownloadString("https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1"))'
