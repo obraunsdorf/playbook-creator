@@ -1,0 +1,18 @@
+os: osx
+language: cpp
+install:
+- brew install botan qt
+- brew upgrade python 
+script:
+- cmake -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)
+- make
+deploy:
+  provider: releases
+  api_key:
+    secure: AW57e3ydCQSlf8PBYSBGVQylwIDvmH65h/H56s13XOPDiQ8ZdctrlmtYhKjnWNBOOxzCHpks6oYbqWLJmVk2S3hhjhTpJCAHWacHHWdi42swY9hj5PA+dw8LlKNIIA5PD7qFwR3QW4ibitPxqM6xb8U5lpqDwIlfI9bKB2bz/1sRWS+qJNhDY02hCLGB5ojDbLsAK31rEpphGDK60TFMRJRgZmbZBXe2/D4jdloBWMz6h5YydvxDzM19zgg/vjt6YYjGTBcpbddscWFm4r5Q/ery5VR9cfuGfjz4hj/1chZdqFr+7zJvJEh19w1K7swRK/y383FzYQYzfYhuassmggJSJfdWNNaOiWSO94DlHQ0NBXU4+ZBI94am1SpPu6w9l3zmDBm8sXy6bMd2ewvQxzd12AsR+soSAnFVqcv4AN0JzL1wCeb4jrYe3UPcTe+gaa1GPtPv0dgacU6UltnwhmTcoMRLTJ+8J5330bs6nrnI4whGFU9euk4gCp/pv/P7nArPJa9eWhwjnZ1vG5CFnf5mUPQFtwwzykNZDfFQeMGwR/NhkC2/HFve0m4xNQQpCeFQNjvGzGZ2uauYCZwExo1V2ogs43JifDOcLKg5HemeaLciVXPFu3ZkmaUCsZYVmLgEXGC5f8Wgtqgpu+Wl0BCnx39JKSHX1lxi4CPx/uo=
+  file: bin/PlaybookCreator
+  skip_cleanup: true
+  on:
+    repo: brauni91/playbook-creator
+    branch: travisCI-next
+    tag: true
