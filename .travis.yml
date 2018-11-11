@@ -1,17 +1,22 @@
 os: osx
 language: cpp
 install:
-- brew install botan qt
-- brew upgrade python 
+- PACKAGES="git cmake pkg-config qt boost"
+- for p in $(brew list); do PACKAGES=${PACKAGES//$p/}; done;
+- brew install $PACKAGES
+cache:
+  directories:
+    botan
 script:
-- cmake -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)
+- if [ $SKIP_CACHE_RESTORE == true ]; then
+  git clone https://github.com/randombit/botan botan;
+  cd botan;
+  git checkout 2.6.0;
+  python configure.py --disable-shared-library --disable-modules=darwin_secrandom;
+  make;
+  cd ..;
+  fi
+- cmake -DBOTAN_LIBRARY=botan/libbotan-2.a -DBOTAN_INCLUDE_DIR=botan/build/include -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)
 - make
-deploy:
-  provider: releases
-  api_key:
-    secure: AW57e3ydCQSlf8PBYSBGVQylwIDvmH65h/H56s13XOPDiQ8ZdctrlmtYhKjnWNBOOxzCHpks6oYbqWLJmVk2S3hhjhTpJCAHWacHHWdi42swY9hj5PA+dw8LlKNIIA5PD7qFwR3QW4ibitPxqM6xb8U5lpqDwIlfI9bKB2bz/1sRWS+qJNhDY02hCLGB5ojDbLsAK31rEpphGDK60TFMRJRgZmbZBXe2/D4jdloBWMz6h5YydvxDzM19zgg/vjt6YYjGTBcpbddscWFm4r5Q/ery5VR9cfuGfjz4hj/1chZdqFr+7zJvJEh19w1K7swRK/y383FzYQYzfYhuassmggJSJfdWNNaOiWSO94DlHQ0NBXU4+ZBI94am1SpPu6w9l3zmDBm8sXy6bMd2ewvQxzd12AsR+soSAnFVqcv4AN0JzL1wCeb4jrYe3UPcTe+gaa1GPtPv0dgacU6UltnwhmTcoMRLTJ+8J5330bs6nrnI4whGFU9euk4gCp/pv/P7nArPJa9eWhwjnZ1vG5CFnf5mUPQFtwwzykNZDfFQeMGwR/NhkC2/HFve0m4xNQQpCeFQNjvGzGZ2uauYCZwExo1V2ogs43JifDOcLKg5HemeaLciVXPFu3ZkmaUCsZYVmLgEXGC5f8Wgtqgpu+Wl0BCnx39JKSHX1lxi4CPx/uo=
-  file: bin/PlaybookCreator
-  skip_cleanup: true
-  on:
-    repo: brauni91/playbook-creator
-    tag: true
+- $(brew --prefix qt5)/bin/macdeployqt bin/PlaybookCreator.app -verbose=3 -dmg -no-strip
+- bash deploy.sh bin/PlaybookCreator.dmg PlaybookCreator.dmg "PlaybookCreator for MacOSX" $GITHUB_TOKEN

@@ -108,7 +108,7 @@ find_package( Boost 1.54 COMPONENTS serialization REQUIRED )
 add_definitions( -DBOOST_ALL_NO_LIB )
 include_directories(${Boost_INCLUDE_DIR})
 
-find_package( Botan 2.4 REQUIRED )
+find_package( Botan 1.10 REQUIRED )
 include_directories(${BOTAN_INCLUDE_DIR})
 
 # Next lines needed for building all Qt projects
@@ -139,6 +139,11 @@ add_custom_target(style_checking
 
 # compile
 add_executable( ${PROJECT_NAME} ${SOURCES} ${MOC_SRCS} ${UI_HEADERS})
+if(APPLE)
+	set_target_properties(${PROJECT_NAME} PROPERTIES
+	        MACOSX_BUNDLE ON
+	        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/cmake/pbcMacOSXBundleInfo.plist.in)
+endif()
 #add_dependencies(${PROJECT_NAME} style_checking)
 
 # link Microsoft Visual Studio Runtime statically by default (on Windows builds)
