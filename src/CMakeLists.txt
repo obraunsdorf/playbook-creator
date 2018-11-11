@@ -115,14 +115,11 @@ include_directories(${BOTAN_INCLUDE_DIR})
 find_package(Qt5 COMPONENTS Widgets PrintSupport REQUIRED)
 include_directories(${Qt5Widgets_INCLUDE_DIRS} ${Qt5PrintSupport_INCLUDE_DIRS})
 
-find_library(Qt5PrintSupport_LIBRARIES Qt5PrintSupport)
-find_library(Qt5Widgets_LIBRARIES Qt5Widgets)
-
 add_definitions(${Qt5Widgets_DEFINITIONS})
 # Find includes in corresponding build directories
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Instruct CMake to run moc automatically when needed.
-set(CMAKE_AUTOMOC ON)
+#set(CMAKE_AUTOMOC ON)
 
 # Next, using precompiler, compiler and linker
 # using Qt meta-system (precompiler)
@@ -130,12 +127,12 @@ qt5_wrap_ui( UI_HEADERS ${UIS} )
 qt5_wrap_cpp( MOC_SRCS ${MOC_HEADERS} )
 
 # linting
-set (STYLE_CHECKER ${PROJECT_SOURCE_DIR}/tools/checkStyle.py)
-find_package(PythonInterp 3.0 REQUIRED)
-add_custom_target(style_checking
-	COMMAND ${PYTHON_EXECUTABLE} ${STYLE_CHECKER}
-	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools
-)
+#set (STYLE_CHECKER ${PROJECT_SOURCE_DIR}/tools/checkStyle.py)
+#find_package(PythonInterp 3.0 REQUIRED)
+#add_custom_target(style_checking
+#	COMMAND ${PYTHON_EXECUTABLE} ${STYLE_CHECKER}
+#	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools
+#)
 
 # compile
 add_executable( ${PROJECT_NAME} ${SOURCES} ${MOC_SRCS} ${UI_HEADERS})
