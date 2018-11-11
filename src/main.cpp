@@ -27,6 +27,7 @@
 #include <botan/botan.h>
 #include <QApplication>
 #include <QMessageBox>
+#include <iostream>
 
 class PBCqApplication final : public QApplication {
  public:

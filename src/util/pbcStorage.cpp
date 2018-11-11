@@ -29,10 +29,6 @@
 #include <istream>
 #include <iostream>
 #include <string>
-#include <botan/botan.h>
-#include <botan/pbkdf.h>
-#include <botan/secmem.h>
-#include <botan/data_src.h>
 #include <QPrinter>
 #include <QPainter>
 #include "pbcVersion.h"
@@ -95,7 +91,7 @@ void PBCStorage::setCryptoKey(Botan::OctetString key,
 void PBCStorage::encrypt(const std::string& input,
                          std::ofstream& outFile) {
     assert(_keySP != NULL && _saltSP != NULL);
-    outFile.write((const char*)_saltSP->begin(), _saltSP->size());
+    outFile.write((const char*)_saltSP->data(), _saltSP->size());
 
     Botan::Pipe hasher(new Botan::Hash_Filter(_HASH, _HASH_SIZE));
 
@@ -106,7 +102,7 @@ void PBCStorage::encrypt(const std::string& input,
 
     hasher.process_msg(input);
     Botan::SecureVector<Botan::byte> hash = hasher.read_all(0);
-    outFile.write((const char*)hash.begin(), hash.size());
+    outFile.write((const char*)hash.data(), hash.size());
     encryptor.process_msg(input);
 }
 
@@ -241,7 +237,7 @@ void PBCStorage::loadPlaybook(const std::string &password,
 
     std::istream istream(&buff);
 
-    int kBuffSize = 100;
+    const int kBuffSize = 100;
     char buffer[kBuffSize];
 
     istream.getline(buffer, kBuffSize);

@@ -1,0 +1,22 @@
+os: osx
+language: cpp
+install:
+- PACKAGES="git cmake pkg-config qt boost"
+- for p in $(brew list); do PACKAGES=${PACKAGES//$p/}; done;
+- brew install $PACKAGES
+cache:
+  directories:
+    botan
+script:
+- if [ $SKIP_CACHE_RESTORE == true ]; then
+  git clone https://github.com/randombit/botan botan;
+  cd botan;
+  git checkout 2.6.0;
+  python configure.py --disable-shared-library --disable-modules=darwin_secrandom;
+  make;
+  cd ..;
+  fi
+- cmake -DBOTAN_LIBRARY=botan/libbotan-2.a -DBOTAN_INCLUDE_DIR=botan/build/include -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)
+- make
+- $(brew --prefix qt5)/bin/macdeployqt bin/PlaybookCreator.app -verbose=3 -dmg -no-strip
+- bash deploy.sh bin/PlaybookCreator.dmg PlaybookCreator.dmg "PlaybookCreator for MacOSX" $GITHUB_TOKEN
