@@ -224,7 +224,7 @@ void PBCStorage::loadPlaybook(const std::string &password,
     assert(extension == ".pbc");
     std::stringbuf buff;
     std::ostream ostream(&buff);
-    std::ifstream ifstream(fileName);
+    std::ifstream ifstream(fileName, std::ios_base::binary);
 
     try {
         decrypt(password,
