@@ -26,6 +26,7 @@ Copyright 2015 Oliver Braunsdorf
 #define MINOR @VERSION_MINOR@
 #define PATCH @VERSION_PATCH@
 
+#include "util/pbcDeclarations.h"
 #include <string>
 #include <sstream>
 #include <vector>
@@ -68,7 +69,7 @@ class PBCVersion {
         while(std::getline(ss1, item1, '.')) {
             versionNumbers1.push_back(item1);
         }
-        assert(versionNumbers1.size() == 3);
+        pbcAssert(versionNumbers1.size() == 3);
         unsigned int major1 = std::stoul(versionNumbers1[0]);
         unsigned int minor1 = std::stoul(versionNumbers1[1]);
         unsigned int patch1 = std::stoul(versionNumbers1[2]);
@@ -79,7 +80,7 @@ class PBCVersion {
         while(std::getline(ss2, item2, '.')) {
             versionNumbers2.push_back(item2);
         }
-        assert(versionNumbers2.size() == 3);
+        pbcAssert(versionNumbers2.size() == 3);
         unsigned int major2 = std::stoul(versionNumbers2[0]);
         unsigned int minor2 = std::stoul(versionNumbers2[1]);
         unsigned int patch2 = std::stoul(versionNumbers2[2]);

@@ -5,7 +5,10 @@ configuration: Release
 init:
 - ps: '#$blockRdp = $true; iex ((new-object net.webclient).DownloadString("https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1"))'
 environment:
+  SECURE_GITHUB_TOKEN:
+    secure: yf7Him/R+dJ/gKfZR+Hqc3cwuZVQMWOuR1WZ9XuMwmkWyQD6yDIqUaFIBzcr0oEW
   APPVEYOR_CACHE_SKIP_RESTORE: false
+  ENABLE_REMOTE_DESKTOP: false
 cache:
 - C:\projects\botan\botan.lib
 - C:\projects\botan\build\include
@@ -33,22 +36,15 @@ after_build:
 test_script:
 - ps: '#$blockRdp = $true; iex ((new-object net.webclient).DownloadString("https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1"))'
 artifacts:
-- path: src\PlaybookCreator.vcxproj
-  name: PlaybookCreator.vcxproj
-- path: PlaybookCreator.sln
-  name: PlaybookCreator.sln
 - path: bin\release\PlaybookCreator.exe
   name: PlaybookCreator.exe
-- path: bin
-  name: binaries
 - path: bin\PlaybookCreatorSetup.exe
   name: PlaybookCreatorSetup.exe
-deploy:
-- provider: GitHub
-  tag: $(APPVEYOR_REPO_TAG_NAME)
-  auth_token:
-    secure: yf7Him/R+dJ/gKfZR+Hqc3cwuZVQMWOuR1WZ9XuMwmkWyQD6yDIqUaFIBzcr0oEW
-  artifact: PlaybookCreatorSetup.exe
-  draft: true
-  on:
-    APPVEYOR_REPO_TAG: true
+deploy_script:
+- ps: >-
+    $TOKEN = $env:SECURE_GITHUB_TOKEN
+
+    bash deploy.sh bin/PlaybookCreatorSetup.exe PlaybookCreatorSetup.exe "PlaybookCreator for Windows" $TOKEN
+on_finish:
+- ps: >-
+    if($env:ENABLE_REMOTE_DESKTOP -eq $true) {$blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))}
