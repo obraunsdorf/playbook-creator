@@ -24,8 +24,9 @@
 
 #include <stdexcept>
 #include <string>
-#include <execinfo.h>
-
+#ifndef _WIN32
+    #include <execinfo.h>
+#endif
 /**
  * @class PBCException
  * @brief The basic exception for the Playbook Creator application
@@ -36,6 +37,7 @@ class PBCException : public std::runtime_error {
 
  protected:
     std::string getStackTrace() const {
+#ifndef _WIN32
         const unsigned int MAX_DEPTH = 10;
         void *array[MAX_DEPTH];
 
@@ -53,6 +55,9 @@ class PBCException : public std::runtime_error {
             stack++;
         }
         return trace;
+#else
+        return "Stack trace not available on Windows.";
+#endif
     }
 
  public:
