@@ -3,6 +3,22 @@ build/*
 tools/hashRegister.txt
 doc/*
 
+#CLion
+.idea/*
+
+# A listing of all the files included in the project
+*.files
+# Include directories
+*.includes
+# Project configuration settings like predefined Macros
+*.config
+# Qt Creator settings
+*.creator
+# User project settings
+*.creator.user*
+# Qt Creator backups
+*.autosave
+
 #CMake
 CMakeCache.txt
 CMakeFiles
