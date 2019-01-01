@@ -23,10 +23,12 @@
 
 #include "util/pbcConfig.h"
 #include "gui/pbcPlayerView.h"
+#include "QGraphicsView"
 #include "QGraphicsEllipseItem"
 #include "models/pbcPlaybook.h"
 #include "dialogs/pbcEditCategoriesDialog.h"
 #include <string>
+#include <iostream>
 
 /**
  * @class PBCPlayView
@@ -81,11 +83,15 @@ void PBCPlayView::repaint() {
               PBCConfig::getInstance()->fiveYdWidth(),
               PBCConfig::getInstance()->fiveYdColor());
 
-    paintBall(PBCConfig::getInstance()->canvasWidth() / 2,
-              PBCConfig::getInstance()->losY());
+    paintLine(PBCConfig::getInstance()->tenYdY(),
+             PBCConfig::getInstance()->canvasWidth(),
+             PBCConfig::getInstance()->fiveYdWidth(),
+             PBCConfig::getInstance()->fiveYdColor());
+
+    /*paintBall(PBCConfig::getInstance()->canvasWidth() / 2,
+              PBCConfig::getInstance()->losY());*/
 
     paintBorder();
-
     if(_currentPlay != NULL) {
         for(PBCPlayerSP playerSP : *(_currentPlay->formation())) {
             this->addItem(new PBCPlayerView(playerSP));

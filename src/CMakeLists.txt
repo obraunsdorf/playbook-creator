@@ -21,6 +21,10 @@ set ( SOURCES
 	gui/pbcCustomRouteView.h
 	gui/pbcGridIronView.cpp
 	gui/pbcGridIronView.h
+	gui/pbcPathView.cpp
+	gui/pbcPathView.h
+	gui/pbcPathViewArrow.cpp
+	gui/pbcPathViewArrow.h
 	gui/pbcPlayerView.cpp
 	gui/pbcPlayerView.h
 	gui/pbcPlayView.cpp

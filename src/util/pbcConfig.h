@@ -34,12 +34,16 @@ friend class PBCSingleton<PBCConfig>;
     bool _initialized;
     unsigned int _minWidth;
     unsigned int _minHeight;
+    unsigned int _minPlayerWidth;
+    double _playerShapeContourRatio;
+    bool _playerShadow;
     PBCColor _losColor;
-    unsigned int _losWidth;
+    double _losWidthYd;
     double _losYFactor;
     PBCColor _fiveYdColor;
-    unsigned int _fiveYdWidth;
+    double _fiveYdWidthYd;
     double _fiveYdYFactor;
+    double _tenYdYFactor;
     PBCColor _ballColor;
     double _ballWidthYd;
     PBCColor _playNameColor;
@@ -55,20 +59,24 @@ friend class PBCSingleton<PBCConfig>;
  protected:
     PBCConfig() :
        _initialized(false),
-       _minWidth(600),
-       _minHeight(300),
+       _minWidth(20),
+       _minHeight(20),
+       _minPlayerWidth(20), //pixel
+       _playerShapeContourRatio(0.8), // 0.8 percent shape, 0.2 percent Contour
+       _playerShadow(true),
        _losColor(128U, 128U, 128U),
-       _losWidth(5),
-       _losYFactor(0.5),
+       _losWidthYd(0.3),
+       _losYFactor(0.6),
        _fiveYdColor(128U, 128U, 128U),
-       _fiveYdWidth(3),
-       _fiveYdYFactor(0.25),
+       _fiveYdWidthYd(0.2),
+       _fiveYdYFactor(0.4),
+       _tenYdYFactor(0.2),
        _ballColor(139U, 69U, 19U),
        _ballWidthYd(1),
        _playNameColor(128U, 128U, 128U),
        _playNameSizeYd(2.5),
        _playerWidthYd(1),
-       _routeWidthYd(0.25),
+       _routeWidthYd(0.4),
        _canvasWidth(200),
        _canvasHeight(200) {
        // TODO(obr): initialize from File
@@ -96,7 +104,7 @@ friend class PBCSingleton<PBCConfig>;
     }
 
     double losWidth() {
-        return _losWidth;
+        return _losWidthYd * ydInPixel();
     }
 
     unsigned int minWidth() {
@@ -115,12 +123,16 @@ friend class PBCSingleton<PBCConfig>;
         return _fiveYdColor;
     }
 
-    unsigned int fiveYdWidth() {
-        return _fiveYdWidth;
+    double fiveYdWidth() {
+        return _fiveYdWidthYd * ydInPixel();
     }
 
     unsigned int fiveYdY() {
         return _fiveYdYFactor * _canvasHeight;
+    }
+
+    unsigned int tenYdY() {
+        return _tenYdYFactor * _canvasHeight;
     }
 
 
@@ -144,12 +156,24 @@ friend class PBCSingleton<PBCConfig>;
         return (_losYFactor - _fiveYdYFactor) * _canvasHeight / 5.0;
     }
 
-    unsigned int playerWidth() {
-        return _playerWidthYd * ydInPixel();
+    double playerShapeWidth() {
+        return _playerShapeContourRatio * std::max((unsigned int) (_playerWidthYd * ydInPixel()), _minPlayerWidth);
     }
 
-    unsigned int routeWidth() {
-        return _routeWidthYd * ydInPixel();
+    double playerContourWidth() {
+        return (1 - _playerShapeContourRatio) * std::max((unsigned int) (_playerWidthYd * ydInPixel()), _minPlayerWidth);
+    }
+
+    double routeShapeWidth() {
+        return _playerShapeContourRatio * std::max((unsigned int) (_routeWidthYd * ydInPixel()), _minPlayerWidth/2);
+    }
+
+    double routeContourWidth() {
+        return (1 - _playerShapeContourRatio) * std::max((unsigned int) (_routeWidthYd * ydInPixel()), _minPlayerWidth/2);
+    }
+
+    bool playerShadow() {
+        return _playerShadow;
     }
 };
 

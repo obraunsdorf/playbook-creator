@@ -22,6 +22,8 @@
 #include "pbcPlayerView.h"
 
 #include "models/pbcPlaybook.h"
+#include "gui/pbcPathViewArrow.h"
+#include "gui/pbcPathView.h"
 #include "QBrush"
 #include "QMenu"
 #include "util/pbcPositionTranslator.h"
@@ -34,6 +36,7 @@
 #include "dialogs/pbcCreateMotionRouteDialog.h"
 #include <QColorDialog>
 #include <QInputDialog>
+#include <QGraphicsDropShadowEffect>
 #include <iostream>
 
 /**
@@ -49,8 +52,11 @@
  * @brief The constructor.
  * @param playerSP The data model of the player to display
  */
-PBCPlayerView::PBCPlayerView(PBCPlayerSP playerSP) : _playerSP(playerSP) {
-    repaint();
+PBCPlayerView::PBCPlayerView(PBCPlayerSP playerSP) :
+    _playerSP(playerSP),
+    _joinedRouteItem(new QGraphicsPathItem()) {
+    setColor(playerSP->color());
+    //repaint();
 }
 
 /**
@@ -58,17 +64,25 @@ PBCPlayerView::PBCPlayerView(PBCPlayerSP playerSP) : _playerSP(playerSP) {
  */
 void PBCPlayerView::repaint() {
     _originalPos = PBCPositionTranslator::getInstance()->translatePos(_playerSP->pos());  // NOLINT
-    unsigned int playerWidth = PBCConfig::getInstance()->playerWidth();
-    double playerPosX = _originalPos.get<0>() - playerWidth / 2;
+    double playerShapeWidth = PBCConfig::getInstance()->playerShapeWidth();
+    double playerPosX = _originalPos.get<0>() - playerShapeWidth / 2;
     double playerPosY = _originalPos.get<1>();
-    _playerEllipseSP.reset(new QGraphicsEllipseItem(playerPosX,
-                                                    playerPosY,
-                                                    playerWidth,
-                                                    playerWidth));
+    QPen pen(Qt::black, PBCConfig::getInstance()->playerContourWidth());
+    if (_playerSP->role().fullName == "Center") {
+        _playerShapeSP.reset(new QGraphicsRectItem(playerPosX,
+                                                      playerPosY,
+                                                      playerShapeWidth,
+                                                      playerShapeWidth));
+    } else {
+        _playerShapeSP.reset(new QGraphicsEllipseItem(playerPosX,
+                                                      playerPosY,
+                                                      playerShapeWidth,
+                                                      playerShapeWidth));
+    }
 
-    PBCColor color = _playerSP->color();
-    _playerEllipseSP->setBrush(QBrush(QColor(color.r(), color.g(), color.b())));
-    this->addToGroup(_playerEllipseSP.get());
+    _playerShapeSP->setPen(pen);
+    _playerShapeSP->setBrush(_shapeColor);
+    this->addToGroup(_playerShapeSP.get());
     this->setFlag(QGraphicsItem::ItemIsMovable);
 
     if(_playerSP->motion() != NULL) {
@@ -76,6 +90,12 @@ void PBCPlayerView::repaint() {
     }
     if(_playerSP->route() != NULL) {
         applyRoute(_playerSP->route());
+    }
+
+    if (PBCConfig::getInstance()->playerShadow()) {
+        QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect();
+        shadow->setBlurRadius(20);
+        setGraphicsEffect(shadow);
     }
 }
 
@@ -94,12 +114,12 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
                               std::vector<QGraphicsItemSP>* graphicItems,
                               PBCDPoint basePoint) {
     assert(graphicItems == &_routePaths || graphicItems == &_motionPaths);
-    PBCColor color = _playerSP->color();
-    QPen pen(QBrush((QColor(color.r(), color.g(), color.b()))),
-             PBCConfig::getInstance()->routeWidth());
-    if(graphicItems == &_motionPaths) {
-        pen.setStyle(Qt::DashLine);
-    }
+    QColor color = (QColor(_playerSP->color().r(), _playerSP->color().g(), _playerSP->color().b()));
+    QBrush brush(color);
+    double penWidth = PBCConfig::getInstance()->routeContourWidth();// + PBCConfig::getInstance()->routeShapeWidth();
+    QPen pen(brush, penWidth);
+    pen.setCapStyle(Qt::RoundCap);
+
     double baseX = basePoint.get<0>();
     double baseY = basePoint.get<1>();
     double lastX = baseX;
@@ -168,23 +188,96 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
             boost::shared_ptr<QGraphicsPathItem> motionPathSP(
                         new QGraphicsPathItem(motionArc, this));
 
-            motionPathSP->setPen(pen);
+            double motionPenWidth = PBCConfig::getInstance()->routeShapeWidth() +
+                    PBCConfig::getInstance()->routeContourWidth();
+            QPen motionPen(_contourColor, motionPenWidth);
+            motionPen.setStyle(Qt::DashLine);
+            motionPathSP->setPen(motionPen);
             graphicItems->push_back(motionPathSP);
             lastX = motionArc.currentPosition().x();
             lastY = motionArc.currentPosition().y();
         } else {
-            boost::shared_ptr<QGraphicsLineItem> lineSP(
-                        new QGraphicsLineItem(lastX,
-                                              lastY,
-                                              endPointX,
-                                              endPointY));
+            if(graphicItems == &_routePaths) {
+                if (path == paths.back()) {
+                    boost::shared_ptr<PBCPathViewArrow> arrowSP(
+                            new PBCPathViewArrow(QPointF(lastX, lastY),
+                                                 QPointF(endPointX, endPointY),
+                                                 PBCConfig::getInstance()->routeShapeWidth(),
+                                                 true));
+                    QPen arrowPen(Qt::black, PBCConfig::getInstance()->routeContourWidth());
+                    arrowSP->setPen(arrowPen);
+                    arrowSP->setBrush(_shapeColor);
+                    graphicItems->push_back(arrowSP);
+                    _joinedRouteItem->setPath(_joinedRouteItem->path().united(arrowSP->shape()));
+                } else {
+                    bool joinAtStart = (path != paths.front());
+                    boost::shared_ptr<PBCPathView> arrowSP(
+                            new PBCPathView(QPointF(lastX, lastY),
+                                            QPointF(endPointX, endPointY),
+                                            PBCConfig::getInstance()->routeShapeWidth(),
+                                            joinAtStart));
 
-            lineSP->setPen(pen);
-            graphicItems->push_back(lineSP);
+                    _joinedRouteItem->setPath(_joinedRouteItem->path().united(arrowSP->shape()));
+                    graphicItems->push_back(arrowSP);
+                    /*boost::shared_ptr<QGraphicsLineItem> lineSP(
+                                new QGraphicsLineItem(lastX,
+                                                      lastY,
+                                                      endPointX,
+                                                      endPointY));
+
+                    lineSP->setPen(pen);
+                    graphicItems->push_back(lineSP);*/
+                }
+            }
+
             lastX = endPointX;
             lastY = endPointY;
         }
     }
+/*
+    // arrow head
+    boost::shared_ptr<QGraphicsLineItem> lastLine = boost::dynamic_pointer_cast<QGraphicsLineItem>(graphicItems->back());
+    pbcAssert(lastLine != NULL);
+    double angle = std::atan2(lastLine->line().dy(), -lastLine->line().dx());
+
+    double routeWidth = PBCConfig::getInstance()->routeContourWidth() + PBCConfig::getInstance()->routeShapeWidth();
+    double arrowSize = routeWidth*2;
+    QPointF arrowP1 = QPointF(lastX, lastY) + QPointF(sin(angle + M_PI / 3) * arrowSize,
+                                        cos(angle + M_PI / 3) * arrowSize);
+    QPointF arrowP2 = QPointF(lastX, lastY) + QPointF(sin(angle + M_PI - M_PI / 3) * arrowSize,
+                                        cos(angle + M_PI - M_PI / 3) * arrowSize);
+*/
+
+/*
+    // PBCPathViewArrow Head - Polygon Variante
+    QPointF endPoint(lastX, lastY);
+    QVector<QPointF> pointVector = {endPoint, arrowP1, arrowP2};
+    QPolygonF arrowHead(pointVector);
+    boost::shared_ptr<QGraphicsPolygonItem> arrowItem(new QGraphicsPolygonItem(arrowHead));
+    QPen arrowPen(QBrush(Qt::black), routeWidth/4);
+    arrowItem->setPen(arrowPen);
+    arrowItem->setBrush(brush);
+    graphicItems->push_back(arrowItem);
+*/
+
+/*
+    // PBCPathViewArrow Head - Line Variante
+    boost::shared_ptr<QGraphicsLineItem> arrowLine1(
+                new QGraphicsLineItem(lastX,
+                                      lastY,
+                                      arrowP1.x(),
+                                      arrowP1.y()));
+    arrowLine1->setPen(pen);
+    graphicItems->push_back(arrowLine1);
+
+    boost::shared_ptr<QGraphicsLineItem> arrowLine2(
+                new QGraphicsLineItem(lastX,
+                                      lastY,
+                                      arrowP2.x(),
+                                      arrowP2.y()));
+    arrowLine2->setPen(pen);
+    graphicItems->push_back(arrowLine2);
+*/
 }
 
 /**
@@ -196,6 +289,7 @@ void PBCPlayerView::applyRoute(PBCRouteSP route) {
         this->removeFromGroup(item.get());
     }
     _routePaths.clear();
+    _joinedRouteItem.reset(new QGraphicsPathItem());
 
     _playerSP->setRoute(route);
 
@@ -214,9 +308,13 @@ void PBCPlayerView::applyRoute(PBCRouteSP route) {
         joinPaths(route->paths(), &_routePaths, playerPos);
     }
 
-    for(boost::shared_ptr<QGraphicsItem> item : _routePaths) {
+    QPen arrowPen(Qt::black, PBCConfig::getInstance()->routeContourWidth());
+    _joinedRouteItem->setPen(arrowPen);
+    _joinedRouteItem->setBrush(_shapeColor);
+    this->addToGroup(_joinedRouteItem.get());
+    /*for(boost::shared_ptr<QGraphicsItem> item : _routePaths) {
         this->addToGroup(item.get());
-    }
+    }*/
 }
 
 /**
@@ -249,6 +347,10 @@ void PBCPlayerView::applyMotion(PBCMotionSP motion) {
  */
 void PBCPlayerView::setColor(PBCColor color) {
     _playerSP->setColor(color);
+    QColor qcolor(color.r(), color.g(), color.b());
+    _contourColor = qcolor;
+    _shapeColor = qcolor;
+    _shapeColor.setAlpha(255);
     repaint();
 }
 
