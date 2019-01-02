@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
  
 #define MyAppName "PlaybookCreator"
-#define MyAppVersion "0.8"
+#define MyAppVersion "0.9.0"
 #define MyAppPublisher "Oliver Braunsdorf"
 #define MyAppURL "http://www.github.com/obraunsdorf/playbook-creator"
 #define MyAppExeName "PlaybookCreator.exe"
