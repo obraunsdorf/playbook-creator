@@ -11,11 +11,11 @@ Playbook Creator is mainly developed and tested on Linux, but you can download a
 
 ## How to install
   * **On Windows / MacOS X :**   
-  Just download the latest release of Playbook Creator for your OS at https://github.com/brauni91/playbook-creator/releases
+  Just download the latest release of Playbook Creator for your OS at https://github.com/obraunsdorf/playbook-creator/releases
   * **On Linux :**
     1. Install Qt:
         `apt-get install qt5-default`
-    2. Download Playbook Creator for Linux at https://github.com/brauni91/playbook-creator/releases
+    2. Download Playbook Creator for Linux at https://github.com/obraunsdorf/playbook-creator/releases
 
 **Documentation:**  
   Short Version: Do a right-click on a player and everything else should be self-explained.  
@@ -27,7 +27,7 @@ For anyone who wants to build the application from source on Linux (and make cha
 
     apt-get install build-essential pkg-config git cmake qt5-default libbotan-2-dev libboost-serialization-dev
 
-    git clone https://github.com/brauni91/playbook-creator.git
+    git clone https://github.com/obraunsdorf/playbook-creator.git
     cd playbook-creator
     cmake .
     make

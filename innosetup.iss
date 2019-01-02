@@ -4,7 +4,7 @@
 #define MyAppName "PlaybookCreator"
 #define MyAppVersion "0.8"
 #define MyAppPublisher "Oliver Braunsdorf"
-#define MyAppURL "http://www.github.com/brauni91/playbook-creator"
+#define MyAppURL "http://www.github.com/obraunsdorf/playbook-creator"
 #define MyAppExeName "PlaybookCreator.exe"
  
 [Setup]
