@@ -26,6 +26,8 @@
 #include "QGraphicsEllipseItem"
 #include "models/pbcPlaybook.h"
 #include "dialogs/pbcEditCategoriesDialog.h"
+#include "util/pbcPositionTranslator.h"
+
 #include <string>
 
 /**
@@ -88,7 +90,7 @@ void PBCPlayView::repaint() {
 
     if(_currentPlay != NULL) {
         for(PBCPlayerSP playerSP : *(_currentPlay->formation())) {
-            this->addItem(new PBCPlayerView(playerSP));
+            this->addItem(new PBCPlayerView(playerSP, this));
         }
 
         unsigned int textSize = PBCConfig::getInstance()->playNameSize();
@@ -187,6 +189,95 @@ void PBCPlayView::editCategories() {
     PBCEditCategoriesDialog dialog(originalPlay);
     dialog.editCategories();
     showPlay(originalPlay->name());
+}
+
+
+void PBCPlayView::enterRouteEditMode(PBCPlayerSP playerSP) {
+    _routeEditMode = true;
+    _lastLine = NULL;
+    _paths.clear();
+    _routePlayer = playerSP;
+
+    std::vector<PBCPathSP> emptyRoutePaths;
+    PBCRouteSP emptyRoute = PBCRouteSP(new PBCRoute("empty", "", emptyRoutePaths));
+    _routePlayer->setRoute(emptyRoute);
+    repaint();
+
+    PBCDPoint translatedPos = PBCPositionTranslator::translatePos(_routePlayer->pos());
+    QPointF startPoint(translatedPos.get<0>(), translatedPos.get<1>());
+    _routeStartPos = startPoint;
+    _lastPressPoint = _routeStartPos;
+
+}
+
+void PBCPlayView::leaveRouteEditMode() {
+    _routeEditMode = false;
+}
+
+/**
+ * @brief A Qt event handler that is
+ * triggered whe the mouse moves over the PBCCustomRouteView instance
+ *
+ * Paints a new line from the endpoint of the current route to the mouse
+ * position
+ * @param event Contains mouse event data (the position of the mouse)
+ */
+void PBCPlayView::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
+    if (_routeEditMode == false) {
+        return PBCGridIronView::mouseMoveEvent(event);
+    }
+    if(_lastLine != NULL) {
+        this->removeItem(_lastLine);
+        delete _lastLine;
+        _lastLine = NULL;
+    }
+    unsigned int newX = event->scenePos().x();
+    unsigned int newY = event->scenePos().y();
+    _lastLine = this->addLine(_lastPressPoint.x(),
+                              _lastPressPoint.y(),
+                              newX,
+                              newY);
+}
+
+
+/**
+ * @brief A Qt event handler that is
+ * triggered whe the mouse is clicked over the PBCCustomRouteView instance
+ *
+ * This will add the line between the endpoint of the current route and the
+ * mouse position to the _paths vector
+ * @param event Contains mouse event data (the position of the mouse)
+ */
+void PBCPlayView::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
+    if (_routeEditMode == false) {
+        return PBCGridIronView::mouseReleaseEvent(event);
+    }
+    unsigned int newX = event->scenePos().x();
+    unsigned int newY = event->scenePos().y();
+    int inOutFactor = -1;
+    PBCDPoint playerPos = PBCPositionTranslator::getInstance()->translatePos(_routePlayer->pos());
+    if(playerPos.get<0>() < PBCConfig::getInstance()->canvasWidth() / 2) {
+        inOutFactor = 1;
+    }
+    PBCDPoint pathPoint =
+            PBCPositionTranslator::getInstance()->retranslatePos(PBCDPoint(newX, newY),                               // NOLINT
+                                                                 PBCDPoint(_routeStartPos.x(), _routeStartPos.y()));  // NOLINT
+    PBCDPoint inOut_corrected_pathPoint(pathPoint.get<0>()*inOutFactor, pathPoint.get<1>());
+    _paths.push_back(PBCPathSP(new PBCPath(inOut_corrected_pathPoint)));
+    this->addLine(_lastPressPoint.x(), _lastPressPoint.y(), newX, newY);
+    _lastPressPoint.setX(newX);
+    _lastPressPoint.setY(newY);
+}
+
+void PBCPlayView::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
+    if (_routeEditMode == false) {
+        return PBCGridIronView::mouseDoubleClickEvent(event);
+    }
+    leaveRouteEditMode();
+    PBCRouteSP route(new PBCRoute("_TEMP_", "", _paths));
+    assert(_routePlayer);
+    _routePlayer->setRoute(route);
+    repaint();
 }
 
 

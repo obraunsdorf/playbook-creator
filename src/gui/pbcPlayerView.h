@@ -27,6 +27,7 @@
 #include <boost/shared_ptr.hpp>
 #include "models/pbcPlayer.h"
 #include "util/pbcDeclarations.h"
+#include "gui/pbcPlayView.h"
 #include <vector>
 
 class PBCPlayerView;
@@ -36,10 +37,11 @@ typedef boost::shared_ptr<QGraphicsItem> QGraphicsItemSP;
 class PBCPlayerView : public QObject, public QGraphicsItemGroup {
     Q_OBJECT
  public:
-    explicit PBCPlayerView(PBCPlayerSP playerSP);
+    explicit PBCPlayerView(PBCPlayerSP playerSP, PBCPlayView* playView);
 
  private:
     PBCPlayerSP _playerSP;
+    PBCPlayView* _playView;
     PBCDPoint _originalPos;
     boost::shared_ptr<QGraphicsEllipseItem> _playerEllipseSP;
     std::vector<boost::shared_ptr<QGraphicsItem>> _routePaths;

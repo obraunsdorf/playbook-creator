@@ -49,7 +49,9 @@
  * @brief The constructor.
  * @param playerSP The data model of the player to display
  */
-PBCPlayerView::PBCPlayerView(PBCPlayerSP playerSP) : _playerSP(playerSP) {
+PBCPlayerView::PBCPlayerView(PBCPlayerSP playerSP, PBCPlayView* playView) :
+    _playerSP(playerSP),
+    _playView(playView) {
     repaint();
 }
 
@@ -310,12 +312,13 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
     }
     if(routeClicked == false) {
         if(clicked == action_CustomRouteCreate_Graphical) {
-            PBCCustomRouteDialog dialog;
+            /*PBCCustomRouteDialog dialog;
             dialog.setWindowModality(Qt::ApplicationModal);
             PBCRouteSP createdRoute = dialog.execute();
             if(createdRoute != NULL) {
                 this->applyRoute(createdRoute);
-            }
+            }*/
+            _playView->enterRouteEditMode(this->_playerSP);
         } else if(clicked == action_CustomRouteCreate) {
             PBCCreateMotionRouteDialog dialog;
             PBCRouteSP createdRoute = dialog.getCreatedRoute();

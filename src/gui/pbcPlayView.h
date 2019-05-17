@@ -43,8 +43,21 @@ class PBCPlayView : public PBCGridIronView {
     void saveFormation(const std::string& formationName = "");
     void editCategories();
 
+    void enterRouteEditMode(PBCPlayerSP playerSP);
+    void leaveRouteEditMode();
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+
  private:
     PBCPlaySP _currentPlay;
+
+    bool _routeEditMode = false;
+    PBCPlayerSP _routePlayer;
+    QGraphicsLineItem* _lastLine;
+    QPointF _routeStartPos;
+    QPointF _lastPressPoint;
+    std::vector<PBCPathSP> _paths;
 };
 
 #endif  // PBCPLAYVIEW_H
