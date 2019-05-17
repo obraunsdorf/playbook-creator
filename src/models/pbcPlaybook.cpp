@@ -103,7 +103,7 @@ void PBCPlaybook::resetToNewEmptyPlaybook(const std::string &name,
 
     formation->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Halfback", "HB"},
                                                    PBCColor(),
-                                                   PBCDPoint(0, -6))));
+                                                   PBCDPoint(7.5, 0))));
 
     if (playerNumber >= 7) {
         formation->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Left Guard", "LG"}, // NOLINT
