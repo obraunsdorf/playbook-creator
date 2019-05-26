@@ -27,6 +27,7 @@
 #include "models/pbcPlaybook.h"
 #include "dialogs/pbcEditCategoriesDialog.h"
 #include "util/pbcPositionTranslator.h"
+#include <QApplication>
 
 #include <string>
 
@@ -226,17 +227,34 @@ void PBCPlayView::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
     if (_routeEditMode == false) {
         return PBCGridIronView::mouseMoveEvent(event);
     }
-    if(_lastLine != NULL) {
-        this->removeItem(_lastLine);
-        delete _lastLine;
-        _lastLine = NULL;
-    }
     unsigned int newX = event->scenePos().x();
     unsigned int newY = event->scenePos().y();
-    _lastLine = this->addLine(_lastPressPoint.x(),
-                              _lastPressPoint.y(),
-                              newX,
-                              newY);
+
+    QPainterPath path;
+    //if (event->buttons() & Qt::MouseButton::LeftButton) {
+    if (QApplication::keyboardModifiers() & Qt::KeyboardModifier::ControlModifier) {
+        qreal startX = _lastPressPoint.x();
+        qreal startY = _lastPressPoint.y();
+        qreal endX = _lastLine->path().currentPosition().x();
+        qreal endY = _lastLine->path().currentPosition().y();
+
+        this->removeItem(_lastLine);
+        path.moveTo(startX, startY);
+        path.quadTo(QPointF(newX,newY), QPointF(endX, endY));
+        _lastControlPoint.setX(newX);
+        _lastControlPoint.setY(newY);
+    } else {
+        path.moveTo(_lastPressPoint.x(), _lastPressPoint.y());
+        path.lineTo(newX, newY);
+        if(_lastLine != NULL) {
+            this->removeItem(_lastLine);
+            delete _lastLine;
+            _lastLine = NULL;
+        }
+    }
+
+    _lastLine = new QGraphicsPathItem(path);
+    this->addItem(_lastLine);
 }
 
 
@@ -252,19 +270,21 @@ void PBCPlayView::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
     if (_routeEditMode == false) {
         return PBCGridIronView::mouseReleaseEvent(event);
     }
-    unsigned int newX = event->scenePos().x();
-    unsigned int newY = event->scenePos().y();
+    unsigned int newX = _lastLine->path().currentPosition().x();
+    unsigned int newY = _lastLine->path().currentPosition().y();
+
     int inOutFactor = -1;
     PBCDPoint playerPos = PBCPositionTranslator::getInstance()->translatePos(_routePlayer->pos());
     if(playerPos.get<0>() < PBCConfig::getInstance()->canvasWidth() / 2) {
         inOutFactor = 1;
     }
     PBCDPoint pathPoint =
-            PBCPositionTranslator::getInstance()->retranslatePos(PBCDPoint(newX, newY),                               // NOLINT
-                                                                 PBCDPoint(_routeStartPos.x(), _routeStartPos.y()));  // NOLINT
+            PBCPositionTranslator::getInstance()->retranslatePos(
+                    PBCDPoint(newX,newY),
+                    PBCDPoint(_routeStartPos.x(), _routeStartPos.y()));  // NOLINT
     PBCDPoint inOut_corrected_pathPoint(pathPoint.get<0>()*inOutFactor, pathPoint.get<1>());
     _paths.push_back(PBCPathSP(new PBCPath(inOut_corrected_pathPoint)));
-    this->addLine(_lastPressPoint.x(), _lastPressPoint.y(), newX, newY);
+    this->addItem(new QGraphicsPathItem(_lastLine->path()));
     _lastPressPoint.setX(newX);
     _lastPressPoint.setY(newY);
 }

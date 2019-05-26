@@ -54,9 +54,10 @@ class PBCPlayView : public PBCGridIronView {
 
     bool _routeEditMode = false;
     PBCPlayerSP _routePlayer;
-    QGraphicsLineItem* _lastLine;
+    QGraphicsPathItem* _lastLine;
     QPointF _routeStartPos;
     QPointF _lastPressPoint;
+    QPointF _lastControlPoint;
     std::vector<PBCPathSP> _paths;
 };
 
