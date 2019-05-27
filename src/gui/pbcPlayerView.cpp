@@ -22,6 +22,7 @@
 #include "pbcPlayerView.h"
 
 #include "models/pbcPlaybook.h"
+#include "util/pbcDeclarations.h"
 #include "QBrush"
 #include "QMenu"
 #include "util/pbcPositionTranslator.h"
@@ -34,6 +35,7 @@
 #include "dialogs/pbcCreateMotionRouteDialog.h"
 #include <QColorDialog>
 #include <QInputDialog>
+#include <QGraphicsPathItem>
 #include <iostream>
 
 /**
@@ -116,6 +118,8 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
         PBCDPoint endPointPixel = PBCPositionTranslator::getInstance()->translatePos(endPointYd, basePoint); //NOLINT
         unsigned int endPointX = endPointPixel.get<0>();
         unsigned int endPointY = endPointPixel.get<1>();
+
+
         if(path->isArc() == true) {
             PBCDPoint lastYd = PBCPositionTranslator::getInstance()->retranslatePos(PBCDPoint(lastX, lastY), basePoint);  //NOLINT
             PBCDPoint lastToEndPointYd(endPointYd.get<0>() - lastYd.get<0>(),
@@ -175,14 +179,23 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
             lastX = motionArc.currentPosition().x();
             lastY = motionArc.currentPosition().y();
         } else {
-            boost::shared_ptr<QGraphicsLineItem> lineSP(
-                        new QGraphicsLineItem(lastX,
-                                              lastY,
-                                              endPointX,
-                                              endPointY));
+            QPainterPath painterPath;
+            painterPath.moveTo(lastX, lastY);
+            if (path->bezierControlPoint().get<0>() == DUMMY_POINT.get<0>()) {
+                painterPath.lineTo(endPointX, endPointY);
+            } else {
+                PBCDPoint controlPointYd(inOutFactor * path->bezierControlPoint().get<0>(),
+                                         path->bezierControlPoint().get<1>());
+                PBCDPoint controlPointPixel = PBCPositionTranslator::getInstance()->translatePos(controlPointYd, basePoint); //NOLINT
+                unsigned int controlPointX = controlPointPixel.get<0>();
+                unsigned int controlPointY = controlPointPixel.get<1>();
 
-            lineSP->setPen(pen);
-            graphicItems->push_back(lineSP);
+                painterPath.quadTo(QPointF(controlPointX,controlPointY), QPointF(endPointX, endPointY));
+            }
+
+            boost::shared_ptr<QGraphicsPathItem> itemSP(new QGraphicsPathItem(painterPath));
+            itemSP->setPen(pen);
+            graphicItems->push_back(itemSP);
             lastX = endPointX;
             lastY = endPointY;
         }

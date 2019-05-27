@@ -40,6 +40,10 @@ PBCDPoint PBCPath::endpoint() const {
     return _endpoint;
 }
 
+PBCDPoint PBCPath::bezierControlPoint() const {
+    return _bezierControlPoint;
+}
+
 /**
  * @brief Determines whether the path is straight or an arc
  * @return true if the path is an arc, false if the path is straight
@@ -63,8 +67,9 @@ bool PBCPath::isConcave() const {
  * @param arc true if the path should be an arc, false if it should be straigt
  * @param concave true if the arc path should be concave, false if it should be convex
  */
-PBCPath::PBCPath(PBCDPoint endpoint, bool arc, bool concave) :
+PBCPath::PBCPath(PBCDPoint endpoint, bool arc, bool concave, PBCDPoint controlPoint) :
     _endpoint(endpoint),
+    _bezierControlPoint(controlPoint),
     _arc(arc),
     _concave(concave) {}
 
@@ -75,7 +80,8 @@ PBCPath::PBCPath(PBCDPoint endpoint, bool arc, bool concave) :
  * @param arc true if the path should be an arc, false if it should be straigt
  * @param concave concave true if the arc path should be concave, false if it should be convex
  */
-PBCPath::PBCPath(double endpointX, double endpointY, bool arc, bool concave) :
+PBCPath::PBCPath(double endpointX, double endpointY, bool arc, bool concave, double controlX, double controlY) :
     _endpoint(PBCDPoint(endpointX, endpointY)),
+    _bezierControlPoint(PBCDPoint(controlX, controlY)),
     _arc(arc),
     _concave(concave) {}

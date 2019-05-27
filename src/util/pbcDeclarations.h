@@ -30,12 +30,14 @@
 #include <utility>
 #include <string>
 #include <list>
+#include <limits>
 
 using boost::geometry::model::point;
 /**
  * @brief PBCDPoint is a 2D point consisting of two coordinates of type double
  */
 typedef point<double, 2, boost::geometry::cs::cartesian> PBCDPoint;
+const PBCDPoint DUMMY_POINT(std::numeric_limits<double>::min(), std::numeric_limits<double>::min());
 
 template<typename T> using PBCModelMap = std::map<std::string, T>;
 

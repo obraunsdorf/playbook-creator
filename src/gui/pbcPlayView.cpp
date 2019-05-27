@@ -45,6 +45,8 @@
 PBCPlayView::PBCPlayView(PBCPlaySP playSP, QObject *parent) :
     PBCGridIronView(parent),
     _currentPlay(playSP) {
+    _lastControlPoint.setX(DUMMY_POINT.get<0>());
+    _lastControlPoint.setY(DUMMY_POINT.get<1>());
     repaint();
 }
 
@@ -278,12 +280,29 @@ void PBCPlayView::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
     if(playerPos.get<0>() < PBCConfig::getInstance()->canvasWidth() / 2) {
         inOutFactor = 1;
     }
+
     PBCDPoint pathPoint =
             PBCPositionTranslator::getInstance()->retranslatePos(
                     PBCDPoint(newX,newY),
                     PBCDPoint(_routeStartPos.x(), _routeStartPos.y()));  // NOLINT
     PBCDPoint inOut_corrected_pathPoint(pathPoint.get<0>()*inOutFactor, pathPoint.get<1>());
-    _paths.push_back(PBCPathSP(new PBCPath(inOut_corrected_pathPoint)));
+
+
+    if (_lastControlPoint.x() != DUMMY_POINT.get<0>() && _lastControlPoint.x() != DUMMY_POINT.get<0>()) {
+        PBCDPoint pathControlPoint =
+                PBCPositionTranslator::getInstance()->retranslatePos(
+                        PBCDPoint(_lastControlPoint.x(),_lastControlPoint.y()),
+                        PBCDPoint(_routeStartPos.x(), _routeStartPos.y()));  // NOLINT
+        PBCDPoint inOut_corrected_pathControlPoint(pathControlPoint.get<0>()*inOutFactor, pathControlPoint.get<1>());
+        _lastControlPoint.setX(DUMMY_POINT.get<0>());
+        _lastControlPoint.setY(DUMMY_POINT.get<1>());
+
+        _paths.push_back(PBCPathSP(new PBCPath(inOut_corrected_pathPoint, false, false, inOut_corrected_pathControlPoint)));
+    } else {
+        _paths.push_back(PBCPathSP(new PBCPath(inOut_corrected_pathPoint)));
+    }
+
+
     this->addItem(new QGraphicsPathItem(_lastLine->path()));
     _lastPressPoint.setX(newX);
     _lastPressPoint.setY(newY);
