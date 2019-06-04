@@ -375,15 +375,8 @@ void MainDialog::exportAsPDF() {
             assert(files.size() == 1);
             QString fileName = files.first();
 
-            std::list<boost::shared_ptr<PBCPlayView>> playViews;
-            for(QString playName : *playListSP) {
-                PBCPlaySP playSP = PBCPlaybook::getInstance()->getPlay(playName.toStdString()); //NOLINT
-                boost::shared_ptr<PBCPlayView> playViewSP(new PBCPlayView(playSP));  //NOLINT
-                playViews.push_back(playViewSP);
-            }
-
             PBCStorage::getInstance()->exportAsPDF(fileName.toStdString(),
-                                                   playViews,
+                                                   playListSP,
                                                    returnStruct->paperWidth,
                                                    returnStruct->paperHeight,
                                                    returnStruct->columns,

@@ -69,7 +69,7 @@ friend class PBCSingleton<PBCStorage>;
     void exportPlay(const std::string& fileName, PBCPlaySP play);
     void importPlay(const std::string& fileName, PBCPlaySP play);
     void exportAsPDF(const std::string& fileName,
-                     std::list<boost::shared_ptr<PBCPlayView>> playViews,
+                     boost::shared_ptr<QStringList> playListSP,
                      const unsigned int paperWidth,
                      const unsigned int paperHeight,
                      const unsigned int columns,

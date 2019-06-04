@@ -273,7 +273,7 @@ void PBCStorage::loadPlaybook(const std::string &password,
  * @param marginBottom The margin from the bottom
  */
 void PBCStorage::exportAsPDF(const std::string& fileName,
-                             std::list<boost::shared_ptr<PBCPlayView>> playViews,  //NOLINT
+                             boost::shared_ptr<QStringList> playListSP,  //NOLINT
                              const unsigned int paperWidth,
                              const unsigned int paperHeight,
                              const unsigned int columns,
@@ -329,11 +329,19 @@ void PBCStorage::exportAsPDF(const std::string& fileName,
     }
 
 
+
     unsigned int x = 0;
     unsigned int y = 0;
     unsigned int columnCount = 1;
     unsigned int rowCount = 1;
-    for(boost::shared_ptr<PBCPlayView> playViewSP : playViews) {
+
+    unsigned int old_width = PBCConfig::getInstance()->canvasWidth();
+    unsigned int old_height = PBCConfig::getInstance()->canvasHeight();
+    PBCConfig::getInstance()->setCanvasSize(playSize.width(), playSize.height());
+
+    for(QString playName : *playListSP) {
+        PBCPlaySP playSP = PBCPlaybook::getInstance()->getPlay(playName.toStdString()); //NOLINT
+        boost::shared_ptr<PBCPlayView> playViewSP(new PBCPlayView(playSP));  //NOLINT
         playViewSP->render(&painter,
                            QRectF(QPointF(x + *pixelMarginLeftSP, y + *pixelMarginTopSP), playSize),  //NOLINT
                            QRectF(),
@@ -356,4 +364,6 @@ void PBCStorage::exportAsPDF(const std::string& fileName,
             y = 0;
         }
     }
+
+    PBCConfig::getInstance()->setCanvasSize(old_width, old_height);
 }
