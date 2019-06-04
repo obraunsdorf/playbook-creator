@@ -48,7 +48,6 @@ friend class boost::serialization::access;
 
     template<class Archive>
     void load(Archive& ar, const unsigned int version) {  //NOLINT
-        assert(version == 0);
         double x;
         double y;
         double cx = DUMMY_POINT.get<0>();
