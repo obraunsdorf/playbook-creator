@@ -56,7 +56,7 @@ void PBCGridIronView::paintLine(unsigned int yPos,
                                 PBCColor color) {
     QPen pen(QColor(color.r(), color.g(), color.b()));
     pen.setWidth(lineWidth);
-    this->addLine(0, yPos, width - pen.width(), yPos, pen);
+    this->addLine(0+lineWidth/2, yPos, width-lineWidth/2, yPos, pen);
 }
 
 
