@@ -91,19 +91,19 @@ void PBCPlaybook::resetToNewEmptyPlaybook(const std::string &name,
 
     formation->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Quarterback", "QB"},
                                                    PBCColor(),
-                                                   PBCDPoint(0, -1))));
+                                                   PBCDPoint(0, -1.5))));
 
     formation->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Wide Receiver Left", "WRL"},  // NOLINT
                                                    PBCColor(),
-                                                   PBCDPoint(-15, 0))));
+                                                   PBCDPoint(-10, 0))));
 
     formation->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Wide Receiver Right", "WRR"}, // NOLINT
                                                    PBCColor(),
-                                                   PBCDPoint(15, 0))));
+                                                   PBCDPoint(10, 0))));
 
     formation->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Halfback", "HB"},
                                                    PBCColor(),
-                                                   PBCDPoint(7.5, 0))));
+                                                   PBCDPoint(5, 0))));
 
     if (playerNumber >= 7) {
         formation->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Left Guard", "LG"}, // NOLINT
