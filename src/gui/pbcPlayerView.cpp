@@ -65,14 +65,21 @@ void PBCPlayerView::repaint() {
     unsigned int playerWidth = PBCConfig::getInstance()->playerWidth();
     double playerPosX = _originalPos.get<0>() - playerWidth / 2;
     double playerPosY = _originalPos.get<1>();
-    _playerEllipseSP.reset(new QGraphicsEllipseItem(playerPosX,
-                                                    playerPosY,
-                                                    playerWidth,
-                                                    playerWidth));
+    if (_playerSP->role().fullName == "Center") {
+        _playerShapeSP.reset(new QGraphicsRectItem(playerPosX,
+                                                   playerPosY,
+                                                   playerWidth,
+                                                   playerWidth));
+    } else {
+        _playerShapeSP.reset(new QGraphicsEllipseItem(playerPosX,
+                                                      playerPosY,
+                                                      playerWidth,
+                                                      playerWidth));
+    }
 
     PBCColor color = _playerSP->color();
-    _playerEllipseSP->setBrush(QBrush(QColor(color.r(), color.g(), color.b())));
-    this->addToGroup(_playerEllipseSP.get());
+    _playerShapeSP->setBrush(QBrush(QColor(color.r(), color.g(), color.b())));
+    this->addToGroup(_playerShapeSP.get());
     this->setFlag(QGraphicsItem::ItemIsMovable);
 
     if(_playerSP->motion() != NULL) {

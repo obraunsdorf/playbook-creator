@@ -43,7 +43,7 @@ class PBCPlayerView : public QObject, public QGraphicsItemGroup {
     PBCPlayerSP _playerSP;
     PBCPlayView* _playView;
     PBCDPoint _originalPos;
-    boost::shared_ptr<QGraphicsEllipseItem> _playerEllipseSP;
+    boost::shared_ptr<QAbstractGraphicsShapeItem> _playerShapeSP;
     std::vector<boost::shared_ptr<QGraphicsItem>> _routePaths;
     std::vector<boost::shared_ptr<QGraphicsItem>> _motionPaths;
 

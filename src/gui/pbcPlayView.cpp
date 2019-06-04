@@ -86,8 +86,14 @@ void PBCPlayView::repaint() {
               PBCConfig::getInstance()->fiveYdWidth(),
               PBCConfig::getInstance()->fiveYdColor());
 
-    paintBall(PBCConfig::getInstance()->canvasWidth() / 2,
-              PBCConfig::getInstance()->losY());
+    paintLine(PBCConfig::getInstance()->tenYdY(),
+              PBCConfig::getInstance()->canvasWidth(),
+              PBCConfig::getInstance()->fiveYdWidth(),
+              PBCConfig::getInstance()->fiveYdColor());
+
+
+    /*paintBall(PBCConfig::getInstance()->canvasWidth() / 2,
+              PBCConfig::getInstance()->losY());*/
 
     paintBorder();
 
