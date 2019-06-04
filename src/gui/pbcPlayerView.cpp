@@ -396,3 +396,8 @@ void PBCPlayerView::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
     std::cout << "----------------------------------" << std::endl;
     _playerSP->setPos(newPos);
 }
+
+
+void PBCPlayerView::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
+    _playView->enterRouteEditMode(this->_playerSP);
+}

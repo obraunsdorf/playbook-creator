@@ -269,7 +269,7 @@ void PBCPlayView::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
  * @param event Contains mouse event data (the position of the mouse)
  */
 void PBCPlayView::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
-    if (_routeEditMode == false) {
+    if (_routeEditMode == false || _lastLine == NULL) {
         return PBCGridIronView::mouseReleaseEvent(event);
     }
     unsigned int newX = _lastLine->path().currentPosition().x();
