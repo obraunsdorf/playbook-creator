@@ -34,6 +34,7 @@ private:
     bool _initialized;
     unsigned int _minWidth;
     unsigned int _minHeight;
+    double _fieldWidth;
     unsigned int _minPlayerWidth;
     double _playerShapeContourRatio;
     bool _playerShadow;
@@ -61,6 +62,7 @@ protected:
             _initialized(false),
             _minWidth(20),
             _minHeight(20),
+            _fieldWidth(25), // yard
             _losColor(128U, 128U, 128U),
             _losWidthYd(0.3),
             _losYFactor(0.6),
@@ -82,8 +84,9 @@ protected:
 public:
     void setCanvasSize(unsigned int canvasWidth, unsigned int canvasHeight) {
         _initialized = true;
-        _canvasWidth = canvasWidth;
         _canvasHeight = canvasHeight;
+        _canvasWidth = _fieldWidth * ydInPixel();
+        //_canvasWidth = canvasWidth;
     }
 
     unsigned int canvasWidth() {
