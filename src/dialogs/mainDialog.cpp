@@ -71,7 +71,7 @@ MainDialog::MainDialog(QWidget *parent) :
  * @brief shows the main window graphically at application startup
  */
 void MainDialog::show() {
-    QMainWindow::show();
+    QMainWindow::showMaximized();
 
     unsigned int width = ui->graphicsView->width();
     unsigned int height = ui->graphicsView->height();
