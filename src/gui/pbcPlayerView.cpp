@@ -36,6 +36,7 @@
 #include <QColorDialog>
 #include <QInputDialog>
 #include <QGraphicsPathItem>
+#include <QGraphicsDropShadowEffect>
 #include <iostream>
 
 /**
@@ -87,6 +88,12 @@ void PBCPlayerView::repaint() {
     }
     if(_playerSP->route() != NULL) {
         applyRoute(_playerSP->route());
+    }
+
+    if (PBCConfig::getInstance()->playerShadow()) {
+        QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect();
+        shadow->setBlurRadius(PBCConfig::getInstance()->playerShadowRadius());
+        setGraphicsEffect(shadow);
     }
 }
 

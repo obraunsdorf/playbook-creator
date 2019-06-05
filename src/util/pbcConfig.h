@@ -35,9 +35,6 @@ private:
     unsigned int _minWidth;
     unsigned int _minHeight;
     double _fieldWidth;
-    unsigned int _minPlayerWidth;
-    double _playerShapeContourRatio;
-    bool _playerShadow;
     PBCColor _losColor;
     double _losWidthYd;
     double _losYFactor;
@@ -51,6 +48,8 @@ private:
     double _playNameSizeYd;
     double _playerWidthYd;
     double _routeWidthYd;
+    bool _playerShadow;
+    unsigned int _playerShadowRadius;
 
 
     unsigned int _canvasWidth;
@@ -75,6 +74,8 @@ protected:
             _playNameColor(128U, 128U, 128U),
             _playNameSizeYd(2.5),
             _playerWidthYd(1),
+            _playerShadow(true),
+            _playerShadowRadius(20),
             _routeWidthYd(0.4),
             _canvasWidth(200),
             _canvasHeight(200) {
@@ -162,6 +163,14 @@ public:
 
     unsigned int routeWidth() {
         return _routeWidthYd * ydInPixel();
+    }
+
+    bool playerShadow() {
+        return _playerShadow;
+    }
+
+    unsigned int playerShadowRadius() {
+        return _playerShadowRadius;
     }
 };
 
