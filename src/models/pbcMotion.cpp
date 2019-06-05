@@ -33,7 +33,11 @@
 /**
  * @brief The default constructor. Creates an empty motion.
  */
-PBCMotion::PBCMotion() : _motionEndPoint(0, 0) {
+PBCMotion::PBCMotion(const std::vector<PBCPathSP>& paths) :
+    _motionEndPoint(0, 0) {
+    for (PBCPathSP path : paths) {
+        this->addPath(path);
+    }
 }
 
 /**
@@ -41,9 +45,9 @@ PBCMotion::PBCMotion() : _motionEndPoint(0, 0) {
  * @param pathSP The path to add
  */
 void PBCMotion::addPath(const PBCPathSP& pathSP) {
-    if(pathSP->endpoint().get<1>() > _motionEndPoint.get<1>()) {
+    /*if(pathSP->endpoint().get<1>() > _motionEndPoint.get<1>()) {
         throw PBCRuleBreakException("A motion cannot go towards the LOS.");
-    }
+    }*/
     PBCAbstractMovement::addPath(pathSP);
     _motionEndPoint = pathSP->endpoint();
 }

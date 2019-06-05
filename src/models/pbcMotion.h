@@ -62,7 +62,7 @@ friend class boost::serialization::access;
     BOOST_SERIALIZATION_SPLIT_MEMBER()
 
  public:
-    PBCMotion();
+    PBCMotion(const std::vector<PBCPathSP>& paths =  std::vector<PBCPathSP>());
     void addPath(const PBCPathSP& pathSP);
     PBCDPoint motionEndPoint() const;
 };

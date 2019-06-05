@@ -30,6 +30,7 @@
 #include <QApplication>
 
 #include <string>
+#include <iostream>
 
 /**
  * @class PBCPlayView
@@ -200,6 +201,32 @@ void PBCPlayView::editCategories() {
     showPlay(originalPlay->name());
 }
 
+void debug_point(PBCDPoint point, const std::string msg) {
+    std::cout << msg << " " << "x: " << point.get<0>() << " y: " << point.get<1>() << std::endl;
+}
+
+
+PBCDPoint playerPos_AfterMotion_inPixel(const PBCPlayerSP &playerSP) {
+    int inOutFactor = -1;
+    PBCDPoint playerPos = PBCPositionTranslator::getInstance()->translatePos(playerSP->pos());
+    //debug_point(playerPos, "playerPos");
+    if(playerPos.get<0>() < PBCConfig::getInstance()->canvasWidth() / 2) {
+        inOutFactor = 1;
+    }
+
+    PBCDPoint afterMotionPos;
+    PBCMotionSP motionSP = playerSP->motion();
+    if (motionSP != NULL) {
+        PBCDPoint afterMotionPos_inYd = PBCDPoint(playerSP->pos().get<0>() + inOutFactor*motionSP->motionEndPoint().get<0>(),
+                                                  playerSP->pos().get<1>() + motionSP->motionEndPoint().get<1>());
+        //debug_point(afterMotionPos_inYd, "afterMotion in Yd");
+        afterMotionPos = PBCPositionTranslator::translatePos(afterMotionPos_inYd);
+    } else {
+        afterMotionPos = playerPos;
+    }
+
+    return afterMotionPos;
+}
 
 void PBCPlayView::enterRouteEditMode(PBCPlayerSP playerSP) {
     _routeEditMode = true;
@@ -212,6 +239,28 @@ void PBCPlayView::enterRouteEditMode(PBCPlayerSP playerSP) {
     _routePlayer->setRoute(emptyRoute);
     repaint();
 
+    PBCDPoint afterMotionPos = playerPos_AfterMotion_inPixel(_routePlayer);
+
+    QPointF startPoint(afterMotionPos.get<0>(), afterMotionPos.get<1>());
+    _routeStartPos = startPoint;
+    _lastPressPoint = _routeStartPos;
+
+}
+
+
+void PBCPlayView::enterMotionEditMode(PBCPlayerSP playerSP) {
+    _motionEditMode = true;
+    _lastLine = NULL;
+    _paths.clear();
+    _routePlayer = playerSP;
+
+    std::vector<PBCPathSP> emptyRoutePaths;
+    PBCMotionSP emptyMotion(new PBCMotion(emptyRoutePaths));
+    PBCRouteSP emptyRoute = PBCRouteSP(new PBCRoute("empty", "", emptyRoutePaths));
+    _routePlayer->setRoute(emptyRoute);
+    _routePlayer->setMotion(emptyMotion);
+    repaint();
+
     PBCDPoint translatedPos = PBCPositionTranslator::translatePos(_routePlayer->pos());
     QPointF startPoint(translatedPos.get<0>(), translatedPos.get<1>());
     _routeStartPos = startPoint;
@@ -219,8 +268,9 @@ void PBCPlayView::enterRouteEditMode(PBCPlayerSP playerSP) {
 
 }
 
-void PBCPlayView::leaveRouteEditMode() {
+void PBCPlayView::leaveRouteMotionEditMode() {
     _routeEditMode = false;
+    _motionEditMode = false;
 }
 
 /**
@@ -232,27 +282,24 @@ void PBCPlayView::leaveRouteEditMode() {
  * @param event Contains mouse event data (the position of the mouse)
  */
 void PBCPlayView::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
-    if (_routeEditMode == false) {
+    if (_routeEditMode == false && _motionEditMode == false) {
         return PBCGridIronView::mouseMoveEvent(event);
     }
     unsigned int newX = event->scenePos().x();
     unsigned int newY = event->scenePos().y();
 
     QPainterPath path;
+    path.moveTo(_lastPressPoint);
     //if (event->buttons() & Qt::MouseButton::LeftButton) {
     if (QApplication::keyboardModifiers() & Qt::KeyboardModifier::ControlModifier) {
-        qreal startX = _lastPressPoint.x();
-        qreal startY = _lastPressPoint.y();
         qreal endX = _lastLine->path().currentPosition().x();
         qreal endY = _lastLine->path().currentPosition().y();
 
         this->removeItem(_lastLine);
-        path.moveTo(startX, startY);
         path.quadTo(QPointF(newX,newY), QPointF(endX, endY));
         _lastControlPoint.setX(newX);
         _lastControlPoint.setY(newY);
     } else {
-        path.moveTo(_lastPressPoint.x(), _lastPressPoint.y());
         path.lineTo(newX, newY);
         if(_lastLine != NULL) {
             this->removeItem(_lastLine);
@@ -275,17 +322,24 @@ void PBCPlayView::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
  * @param event Contains mouse event data (the position of the mouse)
  */
 void PBCPlayView::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
-    if (_routeEditMode == false || _lastLine == NULL) {
+    if ((_routeEditMode == false && _motionEditMode == false) || _lastLine == NULL) {
         return PBCGridIronView::mouseReleaseEvent(event);
     }
     unsigned int newX = _lastLine->path().currentPosition().x();
     unsigned int newY = _lastLine->path().currentPosition().y();
 
-    int inOutFactor = -1;
-    PBCDPoint playerPos = PBCPositionTranslator::getInstance()->translatePos(_routePlayer->pos());
+    /*int inOutFactor = -1;
+    PBCDPoint playerPos = playerPos_AfterMotion_inPixel(_routePlayer);
     if(playerPos.get<0>() < PBCConfig::getInstance()->canvasWidth() / 2) {
         inOutFactor = 1;
+    }*/
+
+    int inOutFactor = -1;
+    PBCDPoint afterMotionPos = playerPos_AfterMotion_inPixel(_routePlayer);
+    if(afterMotionPos.get<0>() < PBCConfig::getInstance()->canvasWidth() / 2) {
+        inOutFactor = 1;
     }
+
 
     PBCDPoint pathPoint =
             PBCPositionTranslator::getInstance()->retranslatePos(
@@ -315,14 +369,21 @@ void PBCPlayView::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
 }
 
 void PBCPlayView::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
-    if (_routeEditMode == false) {
-        return PBCGridIronView::mouseDoubleClickEvent(event);
+    if (_routeEditMode == true) {
+        assert(_routePlayer);
+        PBCRouteSP route(new PBCRoute("_TEMP_", "", _paths));
+        _routePlayer->setRoute(route);
+        leaveRouteMotionEditMode();
+        repaint();
+    } else if (_motionEditMode == true) {
+        assert(_routePlayer);
+        PBCMotionSP motion(new PBCMotion(_paths));
+        _routePlayer->setMotion(motion);
+        leaveRouteMotionEditMode();
+        repaint();
+    } else {
+        PBCGridIronView::mouseDoubleClickEvent(event);
     }
-    leaveRouteEditMode();
-    PBCRouteSP route(new PBCRoute("_TEMP_", "", _paths));
-    assert(_routePlayer);
-    _routePlayer->setRoute(route);
-    repaint();
 }
 
 

@@ -134,7 +134,7 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
         unsigned int endPointY = endPointPixel.get<1>();
 
 
-        if(path->isArc() == true) {
+        /*if(path->isArc() == true) {
             PBCDPoint lastYd = PBCPositionTranslator::getInstance()->retranslatePos(PBCDPoint(lastX, lastY), basePoint);  //NOLINT
             PBCDPoint lastToEndPointYd(endPointYd.get<0>() - lastYd.get<0>(),
                                        endPointYd.get<1>() - lastYd.get<1>());
@@ -192,27 +192,29 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
             graphicItems->push_back(motionPathSP);
             lastX = motionArc.currentPosition().x();
             lastY = motionArc.currentPosition().y();
+        }*/
+
+
+        QPainterPath painterPath;
+        painterPath.moveTo(lastX, lastY);
+        if (path->bezierControlPoint().get<0>() == DUMMY_POINT.get<0>()) {
+            painterPath.lineTo(endPointX, endPointY);
         } else {
-            QPainterPath painterPath;
-            painterPath.moveTo(lastX, lastY);
-            if (path->bezierControlPoint().get<0>() == DUMMY_POINT.get<0>()) {
-                painterPath.lineTo(endPointX, endPointY);
-            } else {
-                PBCDPoint controlPointYd(inOutFactor * path->bezierControlPoint().get<0>(),
-                                         path->bezierControlPoint().get<1>());
-                PBCDPoint controlPointPixel = PBCPositionTranslator::getInstance()->translatePos(controlPointYd, basePoint); //NOLINT
-                unsigned int controlPointX = controlPointPixel.get<0>();
-                unsigned int controlPointY = controlPointPixel.get<1>();
+            PBCDPoint controlPointYd(inOutFactor * path->bezierControlPoint().get<0>(),
+                                     path->bezierControlPoint().get<1>());
+            PBCDPoint controlPointPixel = PBCPositionTranslator::getInstance()->translatePos(controlPointYd, basePoint); //NOLINT
+            unsigned int controlPointX = controlPointPixel.get<0>();
+            unsigned int controlPointY = controlPointPixel.get<1>();
 
-                painterPath.quadTo(QPointF(controlPointX,controlPointY), QPointF(endPointX, endPointY));
-            }
-
-            boost::shared_ptr<QGraphicsPathItem> itemSP(new QGraphicsPathItem(painterPath));
-            itemSP->setPen(pen);
-            graphicItems->push_back(itemSP);
-            lastX = endPointX;
-            lastY = endPointY;
+            painterPath.quadTo(QPointF(controlPointX,controlPointY), QPointF(endPointX, endPointY));
         }
+
+        boost::shared_ptr<QGraphicsPathItem> itemSP(new QGraphicsPathItem(painterPath));
+        itemSP->setPen(pen);
+        graphicItems->push_back(itemSP);
+        lastX = endPointX;
+        lastY = endPointY;
+
     }
 }
 
@@ -353,11 +355,12 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
                 this->applyRoute(createdRoute);
             }
         } else if(clicked == action_ApplyMotion) {
-            PBCCreateMotionRouteDialog dialog;
+            /*PBCCreateMotionRouteDialog dialog;
             PBCMotionSP createdMotion = dialog.getCreatedMotion();
             if(createdMotion != NULL) {
                 this->applyMotion(createdMotion);
-            }
+            }*/
+            _playView->enterMotionEditMode(this->_playerSP);
         } else if(clicked == action_SetColor) {
             QColor color = QColorDialog::getColor(Qt::black);
             if(color.isValid()) {

@@ -44,7 +44,8 @@ class PBCPlayView : public PBCGridIronView {
     void editCategories();
 
     void enterRouteEditMode(PBCPlayerSP playerSP);
-    void leaveRouteEditMode();
+    void enterMotionEditMode(PBCPlayerSP playerSP);
+    void leaveRouteMotionEditMode();
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
@@ -53,6 +54,7 @@ class PBCPlayView : public PBCGridIronView {
     PBCPlaySP _currentPlay;
 
     bool _routeEditMode = false;
+    bool _motionEditMode = false;
     PBCPlayerSP _routePlayer;
     QGraphicsPathItem* _lastLine;
     QPointF _routeStartPos;
