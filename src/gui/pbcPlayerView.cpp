@@ -93,6 +93,7 @@ void PBCPlayerView::repaint() {
     if (PBCConfig::getInstance()->playerShadow()) {
         QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect();
         shadow->setBlurRadius(PBCConfig::getInstance()->playerShadowRadius());
+        shadow->setOffset(PBCConfig::getInstance()->playerShadowOffset());
         setGraphicsEffect(shadow);
     }
 }

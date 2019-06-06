@@ -49,7 +49,8 @@ private:
     double _playerWidthYd;
     double _routeWidthYd;
     bool _playerShadow;
-    unsigned int _playerShadowRadius;
+    double _playerShadowRadius;
+    double _playerShadowOffsetFactor;
 
 
     unsigned int _canvasWidth;
@@ -76,6 +77,7 @@ protected:
             _playerWidthYd(1),
             _playerShadow(true),
             _playerShadowRadius(20),
+            _playerShadowOffsetFactor(0.25),
             _routeWidthYd(0.4),
             _canvasWidth(200),
             _canvasHeight(200) {
@@ -169,8 +171,12 @@ public:
         return _playerShadow;
     }
 
-    unsigned int playerShadowRadius() {
+    double playerShadowRadius() {
         return _playerShadowRadius;
+    }
+
+    double playerShadowOffset() {
+        return _playerShadowOffsetFactor * playerWidth();
     }
 };
 
