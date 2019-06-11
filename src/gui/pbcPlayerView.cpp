@@ -137,67 +137,6 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
         unsigned int endPointX = endPointPixel.get<0>();
         unsigned int endPointY = endPointPixel.get<1>();
 
-
-        /*if(path->isArc() == true) {
-            PBCDPoint lastYd = PBCPositionTranslator::getInstance()->retranslatePos(PBCDPoint(lastX, lastY), basePoint);  //NOLINT
-            PBCDPoint lastToEndPointYd(endPointYd.get<0>() - lastYd.get<0>(),
-                                       endPointYd.get<1>() - lastYd.get<1>());
-            PBCDPoint topleftYd;
-            PBCDPoint bottomrightYd;
-            unsigned int startAngle;
-            int arcLength;
-            if(path->isConcave() == false) {
-                // motion is concave
-                topleftYd =     PBCDPoint(-1 * lastToEndPointYd.get<0>(),
-                                          2 * lastToEndPointYd.get<1>());
-                bottomrightYd = PBCDPoint(lastToEndPointYd.get<0>(),
-                                          0);
-                startAngle = 270;
-                arcLength = 90;
-            } else {
-                // motion is convex
-                if(endPointX > baseX) {
-                    // motion to the right
-                    topleftYd =     PBCDPoint(0,
-                                              -1 * lastToEndPointYd.get<1>());
-                    bottomrightYd = PBCDPoint(2 * lastToEndPointYd.get<0>(),
-                                              lastToEndPointYd.get<1>());
-                    startAngle = 180;
-                    arcLength = 90;
-
-                } else if(endPointX < baseX) {
-                    // motion to the left
-                    topleftYd =     PBCDPoint(2 * lastToEndPointYd.get<0>(),
-                                              -1 * lastToEndPointYd.get<1>());
-                    bottomrightYd = PBCDPoint(0,
-                                              lastToEndPointYd.get<1>());
-                    startAngle = 0;
-                    arcLength = -90;
-
-                } else {
-                    // TODO(obr): message to user: no strait motions
-                    assert(false);
-                }
-            }
-            PBCDPoint topleftPixel = PBCPositionTranslator::getInstance()->translatePos(topleftYd, PBCDPoint(lastX, lastY)); //NOLINT
-            PBCDPoint bottomrightPixel = PBCPositionTranslator::getInstance()->translatePos(bottomrightYd, PBCDPoint(lastX, lastY)); //NOLINT
-            QPointF topleft(topleftPixel.get<0>(),
-                            topleftPixel.get<1>());
-            QPointF bottomright(bottomrightPixel.get<0>(),
-                                bottomrightPixel.get<1>());
-            QRectF arcRect(topleft, bottomright);
-            QPainterPath motionArc(QPointF(topleft.x(), topleft.y()));
-            motionArc.arcMoveTo(arcRect, startAngle);
-            motionArc.arcTo(arcRect, startAngle, arcLength);
-            boost::shared_ptr<QGraphicsPathItem> motionPathSP(
-                        new QGraphicsPathItem(motionArc, this));
-
-            motionPathSP->setPen(pen);
-            graphicItems->push_back(motionPathSP);
-            lastX = motionArc.currentPosition().x();
-            lastY = motionArc.currentPosition().y();
-        }*/
-
         QPainterPath painterPath;
         painterPath.moveTo(lastX, lastY);
 
