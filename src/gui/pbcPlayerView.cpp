@@ -113,9 +113,12 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
                               std::vector<QGraphicsItemSP>* graphicItems,
                               PBCDPoint basePoint) {
     assert(graphicItems == &_routePaths || graphicItems == &_motionPaths);
+    if (paths.empty()) {
+        return;
+    }
     PBCColor color = _playerSP->color();
-    QPen pen(QBrush((QColor(color.r(), color.g(), color.b()))),
-             PBCConfig::getInstance()->routeWidth());
+    QBrush brush(QColor(color.r(), color.g(), color.b()));
+    QPen pen(brush, PBCConfig::getInstance()->routeWidth(), Qt::PenStyle::SolidLine, Qt::PenCapStyle::RoundCap, Qt::PenJoinStyle::RoundJoin);
     if(graphicItems == &_motionPaths) {
         pen.setStyle(Qt::DashLine);
     }
@@ -195,9 +198,38 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
             lastY = motionArc.currentPosition().y();
         }*/
 
-
         QPainterPath painterPath;
         painterPath.moveTo(lastX, lastY);
+
+
+        if (path == paths.back()) {
+            // last path => paint arrow!
+            // arrow head
+            double angle = std::atan2(endPointY-lastY, -(endPointX-lastX));
+
+            double routeWidth = PBCConfig::getInstance()->routeWidth();
+            double arrowSize = routeWidth*2;
+            QPointF arrowP1 = QPointF(endPointX, endPointY) + QPointF(sin(angle + M_PI / 3) * arrowSize,
+                                                              cos(angle + M_PI / 3) * arrowSize);
+            QPointF arrowP2 = QPointF(endPointX, endPointY) + QPointF(sin(angle + M_PI - M_PI / 3) * arrowSize,
+                                                              cos(angle + M_PI - M_PI / 3) * arrowSize);
+
+            QPointF arrowPHalf = arrowP1 + (arrowP2-arrowP1)/2;
+
+            // PBCPathViewArrow Head - Polygon Variante
+            QPointF endPoint(endPointX, endPointY);
+            QVector<QPointF> pointVector = {endPoint, arrowP1, arrowP2};
+            QPolygonF arrowHead(pointVector);
+            boost::shared_ptr<QGraphicsPolygonItem> arrowItem(new QGraphicsPolygonItem(arrowHead));
+            QPen arrowPen(brush, routeWidth/4);
+            arrowItem->setPen(arrowPen);
+            arrowItem->setBrush(brush);
+            graphicItems->push_back(arrowItem);
+
+            endPointX = arrowPHalf.x();
+            endPointY = arrowPHalf.y();
+        }
+
         if (path->bezierControlPoint().get<0>() == DUMMY_POINT.get<0>()) {
             painterPath.lineTo(endPointX, endPointY);
         } else {
@@ -210,12 +242,13 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
             painterPath.quadTo(QPointF(controlPointX,controlPointY), QPointF(endPointX, endPointY));
         }
 
+
+
         boost::shared_ptr<QGraphicsPathItem> itemSP(new QGraphicsPathItem(painterPath));
         itemSP->setPen(pen);
         graphicItems->push_back(itemSP);
         lastX = endPointX;
         lastY = endPointY;
-
     }
 }
 
