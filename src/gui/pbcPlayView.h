@@ -43,7 +43,12 @@ class PBCPlayView : public PBCGridIronView {
     void saveFormation(const std::string& formationName = "");
     void editCategories();
 
-    void enterRouteEditMode(PBCPlayerSP playerSP);
+    void savePlaybookOnRouteCreation();
+
+    void enterRouteEditMode(PBCPlayerSP playerSP,
+            const std::string& routeName = "",
+            const std::string& routeCodeName = "",
+            bool overwrite = false);
     void enterMotionEditMode(PBCPlayerSP playerSP);
     void leaveRouteMotionEditMode();
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
@@ -56,6 +61,9 @@ class PBCPlayView : public PBCGridIronView {
     bool _routeEditMode = false;
     bool _motionEditMode = false;
     PBCPlayerSP _routePlayer;
+    std::string _routeName;
+    std::string _routeCodeName;
+    bool _overwrite;
     QGraphicsPathItem* _lastLine;
     QPointF _routeStartPos;
     QPointF _lastPressPoint;

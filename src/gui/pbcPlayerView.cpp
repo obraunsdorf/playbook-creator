@@ -23,6 +23,7 @@
 
 #include "models/pbcPlaybook.h"
 #include "util/pbcDeclarations.h"
+#include "dialogs/pbcSavePlayAsDialog.h"
 #include "QBrush"
 #include "QMenu"
 #include "util/pbcPositionTranslator.h"
@@ -33,6 +34,7 @@
 #include <vector>
 #include <set>
 #include "dialogs/pbcCreateMotionRouteDialog.h"
+#include <QMessageBox>
 #include <QColorDialog>
 #include <QInputDialog>
 #include <QGraphicsPathItem>
@@ -79,6 +81,7 @@ void PBCPlayerView::repaint() {
         _playerShapeSP.reset(new QGraphicsEllipseItem(playerPosX,
                                                       playerPosY,
                                                       playerWidth,
+
                                                       playerWidth));
     }
 
@@ -287,7 +290,7 @@ void PBCPlayerView::setPosition(double x, double y) {
  */
 void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
     QMenu menu;
-    QMenu* routeMenu = menu.addMenu(QString::fromStdString("Apply Route"));
+    QMenu* routeMenu = menu.addMenu(QString::fromStdString("Routes"));
     boost::unordered_map<QAction*, PBCRouteSP> actionMap;
     for(PBCRouteSP route : PBCPlaybook::getInstance()->routes()) {
         QString routeString = QString::fromStdString(route->name());
@@ -301,12 +304,16 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
     }
 
     routeMenu->addSeparator();
-    QAction* action_CustomRouteCreate =
-            routeMenu->addAction("Create custom route");
-    QAction* action_CustomRouteCreate_Graphical =
-            routeMenu->addAction("Create custom route (graphical)");
+    QAction* action_CustomRouteCreate_named =
+            routeMenu->addAction("Create (named) route");
+    QAction* action_CustomRouteCreate_unnamed =
+            routeMenu->addAction("Create route (quick, unnamed)");
 
-    QAction* action_ApplyMotion = menu.addAction("Apply Motion");
+    QMenu* motionMenu = menu.addMenu(QString::fromStdString("Motions"));
+    QAction* action_ApplyMotion = motionMenu->addAction("Apply Motion");
+    QAction* action_DeleteMotion = motionMenu->addAction("Delete Motion");
+
+
     QAction* action_SetColor = menu.addAction("Set Color");
     QAction* action_SetPosition = menu.addAction("Set Position");
     QAction* clicked = menu.exec(event->screenPos());
@@ -321,7 +328,7 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
         }
     }
     if(routeClicked == false) {
-        if(clicked == action_CustomRouteCreate_Graphical) {
+        if(clicked == action_CustomRouteCreate_unnamed) {
             /*PBCCustomRouteDialog dialog;
             dialog.setWindowModality(Qt::ApplicationModal);
             PBCRouteSP createdRoute = dialog.execute();
@@ -329,11 +336,41 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
                 this->applyRoute(createdRoute);
             }*/
             _playView->enterRouteEditMode(this->_playerSP);
-        } else if(clicked == action_CustomRouteCreate) {
-            PBCCreateMotionRouteDialog dialog;
+        } else if(clicked == action_CustomRouteCreate_named) {
+            /*PBCCreateMotionRouteDialog dialog;
             PBCRouteSP createdRoute = dialog.getCreatedRoute();
             if(createdRoute != NULL) {
                 this->applyRoute(createdRoute);
+            }*/
+
+
+            PBCSavePlayAsDialog dialog;
+            int returnCode = dialog.exec();
+            if (returnCode == QDialog::Accepted) {
+                PBCSavePlayAsDialog::ReturnStruct rs = dialog.getReturnStruct();
+                const auto &routes = PBCPlaybook::getInstance()->routes();
+                bool routeAlreadyInPlaybook = false;
+                for (const auto& route : routes) {
+                    if (route->name() == rs.name) {
+                        routeAlreadyInPlaybook = true;
+                        break;
+                    }
+                }
+                bool overwriteRoute = false;
+                if (routeAlreadyInPlaybook) {
+                    QMessageBox::StandardButton button =
+                            QMessageBox::question(NULL,
+                                                  "Create custom route",
+                                                  QString::fromStdString("There already exists a route named '" + rs.name + "'. Do you want to overwrite it?"),  // NOLINT
+                                                  QMessageBox::Ok | QMessageBox::Cancel);
+
+                    if(button == QMessageBox::Ok) {
+                        overwriteRoute = true;
+                    } else {
+                        return;
+                    }
+                }
+                _playView->enterRouteEditMode(this->_playerSP, rs.name, rs.codeName, overwriteRoute);
             }
         } else if(clicked == action_ApplyMotion) {
             /*PBCCreateMotionRouteDialog dialog;
@@ -342,7 +379,14 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
                 this->applyMotion(createdMotion);
             }*/
             _playView->enterMotionEditMode(this->_playerSP);
-        } else if(clicked == action_SetColor) {
+        } else if(clicked == action_DeleteMotion) {
+            std::vector<PBCPathSP> emptyRoutePaths;
+            PBCRouteSP emptyRoute = PBCRouteSP(new PBCRoute("empty", "", emptyRoutePaths));
+            this->_playerSP->setRoute(emptyRoute);
+            PBCMotionSP emptyMotion(new PBCMotion());
+            this->_playerSP->setMotion(emptyMotion);
+            this->repaint();
+        } else if(clicked == action_ApplyMotion) {} else if(clicked == action_SetColor) {
             QColor color = QColorDialog::getColor(Qt::black);
             if(color.isValid()) {
                 this->setColor(PBCColor(color.red(),

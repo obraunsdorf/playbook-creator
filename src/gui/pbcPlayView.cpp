@@ -21,6 +21,8 @@
 
 #include "pbcPlayView.h"
 
+#include "models/pbcPlaybook.h"
+#include "util/pbcStorage.h"
 #include "util/pbcConfig.h"
 #include "gui/pbcPlayerView.h"
 #include "QGraphicsEllipseItem"
@@ -28,6 +30,9 @@
 #include "dialogs/pbcEditCategoriesDialog.h"
 #include "util/pbcPositionTranslator.h"
 #include <QApplication>
+#include <QMessageBox>
+#include <QFileDialog>
+#include <QInputDialog>
 
 #include <string>
 #include <iostream>
@@ -228,11 +233,14 @@ PBCDPoint playerPos_AfterMotion_inPixel(const PBCPlayerSP &playerSP) {
     return afterMotionPos;
 }
 
-void PBCPlayView::enterRouteEditMode(PBCPlayerSP playerSP) {
+void PBCPlayView::enterRouteEditMode(PBCPlayerSP playerSP, const std::string& routeName, const std::string& routeCodeName, bool overwrite) {
     _routeEditMode = true;
     _lastLine = NULL;
     _paths.clear();
     _routePlayer = playerSP;
+    _routeName = routeName;
+    _routeCodeName = routeCodeName;
+    _overwrite = overwrite;
 
     std::vector<PBCPathSP> emptyRoutePaths;
     PBCRouteSP emptyRoute = PBCRouteSP(new PBCRoute("empty", "", emptyRoutePaths));
@@ -371,7 +379,16 @@ void PBCPlayView::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
 void PBCPlayView::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
     if (_routeEditMode == true) {
         assert(_routePlayer);
-        PBCRouteSP route(new PBCRoute("_TEMP_", "", _paths));
+        PBCRouteSP route(new PBCRoute(_routeName, _routeCodeName, _paths));
+        std::cout << "bla0" << std::endl;
+        if (_routeName != "") {
+            try {
+                PBCPlaybook::getInstance()->addRoute(route, _overwrite);
+            } catch (PBCStorageException e) {
+                QMessageBox::information(NULL, "", "You have to save the playbook to a file before you can add routes");  //NOLINT
+                savePlaybookOnRouteCreation();
+            }
+        }
         _routePlayer->setRoute(route);
         leaveRouteMotionEditMode();
         repaint();
@@ -383,6 +400,31 @@ void PBCPlayView::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
         repaint();
     } else {
         PBCGridIronView::mouseDoubleClickEvent(event);
+    }
+}
+
+void PBCPlayView::savePlaybookOnRouteCreation() {
+    std::string stdFile = PBCPlaybook::getInstance()->name() + ".pbc";
+    QFileDialog fileDialog(
+            NULL, "Save Playbook",
+            QString::fromStdString(stdFile),
+            "PBC Files (*.pbc);;All Files (*.*)");
+
+    fileDialog.setFileMode(QFileDialog::AnyFile);
+    fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+    if(fileDialog.exec() == true) {
+        QStringList files = fileDialog.selectedFiles();
+        assert(files.size() == 1);
+        QString fileName = files.first();
+
+        bool ok;
+        QString password = QInputDialog::getText(NULL, "Save Playbook",
+                                                 "Enter encryption password",
+                                                 QLineEdit::Password, "", &ok);
+        if(ok == true) {
+            PBCStorage::getInstance()->savePlaybook(password.toStdString(),
+                                                    fileName.toStdString());
+        }
     }
 }
 
