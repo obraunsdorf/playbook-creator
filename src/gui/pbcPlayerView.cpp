@@ -145,9 +145,13 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
         painterPath.moveTo(lastX, lastY);
 
 
-        if (path == paths.back()) {
+        if (graphicItems == &_routePaths && path == paths.back()) {
             // last path => paint arrow!
             // arrow head
+            if (path->bezierControlPoint().get<0>() != DUMMY_POINT.get<0>()) {
+                lastX = path->bezierControlPoint().get<0>();
+                lastY = path->bezierControlPoint().get<1>();
+            }
             double angle = std::atan2(endPointY-lastY, -(endPointX-lastX));
 
             double routeWidth = PBCConfig::getInstance()->routeWidth();
