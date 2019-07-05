@@ -5,27 +5,54 @@
 #include "models/pbcRoute.h"
 #include "models/pbcFormation.h"
 
+//#define ROUTE(name, pathVector) routes.insert(std::make_pair(name, PBCRouteSP(new PBCRoute(name, "", pathVector))));
+
+static void route(PBCModelMap<PBCRouteSP> &routes, const std::string &name, std::vector<PBCPathSP> paths) {
+    routes.insert(std::make_pair(name, PBCRouteSP(new PBCRoute(name, "", paths))));
+}
+
 static void default_routes(PBCModelMap<PBCRouteSP> &routes) {
-    PBCRouteSP route_5In(new PBCRoute("5 In", "", {PBCPathSP(new PBCPath(0, 5)),
-                                                   PBCPathSP(new PBCPath(10, 5))}));
-    routes.insert(std::make_pair("5 In", route_5In));
+    route(routes, "Hook", {PBCPathSP(new PBCPath(0, 6)),
+                           PBCPathSP(new PBCPath(1, 5))});
 
-    std::vector<PBCPathSP> path_Post({ PBCPathSP(new PBCPath(0, 5)),
-                                       PBCPathSP(new PBCPath(2, 7))});
-    PBCRouteSP route_Post(new PBCRoute("Post", "", path_Post));
-    routes.insert(std::make_pair(route_Post->name(), route_Post));
+    route(routes, "Comeback", {PBCPathSP(new PBCPath(0, 12)),
+                               PBCPathSP(new PBCPath(-2, 10))});
 
+    route(routes, "5 In", {PBCPathSP(new PBCPath(0, 5)),
+                           PBCPathSP(new PBCPath(10, 5))});
 
-    std::vector<PBCPathSP> path_Slant({ PBCPathSP(new PBCPath(0, 2)),
-                                        PBCPathSP(new PBCPath(2, 4))});
-    PBCRouteSP route_Slant(new PBCRoute("Slant", "", path_Slant));
-    routes.insert(std::make_pair(route_Slant->name(), route_Slant));
+    route(routes, "10 In", {PBCPathSP(new PBCPath(0, 10)),
+                           PBCPathSP(new PBCPath(10, 10))});
 
+    route(routes, "5 Out", {PBCPathSP(new PBCPath(0, 5)),
+                           PBCPathSP(new PBCPath(-10, 5))});
 
-    std::vector<PBCPathSP> path_Fly({ PBCPathSP(new PBCPath(0, 7))});
-    PBCRouteSP route_Fly(new PBCRoute("Fly", "", path_Fly));
+    route(routes, "10 Out", {PBCPathSP(new PBCPath(0, 10)),
+                            PBCPathSP(new PBCPath(-10, 10))});
 
-    routes.insert(std::make_pair(route_Fly->name(), route_Fly));
+    route(routes, "Slant", {PBCPathSP(new PBCPath(0, 2)),
+                            PBCPathSP(new PBCPath(9, 5))});
+
+    route(routes, "Shallow", {PBCPathSP(new PBCPath(13, 2, 2, 2)),
+                            PBCPathSP(new PBCPath(15,2))});
+
+    route(routes, "Curl", {PBCPathSP(new PBCPath(0, 12)),
+                               PBCPathSP(new PBCPath(2, 10))});
+
+    route(routes, "Post", {PBCPathSP(new PBCPath(0, 7)),
+                           PBCPathSP(new PBCPath(7, 14))});
+
+    route(routes, "Corner", {PBCPathSP(new PBCPath(0, 7)),
+                           PBCPathSP(new PBCPath(-7, 14))});
+
+    route(routes, "Fly", {PBCPathSP(new PBCPath(-1, 12, -0.7, 3)),
+                          PBCPathSP(new PBCPath(-1, 14))});
+
+    route(routes, "Seam", {PBCPathSP(new PBCPath(1, 12, 0.7, 3)),
+                           PBCPathSP(new PBCPath(1, 14))});
+
+    route(routes, "Fade", {PBCPathSP(new PBCPath(-1, 5, -0.7, 1)),
+                          PBCPathSP(new PBCPath(-1, 7))});
 }
 
 static void default_formations(PBCModelMap<PBCFormationSP> &formations, const unsigned int playerNumber) {
