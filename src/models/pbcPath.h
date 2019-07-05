@@ -44,8 +44,6 @@ friend class boost::serialization::access;
         ar << _endpoint.get<1>();
         ar << _bezierControlPoint.get<0>();
         ar << _bezierControlPoint.get<1>();
-        ar << _arc;
-        ar << _concave;
     }
 
     template<class Archive>
