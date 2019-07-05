@@ -53,7 +53,7 @@ set ( SOURCES
 	util/pbcStorage.h
 	main.cpp
 	pbcVersion.h
-)
+        models/pbcDefaultPlaybook.cpp)
 
 set ( MOC_HEADERS
 	pbcVersion.h

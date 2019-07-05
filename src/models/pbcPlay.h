@@ -56,10 +56,14 @@ friend class PBCCategory;
         ar & _categories;
     }
 
+    PBCPlay() {
+        PBCPlay("", "", "");
+    }
+
  public:
-    PBCPlay(const std::string& name = "PBC_StandardPlay",
-            const std::string& codeName = "",
-            const std::string& formationName = "PBC_StandardFormation");
+    PBCPlay(const std::string& name,
+            const std::string& codeName,
+            const std::string& formationName);
 
     PBCPlay(const PBCPlay& other);
     std::string name() const;

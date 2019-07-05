@@ -118,8 +118,13 @@ PBCPlay::PBCPlay(const std::string &name,
                  const std::string &codeName,
                  const std::string& formationName) :
     _name(name),
-    _codeName(codeName),
-    _formation(PBCPlaybook::getInstance()->getFormation(formationName)) {}
+    _codeName(codeName) {
+    if (PBCPlaybook::getInstance()->hasFormation(formationName)) {
+        _formation = PBCPlaybook::getInstance()->getFormation(formationName);
+    } else {
+        _formation.reset(new PBCFormation(formationName));
+    }
+}
 
 /**
  * @brief The copy constructor

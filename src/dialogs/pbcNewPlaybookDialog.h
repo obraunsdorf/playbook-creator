@@ -38,7 +38,7 @@ class PBCNewPlaybookDialog : public QDialog {
 
     struct ReturnStruct {
         std::string playbookTitle;
-        int playerNumber;
+        unsigned int playerNumber;
     };
 
     struct ReturnStruct getReturnStruct();

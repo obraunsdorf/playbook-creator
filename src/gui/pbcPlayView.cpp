@@ -136,12 +136,7 @@ void PBCPlayView::resetPlay() {
 void PBCPlayView::createNewPlay(const std::string &name,
                                 const std::string &codeName,
                                 const std::string &formationName) {
-    PBCPlaySP play(new PBCPlay(name, codeName));
-    if(formationName != "") {
-        PBCFormationSP formation = PBCPlaybook::getInstance()->getFormation(formationName);  // NOLINT
-        assert(formation != NULL);
-        play->setFormation(formation);
-    }
+    PBCPlaySP play(new PBCPlay(name, codeName, formationName));
     _currentPlay = play;
     repaint();
 }

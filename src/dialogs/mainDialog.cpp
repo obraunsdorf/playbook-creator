@@ -276,7 +276,7 @@ void MainDialog::newPlaybook() {
     int returnCode = dialog.exec();
     if (returnCode == QDialog::Accepted) {
         struct PBCNewPlaybookDialog::ReturnStruct rs = dialog.getReturnStruct();
-        int playerNumber = rs.playerNumber;
+        unsigned int playerNumber = rs.playerNumber;
         std::string name = rs.playbookTitle;
 
         pbcAssert(name != "");
