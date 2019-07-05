@@ -33,6 +33,8 @@ friend class boost::serialization::access;
  private:
     PBCDPoint _endpoint;
     PBCDPoint _bezierControlPoint;
+
+    // deprecated
     bool _arc;
     bool _concave;
 
@@ -58,8 +60,10 @@ friend class boost::serialization::access;
             ar >> cx;
             ar >> cy;
         }
-        ar >> _arc;
-        ar >> _concave;
+        if (version <= 1) {
+            ar >> _arc;
+            ar >> _concave;
+        }
         _endpoint.set<0>(x);
         _endpoint.set<1>(y);
         _bezierControlPoint.set<0>(cx);
@@ -70,21 +74,15 @@ friend class boost::serialization::access;
 
  public:
     explicit PBCPath(PBCDPoint endpoint,
-                     bool arc = false,
-                     bool concave = false,
                      PBCDPoint controlPoint = DUMMY_POINT);
     PBCPath(double endpointX,
             double endpointY,
-            bool arc = false,
-            bool concave = false,
             double controlX = DUMMY_POINT.get<0>(),
             double controlY = DUMMY_POINT.get<1>());
     PBCDPoint endpoint() const;
     PBCDPoint bezierControlPoint() const;
-    bool isArc() const;
-    bool isConcave() const;
 };
-BOOST_CLASS_VERSION(PBCPath, 1)
+BOOST_CLASS_VERSION(PBCPath, 2)
 
 typedef boost::shared_ptr<PBCPath> PBCPathSP;
 

@@ -45,43 +45,21 @@ PBCDPoint PBCPath::bezierControlPoint() const {
 }
 
 /**
- * @brief Determines whether the path is straight or an arc
- * @return true if the path is an arc, false if the path is straight
- */
-bool PBCPath::isArc() const {
-    return _arc;
-}
-
-/**
- * @brief Determines whether the arc path is concave or convex
- * @return true if the path is concave, false if the path is convex
- * @see https://en.wikipedia.org/wiki/Convex_function
- */
-bool PBCPath::isConcave() const {
-    return _concave;
-}
-
-/**
  * @brief The constructor. Creates a path to the given endpoint
  * @param endpoint Specifies the endpoint (in yd)
- * @param arc true if the path should be an arc, false if it should be straigt
- * @param concave true if the arc path should be concave, false if it should be convex
+ * @param controlPoint Specifies the control point of the bezier curve
  */
-PBCPath::PBCPath(PBCDPoint endpoint, bool arc, bool concave, PBCDPoint controlPoint) :
+PBCPath::PBCPath(PBCDPoint endpoint, PBCDPoint controlPoint) :
     _endpoint(endpoint),
-    _bezierControlPoint(controlPoint),
-    _arc(arc),
-    _concave(concave) {}
+    _bezierControlPoint(controlPoint) {}
 
 /**
  * @brief A convenient constructor, in which the endpoint is created by x,y-Coodinates.
- * @param endpointX The horizontal coordinate (in yd)
- * @param endpointY The vertical coordinate (in yd)
- * @param arc true if the path should be an arc, false if it should be straigt
- * @param concave concave true if the arc path should be concave, false if it should be convex
+ * @param endpointX The horizontal coordinate of the endpoint(in yd)
+ * @param endpointY The vertical coordinate of the endpoint (in yd)
+ * @param controlX The horizontal coordinate of the bezier curve's control point (in yd)
+ * @param controlY The vertical coordinate of the bezier curve's control point (in yd)
  */
-PBCPath::PBCPath(double endpointX, double endpointY, bool arc, bool concave, double controlX, double controlY) :
+PBCPath::PBCPath(double endpointX, double endpointY, double controlX, double controlY) :
     _endpoint(PBCDPoint(endpointX, endpointY)),
-    _bezierControlPoint(PBCDPoint(controlX, controlY)),
-    _arc(arc),
-    _concave(concave) {}
+    _bezierControlPoint(PBCDPoint(controlX, controlY)) {}

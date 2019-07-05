@@ -360,7 +360,7 @@ void PBCPlayView::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
         _lastControlPoint.setX(DUMMY_POINT.get<0>());
         _lastControlPoint.setY(DUMMY_POINT.get<1>());
 
-        _paths.push_back(PBCPathSP(new PBCPath(inOut_corrected_pathPoint, false, false, inOut_corrected_pathControlPoint)));
+        _paths.push_back(PBCPathSP(new PBCPath(inOut_corrected_pathPoint, inOut_corrected_pathControlPoint)));
     } else {
         _paths.push_back(PBCPathSP(new PBCPath(inOut_corrected_pathPoint)));
     }

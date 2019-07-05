@@ -33,7 +33,6 @@
 #include "QDebug"
 #include <vector>
 #include <set>
-#include "dialogs/pbcCreateMotionRouteDialog.h"
 #include <QMessageBox>
 #include <QColorDialog>
 #include <QInputDialog>
