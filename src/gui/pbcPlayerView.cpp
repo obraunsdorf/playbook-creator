@@ -291,7 +291,14 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
     QMenu menu;
     QMenu* routeMenu = menu.addMenu(QString::fromStdString("Routes"));
     boost::unordered_map<QAction*, PBCRouteSP> actionMap;
+    std::multimap<int, PBCRouteSP> sortedRoutes;
     for(PBCRouteSP route : PBCPlaybook::getInstance()->routes()) {
+        double depth = route->paths().back()->endpoint().get<1>();
+        sortedRoutes.insert(std::make_pair(depth, route));
+    }
+
+    for (const auto& kv : sortedRoutes) {
+        PBCRouteSP route = kv.second;
         QString routeString = QString::fromStdString(route->name());
         if(route->codeName() != "") {
             routeString.append(" (");
