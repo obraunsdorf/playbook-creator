@@ -61,6 +61,10 @@ class MainDialog : public QMainWindow {
     void exportAsPDF();
     void showAboutDialog();
     void addPlayToCategory();
+    void deleteRoutes();
+    void deletePlays();
+    void deleteFormations();
+    void deleteCategories();
 };
 
 #endif  // MAINDIALOG_H

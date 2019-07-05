@@ -1,8 +1,10 @@
 set ( SOURCES
 	dialogs/mainDialog.cpp
 	dialogs/mainDialog.h
-        dialogs/pbcCustomRouteDialog.cpp
+	dialogs/pbcCustomRouteDialog.cpp
 	dialogs/pbcCustomRouteDialog.h
+	dialogs/pbcDeleteDialog.cpp
+	dialogs/pbcDeleteDialog.h
 	dialogs/pbcEditCategoriesDialog.cpp
 	dialogs/pbcEditCategoriesDialog.h
 	dialogs/pbcExportPdfDialog.cpp
@@ -76,8 +78,9 @@ set ( MOC_HEADERS
 	util/pbcStorage.h
 	util/pbcExceptions.h
 	dialogs/pbcExportPdfDialog.h
+	dialogs/pbcDeleteDialog.h
 	models/pbcMotion.h
-        models/pbcAbstractMovement.h
+    models/pbcAbstractMovement.h
 	dialogs/pbcNewPlaybookDialog.h
 	dialogs/pbcNewPlayDialog.h
 	dialogs/pbcOpenPlayDialog.h
@@ -88,8 +91,9 @@ set ( MOC_HEADERS
 set ( UIS
 	dialogs/mainDialog.ui
     dialogs/pbcCustomRouteDialog.ui
+	dialogs/pbcDeleteDialog.ui
     dialogs/pbcExportPdfDialog.ui
-        dialogs/pbcNewPlaybookDialog.ui
+	dialogs/pbcNewPlaybookDialog.ui
     dialogs/pbcNewPlayDialog.ui
     dialogs/pbcOpenPlayDialog.ui
     dialogs/pbcEditCategoriesDialog.ui

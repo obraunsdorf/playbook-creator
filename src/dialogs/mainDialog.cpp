@@ -27,6 +27,7 @@
 #include "gui/pbcPlayerView.h"
 #include "models/pbcPlaybook.h"
 #include "dialogs/pbcExportPdfDialog.h"
+#include "dialogs/pbcDeleteDialog.h"
 #include "dialogs/pbcNewPlaybookDialog.h"
 #include "dialogs/pbcNewPlayDialog.h"
 #include "dialogs/pbcOpenPlayDialog.h"
@@ -403,6 +404,43 @@ void MainDialog::addPlayToCategory() {
         return;
     }
 }
+
+void MainDialog::deleteRoutes() {
+    PBCDeleteDialog deleteDialog(DELETE_ENUM::DELETE_ROUTES, this);
+    if (deleteDialog.exec() == QDialog::Accepted){
+        for (const auto& name : *deleteDialog.get_nameList()) {
+            PBCPlaybook::getInstance()->deleteRoute(name.toStdString());
+        }
+    }
+}
+
+void MainDialog::deletePlays() {
+    PBCDeleteDialog deleteDialog(DELETE_ENUM::DELETE_PLAYS, this);
+    if (deleteDialog.exec() == QDialog::Accepted){
+        for (const auto& name : *deleteDialog.get_nameList()) {
+            PBCPlaybook::getInstance()->deletePlay(name.toStdString());
+        }
+    }
+}
+
+void MainDialog::deleteFormations() {
+    PBCDeleteDialog deleteDialog(DELETE_ENUM::DELETE_FORMATIONS, this);
+    if (deleteDialog.exec() == QDialog::Accepted){
+        for (const auto& name : *deleteDialog.get_nameList()) {
+            PBCPlaybook::getInstance()->deleteFormation(name.toStdString());
+        }
+    }
+}
+
+void MainDialog::deleteCategories() {
+    PBCDeleteDialog deleteDialog(DELETE_ENUM::DELETE_CATEGORIES, this);
+    if (deleteDialog.exec() == QDialog::Accepted){
+        for (const auto& name : *deleteDialog.get_nameList()) {
+            PBCPlaybook::getInstance()->deleteCategory(name.toStdString());
+        }
+    }
+}
+
 
 /**
  * @brief The destructor

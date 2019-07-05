@@ -70,6 +70,10 @@ friend class boost::serialization::access;
     bool addRoute(PBCRouteSP route, bool overwrite = false);
     bool addCategory(PBCCategorySP category, bool overwrite = false);
     bool addPlay(PBCPlaySP play, bool overwrite = false);
+    void deleteFormation(const std::string& name);
+    void deleteRoute(const std::string& name);
+    void deleteCategory(const std::string& name);
+    void deletePlay(const std::string& name);
     std::string builtWithPBCVersion();
     std::string name() const;
     std::list<PBCFormationSP> formations() const;
@@ -81,7 +85,9 @@ friend class boost::serialization::access;
     PBCPlaySP getPlay(const std::string& name);
     PBCCategorySP getCategory(const std::string& name);
     std::vector<std::string> getFormationNames() const;
+    std::vector<std::string> getRouteNames() const;
     std::vector<std::string> getPlayNames() const;
+    std::vector<std::string> getCategoryNames() const;
 };
 
 #endif  // PBCPLAYBOOK_H

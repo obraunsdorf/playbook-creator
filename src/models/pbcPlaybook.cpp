@@ -79,7 +79,7 @@ void PBCPlaybook::resetToNewEmptyPlaybook(const std::string &name,
  * @return true if the formation has been successfully added to the playbook
  */
 bool PBCPlaybook::addFormation(PBCFormationSP formation, bool overwrite) {
-    if(overwrite == true ) {
+    if (overwrite == true) {
         PBCFormationSP formationCopy(new PBCFormation(*formation));
         _formations[formationCopy->name()] = formationCopy;
         PBCStorage::getInstance()->automaticSavePlaybook();
@@ -89,7 +89,7 @@ bool PBCPlaybook::addFormation(PBCFormationSP formation, bool overwrite) {
         InsertResult<PBCFormationSP> result =
                 _formations.insert(std::make_pair(formation->name(),
                                                   formationCopy));
-        if(result.second == true) {
+        if (result.second == true) {
             PBCStorage::getInstance()->automaticSavePlaybook();
         }
         return result.second;
@@ -113,15 +113,15 @@ bool PBCPlaybook::addFormation(PBCFormationSP formation, bool overwrite) {
  * @return true if the route has been successfully added to the playbook
  */
 bool PBCPlaybook::addRoute(PBCRouteSP route, bool overwrite) {
-    if(overwrite == true ) {
+    if (overwrite == true) {
         *_routes[route->name()] = *route;  // TODO(obr): does this create memory leaks?  //NOLINT
-         //_routes[route->name()] = route;  //--> Routes in Plays are not changed when you overwrite them // NOLINT
+        //_routes[route->name()] = route;  //--> Routes in Plays are not changed when you overwrite them // NOLINT
         PBCStorage::getInstance()->automaticSavePlaybook();
         return true;
     } else {
         InsertResult<PBCRouteSP> result =
                 _routes.insert(std::make_pair(route->name(), route));
-        if(result.second == true) {
+        if (result.second == true) {
             PBCStorage::getInstance()->automaticSavePlaybook();
         }
         return result.second;
@@ -140,14 +140,14 @@ bool PBCPlaybook::addRoute(PBCRouteSP route, bool overwrite) {
  * @return true if the category has been successfully added to the playbook
  */
 bool PBCPlaybook::addCategory(PBCCategorySP category, bool overwrite) {
-    if(overwrite == true) {
+    if (overwrite == true) {
         _categories[category->name()] = category;
         PBCStorage::getInstance()->automaticSavePlaybook();
         return true;
     } else {
         InsertResult<PBCCategorySP> result =
                 _categories.insert(std::make_pair(category->name(), category));
-        if(result.second == true) {
+        if (result.second == true) {
             PBCStorage::getInstance()->automaticSavePlaybook();
         }
         return result.second;
@@ -166,18 +166,43 @@ bool PBCPlaybook::addCategory(PBCCategorySP category, bool overwrite) {
  * @return true if the play has been successfully added to the playbook
  */
 bool PBCPlaybook::addPlay(PBCPlaySP play, bool overwrite) {
-    if(overwrite == true) {
+    if (overwrite == true) {
         _plays[play->name()] = play;
         PBCStorage::getInstance()->automaticSavePlaybook();
         return true;
     } else {
         InsertResult<PBCPlaySP> result =
                 _plays.insert(std::make_pair(play->name(), play));
-        if(result.second == true) {
+        if (result.second == true) {
             PBCStorage::getInstance()->automaticSavePlaybook();
         }
         return result.second;
     }
+}
+
+
+void PBCPlaybook::deleteFormation(const std::string &name) {
+    _formations.erase(name);
+    PBCStorage::getInstance()->automaticSavePlaybook();
+}
+
+void PBCPlaybook::deleteRoute(const std::string &name) {
+    _routes.erase(name);
+    PBCStorage::getInstance()->automaticSavePlaybook();
+}
+
+void PBCPlaybook::deletePlay(const std::string &name) {
+    _plays.erase(name);
+    PBCStorage::getInstance()->automaticSavePlaybook();
+}
+
+void PBCPlaybook::deleteCategory(const std::string &name) {
+    PBCCategorySP category = getCategory(name);
+    for (auto& play : category->plays()) {
+        play->removeCategory(category);
+    }
+    _categories.erase(name);
+    PBCStorage::getInstance()->automaticSavePlaybook();
 }
 
 /**
@@ -257,7 +282,7 @@ bool PBCPlaybook::hasFormation(const std::string &name) {
  * @return The formation with the given name
  */
 PBCFormationSP PBCPlaybook::getFormation(const std::string &name) {
-    const auto& it = _formations.find(name);
+    const auto &it = _formations.find(name);
     pbcAssert(it != _formations.end());
     return PBCFormationSP(new PBCFormation(*it->second));
 }
@@ -269,7 +294,7 @@ PBCFormationSP PBCPlaybook::getFormation(const std::string &name) {
  * @return The play with the given name.
  */
 PBCPlaySP PBCPlaybook::getPlay(const std::string &name) {
-    const auto& it = _plays.find(name);
+    const auto &it = _plays.find(name);
     pbcAssert(it != _plays.end());
     return it->second;
 }
@@ -280,8 +305,8 @@ PBCPlaySP PBCPlaybook::getPlay(const std::string &name) {
  * @param name The name of the cateogry
  * @return The category with the given name.
  */
-PBCCategorySP PBCPlaybook::getCategory(const std::string& name) {
-    const auto& it = _categories.find(name);
+PBCCategorySP PBCPlaybook::getCategory(const std::string &name) {
+    const auto &it = _categories.find(name);
     pbcAssert(it != _categories.end());
     return it->second;
 }
@@ -292,7 +317,7 @@ PBCCategorySP PBCPlaybook::getCategory(const std::string& name) {
  */
 std::vector<std::string> PBCPlaybook::getFormationNames() const {
     std::vector<std::string> formationNames;
-    for(const auto& kv : _formations) {
+    for (const auto &kv : _formations) {
         PBCFormationSP formation = kv.second;
         formationNames.push_back(formation->name());
     }
@@ -305,9 +330,35 @@ std::vector<std::string> PBCPlaybook::getFormationNames() const {
  */
 std::vector<std::string> PBCPlaybook::getPlayNames() const {
     std::vector<std::string> playNames;
-    for(const auto& kv : _plays) {
+    for (const auto &kv : _plays) {
         PBCPlaySP play = kv.second;
         playNames.push_back(play->name());
     }
     return playNames;
 }
+/**
+ * @brief Gets the names of the playbook's routes
+ * @return a list of route names
+ */
+std::vector<std::string> PBCPlaybook::getRouteNames() const {
+    std::vector<std::string> routeNames;
+    for (const auto &kv : _routes) {
+        PBCRouteSP route = kv.second;
+        routeNames.push_back(route->name());
+    }
+    return routeNames;
+}
+
+/**
+ * @brief Gets the names of the playbook's categories
+ * @return a list of category names
+ */
+std::vector<std::string> PBCPlaybook::getCategoryNames() const {
+    std::vector<std::string> categoryNames;
+    for (const auto &kv : _categories) {
+        PBCCategorySP category = kv.second;
+        categoryNames.push_back(category->name());
+    }
+    return categoryNames;
+}
+

@@ -67,8 +67,18 @@
     </property>
     <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuDelete">
+    <property name="title">
+     <string>Delete</string>
+    </property>
+    <addaction name="actionDeleteRoutes"/>
+    <addaction name="actionDeleteFormations"/>
+    <addaction name="actionDeletePlays"/>
+    <addaction name="actionDeleteCategories"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuPlay"/>
+   <addaction name="menuDelete"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -186,6 +196,26 @@
   <action name="actionOpen_play_by_category">
    <property name="text">
     <string>Open play by category</string>
+   </property>
+  </action>
+  <action name="actionDeletePlays">
+   <property name="text">
+    <string>Plays</string>
+   </property>
+  </action>
+  <action name="actionDeleteFormations">
+   <property name="text">
+    <string>Formations</string>
+   </property>
+  </action>
+  <action name="actionDeleteRoutes">
+   <property name="text">
+    <string>Routes</string>
+   </property>
+  </action>
+  <action name="actionDeleteCategories">
+   <property name="text">
+    <string>Categories</string>
    </property>
   </action>
  </widget>
@@ -384,6 +414,70 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionDeleteFormations</sender>
+   <signal>triggered()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>deleteFormations()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionDeleteCategories</sender>
+   <signal>triggered()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>deleteCategories()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionDeletePlays</sender>
+   <signal>triggered()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>deletePlays()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionDeleteRoutes</sender>
+   <signal>triggered()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>deleteRoutes()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showNewPlay()</slot>
@@ -399,5 +493,9 @@
   <slot>exportAsPDF()</slot>
   <slot>addPlayToCategory()</slot>
   <slot>openPlayByCategory()</slot>
+  <slot>deleteRoutes()</slot>
+  <slot>deleteFormations</slot>
+  <slot>deleteCategories</slot>
+  <slot>deletePlays()</slot>
  </slots>
 </ui>
