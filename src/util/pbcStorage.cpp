@@ -233,7 +233,7 @@ void PBCStorage::loadPlaybook(const std::string &password,
     std::ifstream ifstream(fileName, std::ios_base::binary);
 
     const size_t maxLen = _PREAMBLE.length();
-    char preambleBuffer[maxLen];
+    char* preambleBuffer = new char[maxLen];
     ifstream.getline(preambleBuffer, maxLen);
     std::string pbcString(preambleBuffer);
     pbcAssert(pbcString == "Playbook-Creator");
@@ -245,6 +245,9 @@ void PBCStorage::loadPlaybook(const std::string &password,
     ifstream.getline(preambleBuffer, maxLen);
     std::string filetypeString(preambleBuffer);
     pbcAssert(filetypeString == "playbook");
+
+    delete[] preambleBuffer;
+    preambleBuffer = NULL;
 
     try {
         decrypt(password,
