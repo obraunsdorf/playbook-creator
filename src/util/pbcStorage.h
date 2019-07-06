@@ -34,8 +34,9 @@
 #include <list>
 
 class PBCStorage : public PBCSingleton<PBCStorage> {
-friend class PBCSingleton<PBCStorage>;
- private:
+    friend class PBCSingleton<PBCStorage>;
+
+private:
     const std::string _CIPHER = "AES-256/CBC";  // TODO(obr): update to current botan and use AES with GCM   // NOLINT
     const std::string _HASH = "SHA-256";
     const std::string _PBKDF = "PBKDF2(SHA-256)";
@@ -43,32 +44,47 @@ friend class PBCSingleton<PBCStorage>;
     const unsigned int _SALT_SIZE = 16;  // in Bytes
     const unsigned int _KEY_SIZE = 32;  // in Bytes = 256 Bits
     const unsigned int _HASH_SIZE = 32;  // in Bytes = 256 Bits
+    const std::string _PREAMBLE = "Playbook-Creator\n"
+                           + PBCVersion::getVersionString() + "\n" \
+                           "playbook\n";
 
     std::string _currentPlaybookFileName;
     boost::shared_ptr<Botan::SecureVector<Botan::byte>> _saltSP;
     boost::shared_ptr<Botan::OctetString> _keySP;
 
-    void checkVersion(const std::string& version);
-    void generateAndSetKey(const std::string& password);
+    void checkVersion(const std::string &version);
+
+    void generateAndSetKey(const std::string &password);
+
     void setCryptoKey(Botan::OctetString key,
                       Botan::SecureVector<Botan::byte> salt);
-    void encrypt(const std::string& input, std::ofstream& outFile);  // NOLINT
-    void decrypt(const std::string& password,
-                 std::ostream& ostream,  // NOLINT
-                 std::ifstream& inFile); // NOLINT
 
- protected:
+    void encrypt(const std::string &input, std::ofstream &outFile);  // NOLINT
+    void decrypt(const std::string &password,
+                 std::ostream &ostream,  // NOLINT
+                 std::ifstream &inFile); // NOLINT
+
+protected:
     PBCStorage() {}
 
- public:
-    void init(const std::string& fileName);
-    void savePlaybook(const std::string& password, const std::string& fileName);
+public:
+    void init(const std::string &fileName);
+
+    void savePlaybook(const std::string &password, const std::string &fileName);
+
     void automaticSavePlaybook();
+
     void writeToCurrentPlaybookFile();
-    void loadPlaybook(const std::string& password, const std::string& fileName);
-    void exportPlay(const std::string& fileName, PBCPlaySP play);
-    void importPlay(const std::string& fileName, PBCPlaySP play);
-    void exportAsPDF(const std::string& fileName,
+
+    void loadPlaybook(const std::string &password, const std::string &fileName);
+
+    void loadPlaybook_until_version_0_11_0(const std::string &password, const std::string &fileName);
+
+    void exportPlay(const std::string &fileName, PBCPlaySP play);
+
+    void importPlay(const std::string &fileName, PBCPlaySP play);
+
+    void exportAsPDF(const std::string &fileName,
                      boost::shared_ptr<QStringList> playListSP,
                      const unsigned int paperWidth,
                      const unsigned int paperHeight,
