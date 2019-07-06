@@ -48,7 +48,7 @@ static void default_routes(PBCModelMap<PBCRouteSP> &routes) {
     route(routes, "Fly", {PBCPathSP(new PBCPath(-1, 12, -0.7, 3)),
                           PBCPathSP(new PBCPath(-1, 14))});
 
-    route(routes, "Seam", {PBCPathSP(new PBCPath(1, 12, 0.7, 3)),
+    route(routes, "Seam", {PBCPathSP(new PBCPath(0.7, 12, -0.3, 3)),
                            PBCPathSP(new PBCPath(1, 14))});
 
     route(routes, "Fade", {PBCPathSP(new PBCPath(-1, 5, -0.7, 1)),
