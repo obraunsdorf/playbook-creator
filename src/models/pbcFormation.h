@@ -46,7 +46,7 @@ friend class boost::serialization::access;
  private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version) {  // NOLINT
-        assert(version == 0);
+        pbcAssert(version == 0);
         ar & boost::serialization::base_object<PBCCategory>(*this);
         ar & boost::serialization::base_object<std::vector<PBCPlayerSP>>(*this);
     }

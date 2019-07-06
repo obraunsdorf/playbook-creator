@@ -118,7 +118,7 @@ void PBCPlayerView::repaint() {
 void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
                               std::vector<QGraphicsItemSP>* graphicItems,
                               PBCDPoint basePoint) {
-    assert(graphicItems == &_routePaths || graphicItems == &_motionPaths);
+    pbcAssert(graphicItems == &_routePaths || graphicItems == &_motionPaths);
     if (paths.empty()) {
         return;
     }
@@ -421,7 +421,7 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
                 this->setPosition(x, y);
             }
         } else {
-            assert(clicked == NULL);
+            pbcAssert(clicked == NULL);
         }
     }
 }

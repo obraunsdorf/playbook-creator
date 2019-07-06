@@ -53,8 +53,8 @@ void PBCStorage::checkVersion(const std::string &version) {
     if(result < 0) {
         throw PBCStorageException("Cannot load playbook because it's created by a newer version of Playbook-Creator. Please download the latest version of Playbook-Creator!");  //NOLINT
     }
-    assert(result >= 0);
-    assert(BOTAN_VERSION_CODE >= BOTAN_VERSION_CODE_FOR(1, 10, 9));
+    pbcAssert(result >= 0);
+    pbcAssert(BOTAN_VERSION_CODE >= BOTAN_VERSION_CODE_FOR(1, 10, 9));
 }
 
 /**
@@ -90,7 +90,7 @@ void PBCStorage::setCryptoKey(Botan::OctetString key,
  */
 void PBCStorage::encrypt(const std::string& input,
                          std::ofstream& outFile) {
-    assert(_keySP != NULL && _saltSP != NULL);
+    pbcAssert(_keySP != NULL && _saltSP != NULL);
     outFile.write((const char*)_saltSP->data(), _saltSP->size());
 
     Botan::Pipe hasher(new Botan::Hash_Filter(_HASH, _HASH_SIZE));
@@ -186,9 +186,9 @@ void PBCStorage::automaticSavePlaybook() {
  * Encrypting and writing to file is done via PBCStorage::encrypt() function
  */
 void PBCStorage::writeToCurrentPlaybookFile() {
-    assert(_currentPlaybookFileName != "");
+    pbcAssert(_currentPlaybookFileName != "");
     std::string extension = _currentPlaybookFileName.substr(_currentPlaybookFileName.size() - 4);  //NOLINT
-    assert(extension == ".pbc");
+    pbcAssert(extension == ".pbc");
     std::stringbuf buff;
     std::ostream ostream(&buff);
     ostream << "Playbook-Creator" << "\n";
@@ -221,7 +221,7 @@ void PBCStorage::writeToCurrentPlaybookFile() {
 void PBCStorage::loadPlaybook(const std::string &password,
                               const std::string &fileName) {
     std::string extension = fileName.substr(fileName.size() - 4);
-    assert(extension == ".pbc");
+    pbcAssert(extension == ".pbc");
     std::stringbuf buff;
     std::ostream ostream(&buff);
     std::ifstream ifstream(fileName, std::ios_base::binary);
@@ -242,11 +242,11 @@ void PBCStorage::loadPlaybook(const std::string &password,
 
     istream.getline(buffer, kBuffSize);
     std::string pbcString(buffer);
-    assert(pbcString == "Playbook-Creator");
+    pbcAssert(pbcString == "Playbook-Creator");
 
     istream.getline(buffer, kBuffSize);
     std::string pbString(buffer);
-    assert(pbString == "playbook");
+    pbcAssert(pbString == "playbook");
 
     istream.getline(buffer, kBuffSize);
     std::string version(buffer);
@@ -283,7 +283,7 @@ void PBCStorage::exportAsPDF(const std::string& fileName,
                              const unsigned int marginTop,
                              const unsigned int marginBottom) {
     std::string extension = fileName.substr(fileName.size() - 4);
-    assert(extension == ".pdf");
+    pbcAssert(extension == ".pdf");
     QPrinter printer(QPrinter::HighResolution);
     printer.setOutputFileName(QString::fromStdString(fileName));
     printer.setOutputFormat(QPrinter::PdfFormat);
@@ -294,8 +294,8 @@ void PBCStorage::exportAsPDF(const std::string& fileName,
                            marginRight,
                            marginBottom,
                            QPrinter::Millimeter);
-    assert(columns > 0);
-    assert(rows > 0);
+    pbcAssert(columns > 0);
+    pbcAssert(rows > 0);
 
     boost::shared_ptr<qreal> pixelMarginLeftSP(new qreal());
     boost::shared_ptr<qreal> pixelMarginRightSP(new qreal());
@@ -356,7 +356,7 @@ void PBCStorage::exportAsPDF(const std::string& fileName,
         }
         if(rowCount > rows) {
             bool successful = printer.newPage();
-            assert(successful == true);
+            pbcAssert(successful == true);
             if(paintBorder == true) {
                 painter.drawRect(borderRect);
             }

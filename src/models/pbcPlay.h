@@ -49,7 +49,7 @@ friend class PBCCategory;
 
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version) {  // NOLINT
-        assert(version == 0);
+        pbcAssert(version == 0);
         ar & _name;
         ar & _codeName;
         ar & _formation;

@@ -96,7 +96,7 @@ void MainDialog::show() {
     } else if(messageBox.clickedButton() == openButton) {  // NOLINT
         openPlaybook();
     } else {
-        assert(false);
+        pbcAssert(false);
     }
 }
 
@@ -258,7 +258,7 @@ void MainDialog::saveFormationAs() {
                 QLineEdit::Normal, "", &ok);
 
     if(ok == true) {
-        assert(formationName != "");
+        pbcAssert(formationName != "");
         try {
             _playView->saveFormation(formationName.toStdString());
         } catch(const PBCStorageException& e) {
@@ -306,7 +306,7 @@ void MainDialog::savePlaybookAs() {
     fileDialog.setAcceptMode(QFileDialog::AcceptSave);
     if(fileDialog.exec() == true) {
         QStringList files = fileDialog.selectedFiles();
-        assert(files.size() == 1);
+        pbcAssert(files.size() == 1);
         QString fileName = files.first();
 
         bool ok;
@@ -332,7 +332,7 @@ void MainDialog::openPlaybook() {
     fileDialog.setFileMode(QFileDialog::ExistingFile);
     if(fileDialog.exec() == true) {
         QStringList files = fileDialog.selectedFiles();
-        assert(files.size() == 1);
+        pbcAssert(files.size() == 1);
         QString fileName = files.first();
 
         bool ok;
@@ -373,7 +373,7 @@ void MainDialog::exportAsPDF() {
         fileDialog.setAcceptMode(QFileDialog::AcceptSave);
         if(fileDialog.exec() == true) {
             QStringList files = fileDialog.selectedFiles();
-            assert(files.size() == 1);
+            pbcAssert(files.size() == 1);
             QString fileName = files.first();
 
             PBCStorage::getInstance()->exportAsPDF(fileName.toStdString(),

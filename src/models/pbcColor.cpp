@@ -20,6 +20,7 @@
 */
 
 #include "pbcColor.h"
+#include "util/pbcDeclarations.h"
 #include <vector>
 
 /**
@@ -45,9 +46,9 @@ PBCColor::PBCColor() {
  * @param b The blue color component
  */
 PBCColor::PBCColor(unsigned int r, unsigned int g, unsigned int b) {
-    assert(r <= 255);
-    assert(g <= 255);
-    assert(b <= 255);
+    pbcAssert(r <= 255);
+    pbcAssert(g <= 255);
+    pbcAssert(b <= 255);
     _r = r;
     _g = g;
     _b = b;

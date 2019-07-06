@@ -42,7 +42,7 @@ friend class boost::serialization::access;
 
     template<class Archive>
     void save(Archive& ar, const unsigned int version) const {  // NOLINT
-        assert(version == 0);
+        pbcAssert(version == 0);
         ar << boost::serialization::base_object<PBCAbstractMovement>(*this);
         ar << _motionEndPoint.get<0>();
         ar << _motionEndPoint.get<1>();
@@ -50,7 +50,7 @@ friend class boost::serialization::access;
 
     template<class Archive>
     void load(Archive& ar, const unsigned int version) {  // NOLINT
-        assert(version == 0);
+        pbcAssert(version == 0);
         ar >> boost::serialization::base_object<PBCAbstractMovement>(*this);
         double x;
         double y;

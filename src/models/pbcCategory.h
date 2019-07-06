@@ -28,7 +28,6 @@
 #include <boost/serialization/access.hpp>
 #include <boost/serialization/string.hpp>
 #include <boost/serialization/set.hpp>
-#include <assert.h>
 #include <list>
 #include <set>
 
@@ -44,7 +43,7 @@ friend class boost::serialization::access;
  private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version) {  // NOLINT
-        assert(version == 0);
+        pbcAssert(version == 0);
         ar & _name;
         ar & _plays;
     }

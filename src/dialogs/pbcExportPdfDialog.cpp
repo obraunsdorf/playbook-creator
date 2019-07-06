@@ -85,7 +85,7 @@ boost::shared_ptr<QStringList> PBCExportPDFDialog::exec(boost::shared_ptr<Return
         boost::shared_ptr<QStringList> playNamesSP(new QStringList());
         for(int i = 0; i < ui->selectedPlaysListWidget->count(); ++i) {
             QListWidgetItem* item = ui->selectedPlaysListWidget->item(i);
-            assert(item != NULL);
+            pbcAssert(item != NULL);
             playNamesSP->append(item->text());
         }
         return playNamesSP;
@@ -114,7 +114,7 @@ void PBCExportPDFDialog::inButtonPressed() {
  */
 void PBCExportPDFDialog::outButtonPressed() {
     QList<QListWidgetItem*> selectedItems = ui->selectedPlaysListWidget->selectedItems(); //NOLINT
-    assert(selectedItems.size() <= 1);
+    pbcAssert(selectedItems.size() <= 1);
     for(QListWidgetItem* item : selectedItems) {
         delete item;
         item = NULL;
@@ -128,13 +128,13 @@ void PBCExportPDFDialog::outButtonPressed() {
  */
 void PBCExportPDFDialog::upButtonPressed() {
     QList<QListWidgetItem*> selectedItems = ui->selectedPlaysListWidget->selectedItems(); //NOLINT
-    assert(selectedItems.size() <= 1);
+    pbcAssert(selectedItems.size() <= 1);
     for(QListWidgetItem* item : selectedItems) {
         int row = ui->selectedPlaysListWidget->row(item);
-        assert(row >= 0);
+        pbcAssert(row >= 0);
         if(row != 0) {
             QListWidgetItem* taken = ui->selectedPlaysListWidget->takeItem(row);
-            assert(taken == item);
+            pbcAssert(taken == item);
             ui->selectedPlaysListWidget->insertItem(row - 1, item);
             ui->selectedPlaysListWidget->clearSelection();
             item->setSelected(true);
@@ -148,13 +148,13 @@ void PBCExportPDFDialog::upButtonPressed() {
  */
 void PBCExportPDFDialog::downButtonPressed() {
     QList<QListWidgetItem*> selectedItems = ui->selectedPlaysListWidget->selectedItems(); //NOLINT
-    assert(selectedItems.size() <= 1);
+    pbcAssert(selectedItems.size() <= 1);
     for(QListWidgetItem* item : selectedItems) {
         int row = ui->selectedPlaysListWidget->row(item);
-        assert(row >= 0);
+        pbcAssert(row >= 0);
         if(row != ui->selectedPlaysListWidget->count() - 1) {
             QListWidgetItem* taken = ui->selectedPlaysListWidget->takeItem(row);
-            assert(taken == item);
+            pbcAssert(taken == item);
             ui->selectedPlaysListWidget->insertItem(row + 1, item);
             ui->selectedPlaysListWidget->clearSelection();
             item->setSelected(true);

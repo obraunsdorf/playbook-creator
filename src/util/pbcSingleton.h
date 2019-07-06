@@ -23,7 +23,6 @@
 #define PBCSINGLETON_H
 
 #include <stddef.h>
-#include <assert.h>
 
 /**
  * @class PBCSingleton

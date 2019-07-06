@@ -93,12 +93,12 @@ public:
     }
 
     unsigned int canvasWidth() {
-        assert(_initialized == true);
+        pbcAssert(_initialized == true);
         return _canvasWidth;
     }
 
     unsigned int canvasHeight() {
-        assert(_initialized == true);
+        pbcAssert(_initialized == true);
         return _canvasHeight;
     }
 

@@ -42,7 +42,7 @@ void PBCCustomRouteDialog::savePlaybookOnRouteCreation() {
     fileDialog.setAcceptMode(QFileDialog::AcceptSave);
     if(fileDialog.exec() == true) {
         QStringList files = fileDialog.selectedFiles();
-        assert(files.size() == 1);
+        pbcAssert(files.size() == 1);
         QString fileName = files.first();
 
         bool ok;
@@ -75,7 +75,7 @@ PBCCustomRouteDialog::~PBCCustomRouteDialog() {
 PBCRouteSP PBCCustomRouteDialog::execute() {
     int returnCode = QDialog::exec();
     if(returnCode == QDialog::Accepted) {
-        assert(_createdRoute != NULL);
+        pbcAssert(_createdRoute != NULL);
         return _createdRoute;
     } else {
         return NULL;
@@ -112,7 +112,7 @@ void PBCCustomRouteDialog::accept() {
                     savePlaybookOnRouteCreation();
                     return;
                 }
-                assert(result == true);
+                pbcAssert(result == true);
             } else {
                 return;
             }

@@ -50,7 +50,7 @@ friend class boost::serialization::access;
 
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version) {  // NOLINT
-        assert(version == 0);
+        pbcAssert(version == 0);
         ar & _builtWithPBCVersion;
         ar & _name;
         ar & _formations;

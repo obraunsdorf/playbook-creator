@@ -61,7 +61,7 @@ friend class boost::serialization::access;
 
     template<class Archive>
     void save(Archive& ar, const unsigned int version) const {  // NOLINT
-        assert(version == 0);
+        pbcAssert(version == 0);
         ar << _role.fullName;
         ar << _role.shortName;
         ar << _color;
@@ -73,7 +73,7 @@ friend class boost::serialization::access;
 
     template<class Archive>
     void load(Archive& ar, const unsigned int version) {  // NOLINT
-        assert(version == 0);
+        pbcAssert(version == 0);
         std::string fullName;
         std::array<char, 4> shortName;
         double x;

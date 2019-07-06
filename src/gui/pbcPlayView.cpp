@@ -167,7 +167,7 @@ void PBCPlayView::savePlay(const std::string &name,
  */
 void PBCPlayView::showPlay(const std::string& name) {
     PBCPlaySP play = PBCPlaybook::getInstance()->getPlay(name);
-    assert(play != NULL);
+    pbcAssert(play != NULL);
     _currentPlay.reset(new PBCPlay(*play));
     repaint();
 }
@@ -373,7 +373,7 @@ void PBCPlayView::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
 
 void PBCPlayView::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
     if (_routeEditMode == true) {
-        assert(_routePlayer);
+        pbcAssert(_routePlayer);
         PBCRouteSP route(new PBCRoute(_routeName, _routeCodeName, _paths));
         std::cout << "bla0" << std::endl;
         if (_routeName != "") {
@@ -388,7 +388,7 @@ void PBCPlayView::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
         leaveRouteMotionEditMode();
         repaint();
     } else if (_motionEditMode == true) {
-        assert(_routePlayer);
+        pbcAssert(_routePlayer);
         PBCMotionSP motion(new PBCMotion(_paths));
         _routePlayer->setMotion(motion);
         leaveRouteMotionEditMode();
@@ -409,7 +409,7 @@ void PBCPlayView::savePlaybookOnRouteCreation() {
     fileDialog.setAcceptMode(QFileDialog::AcceptSave);
     if(fileDialog.exec() == true) {
         QStringList files = fileDialog.selectedFiles();
-        assert(files.size() == 1);
+        pbcAssert(files.size() == 1);
         QString fileName = files.first();
 
         bool ok;

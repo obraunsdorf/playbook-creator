@@ -150,5 +150,5 @@ PBCPlay::PBCPlay(const PBCPlay &other) :
         ++it;
         ++otherIt;
     }
-    assert(it == _formation->end() && otherIt == other.formation()->end());
+    pbcAssert(it == _formation->end() && otherIt == other.formation()->end());
 }
