@@ -37,11 +37,12 @@ class PBCStorage : public PBCSingleton<PBCStorage> {
     friend class PBCSingleton<PBCStorage>;
 
 private:
-    const std::string _CIPHER = "AES-256/CBC";  // TODO(obr): update to current botan and use AES with GCM   // NOLINT
+    const std::string _CIPHER = "AES-256/GCM";
     const std::string _HASH = "SHA-256";
     const std::string _PBKDF = "PBKDF2(SHA-256)";
     const unsigned int _PBKDF_ITERATIONS = 10000;
     const unsigned int _SALT_SIZE = 16;  // in Bytes
+    const unsigned int _IV_SIZE = 12;     // in Bytes = 96 Bits, recommended by BSI (https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Publikationen/TechnischeRichtlinien/TR02102/BSI-TR-02102.pdf?__blob=publicationFile&v=10)
     const unsigned int _KEY_SIZE = 32;  // in Bytes = 256 Bits
     const unsigned int _HASH_SIZE = 32;  // in Bytes = 256 Bits
     const std::string _PREAMBLE = "Playbook-Creator\n"
@@ -61,6 +62,9 @@ private:
 
     void encrypt(const std::string &input, std::ofstream &outFile);  // NOLINT
     void decrypt(const std::string &password,
+                 std::ostream &ostream,  // NOLINT
+                 std::ifstream &inFile); // NOLINT
+    void decrypt_until_version_0_11_0(const std::string &password,
                  std::ostream &ostream,  // NOLINT
                  std::ifstream &inFile); // NOLINT
 

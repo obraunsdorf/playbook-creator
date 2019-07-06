@@ -23,6 +23,9 @@
 #include "models/pbcPlaybook.h"
 #include "util/pbcConfig.h"
 #include "util/pbcExceptions.h"
+#include <botan/aead.h>
+#include <botan/cipher_mode.h>
+#include <botan/cipher_filter.h>
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
 #include <fstream>
@@ -93,16 +96,16 @@ void PBCStorage::encrypt(const std::string& input,
     pbcAssert(_keySP != NULL && _saltSP != NULL);
     outFile.write((const char*)_saltSP->data(), _saltSP->size());
 
-    Botan::Pipe hasher(new Botan::Hash_Filter(_HASH, _HASH_SIZE));
+    /*Botan::OctetString preambleBytes(_PREAMBLE);
+    aead->set_ad(preambleBytes.bits_of());*/
 
-    Botan::Pipe encryptor(Botan::get_cipher(_CIPHER,
-                                            *_keySP,
-                                            Botan::ENCRYPTION),
-                          new Botan::DataSink_Stream(outFile));
 
-    hasher.process_msg(input);
-    Botan::SecureVector<Botan::byte> hash = hasher.read_all(0);
-    outFile.write((const char*)hash.data(), hash.size());
+    Botan::AutoSeeded_RNG rng;
+    Botan::InitializationVector iv = rng.random_vec(_IV_SIZE); //TODO make constant in header
+    outFile.write((const char*)iv.bits_of().data(), iv.bits_of().size());
+
+    Botan::Pipe encryptor(Botan::get_cipher(_CIPHER, *_keySP, iv, Botan::Cipher_Dir::ENCRYPTION),
+            new Botan::DataSink_Stream(outFile));
     encryptor.process_msg(input);
 }
 
@@ -119,6 +122,36 @@ void PBCStorage::decrypt(const std::string &password,
     boost::shared_ptr<Botan::PBKDF> pbkdf(Botan::get_pbkdf(_PBKDF));
     Botan::SecureVector<Botan::byte> salt(_SALT_SIZE);
     inFile.read(reinterpret_cast<char*>(&salt[0]), _SALT_SIZE);
+    Botan::SecureVector<Botan::byte> iv(_IV_SIZE);
+    inFile.read(reinterpret_cast<char*>(&iv[0]), _IV_SIZE);
+
+    Botan::OctetString key = pbkdf->derive_key(_KEY_SIZE, password,
+                                               &salt[0], salt.size(),
+                                               _PBKDF_ITERATIONS);
+
+    Botan::Keyed_Filter* cipher = Botan::get_cipher(_CIPHER, key, iv, Botan::Cipher_Dir::DECRYPTION);
+    Botan::Pipe decryptor(cipher, new Botan::DataSink_Stream(ostream));
+
+    Botan::DataSource_Stream source(inFile);
+    try {
+        decryptor.process_msg(source);
+    } catch (Botan::Integrity_Failure& e) {
+        throw PBCDecryptionException("Error while decrypting playbook. "
+                                     "Maybe you entered the wrong password? "
+                                     "Or someone tampered the playbook file.");
+    }
+    /*std::string readPreamble(preambleBytes.begin(), preambleBytes.end());
+    std::cout << "read preamble: " << readPreamble << std::endl*/
+    setCryptoKey(key, salt);
+}
+
+
+void PBCStorage::decrypt_until_version_0_11_0(const std::string &password,
+                         std::ostream &ostream,
+                         std::ifstream &inFile) {
+    boost::shared_ptr<Botan::PBKDF> pbkdf(Botan::get_pbkdf(_PBKDF));
+    Botan::SecureVector<Botan::byte> salt(_SALT_SIZE);
+    inFile.read(reinterpret_cast<char*>(&salt[0]), _SALT_SIZE);
 
     Botan::SecureVector<Botan::byte> hash(_HASH_SIZE);
     inFile.read(reinterpret_cast<char*>(&hash[0]), _HASH_SIZE);
@@ -129,8 +162,8 @@ void PBCStorage::decrypt(const std::string &password,
 
     Botan::Pipe decryptor(Botan::get_cipher(_CIPHER, key, Botan::DECRYPTION),
                           new Botan::Fork(
-                              new Botan::Hash_Filter(_HASH, _HASH_SIZE),
-                              new Botan::DataSink_Stream(ostream)));
+                                  new Botan::Hash_Filter(_HASH, _HASH_SIZE),
+                                  new Botan::DataSink_Stream(ostream)));
 
     Botan::DataSource_Stream source(inFile);
     decryptor.process_msg(source);
