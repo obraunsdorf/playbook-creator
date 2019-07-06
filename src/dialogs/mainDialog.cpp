@@ -341,7 +341,7 @@ void MainDialog::openPlaybook() {
                                                  QLineEdit::Password, "", &ok);
         if(ok == true) {
             _currentPlaybookFileName = fileName;
-            PBCStorage::getInstance()->loadPlaybook(password.toStdString(),
+            PBCStorage::getInstance()->loadPlaybook_until_version_0_11_0(password.toStdString(),
                                                     fileName.toStdString());
             _playView->resetPlay();
             updateTitle(true);
