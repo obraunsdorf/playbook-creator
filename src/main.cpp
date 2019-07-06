@@ -23,8 +23,8 @@
 #include "dialogs/mainDialog.h"
 #include "util/pbcExceptions.h"
 #include "pbcVersion.h"
+#include <botan/version.h>
 #include <boost/version.hpp>
-#include <botan/botan.h>
 #include <QApplication>
 #include <QMessageBox>
 #include <iostream>
@@ -54,8 +54,6 @@ class PBCqApplication final : public QApplication {
  * @return Returns the return value of the Qt application execution.
  */
 int main(int argc, char *argv[]) {
-    Botan::LibraryInitializer botanInit;
-
     std::cout << "Playbook Creator Version: "
               << PBCVersion::getVersionString()
               << std::endl;

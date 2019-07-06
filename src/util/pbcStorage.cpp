@@ -23,6 +23,13 @@
 #include "models/pbcPlaybook.h"
 #include "util/pbcConfig.h"
 #include "util/pbcExceptions.h"
+#include <botan/version.h>
+#include <botan/pipe.h>
+#include <botan/data_src.h>
+#include <botan/data_snk.h>
+#include <botan/auto_rng.h>
+#include <botan/basefilt.h>
+#include <botan/filters.h>
 #include <botan/aead.h>
 #include <botan/cipher_mode.h>
 #include <botan/cipher_filter.h>

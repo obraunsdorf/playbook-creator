@@ -25,7 +25,6 @@
 #include "pbcSingleton.h"
 #include "models/pbcPlay.h"
 #include "gui/pbcPlayView.h"
-#include <botan/botan.h>
 #include <botan/pbkdf.h>
 #include <botan/secmem.h>
 #include <botan/data_src.h>
