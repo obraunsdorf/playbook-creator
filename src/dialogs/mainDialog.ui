@@ -58,8 +58,10 @@
     <addaction name="actionSave_Play_as"/>
     <addaction name="actionAdd_play_to_category"/>
     <addaction name="actionSave_formation_as"/>
+    <!--
     <addaction name="actionImport_Play"/>
     <addaction name="actionExport_Play"/>
+    -->
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
