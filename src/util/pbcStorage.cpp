@@ -160,7 +160,7 @@ void PBCStorage::decrypt_until_version_0_11_0(const std::string &password,
                                                &salt[0], salt.size(),
                                                _PBKDF_ITERATIONS);
 
-    Botan::Pipe decryptor(Botan::get_cipher(_CIPHER, key, Botan::DECRYPTION),
+    Botan::Pipe decryptor(Botan::get_cipher("AES-256/CBC", key, Botan::DECRYPTION),
                           new Botan::Fork(
                                   new Botan::Hash_Filter(_HASH, _HASH_SIZE),
                                   new Botan::DataSink_Stream(ostream)));
@@ -224,14 +224,13 @@ void PBCStorage::writeToCurrentPlaybookFile() {
     pbcAssert(extension == ".pbc");
     std::stringbuf buff;
     std::ostream ostream(&buff);
-    ostream << "Playbook-Creator" << "\n";
-    ostream << "playbook" << "\n";
-    ostream << PBCVersion::getVersionString() << "\n";
     boost::archive::text_oarchive archive(ostream);
     archive << *PBCPlaybook::getInstance();
 
     std::ofstream ofstream(_currentPlaybookFileName,
                            std::ios_base::out | std::ios_base::binary);
+
+    ofstream << _PREAMBLE;
 
     try {
         encrypt(buff.str(), ofstream);
@@ -259,10 +258,47 @@ void PBCStorage::loadPlaybook(const std::string &password,
     std::ostream ostream(&buff);
     std::ifstream ifstream(fileName, std::ios_base::binary);
 
+    size_t maxLen = _PREAMBLE.length();
+    char preambleBuffer[maxLen];
+    ifstream.getline(preambleBuffer, maxLen);
+    std::string pbcString(preambleBuffer);
+    pbcAssert(pbcString == "Playbook-Creator");
+
+    ifstream.getline(preambleBuffer, maxLen);
+    std::string version(preambleBuffer);
+    checkVersion(version);
+
+    ifstream.getline(preambleBuffer, maxLen);
+    std::string filetypeString(preambleBuffer);
+    pbcAssert(filetypeString == "playbook");
+
     try {
         decrypt(password,
             ostream,
             ifstream);
+    } catch(std::exception& e) {
+        throw PBCStorageException(e.what());  // TODD(obr): message to user
+    }
+    _currentPlaybookFileName = fileName;
+
+    std::istream istream(&buff);
+    boost::archive::text_iarchive archive(istream);
+    archive >> *PBCPlaybook::getInstance();
+}
+
+
+void PBCStorage::loadPlaybook_until_version_0_11_0(const std::string &password,
+                              const std::string &fileName) {
+    std::string extension = fileName.substr(fileName.size() - 4);
+    pbcAssert(extension == ".pbc");
+    std::stringbuf buff;
+    std::ostream ostream(&buff);
+    std::ifstream ifstream(fileName, std::ios_base::binary);
+
+    try {
+        decrypt_until_version_0_11_0(password,
+                ostream,
+                ifstream);
     } catch(std::exception& e) {
         throw PBCStorageException(e.what());  // TODD(obr): message to user
     }
