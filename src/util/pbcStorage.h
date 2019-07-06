@@ -63,9 +63,6 @@ private:
     void decrypt(const std::string &password,
                  std::ostream &ostream,  // NOLINT
                  std::ifstream &inFile); // NOLINT
-    void decrypt_until_version_0_11_0(const std::string &password,
-                 std::ostream &ostream,  // NOLINT
-                 std::ifstream &inFile); // NOLINT
 
 protected:
     PBCStorage() {}
@@ -80,8 +77,6 @@ public:
     void writeToCurrentPlaybookFile();
 
     void loadPlaybook(const std::string &password, const std::string &fileName);
-
-    void loadPlaybook_until_version_0_11_0(const std::string &password, const std::string &fileName);
 
     void exportPlay(const std::string &fileName, PBCPlaySP play);
 

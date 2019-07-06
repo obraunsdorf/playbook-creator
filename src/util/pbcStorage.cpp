@@ -28,8 +28,6 @@
 #include <botan/data_src.h>
 #include <botan/data_snk.h>
 #include <botan/auto_rng.h>
-#include <botan/basefilt.h>
-#include <botan/filters.h>
 #include <botan/aead.h>
 #include <botan/cipher_mode.h>
 #include <botan/cipher_filter.h>
@@ -152,37 +150,6 @@ void PBCStorage::decrypt(const std::string &password,
     setCryptoKey(key, salt);
 }
 
-
-void PBCStorage::decrypt_until_version_0_11_0(const std::string &password,
-                         std::ostream &ostream,
-                         std::ifstream &inFile) {
-    boost::shared_ptr<Botan::PBKDF> pbkdf(Botan::get_pbkdf(_PBKDF));
-    Botan::SecureVector<Botan::byte> salt(_SALT_SIZE);
-    inFile.read(reinterpret_cast<char*>(&salt[0]), _SALT_SIZE);
-
-    Botan::SecureVector<Botan::byte> hash(_HASH_SIZE);
-    inFile.read(reinterpret_cast<char*>(&hash[0]), _HASH_SIZE);
-
-    Botan::OctetString key = pbkdf->derive_key(_KEY_SIZE, password,
-                                               &salt[0], salt.size(),
-                                               _PBKDF_ITERATIONS);
-
-    Botan::Pipe decryptor(Botan::get_cipher("AES-256/CBC", key, Botan::DECRYPTION),
-                          new Botan::Fork(
-                                  new Botan::Hash_Filter(_HASH, _HASH_SIZE),
-                                  new Botan::DataSink_Stream(ostream)));
-
-    Botan::DataSource_Stream source(inFile);
-    decryptor.process_msg(source);
-    Botan::SecureVector<Botan::byte> calculatedHash = decryptor.read_all(0);
-
-    if(calculatedHash != hash) {
-        throw PBCDecryptionException("wrong password?");
-    } else {
-        setCryptoKey(key, salt);
-    }
-}
-
 /**
  * @brief Initializes the PBCStorage instance when a new playbook loaded. Hence
  * the key and the salt have to be reset.
@@ -293,44 +260,6 @@ void PBCStorage::loadPlaybook(const std::string &password,
     archive >> *PBCPlaybook::getInstance();
 }
 
-
-void PBCStorage::loadPlaybook_until_version_0_11_0(const std::string &password,
-                              const std::string &fileName) {
-    std::string extension = fileName.substr(fileName.size() - 4);
-    pbcAssert(extension == ".pbc");
-    std::stringbuf buff;
-    std::ostream ostream(&buff);
-    std::ifstream ifstream(fileName, std::ios_base::binary);
-
-    try {
-        decrypt_until_version_0_11_0(password,
-                ostream,
-                ifstream);
-    } catch(std::exception& e) {
-        throw PBCStorageException(e.what());  // TODD(obr): message to user
-    }
-    _currentPlaybookFileName = fileName;
-
-    std::istream istream(&buff);
-
-    const int kBuffSize = 100;
-    char buffer[kBuffSize];
-
-    istream.getline(buffer, kBuffSize);
-    std::string pbcString(buffer);
-    pbcAssert(pbcString == "Playbook-Creator");
-
-    istream.getline(buffer, kBuffSize);
-    std::string pbString(buffer);
-    pbcAssert(pbString == "playbook");
-
-    istream.getline(buffer, kBuffSize);
-    std::string version(buffer);
-    checkVersion(version);
-
-    boost::archive::text_iarchive archive(istream);
-    archive >> *PBCPlaybook::getInstance();
-}
 
 /**
  * @brief Graphically exports the playbook in PDF file format.
