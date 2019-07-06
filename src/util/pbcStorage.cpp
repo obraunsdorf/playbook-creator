@@ -258,7 +258,7 @@ void PBCStorage::loadPlaybook(const std::string &password,
     std::ostream ostream(&buff);
     std::ifstream ifstream(fileName, std::ios_base::binary);
 
-    size_t maxLen = _PREAMBLE.length();
+    const size_t maxLen = _PREAMBLE.length();
     char preambleBuffer[maxLen];
     ifstream.getline(preambleBuffer, maxLen);
     std::string pbcString(preambleBuffer);
