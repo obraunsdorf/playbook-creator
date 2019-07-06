@@ -36,10 +36,10 @@ class PBCqApplication final : public QApplication {
         try {
             return QApplication::notify(receiver, event);
         } catch(std::exception &e) {
-            QString errorString = QString::fromStdString(e.what());
-            errorString += "\nTerminating playbook creator. Please open an bug report on "
+            QString errorString = "Terminating playbook creator. Please open an bug report on "
                            "Github (https://github.com/obraunsdorf/playbook-creator/issues) "
-                           "containing the following error log.";
+                           "containing the following error log.\n\n";
+            errorString += e.what();
             QMessageBox::critical(activeWindow(), "", errorString);
             QApplication::exit(1);
             return false;
