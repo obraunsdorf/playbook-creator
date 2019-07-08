@@ -279,6 +279,17 @@ void PBCPlayerView::setPosition(double x, double y) {
 }
 
 
+bool PBCPlayerView::isClickInShape(const QPointF& clickPos) {
+    if (_playerShapeSP->contains(clickPos)) {
+        std::cout << "contained" << std::endl;
+        return true;
+    } else {
+        std::cout << "not contained" << std::endl;
+        return false;
+    }
+}
+
+
 /**
  * @brief Handles context menu clicks
  *
@@ -288,6 +299,10 @@ void PBCPlayerView::setPosition(double x, double y) {
  * @param event event datastructure, includes position of context menu click
  */
 void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
+    if (!isClickInShape(event->pos()))  {
+        event->ignore();
+        return;
+    }
     QMenu menu;
     QMenu* routeMenu = menu.addMenu(QString::fromStdString("Routes"));
     boost::unordered_map<QAction*, PBCRouteSP> actionMap;
@@ -423,6 +438,17 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
         } else {
             pbcAssert(clicked == NULL);
         }
+    }
+}
+
+
+
+
+void PBCPlayerView::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+    if (isClickInShape(event->pos())) {
+        QGraphicsItemGroup::mousePressEvent(event);
+    } else {
+        event->ignore();
     }
 }
 
