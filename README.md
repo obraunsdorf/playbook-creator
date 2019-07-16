@@ -17,9 +17,20 @@ Playbook Creator is mainly developed and tested on Linux, but you can download a
         `apt-get install qt5-default`
     2. Download Playbook Creator for Linux at https://github.com/obraunsdorf/playbook-creator/releases
 
-**Documentation:**  
-  Short Version: Do a right-click on a player and everything else should be self-explained.  
-  Long Version: A (quite outdated) PDF document is available [here](manual/pbcManual.pdf). The last page contains a step-by-step guideline to create a new playbook from scratch. I'll try to update the documentation in a new fancy manner as soon as I can.
+## Documentation
+Most of the user interface of Playbook Creator should be self-explainable. There is the main menu which can be used to, e.g.
+ * create/open/safe a new playbook
+ * create/open/safe/delete a play
+ * export the playbook as pdf, arranged for using as a wrist coach
+
+Moreover you can right-click on a player to
+ * apply a route / create a new route
+ * apply a motion
+ * set her color
+ 
+ You can also double-click on a player to quickly apply a route.
+ 
+Note: A (quite outdated) manual in PDF format is available [here](manual/pbcManual.pdf). The last page contains a step-by-step guideline to create a new playbook from scratch. I'll try to update the documentation in a new fancy manner as soon as I can.
 
 
 ## How to build
