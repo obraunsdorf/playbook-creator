@@ -23,12 +23,13 @@ Most of the user interface of Playbook Creator should be self-explainable. There
  * create/open/safe/delete a play
  * export the playbook as pdf, arranged for using as a wrist coach
 
-Moreover you can right-click on a player to
+Moreover you can **right-click** on a player to
  * apply a route / create a new route
  * apply a motion
  * set her color
  
- You can also double-click on a player to quickly apply a route.
+ You can also **double-click** on a player to quickly **apply a route**.  
+ **Press 'Ctrl' and move your mouse** during route creation **to draw curved routes**.
  
 Note: A (quite outdated) manual in PDF format is available [here](manual/pbcManual.pdf). The last page contains a step-by-step guideline to create a new playbook from scratch. I'll try to update the documentation in a new fancy manner as soon as I can.
 
