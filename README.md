@@ -49,7 +49,7 @@ For Building on Windows you can set up a [Appveyor](https://www.appveyor.com/)-l
 
 
 ## How to contribute
-Feel free to contribute on any aspects of Playbook Creator: Front-end design, back-end code, crypto, documentation, website, etc. If you don't know where to start, please have a look at <https://github.com/obraunsdorf/playbook-creator/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22>
+Feel free to contribute on any aspects of Playbook Creator: Front-end design, back-end code, crypto, documentation, website, etc. If you don't know where to start, please have a look at <https://github.com/obraunsdorf/playbook-creator/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22>
 
 If you have any concrete idea, bug fixes, or even new code, you can either send me an email at <oliver.braunsdorf@gmx.de> or you can create an issue at <https://github.com/obraunsdorf/playbook-creator/issues>
 
