@@ -36,7 +36,6 @@ class MainDialog : public QMainWindow {
 
  private:
     Ui::MainDialog *ui;
-    QString _currentPlaybookFileName;
     PBCPlayView* _playView;
 
     void updateTitle(bool saved);

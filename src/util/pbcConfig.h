@@ -27,6 +27,8 @@
 #include "models/pbcColor.h"
 #include <string>
 
+#define PASSWORD_MAX_RETRYS 5
+
 class PBCConfig : public PBCSingleton<PBCConfig> {
     friend class PBCSingleton<PBCConfig>;
 

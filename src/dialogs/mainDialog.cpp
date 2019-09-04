@@ -58,8 +58,7 @@
  */
 MainDialog::MainDialog(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainDialog),
-    _currentPlaybookFileName("") {
+    ui(new Ui::MainDialog){
     ui->setupUi(this);
     ui->graphicsView->setRenderHint(QPainter::Antialiasing);
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -321,7 +320,6 @@ void MainDialog::savePlaybookAs() {
                                                  "Enter encryption password",
                                                  QLineEdit::Password, "", &ok);
         if(ok == true) {
-            _currentPlaybookFileName = fileName;
             PBCStorage::getInstance()->savePlaybook(password.toStdString(),
                                                     fileName.toStdString());
             updateTitle(true);
@@ -337,21 +335,39 @@ void MainDialog::openPlaybook() {
                            "PBC Files (*.pbc);;All Files (*.*)");
 
     fileDialog.setFileMode(QFileDialog::ExistingFile);
-    if(fileDialog.exec() == true) {
+    if (fileDialog.exec() == true) {
         QStringList files = fileDialog.selectedFiles();
         pbcAssert(files.size() == 1);
         QString fileName = files.first();
 
-        bool ok;
-        QString password = QInputDialog::getText(this, "Open Playbook",
-                                                 "Enter decryption password",
-                                                 QLineEdit::Password, "", &ok);
-        if(ok == true) {
-            _currentPlaybookFileName = fileName;
-            PBCStorage::getInstance()->loadPlaybook(password.toStdString(),
-                                                    fileName.toStdString());
-            _playView->resetPlay();
-            updateTitle(true);
+        unsigned int decryptionFailureCount = 0;
+        while (true) {
+            bool ok;
+            std::string msg;
+            if (decryptionFailureCount == 0) {
+                msg = "Enter decryption password";
+            } else {
+                msg = "Error on decryption. Maybe wrong password. Try again!";
+            }
+            QString password = QInputDialog::getText(this, "Open Playbook",
+                                                     QString::fromStdString(msg),
+                                                     QLineEdit::Password, "", &ok);
+            if (ok == true) {
+                try {
+                    PBCStorage::getInstance()->loadPlaybook(password.toStdString(),
+                                                            fileName.toStdString());
+                } catch (PBCStorageException &e) {
+                    if (decryptionFailureCount < PASSWORD_MAX_RETRYS - 1) {
+                        decryptionFailureCount++;
+                        continue;
+                    } else {
+                        throw e;
+                    }
+                }
+                _playView->resetPlay();
+                updateTitle(true);
+                break;
+            }
         }
     }
 }

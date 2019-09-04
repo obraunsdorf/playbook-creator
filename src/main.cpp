@@ -19,7 +19,6 @@
     @author Oliver Braunsdorf
     @brief This is the main file.
 */
-
 #include "dialogs/mainDialog.h"
 #include "util/pbcExceptions.h"
 #include "pbcVersion.h"
@@ -28,24 +27,6 @@
 #include <QApplication>
 #include <QMessageBox>
 #include <iostream>
-
-class PBCqApplication final : public QApplication {
- public:
-    PBCqApplication(int& argc, char** argv) : QApplication(argc, argv) {}
-    bool notify(QObject *receiver, QEvent *event) override {
-        try {
-            return QApplication::notify(receiver, event);
-        } catch(std::exception &e) {
-            QString errorString = "Terminating playbook creator. Please open an bug report on "
-                           "Github (https://github.com/obraunsdorf/playbook-creator/issues) "
-                           "containing the following error log.\n\n";
-            errorString += e.what();
-            QMessageBox::critical(activeWindow(), "", errorString);
-            QApplication::exit(1);
-            return false;
-        }
-    }
-};
 
 /**
  * @brief the main function
@@ -64,8 +45,18 @@ int main(int argc, char *argv[]) {
               << BOTAN_VERSION_MINOR << "."
               << BOTAN_VERSION_PATCH << std::endl;
 
-    PBCqApplication a(argc, argv);
+    QApplication a(argc, argv);
     MainDialog w;
-    w.show();
-    return a.exec();
+    try {
+        w.show();
+        a.exec();
+    } catch(std::exception &e) {
+        QString errorString = "Terminating playbook creator. Please open an bug report on "
+                              "Github (https://github.com/obraunsdorf/playbook-creator/issues) "
+                              "containing the following error log.\n\n";
+        errorString += e.what();
+        QMessageBox::critical(QApplication::activeWindow(), "", errorString);
+        return 1;
+    }
+    return 0;
 }

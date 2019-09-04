@@ -142,8 +142,8 @@ void PBCStorage::decrypt(const std::string &password,
         decryptor.process_msg(source);
     } catch (Botan::Integrity_Failure& e) {
         throw PBCDecryptionException("Error while decrypting playbook. "
-                                     "Maybe you entered the wrong password? "
-                                     "Or someone tampered the playbook file.");
+                                     "Maybe you entered the wrong password to often "
+                                     "or someone tampered the playbook file.");
     }
     /*std::string readPreamble(preambleBytes.begin(), preambleBytes.end());
     std::cout << "read preamble: " << readPreamble << std::endl*/
