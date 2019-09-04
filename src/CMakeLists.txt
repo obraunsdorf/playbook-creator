@@ -17,6 +17,8 @@ set ( SOURCES
 	dialogs/pbcOpenPlayDialog.h
 	dialogs/pbcSavePlayAsDialog.cpp
 	dialogs/pbcSavePlayAsDialog.h
+	dialogs/pbcSetPasswordDialog.cpp
+	dialogs/pbcSetPasswordDialog.h
 	gui/pbcCustomRouteView.cpp
 	gui/pbcCustomRouteView.h
 	gui/pbcGridIronView.cpp
@@ -29,6 +31,7 @@ set ( SOURCES
 	models/pbcCategory.cpp
 	models/pbcCategory.h
 	models/pbcColor.cpp
+	models/pbcDefaultPlaybook.cpp
 	models/pbcColor.h
 	models/pbcFormation.h
 	models/pbcMotion.cpp
@@ -52,8 +55,7 @@ set ( SOURCES
 	util/pbcStorage.cpp
 	util/pbcStorage.h
 	main.cpp
-	pbcVersion.h
-        models/pbcDefaultPlaybook.cpp)
+	pbcVersion.h)
 
 set ( MOC_HEADERS
 	pbcVersion.h
@@ -86,6 +88,7 @@ set ( MOC_HEADERS
 	dialogs/pbcOpenPlayDialog.h
 	dialogs/pbcEditCategoriesDialog.h
 	dialogs/pbcSavePlayAsDialog.h
+	dialogs/pbcSetPasswordDialog.h
 )
 
 set ( UIS
@@ -98,6 +101,7 @@ set ( UIS
     dialogs/pbcOpenPlayDialog.ui
     dialogs/pbcEditCategoriesDialog.ui
     dialogs/pbcSavePlayAsDialog.ui
+	dialogs/pbcSetPasswordDialog.ui
 )
 
 include_directories(${PROJECT_SOURCE_DIR}/src})

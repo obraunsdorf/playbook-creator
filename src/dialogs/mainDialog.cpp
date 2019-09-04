@@ -32,11 +32,13 @@
 #include "dialogs/pbcNewPlayDialog.h"
 #include "dialogs/pbcOpenPlayDialog.h"
 #include "dialogs/pbcSavePlayAsDialog.h"
+#include "dialogs/pbcSetPasswordDialog.h"
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QDebug>
 #include "util/pbcStorage.h"
 #include "util/pbcExceptions.h"
+#include "pbcSetPasswordDialog.h"
 #include <QFileDialog>
 #include <QStringList>
 #include <QPushButton>
@@ -315,16 +317,17 @@ void MainDialog::savePlaybookAs() {
         pbcAssert(files.size() == 1);
         QString fileName = files.first();
 
-        bool ok;
-        QString password = QInputDialog::getText(this, "Save Playbook",
-                                                 "Enter encryption password",
-                                                 QLineEdit::Password, "", &ok);
-        if(ok == true) {
+        PBCSetPasswordDialog pwDialog;
+        int returnCode = pwDialog.exec();
+        if (returnCode == QDialog::Accepted) {
+            QString password = pwDialog.getPassword();
             PBCStorage::getInstance()->savePlaybook(password.toStdString(),
                                                     fileName.toStdString());
             updateTitle(true);
+            return;
         }
     }
+    QMessageBox::warning(this, "Save Playbook", "Playbook was not saved!");
 }
 
 /**

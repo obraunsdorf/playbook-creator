@@ -36,6 +36,7 @@ PBCOpenPlayDialog::PBCOpenPlayDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::PBCOpenPlayDialog) {
     ui->setupUi(this);
+    ui->nameComboBox->setFocus();
     reset();
 }
 
