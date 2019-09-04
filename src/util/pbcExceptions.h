@@ -104,6 +104,16 @@ class PBCStorageException : public PBCException {
 };
 
 /**
+ * @class PBCRenderingException
+ * @brief An exception that is thrown when something cannot be rendered.
+ */
+class PBCRenderingException : public PBCException {
+public:
+    explicit PBCRenderingException(const std::string& msg = "") :
+            PBCException("Error while rendering: " + msg) {}
+};
+
+/**
  * @class PBCDecryptionException
  * @brief An exception that is thrown when something went wrong with the decryption.
  */

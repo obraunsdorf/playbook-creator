@@ -179,6 +179,13 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
             endPointY = arrowPHalf.y();
         }
 
+        if ( endPointX < 0 || endPointX >= PBCConfig::getInstance()->canvasWidth()
+             || endPointY < 0 || endPointY >= PBCConfig::getInstance()->canvasHeight()) {
+            std::ostringstream errMsg;
+            errMsg << "trying to draw a route outside of canvas (x = " << endPointX << "; y = " << endPointY << ")";
+            throw PBCRenderingException(errMsg.str());
+        }
+
         if (path->bezierControlPoint().get<0>() == DUMMY_POINT.get<0>()) {
             painterPath.lineTo(endPointX, endPointY);
         } else {
@@ -187,7 +194,6 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
             PBCDPoint controlPointPixel = PBCPositionTranslator::getInstance()->translatePos(controlPointYd, basePoint); //NOLINT
             unsigned int controlPointX = controlPointPixel.get<0>();
             unsigned int controlPointY = controlPointPixel.get<1>();
-
             painterPath.quadTo(QPointF(controlPointX,controlPointY), QPointF(endPointX, endPointY));
         }
 
@@ -201,17 +207,13 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
     }
 }
 
-/**
- * @brief Sets a player's route and paints it.
- * @param route The route to apply
- */
-void PBCPlayerView::applyRoute(PBCRouteSP route) {
+void PBCPlayerView::paintRoute() {
+    PBCRouteSP route = _playerSP->route();
+
     for(QGraphicsItemSP item : _routePaths) {
         this->removeFromGroup(item.get());
     }
     _routePaths.clear();
-
-    _playerSP->setRoute(route);
 
     PBCDPoint playerPos = PBCPositionTranslator::getInstance()->translatePos(_playerSP->pos()); //NOLINT
     int inOutFactor = -1;
@@ -230,6 +232,30 @@ void PBCPlayerView::applyRoute(PBCRouteSP route) {
 
     for(boost::shared_ptr<QGraphicsItem> item : _routePaths) {
         this->addToGroup(item.get());
+    }
+}
+
+
+/**
+ * @brief Sets a player's route and paints it.
+ * @param route The route to apply
+ */
+void PBCPlayerView::applyRoute(PBCRouteSP route) {
+    PBCRouteSP oldRoute = _playerSP->route();
+    _playerSP->setRoute(route);
+    try {
+        paintRoute();
+    } catch(const PBCRenderingException& e) {
+        _playerSP->setRoute(NULL);
+        std::array<char, 4> sn = _playerSP->role().shortName;
+        std::string playerShortName(sn.begin(), sn.end());
+        QMessageBox::warning(NULL,
+                              "Cannot Draw Route",
+                              QString::fromStdString("For player \"" +  _playerSP->role().fullName + "\""
+                              + " the route \"" + route->name() + "\""
+                              + " ends outside the gridiron's borders. "
+                                "Please apply another route or change the position/motion of the player."),  // NOLINT
+                              QMessageBox::Ok);
     }
 }
 

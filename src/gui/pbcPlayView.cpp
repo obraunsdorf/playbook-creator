@@ -178,6 +178,9 @@ void PBCPlayView::createNewPlay(const std::string &name,
  */
 void PBCPlayView::savePlay(const std::string &name,
                            const std::string &codeName) {
+    // FIXME(obr): dirty hack to check if the play can be rendered (no PBCRenderingException occurs)
+    repaint();
+
     if(name != "") {
         _currentPlay->setName(name);
         _currentPlay->setCodeName(codeName);

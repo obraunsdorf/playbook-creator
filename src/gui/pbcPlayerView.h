@@ -48,6 +48,7 @@ class PBCPlayerView : public QObject, public QGraphicsItemGroup {
     std::vector<boost::shared_ptr<QGraphicsItem>> _motionPaths;
 
     void repaint();
+    void paintRoute();
     bool isClickInShape(const QPointF& clickPos);
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
