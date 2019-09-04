@@ -60,20 +60,48 @@ PBCPlayView::PBCPlayView(PBCPlaySP playSP, QObject *parent) :
  * @brief Displays the code name of the current play
  * @param yPos The vertical position of the line in coordinates of the
  * PBCPlayView instance (pixels)
- * @param textSize The size of the displayed name
+ * @param textHeight The size of the displayed name
  * @param color The color of the displayed name
  */
-void PBCPlayView::paintPlayName(unsigned int yPos,
-                                unsigned int textSize,
-                                PBCColor color) {
-    QGraphicsTextItem* text = this->addText(QString::fromStdString(
-                                                _currentPlay->codeName()),
-                                            QFont("Helvetica",
-                                                  textSize,
-                                                  textSize,
-                                                  true));
+void PBCPlayView::paintPlayName() {
+    unsigned int textHeight = PBCConfig::getInstance()->playNameSize();
+    QFont font = QFont(QString::fromStdString(PBCConfig::getInstance()->playNameFont()),
+                       textHeight,
+                       textHeight,
+                       true);
+
+    const QString name =
+            _currentPlay->codeName() != "" ?
+            QString::fromStdString(_currentPlay->codeName()) :
+            QString::fromStdString(_currentPlay->name());
+
+
+    // adjust font size for name to fit in one line
+    unsigned int rightMargin = 5; // in pixel; so that play name is not squished against right border of canvas
+    unsigned int leftMargin = 5; // in pixel; so that play name is not squished against left border of canvas
+    bool fits = false;
+    while (!fits) {
+        font.setPointSize(textHeight);
+        font.setWeight(textHeight);
+        QFontMetrics fm(font);
+        if (fm.width(name) >= PBCConfig::getInstance()->canvasWidth() - leftMargin - rightMargin) {
+            fits = false;
+            textHeight = textHeight - 1;
+        } else {
+            fits = true;
+        }
+    }
+
+    QGraphicsTextItem *text = this->addText(name, font);
+    unsigned int yPos = PBCConfig::getInstance()->canvasHeight() - 2 * textHeight;
+    PBCColor color = PBCConfig::getInstance()->playNameColor();
     text->setY(yPos);
+    text->setX(leftMargin);
     text->setDefaultTextColor(QColor(color.r(), color.g(), color.b()));
+
+    /*
+    // set text editable: could be a usable feature for the future
+    text->setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard | Qt::TextEditable);*/
 }
 
 
@@ -103,15 +131,13 @@ void PBCPlayView::repaint() {
 
     paintBorder();
 
-    if(_currentPlay != NULL) {
-        for(PBCPlayerSP playerSP : *(_currentPlay->formation())) {
+    if (_currentPlay != NULL) {
+        for (PBCPlayerSP playerSP : *(_currentPlay->formation())) {
             this->addItem(new PBCPlayerView(playerSP, this));
         }
 
-        unsigned int textSize = PBCConfig::getInstance()->playNameSize();
-        paintPlayName(PBCConfig::getInstance()->canvasHeight() - 2 * textSize,
-                      textSize,
-                      PBCConfig::getInstance()->playNameColor());
+        unsigned int textHeight = PBCConfig::getInstance()->playNameSize();
+        paintPlayName();
     }
 }
 

@@ -29,9 +29,6 @@
 class PBCPlayView : public PBCGridIronView {
  public:
     explicit PBCPlayView(PBCPlaySP playSP = NULL, QObject *parent = 0);
-    void paintPlayName(unsigned int yPos,
-                       unsigned int textSize,
-                       PBCColor color);
     void repaint();
     void resetPlay();
     void createNewPlay(const std::string& name,
@@ -69,6 +66,8 @@ class PBCPlayView : public PBCGridIronView {
     QPointF _lastPressPoint;
     QPointF _lastControlPoint;
     std::vector<PBCPathSP> _paths;
+
+    void paintPlayName();
 };
 
 #endif  // PBCPLAYVIEW_H

@@ -46,6 +46,7 @@ private:
     double _ballWidthYd;
     PBCColor _playNameColor;
     double _playNameSizeYd;
+    std::string _playNameFont;
     double _playerWidthYd;
     double _routeWidthYd;
     bool _playerShadow;
@@ -74,6 +75,7 @@ protected:
             _ballWidthYd(1),
             _playNameColor(128U, 128U, 128U),
             _playNameSizeYd(2.5),
+            _playNameFont("Helvetica"),
             _playerWidthYd(1),
             _playerShadow(true),
             _playerShadowRadius(20),
@@ -153,6 +155,10 @@ public:
 
     unsigned int playNameSize() {
         return _playNameSizeYd * ydInPixel();
+    }
+
+    std::string playNameFont() {
+        return _playNameFont;
     }
 
     double ydInPixel() {
