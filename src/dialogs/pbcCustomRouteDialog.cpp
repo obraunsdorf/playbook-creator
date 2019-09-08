@@ -25,6 +25,7 @@
 #include "util/pbcExceptions.h"
 #include "util/pbcStorage.h"
 #include "models/pbcPlaybook.h"
+#include "dialogs/pbcSetPasswordDialog.h"
 #include <QDebug>
 #include <QMessageBox>
 #include <string>
@@ -45,11 +46,10 @@ void PBCCustomRouteDialog::savePlaybookOnRouteCreation() {
         pbcAssert(files.size() == 1);
         QString fileName = files.first();
 
-        bool ok;
-        QString password = QInputDialog::getText(this, "Save Playbook",
-                                                 "Enter encryption password",
-                                                 QLineEdit::Password, "", &ok);
-        if(ok == true) {
+        PBCSetPasswordDialog pwDialog;
+        int returnCode = pwDialog.exec();
+        if (returnCode == QDialog::Accepted) {
+            QString password = pwDialog.getPassword();
             PBCStorage::getInstance()->savePlaybook(password.toStdString(),
                                                     fileName.toStdString());
         }
@@ -90,7 +90,7 @@ void PBCCustomRouteDialog::accept() {
         bool successful = false;
         try {
             successful = PBCPlaybook::getInstance()->addRoute(_createdRoute);
-        } catch(const PBCStorageException& e) {
+        } catch(const PBCAutoSaveException& e) {
             QMessageBox::information(this, "", "You have to save the playbook to a file before you can add routes");  //NOLINT
             savePlaybookOnRouteCreation();
             return;
@@ -107,7 +107,7 @@ void PBCCustomRouteDialog::accept() {
                 try {
                     result = PBCPlaybook::getInstance()->addRoute(_createdRoute,
                                                                   true);
-                } catch(const PBCStorageException& e) {
+                } catch(const PBCAutoSaveException& e) {
                     QMessageBox::information(this, "", "You have to save the playbook to a file before you can add routes");  //NOLINT
                     savePlaybookOnRouteCreation();
                     return;

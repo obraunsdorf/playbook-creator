@@ -117,10 +117,30 @@ public:
  * @class PBCDecryptionException
  * @brief An exception that is thrown when something went wrong with the decryption.
  */
-class PBCDecryptionException : public PBCException {
+class PBCDecryptionException : public PBCStorageException {
  public:
     explicit PBCDecryptionException(const std::string& msg = "") :
-        PBCException("Error while decrypting file: " + msg) {}
+            PBCStorageException("Error while decrypting file: " + msg) {}
+};
+
+/**
+ * @class PBCDeprecatedVersionException
+ * @brief An exception that is thrown when loading a .pbc file that is created by a newer version of PBC.
+ */
+class PBCDeprecatedVersionException : public PBCStorageException {
+public:
+    explicit PBCDeprecatedVersionException(const std::string& msg = "") :
+            PBCStorageException("Cannot load playbook because it's created by a newer version of Playbook-Creator. Please download the latest version of Playbook-Creator!: " + msg) {}
+};
+
+/**
+ * @class PBCAutoSaveException
+ * @brief An exception that is thrown when an automatic save should be performed but the mandatory first manual save has not happened yet.
+ */
+class PBCAutoSaveException : public PBCStorageException {
+public:
+    explicit PBCAutoSaveException(const std::string& msg = "") :
+            PBCStorageException("Cannot save playbook automatically. The playbook must be saved manually first " + msg) {}
 };
 
 #endif  // PBCEXCEPTIONS_H

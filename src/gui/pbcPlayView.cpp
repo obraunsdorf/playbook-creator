@@ -36,6 +36,7 @@
 
 #include <string>
 #include <iostream>
+#include <dialogs/pbcSetPasswordDialog.h>
 
 /**
  * @class PBCPlayView
@@ -408,7 +409,7 @@ void PBCPlayView::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
         if (_routeName != "") {
             try {
                 PBCPlaybook::getInstance()->addRoute(route, _overwrite);
-            } catch (PBCStorageException e) {
+            } catch (PBCAutoSaveException& e) {
                 QMessageBox::information(NULL, "", "You have to save the playbook to a file before you can add routes");  //NOLINT
                 savePlaybookOnRouteCreation();
             }
@@ -441,11 +442,10 @@ void PBCPlayView::savePlaybookOnRouteCreation() {
         pbcAssert(files.size() == 1);
         QString fileName = files.first();
 
-        bool ok;
-        QString password = QInputDialog::getText(NULL, "Save Playbook",
-                                                 "Enter encryption password",
-                                                 QLineEdit::Password, "", &ok);
-        if(ok == true) {
+        PBCSetPasswordDialog pwDialog;
+        int returnCode = pwDialog.exec();
+        if (returnCode == QDialog::Accepted) {
+            QString password = pwDialog.getPassword();
             PBCStorage::getInstance()->savePlaybook(password.toStdString(),
                                                     fileName.toStdString());
         }

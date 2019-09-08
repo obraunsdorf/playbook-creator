@@ -59,7 +59,7 @@ void PBCStorage::checkVersion(const std::string &version) {
     // TODO(obr): do better version checking
     int result = PBCVersion::compareCurrentVersionTo(version);
     if(result < 0) {
-        throw PBCStorageException("Cannot load playbook because it's created by a newer version of Playbook-Creator. Please download the latest version of Playbook-Creator!");  //NOLINT
+        throw PBCDeprecatedVersionException("Version of the new playbook is: " + version);  //NOLINT
     }
     pbcAssert(result >= 0);
     pbcAssert(BOTAN_VERSION_CODE >= BOTAN_VERSION_CODE_FOR(1, 10, 9));
@@ -182,7 +182,7 @@ void PBCStorage::automaticSavePlaybook() {
     if(_keySP != NULL && _saltSP != NULL) {
         writeToCurrentPlaybookFile();
     } else {
-        throw PBCStorageException("Cannot save playbook automatically whithout key. The playbook must be saved manually first");  //NOLINT
+        throw PBCAutoSaveException("Cryptographic key is missing.");  //NOLINT
     }
 }
 
@@ -253,6 +253,8 @@ void PBCStorage::loadPlaybook(const std::string &password,
         decrypt(password,
             ostream,
             ifstream);
+    } catch (PBCDecryptionException& e) {
+        throw e;
     } catch(std::exception& e) {
         throw PBCStorageException(e.what());  // TODD(obr): message to user
     }

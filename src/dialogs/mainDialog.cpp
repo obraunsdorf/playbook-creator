@@ -223,7 +223,7 @@ void MainDialog::showAboutDialog() {
 void MainDialog::savePlay() {
     try {
         _playView->savePlay();
-    } catch(const PBCStorageException& e) {
+    } catch(const PBCAutoSaveException& e) {
         QMessageBox::warning(this, "Save Play", "The play could not be saved. You have to save the playbook to a file before you can add plays.");  //NOLINT
         savePlaybookAs();
         return;
@@ -255,7 +255,7 @@ void MainDialog::savePlayAs() {
         }
         try {
             _playView->savePlay(rs.name, rs.codeName);
-        } catch(const PBCStorageException& e) {
+        } catch(const PBCAutoSaveException& e) {
             QMessageBox::warning(this, "Save Play As",
                     "The play could not be saved. You have to save the playbook to a file before you can add plays");
             savePlaybookAs();
@@ -305,7 +305,7 @@ void MainDialog::saveFormationAs() {
         }
         try {
             _playView->saveFormation(formationName);
-        } catch (const PBCStorageException &e) {
+        } catch (const PBCAutoSaveException &e) {
             QMessageBox::warning(this, "Save Formation As",
                     "Formation could not be saved. You have to save the playbook to a file before you can add formations");
             savePlaybookAs();
@@ -398,13 +398,18 @@ void MainDialog::openPlaybook() {
                 try {
                     PBCStorage::getInstance()->loadPlaybook(password.toStdString(),
                                                             fileName.toStdString());
-                } catch (PBCStorageException &e) {
+                } catch (PBCDecryptionException &e) {
                     if (decryptionFailureCount < PASSWORD_MAX_RETRYS - 1) {
                         decryptionFailureCount++;
                         continue;
                     } else {
                         throw e;
                     }
+                } catch (PBCDeprecatedVersionException& e) {
+                    QMessageBox::critical(this,
+                            "Open Playbook",
+                            "Cannot load playbook because it's created by a newer version of Playbook-Creator. "
+                            "Please download the latest version of Playbook-Creator!");
                 }
                 _playView->resetPlay();
                 updateTitle(true);
@@ -463,7 +468,7 @@ void MainDialog::exportAsPDF() {
 void MainDialog::addPlayToCategory() {
     try {
         _playView->editCategories();
-    } catch(const PBCStorageException& e) {
+    } catch(const PBCAutoSaveException& e) {
         QMessageBox::information(this, "", "You have to save the playbook before.");  //NOLINT
         savePlaybookAs();
         return;
@@ -476,7 +481,7 @@ void MainDialog::deleteRoutes() {
         for (const auto &name : *deleteDialog.get_nameList()) {
             try {
                 PBCPlaybook::getInstance()->deleteRoute(name.toStdString());
-            } catch (PBCStorageException &e) {
+            } catch (PBCAutoSaveException &e) {
                 // TODO log message
                 /* The exception should not really be an issue here. If the playbook has not been saved to file yet,
                  * then there cannot be custom routes, plays, formations, etc. So the user can only delete default things.
@@ -496,7 +501,7 @@ void MainDialog::deletePlays() {
         for (const auto& name : *deleteDialog.get_nameList()) {
             try {
                 PBCPlaybook::getInstance()->deletePlay(name.toStdString());
-            } catch (PBCStorageException &e) {
+            } catch (PBCAutoSaveException &e) {
                 // TODO log message (see issue #19)
                 /* The exception should not really be an issue here. If the playbook has not been saved to file yet,
                  * then there cannot be custom routes, plays, formations, etc. So the user can only delete default things.
@@ -515,7 +520,7 @@ void MainDialog::deleteFormations() {
         for (const auto& name : *deleteDialog.get_nameList()) {
             try {
                 PBCPlaybook::getInstance()->deleteFormation(name.toStdString());
-            } catch (PBCStorageException &e) {
+            } catch (PBCAutoSaveException &e) {
                 // TODO log message  (see issue #19)
                 /* The exception should not really be an issue here. If the playbook has not been saved to file yet,
                  * then there cannot be custom routes, plays, formations, etc. So the user can only delete default things.
@@ -534,7 +539,7 @@ void MainDialog::deleteCategories() {
         for (const auto& name : *deleteDialog.get_nameList()) {
             try {
                 PBCPlaybook::getInstance()->deleteCategory(name.toStdString());
-            } catch (PBCStorageException &e) {
+            } catch (PBCAutoSaveException &e) {
                 // TODO log message  (see issue #19)
                 /* The exception should not really be an issue here. If the playbook has not been saved to file yet,
                  * then there cannot be custom routes, plays, formations, etc. So the user can only delete default things.
