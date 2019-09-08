@@ -213,7 +213,7 @@ void PBCPlayView::saveFormation(const std::string &formationName) {
     if(formationName != "") {
         _currentPlay->formation()->setName(formationName);
     }
-    PBCPlaybook::getInstance()->addFormation(_currentPlay->formation());
+    PBCPlaybook::getInstance()->addFormation(_currentPlay->formation(), true);
 }
 
 
