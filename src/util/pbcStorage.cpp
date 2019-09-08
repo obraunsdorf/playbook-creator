@@ -297,7 +297,19 @@ void PBCStorage::exportAsPDF(const std::string& fileName,
     QPrinter printer(QPrinter::HighResolution);
     printer.setOutputFileName(QString::fromStdString(fileName));
     printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setPaperSize(QSizeF(paperWidth, paperHeight), QPrinter::Millimeter);
+    unsigned int autoPaperWidth = paperWidth;
+    unsigned int autoPaperHeight = paperHeight;
+    if (paperWidth == 0 || paperHeight == 0) {
+        // is needed because play views are rendered to pixel graphics,
+        // which would result in huge files if not scaled down
+        float scaleFactor = 0.025;
+
+        autoPaperWidth = (PBCConfig::getInstance()->canvasWidth() * columns + marginLeft + marginRight) * scaleFactor;
+        autoPaperHeight = (PBCConfig::getInstance()->canvasHeight() * rows + marginTop + marginBottom) * scaleFactor;
+
+    }
+    std::cout << "paper width = " << autoPaperWidth << "; paper height = " << autoPaperHeight << std::endl;
+    printer.setPaperSize(QSizeF(autoPaperWidth, autoPaperHeight), QPrinter::Millimeter);
 
     printer.setPageMargins(marginLeft,
                            marginTop,
