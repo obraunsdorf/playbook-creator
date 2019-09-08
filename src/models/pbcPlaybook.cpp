@@ -41,15 +41,15 @@
  * @brief The default constructor. It is only called by PBCSingleton and creates
  * a new empty playbook when the application is started.
  */
-PBCPlaybook::PBCPlaybook() : _name("new Playbook") {
-    resetToNewEmptyPlaybook(_name, 5);
+PBCPlaybook::PBCPlaybook() {
+    resetToNewEmptyPlaybook("new Playbook", 5);
 }
 
 
 /**
  * @brief Resets the playbook if the user wants to create a new one.
  *
- * Standard Routes (5 In, Post, Fly, Slant) and a I-Formation are inserted.
+ * Standard Routes (5 In, Post, Fly, Slant) and a Spread Right formation are inserted.
  * @param name The name of the new Playbook
  * @param playerNumber number of players on the field
  */
@@ -57,6 +57,7 @@ void PBCPlaybook::resetToNewEmptyPlaybook(const std::string &name,
                                           const unsigned int playerNumber) {
     _builtWithPBCVersion = PBCVersion::getVersionString();
     _name = name;
+    _playerNumber = playerNumber;
     _formations.clear();
     _routes.clear();
     _categories.clear();
@@ -64,7 +65,15 @@ void PBCPlaybook::resetToNewEmptyPlaybook(const std::string &name,
 
     default_routes(_routes);
 
-    default_formations(_formations, playerNumber);
+    default_formations(_formations, _playerNumber);
+}
+
+/**
+ * @brief Reloads the default formations (called if a new play should be designed, but all formations have been deleted
+ * previously).
+ */
+void PBCPlaybook::reloadDefaultFormations() {
+    default_formations(_formations, _playerNumber);
 }
 
 /**

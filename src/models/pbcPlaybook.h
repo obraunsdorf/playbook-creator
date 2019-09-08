@@ -47,17 +47,32 @@ friend class boost::serialization::access;
     PBCModelMap<PBCRouteSP> _routes;
     PBCModelMap<PBCCategorySP> _categories;
     PBCModelMap<PBCPlaySP> _plays;
+    unsigned int _playerNumber;
 
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version) {  // NOLINT
-        pbcAssert(version == 0);
-        ar & _builtWithPBCVersion;
-        ar & _name;
-        ar & _formations;
-        ar & _routes;
-        ar & _plays;
-        ar & _categories;
+    void save(Archive& ar, const unsigned int version) const {  // NOLINT
+        ar << _builtWithPBCVersion;
+        ar << _name;
+        ar << _playerNumber;
+        ar << _formations;
+        ar << _routes;
+        ar << _plays;
+        ar << _categories;
     }
+
+    template<class Archive>
+    void load(Archive& ar, const unsigned int version) {  // NOLINT
+        ar >> _builtWithPBCVersion;
+        ar >> _name;
+        if (version >= 1) {
+            ar >> _playerNumber;
+        }
+        ar >> _formations;
+        ar >> _routes;
+        ar >> _plays;
+        ar >> _categories;
+    }
+    BOOST_SERIALIZATION_SPLIT_MEMBER()
 
  protected:
     PBCPlaybook();
@@ -65,6 +80,7 @@ friend class boost::serialization::access;
  public:
     void resetToNewEmptyPlaybook(const std::string& name,
                                  const unsigned int playerNumber);
+    void reloadDefaultFormations();
     void setName(const std::string& name);
     bool addFormation(PBCFormationSP formation, bool overwrite = false);
     bool addRoute(PBCRouteSP route, bool overwrite = false);
@@ -89,5 +105,6 @@ friend class boost::serialization::access;
     std::vector<std::string> getPlayNames() const;
     std::vector<std::string> getCategoryNames() const;
 };
+BOOST_CLASS_VERSION(PBCPlaybook, 1)
 
 #endif  // PBCPLAYBOOK_H

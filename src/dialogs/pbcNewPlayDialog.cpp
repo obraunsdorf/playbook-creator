@@ -32,6 +32,11 @@ PBCNewPlayDialog::PBCNewPlayDialog(QWidget *parent) :
     QStringList formationList;
     std::vector<std::string> formationNames =
             PBCPlaybook::getInstance()->getFormationNames();
+    if (formationNames.empty()) {
+        PBCPlaybook::getInstance()->reloadDefaultFormations();
+        formationNames = PBCPlaybook::getInstance()->getFormationNames();
+        pbcAssert(formationNames.size() > 0);
+    }
     for(std::string& name : formationNames) {
         formationList.append(QString::fromStdString(name));
     }
