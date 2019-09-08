@@ -332,6 +332,7 @@ void MainDialog::newPlaybook() {
         PBCPlaybook::getInstance()->resetToNewEmptyPlaybook(name,
                                                             playerNumber);
         PBCStorage::getInstance()->init(name);
+        _playView->resetPlay();
         updateTitle(false);
     } else {
         pbcAssert(false);
