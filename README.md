@@ -17,6 +17,8 @@ Mailing list: <http://www.freelists.org/list/pbc-users>
     1. Install Qt:
         `apt-get install qt5-default`
     2. Download Playbook Creator for Linux at https://github.com/obraunsdorf/playbook-creator/releases
+    3. Make it executable: `chmod +x PlaybookCreator`
+    4. Run it from the console `path/to/PlaybookCreator`
 
 ## Documentation
 Most of the user interface of Playbook Creator should be self-explainable. There is the main menu which can be used to, e.g.
