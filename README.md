@@ -8,6 +8,7 @@ Playbook Creator is mainly developed and tested on Linux, but you can download a
   * Windows 10 [![Build status](https://ci.appveyor.com/api/projects/status/c0n8v494adn2kfmh?svg=true)](https://ci.appveyor.com/project/obraunsdorf/playbook-creator) 
   * Linux (Ubuntu 18.04) [![CircleCI](https://circleci.com/gh/obraunsdorf/playbook-creator.svg?style=svg)](https://circleci.com/gh/obraunsdorf/playbook-creator)
 
+Mailing list: <http://www.freelists.org/list/pbc-users>
 
 ## How to install
   * **On Windows / MacOS X :**   
@@ -33,6 +34,7 @@ Moreover you can **right-click** on a player to
  
 Note: A (quite outdated) manual in PDF format is available [here](manual/pbcManual.pdf). The last page contains a step-by-step guideline to create a new playbook from scratch. I'll try to update the documentation in a new fancy manner as soon as I can.
 
+If you have any questions or want to discuss about Playbook Creator, you can use the issue tracking system of Github <https://github.com/obraunsdorf/playbook-creator/issues>. Alternatively you can write an email to the following mailing list <pbc-users-request@freelists.org>. You can also subscribe to the mailing list here, to receive an email when new versions of PBC are released: <http://www.freelists.org/list/pbc-users>.
 
 ## How to build
 For anyone who wants to build the application from source on Linux (and make changes), you can run
