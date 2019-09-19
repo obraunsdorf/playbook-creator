@@ -40,7 +40,9 @@ In the main menu click `Play -> New play`. Enter whatever you want for play name
 
 ### Creating a New Playbook
 In the main menu click `Play -> New play`. Enter a name for your play. The play name will be displayed in the bottom of the graphic.  
-You can optionally choose a code name. If you set a code name then this one will be displayed in the bottom of the graphic instead of the original play name. *We used this because our play names were super obvios. Therefore we had to use code names on our wrist coaches so that we could shout them out to make an audible at the LOS or call the play in a No Huddle Offense*.  
+You can optionally choose a code name. If you set a code name then this one will be displayed in the bottom of the graphic instead of the original play name.  
+We used this because our play names were super obvios. Therefore we had to use code names on our wrist coaches so that we could shout them out to make an audible at the LOS or call the play in a No Huddle Offense  
+
 Choose the formation you like and click OK
 
 Now in the main screen, you can **right-click** on a player to
@@ -81,7 +83,7 @@ A dialog will show up where you can see your plays on the left side.
 
 The created PDFs look will look like this one.
 
-<a href="manual/images/WristCoach.png"><img align="left" width="300" height="170" src="manual/images/WristCoach.png"></a>
+<a href="manual/images/WristCoach.png"><img width="600" src="manual/images/WristCoach.png"></a>
 
 If you quickly want to print your playbook. You can skip entering dimensions and margins. The page dimensions will be calculated automatically using your specified column and row count.
 
