@@ -11,14 +11,19 @@ Playbook Creator is mainly developed and tested on Linux, but you can download a
 Mailing list: <http://www.freelists.org/list/pbc-users>
 
 ## How to install
-  * **On Windows / MacOS X :**   
-  Just download the latest release of Playbook Creator for your OS at https://github.com/obraunsdorf/playbook-creator/releases
-  * **On Linux :**
-    1. Install Qt:
-        `apt-get install qt5-default`
+  * **On Windows**   
+  Download the latest release of Playbook Creator for Windows at https://github.com/obraunsdorf/playbook-creator/releases.  
+  This is a setup file. Please follow the instructions of the setup to complete the installation.
+  * **On MacOS X**  
+  Download the latest release of Playbook Creator for MacOSX at https://github.com/obraunsdorf/playbook-creator/releases.  
+  This is a DMG-file. Just open it and drag&drop the PlaybookCreator app to your Applications folder.  
+  => Open PlaybookCreator by right-clicking on it and select "Open".  
+  If you try to open it via double-click MacOS will complain that it cannot open the app because it is from an unidentified developer. This is because I am not a registered as a developer on Apple. I can think about registering there if that is important to someone.
+  * **On Linux**
+    1. Install Qt: `apt-get install qt5-default`
     2. Download Playbook Creator for Linux at https://github.com/obraunsdorf/playbook-creator/releases
     3. Make it executable: `chmod +x path/to/PlaybookCreator`
-    4. Run it from the console `path/to/PlaybookCreator`
+    4. Run it from the console: `path/to/PlaybookCreator`
 
 ## Documentation
 Most of the user interface of Playbook Creator should be self-explainable. There is the main menu which can be used to, e.g.
@@ -36,7 +41,9 @@ Moreover you can **right-click** on a player to
  
 Note: A (quite outdated) manual in PDF format is available [here](manual/pbcManual.pdf). The last page contains a step-by-step guideline to create a new playbook from scratch. I'll try to update the documentation in a new fancy manner as soon as I can.
 
-If you have any questions or want to discuss about Playbook Creator, you can use the issue tracking system of Github <https://github.com/obraunsdorf/playbook-creator/issues>. Alternatively you can write an email to the following mailing list <pbc-users-request@freelists.org>. You can also subscribe to the mailing list here, to receive an email when new versions of PBC are released: <http://www.freelists.org/list/pbc-users>.
+If you have any questions or want to discuss about Playbook Creator, you can use the issue tracking system of Github https://github.com/obraunsdorf/playbook-creator/issues.  
+Alternatively you can write an email to the following mailing list <pbc-users-request@freelists.org>.  
+You can also subscribe to the mailing list here, to receive an email when new versions of PBC are released: http://www.freelists.org/list/pbc-users.
 
 ## How to build
 For anyone who wants to build the application from source on Linux (and make changes), you can run
