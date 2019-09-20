@@ -40,7 +40,7 @@ The next subsections shall be a little guide on how to create new plays and expo
 ### Creating a New Formation
 In the main menu click `Play -> New play`. Enter whatever you want for play name / code name (these are discussed in the next section) and click OK. Move the players around using Drag&Drop. You can also set a color for a player by right-clicking on it and select `Set color`. If the formation is aligned as you wish, click `Play -> Save formation as` in the main menu.
 
-### Creating a New Playbook
+### Creating a New Play
 In the main menu click `Play -> New play`. Enter a name for your play. The play name will be displayed in the bottom of the graphic.  
 You can optionally choose a code name. If you set a code name then this one will be displayed in the bottom of the graphic instead of the original play name.  
 We used this because our play names were super obvios. Therefore we had to use code names on our wrist coaches so that we could shout them out to make an audible at the LOS or call the play in a No Huddle Offense  
