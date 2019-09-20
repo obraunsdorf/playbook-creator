@@ -88,15 +88,24 @@
    <property name="text">
     <string>New playbook</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+N</string>
+   </property>
   </action>
   <action name="actionOpen_Playbook">
    <property name="text">
     <string>Open playbook</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+O</string>
+   </property>
   </action>
   <action name="actionSave_Playbook">
    <property name="text">
     <string>Save Playbook</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+S</string>
    </property>
   </action>
   <action name="actionSave_Playbook_as">
@@ -111,7 +120,10 @@
   </action>
   <action name="actionNew_Play">
    <property name="text">
-    <string>New play</string>
+    <string>&amp;New play</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
    </property>
   </action>
   <action name="actionSave_Play">
@@ -119,7 +131,10 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Save play</string>
+    <string>&amp;Save play</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
   <action name="actionSave_Play_as">
@@ -129,10 +144,16 @@
    <property name="text">
     <string>Save play as</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
   </action>
   <action name="actionOpen_Play">
    <property name="text">
-    <string>Open play</string>
+    <string>&amp;Open play</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
    </property>
   </action>
   <action name="actionExport_Play">
@@ -174,7 +195,10 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Edit plays' categories</string>
+    <string>&amp;Edit plays' categories</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
    </property>
   </action>
   <action name="actionNew_Category">
@@ -193,6 +217,12 @@
   <action name="actionPDF_Export">
    <property name="text">
     <string>PDF export</string>
+   </property>
+   <property name="toolTip">
+    <string>Create Wristcoach PDF</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+W</string>
    </property>
   </action>
   <action name="actionOpen_play_by_category">
