@@ -64,6 +64,17 @@ MainDialog::MainDialog(QWidget *parent) :
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+    ui->actionNew_Play->setShortcut(QKeySequence("Ctrl+N"));
+    ui->actionOpen_Play->setShortcut(QKeySequence("Ctrl+O"));
+    ui->actionAdd_play_to_category->setShortcut(QKeySequence("Ctrl+E"));
+    ui->actionSave_Play->setShortcut(QKeySequence("Ctrl+S"));
+    ui->actionSave_Play_as->setShortcut(QKeySequence("Ctrl+Shift+S"));
+
+    ui->actionNew_Playbook->setShortcut(QKeySequence("Ctrl+Alt+N"));
+    ui->actionOpen_Playbook->setShortcut(QKeySequence("Ctrl+Alt+O"));
+    ui->actionSave_Playbook_as->setShortcut(QKeySequence("Ctrl+Alt+S"));
+    ui->actionPDF_Export->setShortcut(QKeySequence("Ctrl+Alt+W"));
+
     updateTitle(false);
 }
 
