@@ -204,6 +204,32 @@ void PBCPlayView::showPlay(const std::string& name) {
     repaint();
 }
 
+void PBCPlayView::nextPlay() {
+    const auto& playNames = PBCController::getInstance()->getPlaybook()->getPlayNames();
+    if (_currentPlay != NULL) {
+        const auto& it = std::find(playNames.begin(), playNames.end(), _currentPlay->name());
+        if (it != playNames.end()) {
+            const auto& nextIt = std::next(it);
+            if (nextIt != playNames.end()) {
+                const std::string nextName = *nextIt;
+                showPlay(nextName);
+            }
+        }
+    }
+}
+
+void PBCPlayView::previousPlay() {
+    const auto& playNames = PBCController::getInstance()->getPlaybook()->getPlayNames();
+    if (_currentPlay != NULL) {
+        const auto& it = std::find(playNames.begin(), playNames.end(), _currentPlay->name());
+        if (it != playNames.end() && it != playNames.begin()) {
+            const auto& prevIt = std::prev(it);
+            pbcAssert(prevIt != playNames.end());
+            const std::string prevName = *prevIt;
+            showPlay(prevName);
+        }
+    }
+}
 /**
  * @brief saves the (maybe modified) formation of the
  * current play to the playbook.
@@ -281,7 +307,6 @@ void PBCPlayView::enterRouteEditMode(PBCPlayerSP playerSP, const std::string& ro
     _lastPressPoint = _routeStartPos;
 
 }
-
 
 void PBCPlayView::enterMotionEditMode(PBCPlayerSP playerSP) {
     _motionEditMode = true;

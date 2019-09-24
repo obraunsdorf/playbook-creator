@@ -41,16 +41,20 @@ class MainDialog : public QMainWindow {
     void updateTitle(bool saved);
     void enableMenuOptions();
     void resizeEvent(QResizeEvent* e);
+    void wheelEvent(QWheelEvent *event);
 
  public:
     explicit MainDialog(QWidget *parent = 0);
     ~MainDialog();
     void show();
+    void keyReleaseEvent(QKeyEvent *event);
 
  public slots:
     void exit();
     void showNewPlay();
     void openPlay();
+    void nextPlay();
+    void previousPlay();
     void savePlay();
     void savePlayAs();
     void saveFormationAs();
