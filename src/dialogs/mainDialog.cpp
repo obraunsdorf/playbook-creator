@@ -67,6 +67,19 @@ MainDialog::MainDialog(QWidget *parent) :
     updateTitle(false);
 }
 
+void MainDialog::keyReleaseEvent(QKeyEvent *event) {
+    if (event->modifiers() == Qt::ControlModifier) {
+        switch (event->key()) {
+            case Qt::Key_Right:
+                nextPlay();
+                break;
+            case Qt::Key_Left:
+                previousPlay();
+                break;
+        }
+    }
+}
+
 /**
  * @brief shows the main window graphically at application startup
  */
@@ -157,6 +170,15 @@ void MainDialog::resizeEvent(QResizeEvent* e) {
     }
 }
 
+void MainDialog::wheelEvent(QWheelEvent *event) {
+    if (event->delta() < 0) {
+        nextPlay();
+    } else {
+        previousPlay();
+    }
+    event->accept();
+}
+
 
 /**
  * @brief Terminates the application
@@ -206,6 +228,14 @@ void MainDialog::openPlay() {
             enableMenuOptions();
         }
     }
+}
+
+void MainDialog::nextPlay() {
+    _playView->nextPlay();
+}
+
+void MainDialog::previousPlay() {
+    _playView->previousPlay();
 }
 
 
