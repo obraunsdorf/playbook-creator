@@ -189,7 +189,7 @@
   </action>
   <action name="actionPDF_Export">
    <property name="text">
-    <string>PDF export</string>
+    <string>Create Wristcoach (PDF)</string>
    </property>
   </action>
   <action name="actionOpen_play_by_category">
