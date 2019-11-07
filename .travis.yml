@@ -3,6 +3,7 @@ language: cpp
 install:
 - PACKAGES="git cmake pkg-config qt boost"
 - for p in $(brew list); do PACKAGES=${PACKAGES//$p/}; done;
+- brew update
 - brew install $PACKAGES
 cache:
   directories:
