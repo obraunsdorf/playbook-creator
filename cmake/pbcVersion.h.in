@@ -22,9 +22,9 @@ Copyright 2015 Oliver Braunsdorf
 #ifndef VERSION_H
 #define VERSION_H
 
-#define MAJOR @VERSION_MAJOR@
-#define MINOR @VERSION_MINOR@
-#define PATCH @VERSION_PATCH@
+#define PBC_VERSION_MAJOR @VERSION_MAJOR@
+#define PBC_VERSION_MINOR @VERSION_MINOR@
+#define PBC_VERSION_PATCH @VERSION_PATCH@
 
 #include "util/pbcDeclarations.h"
 #include <string>
@@ -105,9 +105,9 @@ class PBCVersion {
      */
     static std::string getVersionString() {
         std::stringstream versionString;
-        versionString << MAJOR << '.'
-                      << MINOR << '.'
-                      << PATCH;
+        versionString << PBC_VERSION_MAJOR << '.'
+                      << PBC_VERSION_MINOR << '.'
+                      << PBC_VERSION_PATCH;
         return versionString.str();
     }
 
@@ -117,7 +117,7 @@ class PBCVersion {
      */
     static std::string getSimpleVersionString() {
         std::stringstream versionString;
-        versionString << MAJOR << '.' << MINOR;
+        versionString << PBC_VERSION_MAJOR << '.' << PBC_VERSION_MINOR;
         return versionString.str();
     }
 };

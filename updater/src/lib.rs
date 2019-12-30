@@ -21,13 +21,14 @@ impl std::convert::From<semver::SemVerError> for MyError {
 }
 
 #[repr(C)]
-enum UpdateCheckingStatus {
+pub enum UpdateCheckingStatus {
     UpdatesAvailable(u64, u64, u64), // String = latest verison
     UpToDate,
     Error,
 }
 
-extern "C" fn updates_available(current_pbc_version: (u64, u64, u64)) -> UpdateCheckingStatus {
+#[no_mangle]
+pub extern "C" fn updates_available(current_pbc_version: (u64, u64, u64)) -> UpdateCheckingStatus {
     if let Ok(versions) = fetch_parse_and_filter_releases(current_pbc_version) {
         if let Some(latest_version) = versions.first() {
             let major = latest_version.major;

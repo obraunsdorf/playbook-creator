@@ -28,6 +28,13 @@
 #include <QMessageBox>
 #include <iostream>
 
+extern void* update_available(uint64_t major, uint64_t minor, uint64_t patch);
+bool updateAvailable(int major, int minor, int patch) {
+    auto result = update_available(major, minor, patch);
+
+    return true;
+}
+
 /**
  * @brief the main function
  * @param argc number of command line arguments
@@ -49,6 +56,11 @@ int main(int argc, char *argv[]) {
     MainDialog w;
     try {
         w.show();
+        if (updateAvailable(PBC_VERSION_MAJOR, PBC_VERSION_MINOR, PBC_VERSION_PATCH)) {
+            QMessageBox::information(&w, "PBC Update Checker", "A new version of PlaybookCreator is available. "
+                                                              "Please visit https://github.com/obraunsdorf/playbook-creator/releases",
+                                                              QMessageBox::Ok);
+        }
         a.exec();
     } catch(std::exception &e) {
         QString errorString = "Terminating playbook creator. Please open an bug report on "

@@ -151,6 +151,9 @@ endif()
 include(ConfigureMSVCRT)
 configure_msvc_runtime()
 
+link_directories(updater/target/debug)
+set(PBC_UPDATER_LIBRARY pbc_updater)
+
 # link libraries
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::PrintSupport ${Boost_LIBRARIES} ${BOTAN_LIBRARY})
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::PrintSupport ${Boost_LIBRARIES} ${BOTAN_LIBRARY} ${PBC_UPDATER_LIBRARY})
 #target_link_libraries(${PROJECT_NAME} ${Qt5Widgets_LIBRARIES} ${Qt5PrintSupport_LIBRARIES} ${Boost_LIBRARIES} ${BOTAN_LIBRARY})
