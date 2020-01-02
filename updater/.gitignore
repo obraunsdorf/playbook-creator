@@ -1,3 +1,4 @@
 target
 .idea
-
+x86_64-unknown-linux-gnu
+.rustc_info.json

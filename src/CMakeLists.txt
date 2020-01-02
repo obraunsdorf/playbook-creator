@@ -138,23 +138,6 @@ qt5_wrap_cpp( MOC_SRCS ${MOC_HEADERS} )
 #	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools
 #)
 
-# Compile the PBC-Updater (Rust) as external project
-set(UPDATER_CMAKE_BUILD_DIR ${PROJECT_SOURCE_DIR}/build/pbc-updater)
-set(UPDATER_SRC_DIR ${PROJECT_SOURCE_DIR}/updater/)
-include(ExternalProject)
-ExternalProject_Add(updater
-		PREFIX "${UPDATER_CMAKE_BUILD_DIR}"
-		DOWNLOAD_COMMAND ""
-		CONFIGURE_COMMAND ""
-		BUILD_COMMAND cargo build --release
-		BINARY_DIR ${UPDATER_SRC_DIR}
-		INSTALL_COMMAND ""
-		LOG_BUILD ON)
-set(UPDATER_LIB ${UPDATER_SRC_DIR}/target/release/libpbc-updater.a)
-set(UPDATER_ADDITIONAL_LIBS ws2_32 userenv advapi32)
-
-#set(PBC_UPDATER_LIBRARY ${PROJECT_SOURCE_DIR}/updater/target/debug/libpbc_updater.a)
-
 # compile
 add_executable( ${PROJECT_NAME} ${SOURCES} ${MOC_SRCS} ${UI_HEADERS})
 if(APPLE)
@@ -165,8 +148,13 @@ endif()
 #add_dependencies(${PROJECT_NAME} style_checking)
 
 # link the updater library
-add_dependencies(${PROJECT_NAME} updater)
-target_link_libraries(${PROJECT_NAME}  "${UPDATER_LIB}" "${UPDATER_ADDITIONAL_LIBS}")
+if(WIN32)
+	target_link_libraries(${PROJECT_NAME} ${PBC_UPDATER_CMAKE_NAME} ws2_32 userenv)
+elseif(CMAKE_SYSTEM_NAME MATCHES "Darwin")
+	target_link_libraries(${PROJECT_NAME} ${PBC_UPDATER_CMAKE_NAME} resolv)
+else()
+	target_link_libraries(${PROJECT_NAME} ${PBC_UPDATER_CMAKE_NAME} pthread dl)
+endif()
 
 # link Microsoft Visual Studio Runtime statically by default (on Windows builds)
 include(ConfigureMSVCRT)

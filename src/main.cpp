@@ -28,9 +28,9 @@
 #include <QMessageBox>
 #include <iostream>
 
-extern void* update_available(uint64_t major, uint64_t minor, uint64_t patch);
+extern "C" int32_t update_available();
 bool updateAvailable(int major, int minor, int patch) {
-    auto result = update_available(major, minor, patch);
+    int x = update_available();
 
     return true;
 }
