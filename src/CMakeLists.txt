@@ -153,7 +153,7 @@ if(WIN32)
 elseif(CMAKE_SYSTEM_NAME MATCHES "Darwin")
 	target_link_libraries(${PROJECT_NAME} ${PBC_UPDATER_CMAKE_NAME} resolv)
 else()
-	target_link_libraries(${PROJECT_NAME} ${PBC_UPDATER_CMAKE_NAME} pthread dl)
+	target_link_libraries(${PROJECT_NAME} ${PBC_UPDATER_CMAKE_NAME} pthread dl ssl crypto)  # TODO find out the libs programmatically
 endif()
 
 # link Microsoft Visual Studio Runtime statically by default (on Windows builds)

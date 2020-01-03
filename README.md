@@ -100,7 +100,7 @@ Note: A (quite outdated) manual in PDF format is available [here](manual/pbcManu
 ## How to build PBC
 For anyone who wants to build the application from source on Linux (and make changes), you can run
 
-    apt-get install build-essential pkg-config git cmake qt5-default libbotan-2-dev libboost-serialization-dev
+    apt-get install build-essential pkg-config git cmake qt5-default libbotan-2-dev libboost-serialization-dev cargo
 
     git clone https://github.com/obraunsdorf/playbook-creator.git
     cd playbook-creator

@@ -22,18 +22,12 @@
 #include "dialogs/mainDialog.h"
 #include "util/pbcExceptions.h"
 #include "pbcVersion.h"
+#include "../updater/pbc_updater_bindings.h"
 #include <botan/version.h>
 #include <boost/version.hpp>
 #include <QApplication>
 #include <QMessageBox>
 #include <iostream>
-
-extern "C" int32_t update_available();
-bool updateAvailable(int major, int minor, int patch) {
-    int x = update_available();
-
-    return true;
-}
 
 /**
  * @brief the main function
@@ -56,10 +50,23 @@ int main(int argc, char *argv[]) {
     MainDialog w;
     try {
         w.show();
-        if (updateAvailable(PBC_VERSION_MAJOR, PBC_VERSION_MINOR, PBC_VERSION_PATCH)) {
-            QMessageBox::information(&w, "PBC Update Checker", "A new version of PlaybookCreator is available. "
-                                                              "Please visit https://github.com/obraunsdorf/playbook-creator/releases",
-                                                              QMessageBox::Ok);
+        UpdateCheckingStatus ucs = updates_available(PBC_VERSION_MAJOR, PBC_VERSION_MINOR, PBC_VERSION_PATCH); // TODO: numeric conversions might be problematic here!
+        if (ucs.tag == UpdateCheckingStatus::Tag::UpdatesAvailable) {
+            unsigned major = ucs.updates_available._0;
+            uint64_t minor = ucs.updates_available._1;
+            uint64_t patch = ucs.updates_available._2;
+            std::string latest_version = "v" + std::to_string(major) +  "." + std::to_string(minor) + "." + std::to_string(patch);
+            std::string msg = "A new version of PlaybookCreator is available (" + latest_version + "). "
+                                "Please visit https://github.com/obraunsdorf/playbook-creator/releases";
+
+            QMessageBox::information(&w, "PBC Update Checker", QString::fromStdString(msg),
+                                     QMessageBox::Ok);
+        } else if (ucs.tag == UpdateCheckingStatus::Tag::Error) {
+            QMessageBox::information(&w, "PBC Update Checker", "An error occured during checking for updates"
+                                                               " (maybe bad internet connection?). Please visit "
+                                                               "https://github.com/obraunsdorf/playbook-creator/releases "
+                                                               "and see if a new version of PBC has been released",
+                                     QMessageBox::Ok);
         }
         a.exec();
     } catch(std::exception &e) {

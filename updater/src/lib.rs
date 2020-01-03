@@ -28,13 +28,16 @@ pub enum UpdateCheckingStatus {
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn update_available() -> i32 {
-    1
-}
-
-/*#[no_mangle]
-pub extern "C" fn updates_available(current_pbc_version: (u64, u64, u64)) -> UpdateCheckingStatus {
-    if let Ok(versions) = fetch_parse_and_filter_releases(current_pbc_version) {
+pub extern "C" fn updates_available(
+    current_pbc_version_major: u64,
+    current_pbc_version_minor: u64,
+    current_pbc_version_patch: u64,
+) -> UpdateCheckingStatus {
+    if let Ok(versions) = fetch_parse_and_filter_releases((
+        current_pbc_version_major,
+        current_pbc_version_minor,
+        current_pbc_version_patch,
+    )) {
         if let Some(latest_version) = versions.first() {
             let major = latest_version.major;
             let minor = latest_version.minor;
@@ -47,7 +50,6 @@ pub extern "C" fn updates_available(current_pbc_version: (u64, u64, u64)) -> Upd
         UpdateCheckingStatus::Error
     }
 }
-*/
 
 fn fetch_parse_and_filter_releases(
     current_pbc_version: (u64, u64, u64),
