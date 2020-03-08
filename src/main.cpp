@@ -49,24 +49,38 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     MainDialog w;
     try {
-        w.show();
+        std::cout << "Looking for updates..." << std::endl;
         UpdateCheckingStatus ucs = updates_available(PBC_VERSION_MAJOR, PBC_VERSION_MINOR, PBC_VERSION_PATCH); // TODO: numeric conversions might be problematic here!
-        if (ucs.tag == UpdateCheckingStatus::Tag::UpdatesAvailable) {
-            unsigned major = ucs.updates_available._0;
-            uint64_t minor = ucs.updates_available._1;
-            uint64_t patch = ucs.updates_available._2;
-            std::string latest_version = "v" + std::to_string(major) +  "." + std::to_string(minor) + "." + std::to_string(patch);
-            std::string msg = "A new version of PlaybookCreator is available (" + latest_version + "). "
-                                "Please visit https://github.com/obraunsdorf/playbook-creator/releases";
+        w.show();
+        switch (ucs.tag) {
+            case UpdateCheckingStatus::Tag::UpdatesAvailable:
+                {
+                    unsigned major = ucs.updates_available._0;
+                    uint64_t minor = ucs.updates_available._1;
+                    uint64_t patch = ucs.updates_available._2;
+                    std::string latest_version = "v" + std::to_string(major) +  "." + std::to_string(minor) + "." + std::to_string(patch);
+                    std::string msg = "A new version of PlaybookCreator is available (" + latest_version + "). "
+                                                                                               "Please visit https://github.com/obraunsdorf/playbook-creator/releases";
 
-            QMessageBox::information(&w, "PBC Update Checker", QString::fromStdString(msg),
-                                     QMessageBox::Ok);
-        } else if (ucs.tag == UpdateCheckingStatus::Tag::Error) {
-            QMessageBox::information(&w, "PBC Update Checker", "An error occured during checking for updates"
-                                                               " (maybe bad internet connection?). Please visit "
-                                                               "https://github.com/obraunsdorf/playbook-creator/releases "
-                                                               "and see if a new version of PBC has been released",
-                                     QMessageBox::Ok);
+                    QMessageBox::information(&w, "PBC Update Checker", QString::fromStdString(msg),
+                                             QMessageBox::Ok);
+                }
+                break;
+
+            case UpdateCheckingStatus::Tag::Error:
+                {
+                    QMessageBox::information(&w, "PBC Update Checker", "An error occured during checking for updates"
+                                                                       " (maybe bad internet connection?). Please visit "
+                                                                       "https://github.com/obraunsdorf/playbook-creator/releases "
+                                                                       "and see if a new version of PBC has been released",
+                                             QMessageBox::Ok);
+                }
+                break;
+
+            case UpdateCheckingStatus::Tag::UpToDate:
+                std::cout << "No updates available" << std::endl;
+                break;
+
         }
         a.exec();
     } catch(std::exception &e) {
