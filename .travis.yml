@@ -1,14 +1,23 @@
 os: osx
 language: cpp
 install:
-- PACKAGES="git cmake pkg-config qt boost"
-- for p in $(brew list); do PACKAGES=${PACKAGES//$p/}; done;
-- brew install $PACKAGES
+- cmake --version
+- brew list git || brew install git
+- brew list cmake || brew install cmake
+- brew upgrade cmake
+- cmake --version
+- brew list pkg-config || brew install pkg-config
+- brew list qt || brew install qt
+- brew list boost || brew install boost
+- brew install boost@1.60
+- brew unlink boost
+- brew link --force boost@1.60
+- curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 cache:
   directories:
     botan
 script:
-- if [ $SKIP_CACHE_RESTORE == true ]; then
+- if [[ $SKIP_CACHE_RESTORE == true ]]; then
   git clone https://github.com/randombit/botan botan;
   cd botan;
   git checkout 2.6.0;
@@ -16,7 +25,7 @@ script:
   make;
   cd ..;
   fi
-- cmake -DBOTAN_LIBRARY=botan/libbotan-2.a -DBOTAN_INCLUDE_DIR=botan/build/include -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)
+- cmake . -DBOTAN_LIBRARY=botan/libbotan-2.a -DBOTAN_INCLUDE_DIR=botan/build/include -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)
 - make
 - $(brew --prefix qt5)/bin/macdeployqt bin/PlaybookCreator.app -verbose=3 -dmg -no-strip
 - bash deploy.sh bin/PlaybookCreator.dmg PlaybookCreator.dmg "PlaybookCreator for MacOSX" $GITHUB_TOKEN
