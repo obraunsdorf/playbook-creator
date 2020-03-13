@@ -147,6 +147,19 @@ if(APPLE)
 endif()
 #add_dependencies(${PROJECT_NAME} style_checking)
 
+
+# link the updater library
+if(WIN32)
+	find_package(OpenSSL)
+	target_link_libraries(${PROJECT_NAME} ${PBC_UPDATER_CMAKE_NAME} ws2_32 userenv crypt32 ncrypt schannel Secur32)
+elseif(CMAKE_SYSTEM_NAME MATCHES "Darwin")
+	find_library(SECFW Security)
+	find_library(COREFW CoreFoundation)
+	target_link_libraries(${PROJECT_NAME} ${PBC_UPDATER_CMAKE_NAME} resolv ${SECFW} ${COREFW})
+else()
+	target_link_libraries(${PROJECT_NAME} ${PBC_UPDATER_CMAKE_NAME} pthread dl ssl crypto)  # TODO find out the libs programmatically
+endif()
+
 # link Microsoft Visual Studio Runtime statically by default (on Windows builds)
 include(ConfigureMSVCRT)
 configure_msvc_runtime()

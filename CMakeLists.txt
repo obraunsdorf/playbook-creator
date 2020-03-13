@@ -29,9 +29,15 @@ if(GIT_FOUND)
 	endif()
 endif()
 
-
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
+
+enable_language(Rust)
+include(CMakeCargo)
+set(PBC_UPDATER_CMAKE_NAME pbc-updater)
+add_subdirectory(updater)
+
 add_subdirectory(src)
+
 
 add_custom_target( documentation COMMAND doxygen)
