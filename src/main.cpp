@@ -50,7 +50,10 @@ int main(int argc, char *argv[]) {
     MainDialog w;
     try {
         std::cout << "Looking for updates..." << std::endl;
-        UpdateCheckingStatus ucs = updates_available(PBC_VERSION_MAJOR, PBC_VERSION_MINOR, PBC_VERSION_PATCH); // TODO: numeric conversions might be problematic here!
+        const uint32_t BUFF_LEN = 500;
+        uint8_t buffer[BUFF_LEN] = {0};
+        CBuffer desc_result_buf = CBuffer{buffer, BUFF_LEN};
+        UpdateCheckingStatus ucs = updates_available(PBC_VERSION_MAJOR, PBC_VERSION_MINOR, PBC_VERSION_PATCH, &desc_result_buf); // TODO: numeric conversions might be problematic here!
         w.show();
         switch (ucs.tag) {
             case UpdateCheckingStatus::Tag::UpdatesAvailable:
@@ -58,12 +61,18 @@ int main(int argc, char *argv[]) {
                     unsigned major = ucs.updates_available._0;
                     uint64_t minor = ucs.updates_available._1;
                     uint64_t patch = ucs.updates_available._2;
+                    const char* desc = (const char*) buffer;
                     std::string latest_version = "v" + std::to_string(major) +  "." + std::to_string(minor) + "." + std::to_string(patch);
-                    std::string msg = "A new version of PlaybookCreator is available (" + latest_version + "). "
-                                                                                               "Please visit https://github.com/obraunsdorf/playbook-creator/releases";
+                    std::string msg = "A new version of PlaybookCreator is available!"
+                                      "<br><br>Description of release " + latest_version + ":\n" + desc +
+                                      "<br><br>Please visit <a href='https://github.com/obraunsdorf/playbook-creator/releases'>https://github.com/obraunsdorf/playbook-creator/releases</a> "
+                                      "to update to the current version!";
 
-                    QMessageBox::information(&w, "PBC Update Checker", QString::fromStdString(msg),
-                                             QMessageBox::Ok);
+                    QMessageBox info;
+                    info.setWindowTitle("PBC Update Checker");
+                    info.setTextFormat(Qt::RichText);
+                    info.setText(QString::fromStdString(msg));
+                    info.exec();
                 }
                 break;
 
