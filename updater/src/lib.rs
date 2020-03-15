@@ -1,7 +1,7 @@
+use core::slice;
 use semver;
 use std::ffi::CString;
 use std::os::raw::c_char;
-use core::slice;
 
 #[derive(Debug, Clone)]
 enum MyError {
@@ -44,9 +44,11 @@ pub extern "C" fn updates_available(
     current_pbc_version_major: u64,
     current_pbc_version_minor: u64,
     current_pbc_version_patch: u64,
-    description_result_buffer: &CBuffer
+    description_result_buffer: &CBuffer,
 ) -> UpdateCheckingStatus {
-    let description_result: &mut [u8] = unsafe { slice::from_raw_parts_mut(description_result_buffer.buf, description_result_buffer.len) };
+    let description_result: &mut [u8] = unsafe {
+        slice::from_raw_parts_mut(description_result_buffer.buf, description_result_buffer.len)
+    };
     if let Ok(versions) = fetch_parse_and_filter_releases((
         current_pbc_version_major,
         current_pbc_version_minor,
@@ -57,7 +59,8 @@ pub extern "C" fn updates_available(
             let minor = latest_release.version.minor;
             let patch = latest_release.version.patch;
             // copy bytes from description into C-provided buffer
-            let mut description_result_slice = &mut description_result[..latest_release.description.len()];
+            let mut description_result_slice =
+                &mut description_result[..latest_release.description.len()];
             description_result_slice.clone_from_slice(latest_release.description.as_bytes());
             UpdateCheckingStatus::UpdatesAvailable(major, minor, patch)
         } else {
@@ -106,8 +109,8 @@ mod tests {
 
         let (major, minor, patch) = old_version;
         let buf = CBuffer {
-            buf: [0u8;500].as_mut_ptr(),
-            len: 500
+            buf: [0u8; 500].as_mut_ptr(),
+            len: 500,
         };
         match updates_available(major, minor, patch, &buf) {
             UpdateCheckingStatus::UpdatesAvailable(..) => {
@@ -119,10 +122,9 @@ mod tests {
             UpdateCheckingStatus::Error => assert!(false),
         }
 
-
         let buf = CBuffer {
-            buf: [0u8;500].as_mut_ptr(),
-            len: 500
+            buf: [0u8; 500].as_mut_ptr(),
+            len: 500,
         };
         let major = latest_version.version.major;
         let minor = latest_version.version.minor;
