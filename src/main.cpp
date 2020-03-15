@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
         std::cout << "Looking for updates..." << std::endl;
         const uint32_t BUFF_LEN = 500;
         uint8_t buffer[BUFF_LEN] = {0};
-        CBuffer desc_result_buf = CBuffer{.buf= buffer, .len= BUFF_LEN};
+        CBuffer desc_result_buf = CBuffer{buffer, BUFF_LEN};
         UpdateCheckingStatus ucs = updates_available(PBC_VERSION_MAJOR, PBC_VERSION_MINOR, PBC_VERSION_PATCH, &desc_result_buf); // TODO: numeric conversions might be problematic here!
         w.show();
         switch (ucs.tag) {
