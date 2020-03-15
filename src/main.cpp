@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
         const uint32_t BUFF_LEN = 500;
         uint8_t buffer[BUFF_LEN] = {0};
         CBuffer desc_result_buf = CBuffer{.buf= buffer, .len= BUFF_LEN};
-        UpdateCheckingStatus ucs = updates_available(PBC_VERSION_MAJOR, PBC_VERSION_MINOR-1, PBC_VERSION_PATCH, &desc_result_buf); // TODO: numeric conversions might be problematic here!
+        UpdateCheckingStatus ucs = updates_available(PBC_VERSION_MAJOR, PBC_VERSION_MINOR, PBC_VERSION_PATCH, &desc_result_buf); // TODO: numeric conversions might be problematic here!
         w.show();
         switch (ucs.tag) {
             case UpdateCheckingStatus::Tag::UpdatesAvailable:
