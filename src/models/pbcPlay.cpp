@@ -119,8 +119,8 @@ PBCPlay::PBCPlay(const std::string &name,
                  const std::string& formationName) :
     _name(name),
     _codeName(codeName) {
-    if (PBCPlaybook::getInstance()->hasFormation(formationName)) {
-        _formation = PBCPlaybook::getInstance()->getFormation(formationName);
+    if (PBCController::getInstance()->getPlaybook()->hasFormation(formationName)) {
+        _formation = PBCController::getInstance()->getPlaybook()->getFormation(formationName);
     } else {
         _formation.reset(new PBCFormation(formationName));
     }

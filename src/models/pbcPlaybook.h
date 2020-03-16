@@ -37,8 +37,7 @@ typedef boost::shared_ptr<PBCFormation> PBCFormationSP;
 class PBCRoute;
 typedef boost::shared_ptr<PBCRoute> PBCRouteSP;
 
-class PBCPlaybook : public PBCSingleton<PBCPlaybook> {
-friend class PBCSingleton<PBCPlaybook>;
+class PBCPlaybook {
 friend class boost::serialization::access;
  private:
     std::string _builtWithPBCVersion;
@@ -74,10 +73,9 @@ friend class boost::serialization::access;
     }
     BOOST_SERIALIZATION_SPLIT_MEMBER()
 
- protected:
-    PBCPlaybook();
 
  public:
+    PBCPlaybook();
     void resetToNewEmptyPlaybook(const std::string& name,
                                  const unsigned int playerNumber);
     void reloadDefaultFormations();

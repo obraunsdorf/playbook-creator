@@ -20,6 +20,7 @@
 */
 
 #include "pbcStorage.h"
+#include "pbcController.h"
 #include "models/pbcPlaybook.h"
 #include "util/pbcConfig.h"
 #include "util/pbcExceptions.h"
@@ -199,7 +200,7 @@ void PBCStorage::writeToCurrentPlaybookFile() {
     std::stringbuf buff;
     std::ostream ostream(&buff);
     boost::archive::text_oarchive archive(ostream);
-    archive << *PBCPlaybook::getInstance();
+    archive << *PBCController::getInstance()->getPlaybook();
 
     std::ofstream ofstream(_currentPlaybookFileName,
                            std::ios_base::out | std::ios_base::binary);
@@ -262,7 +263,7 @@ void PBCStorage::loadPlaybook(const std::string &password,
 
     std::istream istream(&buff);
     boost::archive::text_iarchive archive(istream);
-    archive >> *PBCPlaybook::getInstance();
+    archive >> *PBCController::getInstance()->getPlaybook();
 }
 
 
@@ -362,7 +363,7 @@ void PBCStorage::exportAsPDF(const std::string& fileName,
     PBCConfig::getInstance()->setCanvasSize(playSize.width(), playSize.height());
 
     for(QString playName : *playListSP) {
-        PBCPlaySP playSP = PBCPlaybook::getInstance()->getPlay(playName.toStdString()); //NOLINT
+        PBCPlaySP playSP = PBCController::getInstance()->getPlaybook()->getPlay(playName.toStdString()); //NOLINT
         boost::shared_ptr<PBCPlayView> playViewSP(new PBCPlayView(playSP));  //NOLINT
         playViewSP->render(&painter,
                            QRectF(QPointF(x + *pixelMarginLeftSP, y + *pixelMarginTopSP), playSize),  //NOLINT

@@ -25,6 +25,7 @@
 #include <string>
 #include <vector>
 
+#include "pbcController.h"
 #include "models/pbcPlaybook.h"
 #include "util/pbcDeclarations.h"
 #include "models/pbcPlayer.h"

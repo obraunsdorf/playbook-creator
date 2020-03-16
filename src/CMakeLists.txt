@@ -54,6 +54,8 @@ set ( SOURCES
 	util/pbcSingleton.h
 	util/pbcStorage.cpp
 	util/pbcStorage.h
+		pbcController.cpp
+		pbcController.h
 	main.cpp
 	pbcVersion.h)
 
