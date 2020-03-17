@@ -57,6 +57,7 @@ class MainDialog : public QMainWindow {
     void newPlaybook();
     void savePlaybookAs();
     void openPlaybook();
+    void importPlaybook();
     void exportAsPDF();
     void showAboutDialog();
     void addPlayToCategory();

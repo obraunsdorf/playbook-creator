@@ -218,6 +218,7 @@ void PBCStorage::writeToCurrentPlaybookFile() {
     ofstream.close();
 }
 
+
 /**
  * @brief Passes a file to the PBCStorage::decrypt() function to decrypt it and
  * write it to a string buffer. The buffer is then read and deserialized to a
@@ -225,8 +226,7 @@ void PBCStorage::writeToCurrentPlaybookFile() {
  * @param password The decryption password
  * @param fileName The path to the file where the playbook ist stored
  */
-void PBCStorage::loadPlaybook(const std::string &password,
-                              const std::string &fileName) {
+void PBCStorage::loadPlaybook(const std::string &password, const std::string &fileName, PBCPlaybookSP targetPlaybook) {
     std::string extension = fileName.substr(fileName.size() - 4);
     pbcAssert(extension == ".pbc");
     std::stringbuf buff;
@@ -252,8 +252,8 @@ void PBCStorage::loadPlaybook(const std::string &password,
 
     try {
         decrypt(password,
-            ostream,
-            ifstream);
+                ostream,
+                ifstream);
     } catch (PBCDecryptionException& e) {
         throw e;
     } catch(std::exception& e) {
@@ -263,7 +263,30 @@ void PBCStorage::loadPlaybook(const std::string &password,
 
     std::istream istream(&buff);
     boost::archive::text_iarchive archive(istream);
-    archive >> *PBCController::getInstance()->getPlaybook();
+    archive >> *targetPlaybook;
+}
+
+
+/**
+ * @brief Load the active playbook from a file
+ * @param password The decryption password
+ * @param fileName The path to the file where the playbook ist stored
+ */
+void PBCStorage::loadActivePlaybook(const std::string &password,
+                                             const std::string &fileName) {
+    loadPlaybook(
+        password,
+        fileName,
+        PBCController::getInstance()->getPlaybook());
+}
+
+void PBCStorage::importPlaybook(const std::string &password, const std::string &fileName) {
+    PBCPlaybookSP importedPlaybook(new PBCPlaybook());
+    loadPlaybook(password, fileName, importedPlaybook);
+
+    for (PBCPlaySP play : importedPlaybook->plays()) {
+        PBCController::getInstance()->getPlaybook()->addPlay(play); //TODO check wheather play has name of existing play
+    }
 }
 
 

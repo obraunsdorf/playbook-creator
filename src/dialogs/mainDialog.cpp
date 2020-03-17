@@ -397,8 +397,8 @@ void MainDialog::openPlaybook() {
                                                      QLineEdit::Password, "", &ok);
             if (ok == true) {
                 try {
-                    PBCStorage::getInstance()->loadPlaybook(password.toStdString(),
-                                                            fileName.toStdString());
+                    PBCStorage::getInstance()->loadActivePlaybook(password.toStdString(),
+                                                                  fileName.toStdString());
                 } catch (PBCDecryptionException &e) {
                     if (decryptionFailureCount < PASSWORD_MAX_RETRYS - 1) {
                         decryptionFailureCount++;
@@ -419,6 +419,58 @@ void MainDialog::openPlaybook() {
         }
     }
 }
+
+
+/**
+ * @brief Import a playbook from a file which is specified by an open-dialog.
+ */
+void MainDialog::importPlaybook() {
+    QFileDialog fileDialog(this, "Impport Playbook", "",
+                           "PBC Files (*.pbc);;All Files (*.*)");
+
+    fileDialog.setFileMode(QFileDialog::ExistingFile);
+    if (fileDialog.exec() == true) {
+        QStringList files = fileDialog.selectedFiles();
+        pbcAssert(files.size() == 1);
+        QString fileName = files.first();
+
+        unsigned int decryptionFailureCount = 0;
+        while (true) {
+            bool ok;
+            std::string msg;
+            if (decryptionFailureCount == 0) {
+                msg = "Enter decryption password";
+            } else {
+                msg = "Error on decryption. Maybe wrong password. Try again!";
+            }
+            QString password = QInputDialog::getText(this, "Import Playbook",
+                                                     QString::fromStdString(msg),
+                                                     QLineEdit::Password, "", &ok);
+            if (ok == true) {
+                try {
+                    PBCStorage::getInstance()->importPlaybook(password.toStdString(),
+                                                                  fileName.toStdString());
+                } catch (PBCDecryptionException &e) {
+                    if (decryptionFailureCount < PASSWORD_MAX_RETRYS - 1) {
+                        decryptionFailureCount++;
+                        continue;
+                    } else {
+                        throw e;
+                    }
+                } catch (PBCDeprecatedVersionException& e) {
+                    QMessageBox::critical(this,
+                                          "Import Playbook",
+                                          "Cannot load playbook because it's created by a newer version of Playbook-Creator. "
+                                          "Please download the latest version of Playbook-Creator!");
+                }
+                _playView->resetPlay();
+                updateTitle(true);
+                break;
+            }
+        }
+    }
+}
+
 
 /**
  * @brief Exports the playbook to a PDF file.
@@ -560,3 +612,4 @@ void MainDialog::deleteCategories() {
 MainDialog::~MainDialog() {
     delete ui;
 }
+

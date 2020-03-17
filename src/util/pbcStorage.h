@@ -76,7 +76,9 @@ public:
 
     void writeToCurrentPlaybookFile();
 
-    void loadPlaybook(const std::string &password, const std::string &fileName);
+    void loadPlaybook(const std::string &password, const std::string &fileName, PBCPlaybookSP);
+    void loadActivePlaybook(const std::string &password, const std::string &fileName);
+    void importPlaybook(const std::string &password, const std::string &fileName);
 
     void exportPlay(const std::string &fileName, PBCPlaySP play);
 
