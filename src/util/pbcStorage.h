@@ -64,6 +64,8 @@ private:
                  std::ostream &ostream,  // NOLINT
                  std::ifstream &inFile); // NOLINT
 
+    void loadPlaybook(const std::string &password, const std::string &fileName, PBCPlaybookSP);
+
 protected:
     PBCStorage() {}
 
@@ -76,7 +78,6 @@ public:
 
     void writeToCurrentPlaybookFile();
 
-    void loadPlaybook(const std::string &password, const std::string &fileName, PBCPlaybookSP);
     void loadActivePlaybook(const std::string &password, const std::string &fileName);
     void importPlaybook(const std::string &password, const std::string &fileName);
 
