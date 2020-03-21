@@ -1,5 +1,4 @@
 #define BOOST_TEST_MODULE PBCTests
-#define BOOST_TEST_DYN_LINK
 #include "util/pbcStorage.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
@@ -10,7 +9,9 @@ BOOST_AUTO_TEST_SUITE(StorageTests)
         boost::filesystem::copy_file("test/resources/StorageTests/TestPlaybook1.pbc","test/tmp1.pbc", boost::filesystem::copy_option::overwrite_if_exists);
         boost::filesystem::copy_file("test/resources/StorageTests/TestPlaybook2.pbc","test/tmp2.pbc", boost::filesystem::copy_option::overwrite_if_exists);
 
+        std::cout << "loading playbook" << std::endl;
         PBCStorage::getInstance()->loadActivePlaybook("test", "test/tmp2.pbc");
+        std::cout << "done loading playbook" << std::endl;
         std::vector<std::string> playnames2 = PBCController::getInstance()->getPlaybook()->getPlayNames();
         BOOST_CHECK(playnames2.empty() == false);
 

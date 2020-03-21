@@ -140,15 +140,7 @@ qt5_wrap_cpp( MOC_SRCS ${MOC_HEADERS} )
 #)
 
 add_library(PBCLib ${SOURCES} ${MOC_SRCS} ${UI_HEADERS})
-
-# compile
-if(APPLE)
-	set_target_properties(${PROJECT_NAME} PROPERTIES
-	        MACOSX_BUNDLE ON
-	        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/cmake/pbcMacOSXBundleInfo.plist.in)
-endif()
-#add_dependencies(${PROJECT_NAME} style_checking)
-
+#add_dependencies(PBCLib style_checking)
 
 # link the updater library
 if(WIN32)
@@ -168,9 +160,14 @@ configure_msvc_runtime()
 
 # link external libraries
 target_link_libraries(PBCLib Qt5::Widgets Qt5::PrintSupport ${Boost_LIBRARIES} ${BOTAN_LIBRARY})
-#target_link_libraries(${PROJECT_NAME} ${Qt5Widgets_LIBRARIES} ${Qt5PrintSupport_LIBRARIES} ${Boost_LIBRARIES} ${BOTAN_LIBRARY})
 
 
 # link executable
 add_executable(${PROJECT_NAME} main.cpp)
 target_link_libraries(${PROJECT_NAME} PBCLib)
+
+if(APPLE)
+	set_target_properties(${PROJECT_NAME} PROPERTIES
+	        MACOSX_BUNDLE ON
+	        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/cmake/pbcMacOSXBundleInfo.plist.in)
+endif()
