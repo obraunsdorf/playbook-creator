@@ -37,7 +37,7 @@ jobs:
           name: Test
           command: |
             make tests
-            ASAN_OPTIONS=detect_leaks=0 bin/tests
+            ASAN_OPTIONS=detect_leaks=0 bin/tests -- --test-base-dir "test"
       - run:
           name: Copy Qt5 shared libaries
           command: |

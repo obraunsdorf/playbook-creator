@@ -12,6 +12,7 @@ environment:
 cache:
 - C:\projects\botan\botan.lib
 - C:\projects\botan\build\include
+- C:\Users\appveyor\.cargo
 
 install:
   - curl -sSf -o rustup-init.exe https://win.rustup.rs
@@ -38,16 +39,11 @@ after_build:
 - cmd: >-
     call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
 
-    set ASAN_OPTIONS="detect_leaks=0"
-
-    call bin\Release\tests.exe
-
     C:\Qt\5.11\msvc2017_64\bin\windeployqt.exe --release --pdb --compiler-runtime "C:\projects\playbook-creator\bin\Release"
-    
+
+    cd bin\Release\ && tests.exe -- --test-base-dir "..\..\test" && cd ..
+
     "C:\Program Files (x86)\Inno Setup 5\ISCC" C:\projects\playbook-creator\innosetup.iss
-test_script:
-- cmd: >-
-    call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
 artifacts:
 - path: bin\release\PlaybookCreator.exe
   name: PlaybookCreator.exe
