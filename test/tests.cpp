@@ -6,20 +6,31 @@
 
 BOOST_AUTO_TEST_SUITE(StorageTests)
     BOOST_AUTO_TEST_CASE(import_test) {
-        boost::filesystem::copy_file("test/resources/StorageTests/TestPlaybook1.pbc","test/tmp1.pbc", boost::filesystem::copy_option::overwrite_if_exists);
-        boost::filesystem::copy_file("test/resources/StorageTests/TestPlaybook2.pbc","test/tmp2.pbc", boost::filesystem::copy_option::overwrite_if_exists);
+
+        using namespace boost::filesystem;
+        path test_pbs =
+                path("test")
+                .append("resources")
+                .append("StorageTests");
+        path test_pb1_path_orig = path(test_pbs).append("TestPlaybook1.pbc");
+        path test_pb2_path_orig = path(test_pbs).append("TestPlaybook2.pbc");
+        path test_pb1_path = path(test_pbs).append("tmp1.pbc");
+        path test_pb2_path = path(test_pbs).append("tmp2.pbc");
+
+        copy_file(test_pb1_path_orig, test_pb1_path, copy_option::overwrite_if_exists);
+        copy_file(test_pb2_path_orig, test_pb2_path, copy_option::overwrite_if_exists);
 
         std::cout << "loading playbook" << std::endl;
-        PBCStorage::getInstance()->loadActivePlaybook("test", "test/tmp2.pbc");
+        PBCStorage::getInstance()->loadActivePlaybook("test", test_pb2_path.string());
         std::cout << "done loading playbook" << std::endl;
         std::vector<std::string> playnames2 = PBCController::getInstance()->getPlaybook()->getPlayNames();
         BOOST_CHECK(playnames2.empty() == false);
 
-        PBCStorage::getInstance()->loadActivePlaybook("test", "test/tmp1.pbc");
+        PBCStorage::getInstance()->loadActivePlaybook("test", test_pb1_path.string());
         std::vector<std::string> playnames1 = PBCController::getInstance()->getPlaybook()->getPlayNames();
         BOOST_CHECK(playnames1.empty() == false);
 
-        PBCStorage::getInstance()->importPlaybook("test", "test/tmp2.pbc");
+        PBCStorage::getInstance()->importPlaybook("test", test_pb2_path.string());
         for (const std::string& playname : playnames1) {
             std::cout << playname << std::endl;
             PBCPlaySP play = PBCController::getInstance()->getPlaybook()->getPlay(playname);
