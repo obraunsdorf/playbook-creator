@@ -2,6 +2,7 @@ os: osx
 language: cpp
 install:
 - cmake --version
+- rm -rf /usr/local/bin/cmake
 - rm -rf /Applications/CMake.app/Contents/bin/cmake
 - curl https://cmake.org/files/v3.17/cmake-3.17.0-Darwin-x86_64.tar.gz -O
 - tar -xzf cmake-3.17.0-Darwin-x86_64.tar.gz
