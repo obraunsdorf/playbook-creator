@@ -7,7 +7,7 @@ install:
 - curl https://cmake.org/files/v3.17/cmake-3.17.0-Darwin-x86_64.tar.gz -O
 - tar -xzf cmake-3.17.0-Darwin-x86_64.tar.gz
 - sudo mv cmake-3.17.0-Darwin-x86_64/CMake.app /Applications
-- sudo /Applications/CMake.app/Contents/bin/cmake-gui --install
+- sudo /Applications/CMake.app/Contents/bin/cmake --install
 - cmake --version
 - brew list git || brew install git
 - brew list pkg-config || brew install pkg-config
