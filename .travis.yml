@@ -27,5 +27,6 @@ script:
   fi
 - cmake . -DBOTAN_LIBRARY=botan/libbotan-2.a -DBOTAN_INCLUDE_DIR=botan/build/include -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)
 - make
+- ASAN_OPTIONS=detect_leaks=0 bin/tests -- --test-base-dir "test"
 - $(brew --prefix qt5)/bin/macdeployqt bin/PlaybookCreator.app -verbose=3 -dmg -no-strip
 - bash deploy.sh bin/PlaybookCreator.dmg PlaybookCreator.dmg "PlaybookCreator for MacOSX" $GITHUB_TOKEN
