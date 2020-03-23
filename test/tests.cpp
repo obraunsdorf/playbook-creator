@@ -23,7 +23,15 @@ struct PBCTestConfig {
     ~PBCTestConfig() { std::cout << "global teardown\n"; }
 };
 path PBCTestConfig::test_base_dir = "test";     //default directory. but has to be overwritten, anyway.
+/*
+ * TODO: this is due to having to use boost@1.60 on MacOS because Homebrew only supports boost@1.72 otherwise which is
+ * only supported by cmake@3.17 but Homebrew only has cmake@3.16.5 *facepalm*
+*/
+#ifdef __APPLE__
+BOOST_GLOBAL_FIXTURE(PBCTestConfig);
+#else
 BOOST_TEST_GLOBAL_FIXTURE(PBCTestConfig);
+#endif
 
 
 BOOST_AUTO_TEST_SUITE(StorageTests)
