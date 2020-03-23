@@ -2,16 +2,15 @@ os: osx
 language: cpp
 install:
 - cmake --version
-- brew list git || brew install git
-- brew list cmake || brew install cmake
-- brew upgrade cmake
+- curl https://cmake.org/files/v3.17/cmake-3.17.0-Darwin-x86_64.tar.gz -O
+- tar -xzf cmake-3.17.0-Darwin-x86_64.tar.gz
+- sudo mv cmake-3.17.0-Darwin-x86_64/CMake.app /Applications
+- sudo /Applications/CMake.app/Contents/bin/cmake-gui --install
 - cmake --version
+- brew list git || brew install git
 - brew list pkg-config || brew install pkg-config
 - brew list qt || brew install qt
 - brew list boost || brew install boost
-- brew install boost@1.60
-- brew unlink boost
-- brew link --force boost@1.60
 - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 cache:
   directories:
