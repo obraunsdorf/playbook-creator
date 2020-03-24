@@ -13,23 +13,21 @@ install:
 - sudo mv cmake-3.17.0-Darwin-x86_64/CMake.app /Applications
 - sudo /Applications/CMake.app/Contents/bin/cmake-gui --install
 - cmake --version
-- brew list git || brew install git
-- brew list pkg-config || brew install pkg-config
-- brew list qt || brew install qt
-- brew list boost || brew install boost
+- brew update
+- brew list git &>/dev/null || brew install git
+- brew list pkg-config &>/dev/null || brew install pkg-config
+- brew list qt &>/dev/null || brew install qt
+- brew list boost &>/dev/null || brew install boost
+- brew info boost
+- brew upgrade boost
+- brew info boost
 - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 cache:
   directories:
     botan
 script:
-- if [[ $SKIP_CACHE_RESTORE == true ]]; then
-  git clone https://github.com/randombit/botan botan;
-  cd botan;
-  git checkout 2.6.0;
-  python configure.py --disable-shared-library --disable-modules=darwin_secrandom;
-  make;
-  cd ..;
-  fi
+- ls botan/
+- bash build-botan.sh
 - cmake . -DBOTAN_LIBRARY=botan/libbotan-2.a -DBOTAN_INCLUDE_DIR=botan/build/include -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)
 - make
 - ASAN_OPTIONS=detect_leaks=0 bin/tests -- --test-base-dir "test"
