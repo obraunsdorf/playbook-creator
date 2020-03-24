@@ -14,6 +14,7 @@ install:
 - sudo /Applications/CMake.app/Contents/bin/cmake-gui --install
 - cmake --version
 - brew update
+- brew unlink python@2
 - brew list git &>/dev/null || brew install git
 - brew list pkg-config &>/dev/null || brew install pkg-config
 - brew list qt &>/dev/null || brew install qt
