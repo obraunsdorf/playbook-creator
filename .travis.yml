@@ -2,18 +2,13 @@ os: osx
 language: cpp
 install:
 - cmake --version
-- rm -rf /usr/local/bin/cmake
-- rm -rf /usr/local/bin/ctest
-- rm -rf /usr/local/bin/cpack
-- rm -rf /usr/local/bin/cmake-gui
-- rm -rf /usr/local/bin/ccmake
-- rm -rf /Applications/CMake.app/Contents/bin/cmake
+- brew update
+- brew unlink cmake
 - curl https://cmake.org/files/v3.17/cmake-3.17.0-Darwin-x86_64.tar.gz -O
 - tar -xzf cmake-3.17.0-Darwin-x86_64.tar.gz
 - sudo mv cmake-3.17.0-Darwin-x86_64/CMake.app /Applications
 - sudo /Applications/CMake.app/Contents/bin/cmake-gui --install
 - cmake --version
-- brew update
 - brew unlink python@2
 - brew list git &>/dev/null || brew install git
 - brew list pkg-config &>/dev/null || brew install pkg-config
