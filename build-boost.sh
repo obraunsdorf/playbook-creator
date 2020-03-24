@@ -4,6 +4,6 @@ if [[ ! -f boost/lib/libboost_serialization.a ]]; then
 	tar -xzf boost_1_66_0.tar.gz;
 	cd boost_1_66_0;
 	./bootstrap.sh --with-libraries=serialization,filesystem,test --prefix=/usr/local/opt
-	./b2 install link=static runtime-link=static
+	./b2 install link=static runtime-link=static &>/dev/null
 	cd ..;
 fi
