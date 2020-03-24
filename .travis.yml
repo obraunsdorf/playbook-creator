@@ -13,7 +13,7 @@ install:
 - brew list git &>/dev/null || brew install git
 - brew list pkg-config &>/dev/null || brew install pkg-config
 - brew list qt &>/dev/null || brew install qt
-- brew uninstall boost
+- brew uninstall --ignore-dependencies boost
 - bash build-boost.sh
 - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 cache:
