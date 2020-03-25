@@ -1,31 +1,25 @@
 os: osx
 language: cpp
 install:
-- cmake --version
-- brew list git || brew install git
-- brew list cmake || brew install cmake
-- brew upgrade cmake
-- cmake --version
-- brew list pkg-config || brew install pkg-config
-- brew list qt || brew install qt
-- brew list boost || brew install boost
-- brew install boost@1.60
-- brew unlink boost
-- brew link --force boost@1.60
+- brew update
+- brew list git &>/dev/null || brew install git
+- brew list cmake &>/dev/null || brew install cmake
+- brew list pkg-config &>/dev/null || brew install pkg-config
+- brew list qt &>/dev/null || brew install qt
+- brew uninstall --ignore-dependencies boost
+- bash ci-scripts/build-boost.sh
+- ls boost
+- ls boost/lib
 - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 cache:
   directories:
-    botan
+  - botan
+  - boost
 script:
-- if [[ $SKIP_CACHE_RESTORE == true ]]; then
-  git clone https://github.com/randombit/botan botan;
-  cd botan;
-  git checkout 2.6.0;
-  python configure.py --disable-shared-library --disable-modules=darwin_secrandom;
-  make;
-  cd ..;
-  fi
-- cmake . -DBOTAN_LIBRARY=botan/libbotan-2.a -DBOTAN_INCLUDE_DIR=botan/build/include -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)
+- ls botan/
+- bash ci-scripts/build-botan.sh
+- cmake . -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_LIBRARY_DIR=$(pwd)/boost/lib -DBOTAN_LIBRARY=botan/libbotan-2.a -DBOTAN_INCLUDE_DIR=botan/build/include -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)
 - make
+- ASAN_OPTIONS=detect_leaks=0 bin/tests -- --test-base-dir "test"
 - $(brew --prefix qt5)/bin/macdeployqt bin/PlaybookCreator.app -verbose=3 -dmg -no-strip
 - bash deploy.sh bin/PlaybookCreator.dmg PlaybookCreator.dmg "PlaybookCreator for MacOSX" $GITHUB_TOKEN
