@@ -1,20 +1,13 @@
 os: osx
 language: cpp
 install:
-- cmake --version
 - brew update
-- brew uninstall cmake
-- curl https://cmake.org/files/v3.17/cmake-3.17.0-Darwin-x86_64.tar.gz -O
-- tar -xzf cmake-3.17.0-Darwin-x86_64.tar.gz
-- sudo mv cmake-3.17.0-Darwin-x86_64/CMake.app /Applications
-- sudo /Applications/CMake.app/Contents/bin/cmake-gui --install
-- cmake --version
-- brew unlink python@2
 - brew list git &>/dev/null || brew install git
+- brew list cmake &>/dev/null || brew install cmake
 - brew list pkg-config &>/dev/null || brew install pkg-config
 - brew list qt &>/dev/null || brew install qt
 - brew uninstall --ignore-dependencies boost
-- bash build-boost.sh
+- bash ci-scripts/build-boost.sh
 - ls boost
 - ls boost/lib
 - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
@@ -24,7 +17,7 @@ cache:
   - boost
 script:
 - ls botan/
-- bash build-botan.sh
+- bash ci-scripts/build-botan.sh
 - cmake . -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_LIBRARY_DIR=$(pwd)/boost/lib -DBOTAN_LIBRARY=botan/libbotan-2.a -DBOTAN_INCLUDE_DIR=botan/build/include -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)
 - make
 - ASAN_OPTIONS=detect_leaks=0 bin/tests -- --test-base-dir "test"
