@@ -14,8 +14,8 @@ struct PBCTestConfig {
 
     PBCTestConfig() {
         std::cout << "global setup" << std::endl;
-        assert ( framework::master_test_suite().argc == 3 );
-        //BOOST_TEST( framework::master_test_suite().argv[1] == "--test-base-dir" );
+        BOOST_REQUIRE ( framework::master_test_suite().argc == 3 );
+        BOOST_TEST( framework::master_test_suite().argv[1] == "--test-base-dir" );
         test_base_dir = path(framework::master_test_suite().argv[2]);
         //std::cout << "test base directory: " << test_base_dir << std::endl;
     }
