@@ -448,8 +448,14 @@ void MainDialog::importPlaybook() {
                                                      QLineEdit::Password, "", &ok);
             if (ok == true) {
                 try {
-                    PBCStorage::getInstance()->importPlaybook(password.toStdString(),
-                                                                  fileName.toStdString());
+                    // TODO design dialog to get parameters for playbook importing
+                    PBCStorage::getInstance()->importPlaybook(
+                            password.toStdString(),
+                            fileName.toStdString(),
+                            true,
+                            true,
+                            true,
+                            true);
                 } catch (PBCDecryptionException &e) {
                     if (decryptionFailureCount < PASSWORD_MAX_RETRYS - 1) {
                         decryptionFailureCount++;

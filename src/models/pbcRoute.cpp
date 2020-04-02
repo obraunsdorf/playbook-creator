@@ -58,3 +58,7 @@ std::string PBCRoute::name() const {
 std::string PBCRoute::codeName() const {
     return _codeName;
 }
+
+void PBCRoute::setName(const std::string &name) {
+    _name = name;
+}

@@ -309,6 +309,18 @@ PBCPlaySP PBCPlaybook::getPlay(const std::string &name) {
 }
 
 /**
+ * @brief Selects a route by name. The route must exist
+ * in the playbook.
+ * @param name The name of the route
+ * @return The route with the given name.
+ */
+PBCRouteSP PBCPlaybook::getRoute(const std::string &name) {
+    const auto &it = _routes.find(name);
+    pbcAssert(it != _routes.end());
+    return it->second;
+}
+
+/**
  * @brief Selects a category by name. The category must exist
  * in the playbook.
  * @param name The name of the cateogry

@@ -97,6 +97,7 @@ friend class boost::serialization::access;
     bool hasFormation(const std::string& name);
     PBCFormationSP getFormation(const std::string& name);
     PBCPlaySP getPlay(const std::string& name);
+    PBCRouteSP getRoute(const std::string& name);
     PBCCategorySP getCategory(const std::string& name);
     std::vector<std::string> getFormationNames() const;
     std::vector<std::string> getRouteNames() const;

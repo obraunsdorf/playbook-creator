@@ -79,7 +79,15 @@ public:
     void writeToCurrentPlaybookFile();
 
     void loadActivePlaybook(const std::string &password, const std::string &fileName);
-    void importPlaybook(const std::string &password, const std::string &fileName);
+    void importPlaybook(
+            const std::string &password,
+            const std::string &fileName,
+            bool importPlays,
+            bool importCategories,
+            bool importRoutes,
+            bool importFormations,
+            const std::string& prefix = "",
+            const std::string& suffix = "");
 
     void exportPlay(const std::string &fileName, PBCPlaySP play);
 

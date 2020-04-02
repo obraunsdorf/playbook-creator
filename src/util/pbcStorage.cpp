@@ -280,12 +280,48 @@ void PBCStorage::loadActivePlaybook(const std::string &password,
         PBCController::getInstance()->getPlaybook());
 }
 
-void PBCStorage::importPlaybook(const std::string &password, const std::string &fileName) {
+void PBCStorage::importPlaybook(
+        const std::string &password,
+        const std::string &fileName,
+        bool importPlays,
+        bool importCategories,
+        bool importRoutes,
+        bool importFormations,
+        const std::string& prefix,
+        const std::string& suffix) {
     PBCPlaybookSP importedPlaybook(new PBCPlaybook());
     loadPlaybook(password, fileName, importedPlaybook);
 
-    for (PBCPlaySP play : importedPlaybook->plays()) {
-        PBCController::getInstance()->getPlaybook()->addPlay(play); //TODO check wheather play has name of existing play
+    if (importPlays) {
+        for (const PBCPlaySP& play : importedPlaybook->plays()) {
+            const std::string name = play->name();
+            play->setName(prefix + name + suffix);
+            PBCController::getInstance()->getPlaybook()->addPlay(play); //TODO check wheather play has name of existing play
+        }
+    }
+
+    if (importCategories) {
+        for (const PBCCategorySP& category : importedPlaybook->categories()) {
+            const std::string name = category->name();
+            category->setName(prefix + name + suffix);
+            PBCController::getInstance()->getPlaybook()->addCategory(category); //TODO check wheather play has name of existing play
+        }
+    }
+
+    if (importFormations) {
+        for (const PBCFormationSP& formation : importedPlaybook->formations()) {
+            const std::string name = formation->name();
+            formation->setName(prefix + name + suffix);
+            PBCController::getInstance()->getPlaybook()->addFormation(formation); //TODO check wheather play has name of existing play
+        }
+    }
+
+    if (importRoutes) {
+        for (const PBCRouteSP& route : importedPlaybook->routes()) {
+            const std::string name = route->name();
+            route->setName(prefix + name + suffix);
+            PBCController::getInstance()->getPlaybook()->addRoute(route); //TODO check wheather play has name of existing play
+        }
     }
 }
 

@@ -57,6 +57,7 @@ friend class boost::serialization::access;
              const std::vector<PBCPathSP>& paths);
     std::string name() const;
     std::string codeName() const;
+    void setName(const std::string& name);
 };
 
 #endif  // PBCROUTE_H
