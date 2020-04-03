@@ -292,19 +292,28 @@ void PBCStorage::importPlaybook(
     PBCPlaybookSP importedPlaybook(new PBCPlaybook());
     loadPlaybook(password, fileName, importedPlaybook);
 
+    // Only import categories if plays are imported. Remove categories from plays if categories should not be imported.
+    // This prevents dangling references to non-existent plays/categories
     if (importPlays) {
+        if (importCategories) {
+            for (const PBCCategorySP& category : importedPlaybook->categories()) {
+                const std::string name = category->name();
+                category->setName(prefix + name + suffix);
+                PBCController::getInstance()->getPlaybook()->addCategory(category); //TODO check wheather play has name of existing play
+            }
+        }
+
         for (const PBCPlaySP& play : importedPlaybook->plays()) {
             const std::string name = play->name();
             play->setName(prefix + name + suffix);
-            PBCController::getInstance()->getPlaybook()->addPlay(play); //TODO check wheather play has name of existing play
-        }
-    }
 
-    if (importCategories) {
-        for (const PBCCategorySP& category : importedPlaybook->categories()) {
-            const std::string name = category->name();
-            category->setName(prefix + name + suffix);
-            PBCController::getInstance()->getPlaybook()->addCategory(category); //TODO check wheather play has name of existing play
+            // this prevents having dangling references to categories, that do not exist
+            if (importCategories == false) {
+                for(const PBCCategorySP& category: play->categories()) {
+                    play->removeCategory(category);
+                }
+            }
+            PBCController::getInstance()->getPlaybook()->addPlay(play); //TODO check wheather play has name of existing play
         }
     }
 
