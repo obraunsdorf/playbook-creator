@@ -1,6 +1,7 @@
 #define BOOST_TEST_MODULE PBCTests
 
 #include "util/pbcStorage.h"
+#include "util/pbcExceptions.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/filesystem.hpp>
 #include <iostream>
@@ -28,7 +29,7 @@ BOOST_TEST_GLOBAL_FIXTURE(PBCTestConfig);
 
 
 BOOST_AUTO_TEST_SUITE(StorageTests)
-    BOOST_AUTO_TEST_CASE(store_and_load) {
+    BOOST_AUTO_TEST_CASE(store_and_load_test) {
         PBCFormationSP formation = PBCController::getInstance()->getPlaybook()->formations().front();
         PBCPlaySP play(new PBCPlay("testplay1", "testcode1", formation->name()));
         BOOST_CHECK(play->name() == "testplay1");
@@ -62,7 +63,7 @@ BOOST_AUTO_TEST_SUITE(StorageTests)
 
 
 
-    BOOST_AUTO_TEST_CASE(import_test_all) {
+    BOOST_AUTO_TEST_CASE(import_test_with_prefix_suffix) {
         path global_test_directory = PBCTestConfig::test_base_dir;
         path test_pbs =
                 global_test_directory
@@ -98,13 +99,17 @@ BOOST_AUTO_TEST_SUITE(StorageTests)
         std::vector<std::string> formationNames1 = PBCController::getInstance()->getPlaybook()->getFormationNames();
         BOOST_REQUIRE(formationNames1.empty() == false);
 
+        std::string prefix = "prefix_";
+        std::string suffix = "_suffix";
         PBCStorage::getInstance()->importPlaybook(
                 "test",
                 test_pb2_path.string(),
                 true,
                 true,
                 true,
-                true);
+                true,
+                prefix,
+                suffix);
 
         std::cout << "plays from playbook1" << std::endl;
         for (const std::string &playname : playnames1) {
@@ -116,7 +121,7 @@ BOOST_AUTO_TEST_SUITE(StorageTests)
         std::cout << "plays from playbook2" << std::endl;
         for (const std::string &playname : playnames2) {
             std::cout << "    " << playname << std::endl;
-            PBCPlaySP play = PBCController::getInstance()->getPlaybook()->getPlay(playname);
+            PBCPlaySP play = PBCController::getInstance()->getPlaybook()->getPlay(prefix + playname + suffix);
             BOOST_CHECK(play != NULL);
         }
 
@@ -130,7 +135,7 @@ BOOST_AUTO_TEST_SUITE(StorageTests)
         std::cout << "categories from playbook2" << std::endl;
         for (const std::string &categoryName : categoryNames2) {
             std::cout << "    " << categoryName << std::endl;
-            PBCCategorySP category = PBCController::getInstance()->getPlaybook()->getCategory(categoryName);
+            PBCCategorySP category = PBCController::getInstance()->getPlaybook()->getCategory(prefix + categoryName + suffix);
             BOOST_CHECK(category != NULL);
         }
 
@@ -144,7 +149,7 @@ BOOST_AUTO_TEST_SUITE(StorageTests)
         std::cout << "routes from playbook2" << std::endl;
         for (const std::string &routeName : routeNames2) {
             std::cout << "    " << routeName << std::endl;
-            PBCRouteSP route = PBCController::getInstance()->getPlaybook()->getRoute(routeName);
+            PBCRouteSP route = PBCController::getInstance()->getPlaybook()->getRoute(prefix + routeName + suffix);
             BOOST_CHECK(route != NULL);
         }
 
@@ -158,7 +163,7 @@ BOOST_AUTO_TEST_SUITE(StorageTests)
         std::cout << "formations from playbook2" << std::endl;
         for (const std::string &formationName : formationNames2) {
             std::cout << "    " << formationName << std::endl;
-            PBCFormationSP formation = PBCController::getInstance()->getPlaybook()->getFormation(formationName);
+            PBCFormationSP formation = PBCController::getInstance()->getPlaybook()->getFormation(prefix + formationName + suffix);
             BOOST_CHECK(formation != NULL);
         }
     }
@@ -208,7 +213,8 @@ BOOST_AUTO_TEST_SUITE(StorageTests)
                     false,
                     false,
                     true,
-                    false);
+                    false,
+                    "prefix_");
 
             std::cout << "plays from playbook1" << std::endl;
             for (const std::string &playname : playnames1) {
@@ -236,7 +242,7 @@ BOOST_AUTO_TEST_SUITE(StorageTests)
             std::cout << "routes from playbook2" << std::endl;
             for (const std::string &routeName : routeNames2) {
                 std::cout << "    " << routeName << std::endl;
-                PBCRouteSP route = PBCController::getInstance()->getPlaybook()->getRoute(routeName);
+                PBCRouteSP route = PBCController::getInstance()->getPlaybook()->getRoute("prefix_" + routeName);
                 BOOST_CHECK(route != NULL);
             }
 
@@ -246,6 +252,19 @@ BOOST_AUTO_TEST_SUITE(StorageTests)
                 PBCFormationSP formation = PBCController::getInstance()->getPlaybook()->getFormation(formationName);
                 BOOST_CHECK(formation != NULL);
             }
+
     }
+
+    BOOST_AUTO_TEST_CASE(overwrite_test) {
+        PBCFormationSP formation = PBCController::getInstance()->getPlaybook()->formations().front();
+        PBCPlaySP play(new PBCPlay("testplay1", "testcode1", formation->name()));
+        PBCStorage::getInstance()->savePlaybook("test", "test.pbc");
+        PBCController::getInstance()->getPlaybook()->addPlay(play);  // playbook is automatically saved here;
+        BOOST_CHECK_THROW(
+                PBCStorage::getInstance()->importPlaybook("test", "test.pbc", true, true, true, true),
+                PBCImportException
+        );
+    }
+
 
 BOOST_AUTO_TEST_SUITE_END()

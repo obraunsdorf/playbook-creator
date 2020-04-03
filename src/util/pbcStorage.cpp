@@ -299,7 +299,12 @@ void PBCStorage::importPlaybook(
             for (const PBCCategorySP& category : importedPlaybook->categories()) {
                 const std::string name = category->name();
                 category->setName(prefix + name + suffix);
-                PBCController::getInstance()->getPlaybook()->addCategory(category); //TODO check wheather play has name of existing play
+                bool result = PBCController::getInstance()->getPlaybook()->addCategory(category);
+                if (result == false) {
+                    throw PBCImportException(
+                            "this would overwrite an existing category named '" +
+                            category->name() + "'");
+                }
             }
         }
 
@@ -307,13 +312,17 @@ void PBCStorage::importPlaybook(
             const std::string name = play->name();
             play->setName(prefix + name + suffix);
 
-            // this prevents having dangling references to categories, that do not exist
             if (importCategories == false) {
                 for(const PBCCategorySP& category: play->categories()) {
                     play->removeCategory(category);
                 }
             }
-            PBCController::getInstance()->getPlaybook()->addPlay(play); //TODO check wheather play has name of existing play
+            bool result = PBCController::getInstance()->getPlaybook()->addPlay(play);
+            if (result == false) {
+                throw PBCImportException(
+                        "this would overwrite an existing play named '" +
+                        play->name() + "'");
+            }
         }
     }
 
@@ -321,7 +330,12 @@ void PBCStorage::importPlaybook(
         for (const PBCFormationSP& formation : importedPlaybook->formations()) {
             const std::string name = formation->name();
             formation->setName(prefix + name + suffix);
-            PBCController::getInstance()->getPlaybook()->addFormation(formation); //TODO check wheather play has name of existing play
+            bool result = PBCController::getInstance()->getPlaybook()->addFormation(formation);
+            if (result == false) {
+                throw PBCImportException(
+                        "this would overwrite an existing formation named '" +
+                        formation->name() + "'");
+            }
         }
     }
 
@@ -329,7 +343,12 @@ void PBCStorage::importPlaybook(
         for (const PBCRouteSP& route : importedPlaybook->routes()) {
             const std::string name = route->name();
             route->setName(prefix + name + suffix);
-            PBCController::getInstance()->getPlaybook()->addRoute(route); //TODO check wheather play has name of existing play
+            bool result = PBCController::getInstance()->getPlaybook()->addRoute(route);
+            if (result == false) {
+                throw PBCImportException(
+                        "this would overwrite an existing route named '" +
+                        route->name() + "'");
+            }
         }
     }
 }
