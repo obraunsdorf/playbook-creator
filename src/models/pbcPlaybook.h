@@ -36,6 +36,8 @@ class PBCFormation;
 typedef boost::shared_ptr<PBCFormation> PBCFormationSP;
 class PBCRoute;
 typedef boost::shared_ptr<PBCRoute> PBCRouteSP;
+class PBCPlaybook;
+typedef boost::shared_ptr<PBCPlaybook> PBCPlaybookSP;
 
 class PBCPlaybook {
 friend class boost::serialization::access;
@@ -103,6 +105,7 @@ friend class boost::serialization::access;
     std::vector<std::string> getRouteNames() const;
     std::vector<std::string> getPlayNames() const;
     std::vector<std::string> getCategoryNames() const;
+    unsigned int numberOfPlayers() const;
 };
 BOOST_CLASS_VERSION(PBCPlaybook, 1)
 

@@ -292,6 +292,16 @@ void PBCStorage::importPlaybook(
     PBCPlaybookSP importedPlaybook(new PBCPlaybook());
     loadPlaybook(password, fileName, importedPlaybook);
 
+    unsigned int imported_numberOfPlayers = importedPlaybook->numberOfPlayers();
+    unsigned int active_numberOfPlayers = PBCController::getInstance()->getPlaybook()->numberOfPlayers();
+    if (importedPlaybook->numberOfPlayers() != PBCController::getInstance()->getPlaybook()->numberOfPlayers()) {
+        throw PBCImportException(
+                "number of players in imported playbook ("
+                + std::to_string(imported_numberOfPlayers)
+                + ") does not equal the number of players in your current playbook ("
+                + std::to_string(active_numberOfPlayers)
+                + ")");
+    }
     // Only import categories if plays are imported. Remove categories from plays if categories should not be imported.
     // This prevents dangling references to non-existent plays/categories
     if (importPlays) {

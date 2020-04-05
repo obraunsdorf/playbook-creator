@@ -27,9 +27,6 @@
 #include "models/pbcPlaybook.h"
 #include "util/pbcSingleton.h"
 
-class PBCPlaybook;
-typedef boost::shared_ptr<PBCPlaybook> PBCPlaybookSP;
-
 class PBCController : public PBCSingleton<PBCController> {
 friend class PBCSingleton<PBCController>;
 private:

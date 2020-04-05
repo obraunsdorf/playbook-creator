@@ -383,3 +383,7 @@ std::vector<std::string> PBCPlaybook::getCategoryNames() const {
     return categoryNames;
 }
 
+
+unsigned int PBCPlaybook::numberOfPlayers() const {
+    return _playerNumber;
+}

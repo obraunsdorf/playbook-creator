@@ -266,5 +266,18 @@ BOOST_AUTO_TEST_SUITE(StorageTests)
         );
     }
 
+    BOOST_AUTO_TEST_CASE(invalid_number_of_players_test) {
+        PBCController::getInstance()->getPlaybook()->resetToNewEmptyPlaybook("7er", 7);
+        PBCFormationSP formation = PBCController::getInstance()->getPlaybook()->formations().front();
+        PBCPlaySP play(new PBCPlay("testplay1", "testcode1", formation->name()));
+        PBCStorage::getInstance()->savePlaybook("test", "test.pbc");
+        PBCController::getInstance()->getPlaybook()->addPlay(play);  // playbook is automatically saved here;
+        PBCController::getInstance()->getPlaybook()->resetToNewEmptyPlaybook("5er", 5);
+        BOOST_CHECK_THROW(
+                PBCStorage::getInstance()->importPlaybook("test", "test.pbc", true, true, true, true),
+                PBCImportException
+        );
+    }
+
 
 BOOST_AUTO_TEST_SUITE_END()
