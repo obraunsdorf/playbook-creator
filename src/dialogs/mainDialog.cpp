@@ -455,7 +455,8 @@ void MainDialog::importPlaybook() {
                             true,
                             true,
                             true,
-                            true);
+                            true,
+                            "imported_");
                 } catch (PBCDecryptionException &e) {
                     if (decryptionFailureCount < PASSWORD_MAX_RETRYS - 1) {
                         decryptionFailureCount++;
