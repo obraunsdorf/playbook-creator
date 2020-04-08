@@ -454,9 +454,16 @@ void MainDialog::importPlaybook() {
                             fileName.toStdString(),
                             true,
                             true,
-                            true,
+                            false,
                             true,
                             "imported_");
+                    QMessageBox::information(this,
+                            "Import Playbook",
+                            "Import successful Your playbook has been saved automatically!");
+                }  catch (PBCImportException& e) {
+                    QString msg = e.what();
+                    msg.append("\n\nYou should rename or delete it and try to import again.");
+                    QMessageBox::critical(this, "Import Playbook", msg);
                 } catch (PBCDecryptionException &e) {
                     if (decryptionFailureCount < PASSWORD_MAX_RETRYS - 1) {
                         decryptionFailureCount++;
