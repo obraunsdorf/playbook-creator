@@ -103,20 +103,20 @@ Deleting a category will not delete the plays within that category. It will only
 ### Renaming Plays
 To rename a play you have to save it under a different name and then delete the old one. In particular:
   1. Open the play you want to rename
-  2. Click `Play -> Save Play as` and choose a different play name (code name can be the same).
+  2. Click `Play -> Save Play as` and choose a different play name (code name can stay the same as before).
   3. Afterwards click `Delete -> Plays` and choose the old one to delete it.
 
-This is a little bit inconvenient. There will be a feature to easily rename plays, soon -- or sooner if you help programming PBC ;-)  (see issue #25)
+This is a little bit inconvenient. There will be a feature to easily rename plays, soon -- or sooner if you help programming PBC ;-)  (see issue [#25](https://github.com/obraunsdorf/playbook-creator/issues/25))
 
 
 ### Importing from another Playbook
 You can import another playbook. This is useful, e.g., when your teammates had some ideas for new plays and want to send them to you to import it in the team's playbook.  
 Just click `Playbook -> Import Playbook` in the main menu.
 
-This feature is not fully complete yet. You can see the current progress in issue #10.  
+This feature is not fully complete yet. You can see the current progress in issue [#10](https://github.com/obraunsdorf/playbook-creator/issues/10).  
 At the moment, when importing another playbook, it automatically imports all plays, categories, and formations from the other playbook. To make it easily visible which plays have been imported, their name is prefixed with 'imported_'. You can rename those plays after importing or you can delete them if you don't like them (see the sections above).
 
-Routes are not imported. Importing of routes is easily possible but I disabled it. If you urgently need to import routes, please make a comment to issue #10 or write an email to the mailing list.
+Routes are not imported. Importing of routes is easily possible but I disabled it until we have a GUI dialog for import settings. If you urgently need to import routes, please make a comment to issue [#10](https://github.com/obraunsdorf/playbook-creator/issues/10) or write an email to the mailing list.
 
 
 ### Further Help and Discussion
