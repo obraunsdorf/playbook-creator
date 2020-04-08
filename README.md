@@ -12,6 +12,10 @@ Mailing list:
   * send email (without registration): <pbc-users@freelists.org>
   * subscribe for new messages/announcements: <http://www.freelists.org/list/pbc-users>
 
+
+**I'm looking for developers who can help out on PBC. Any help is welcome. Please see the section `How to contribute to PBC` at the bottom.**
+
+
 ## How to install PBC
   * **On Windows**   
   Download the latest release of Playbook Creator for Windows at https://github.com/obraunsdorf/playbook-creator/releases.  
@@ -43,7 +47,7 @@ In the main menu click `Play -> New play`. Enter whatever you want for play name
 ### Creating a New Play
 In the main menu click `Play -> New play`. Enter a name for your play. The play name will be displayed in the bottom of the graphic.  
 You can optionally choose a code name. If you set a code name then this one will be displayed in the bottom of the graphic instead of the original play name.  
-We used this because our play names were super obvios. Therefore we had to use code names on our wrist coaches so that we could shout them out to make an audible at the LOS or call the play in a No Huddle Offense  
+We used this because our play names were super obvious. Therefore we had to use code names on our wrist coaches so that we could shout them out to make an audible at the LOS or call the play in a No Huddle Offense  
 
 Choose the formation you like and click OK
 
@@ -90,6 +94,31 @@ The created PDFs look will look like this one.
 If you quickly want to print your playbook. You can skip entering dimensions and margins. The page dimensions will be calculated automatically using your specified column and row count.
 
 
+### Deleting Plays etc.
+If you want to delete some particular plays, categories, formations or routes from the playbook, simply click `Delete` in the main menu and choose accordingly.  
+Deleting a formation or route will not have an impact on existing plays. The players will keep their routes and their positions/alignments.  
+Deleting a category will not delete the plays within that category. It will only un-assign all plays from that category.
+
+
+### Renaming Plays
+To rename a play you have to save it under a different name and then delete the old one. In particular:
+  1. Open the play you want to rename
+  2. Click `Play -> Save Play as` and choose a different play name (code name can be the same).
+  3. Afterwards click `Delete -> Plays` and choose the old one to delete it.
+
+This is a little bit inconvenient. There will be a feature to easily rename plays, soon -- or sooner if you help programming PBC ;-)  (see issue #25)
+
+
+### Importing from another Playbook
+You can import another playbook. This is useful, e.g., when your teammates had some ideas for new plays and want to send them to you to import it in the team's playbook.  
+Just click `Playbook -> Import Playbook` in the main menu.
+
+This feature is not fully complete yet. You can see the current progress in issue #10.  
+At the moment, when importing another playbook, it automatically imports all plays, categories, and formations from the other playbook. To make it easily visible which plays have been imported, their name is prefixed with 'imported_'. You can rename those plays after importing or you can delete them if you don't like them (see the sections above).
+
+Routes are not imported. Importing of routes is easily possible but I disabled it. If you urgently need to import routes, please make a comment to issue #10 or write an email to the mailing list.
+
+
 ### Further Help and Discussion
 If you have any questions or want to discuss about Playbook Creator, you can use the issue tracking system of Github https://github.com/obraunsdorf/playbook-creator/issues.  
 Alternatively you can write an email to the following mailing list <pbc-users@freelists.org>.  
@@ -100,7 +129,8 @@ Note: A (quite outdated) manual in PDF format is available [here](manual/pbcManu
 ## How to build PBC
 For anyone who wants to build the application from source on Linux (and make changes), you can run
 
-    apt-get install build-essential pkg-config git cmake qt5-default libbotan-2-dev libboost-serialization-dev cargo
+    apt-get install build-essential pkg-config curl git cmake libbotan-2-dev qt5-default libboost-serialization-dev libboost-test-dev libboost-filesystem-dev libssl-dev
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 
     git clone https://github.com/obraunsdorf/playbook-creator.git
     cd playbook-creator
@@ -112,7 +142,7 @@ For Building on Windows you can set up a [Appveyor](https://www.appveyor.com/)-l
 
 
 ## How to contribute to PBC
-Feel free to contribute on any aspects of Playbook Creator: Front-end design, back-end code, crypto, documentation, website, etc. If you don't know where to start, please have a look at <https://github.com/obraunsdorf/playbook-creator/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22>
+Feel free to contribute on any aspects of Playbook Creator: Front-end design, back-end code, crypto, documentation, website, etc. If you don't know where to start, please have a look at <https://github.com/obraunsdorf/playbook-creator/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22>. Of course, you can also write me if you need some introduction to the code base or any other guidance.
 
 If you have any concrete idea, bug fixes, or even new code, you can either send me an email at <oliver.braunsdorf@gmx.de> or you can create an issue at <https://github.com/obraunsdorf/playbook-creator/issues>
 
