@@ -122,7 +122,7 @@ void PBCStorage::encrypt(const std::string& input,
  * @param ostream The output stream to which the decrypted playbook is written
  * @param inFile The file where the encrypted playbook is stored
  */
-void PBCStorage::decrypt(const std::string &password,
+std::pair<KeySP, SaltSP> PBCStorage::decrypt(const std::string &password,
                          std::ostream &ostream,
                          std::ifstream &inFile) {
     boost::shared_ptr<Botan::PBKDF> pbkdf(Botan::get_pbkdf(_PBKDF));
@@ -148,7 +148,10 @@ void PBCStorage::decrypt(const std::string &password,
     }
     /*std::string readPreamble(preambleBytes.begin(), preambleBytes.end());
     std::cout << "read preamble: " << readPreamble << std::endl*/
-    setCryptoKey(key, salt);
+
+    KeySP keySP(new Botan::OctetString(key));
+    SaltSP saltSP(new Botan::SecureVector<Botan::byte>(salt));
+    return std::make_pair(keySP, saltSP);
 }
 
 /**
@@ -226,7 +229,7 @@ void PBCStorage::writeToCurrentPlaybookFile() {
  * @param password The decryption password
  * @param fileName The path to the file where the playbook ist stored
  */
-void PBCStorage::loadPlaybook(const std::string &password, const std::string &fileName, PBCPlaybookSP targetPlaybook) {
+std::pair<KeySP, SaltSP>  PBCStorage::loadPlaybook(const std::string &password, const std::string &fileName, PBCPlaybookSP targetPlaybook) {
     std::string extension = fileName.substr(fileName.size() - 4);
     pbcAssert(extension == ".pbc");
     std::stringbuf buff;
@@ -250,8 +253,9 @@ void PBCStorage::loadPlaybook(const std::string &password, const std::string &fi
     delete[] preambleBuffer;
     preambleBuffer = NULL;
 
+    std::pair<KeySP, SaltSP> cryptoMaterial;
     try {
-        decrypt(password,
+        cryptoMaterial = decrypt(password,
                 ostream,
                 ifstream);
     } catch (PBCDecryptionException& e) {
@@ -259,11 +263,11 @@ void PBCStorage::loadPlaybook(const std::string &password, const std::string &fi
     } catch(std::exception& e) {
         throw PBCStorageException(e.what());  // TODD(obr): message to user
     }
-    _currentPlaybookFileName = fileName;
 
     std::istream istream(&buff);
     boost::archive::text_iarchive archive(istream);
     archive >> *targetPlaybook;
+    return cryptoMaterial;
 }
 
 
@@ -273,11 +277,14 @@ void PBCStorage::loadPlaybook(const std::string &password, const std::string &fi
  * @param fileName The path to the file where the playbook ist stored
  */
 void PBCStorage::loadActivePlaybook(const std::string &password,
-                                             const std::string &fileName) {
-    loadPlaybook(
-        password,
-        fileName,
-        PBCController::getInstance()->getPlaybook());
+                                    const std::string &fileName) {
+    std::pair<KeySP, SaltSP> cryptoMaterial = loadPlaybook(
+            password,
+            fileName,
+            PBCController::getInstance()->getPlaybook());
+    _currentPlaybookFileName = fileName;
+    _keySP = cryptoMaterial.first;
+    _saltSP = cryptoMaterial.second;
 }
 
 void PBCStorage::importPlaybook(
@@ -309,7 +316,7 @@ void PBCStorage::importPlaybook(
             for (const PBCCategorySP& category : importedPlaybook->categories()) {
                 const std::string name = category->name();
                 category->setName(prefix + name + suffix);
-                bool result = PBCController::getInstance()->getPlaybook()->addCategory(category);
+                bool result = PBCController::getInstance()->getPlaybook()->addCategory(category, false, true);
                 if (result == false) {
                     throw PBCImportException(
                             "this would overwrite an existing category named '" +
@@ -327,7 +334,8 @@ void PBCStorage::importPlaybook(
                     play->removeCategory(category);
                 }
             }
-            bool result = PBCController::getInstance()->getPlaybook()->addPlay(play);
+            bool result = PBCController::getInstance()->getPlaybook()->addPlay(play, false, true);
+            std::cout << "imported play: " << play->name() << std::endl;
             if (result == false) {
                 throw PBCImportException(
                         "this would overwrite an existing play named '" +
@@ -340,7 +348,7 @@ void PBCStorage::importPlaybook(
         for (const PBCFormationSP& formation : importedPlaybook->formations()) {
             const std::string name = formation->name();
             formation->setName(prefix + name + suffix);
-            bool result = PBCController::getInstance()->getPlaybook()->addFormation(formation);
+            bool result = PBCController::getInstance()->getPlaybook()->addFormation(formation, false, true);
             if (result == false) {
                 throw PBCImportException(
                         "this would overwrite an existing formation named '" +
@@ -353,7 +361,7 @@ void PBCStorage::importPlaybook(
         for (const PBCRouteSP& route : importedPlaybook->routes()) {
             const std::string name = route->name();
             route->setName(prefix + name + suffix);
-            bool result = PBCController::getInstance()->getPlaybook()->addRoute(route);
+            bool result = PBCController::getInstance()->getPlaybook()->addRoute(route, false, true);
             if (result == false) {
                 throw PBCImportException(
                         "this would overwrite an existing route named '" +
@@ -361,6 +369,8 @@ void PBCStorage::importPlaybook(
             }
         }
     }
+
+    PBCStorage::getInstance()->automaticSavePlaybook();
 }
 
 
