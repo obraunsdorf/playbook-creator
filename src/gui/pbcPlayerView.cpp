@@ -21,6 +21,7 @@
 
 #include "pbcPlayerView.h"
 
+#include "pbcController.h"
 #include "models/pbcPlaybook.h"
 #include "util/pbcDeclarations.h"
 #include "dialogs/pbcSavePlayAsDialog.h"
@@ -333,7 +334,7 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
     QMenu* routeMenu = menu.addMenu(QString::fromStdString("Routes"));
     boost::unordered_map<QAction*, PBCRouteSP> actionMap;
     std::multimap<int, PBCRouteSP> sortedRoutes;
-    for(PBCRouteSP route : PBCPlaybook::getInstance()->routes()) {
+    for(PBCRouteSP route : PBCController::getInstance()->getPlaybook()->routes()) {
         double depth = route->paths().back()->endpoint().get<1>();
         sortedRoutes.insert(std::make_pair(depth, route));
     }
@@ -395,7 +396,7 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
             int returnCode = dialog.exec();
             if (returnCode == QDialog::Accepted) {
                 PBCSavePlayAsDialog::ReturnStruct rs = dialog.getReturnStruct();
-                const auto &routes = PBCPlaybook::getInstance()->routes();
+                const auto &routes = PBCController::getInstance()->getPlaybook()->routes();
                 bool routeAlreadyInPlaybook = false;
                 for (const auto& route : routes) {
                     if (route->name() == rs.name) {

@@ -54,7 +54,8 @@ set ( SOURCES
 	util/pbcSingleton.h
 	util/pbcStorage.cpp
 	util/pbcStorage.h
-	main.cpp
+		pbcController.cpp
+		pbcController.h
 	pbcVersion.h)
 
 set ( MOC_HEADERS
@@ -138,32 +139,35 @@ qt5_wrap_cpp( MOC_SRCS ${MOC_HEADERS} )
 #	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools
 #)
 
-# compile
-add_executable( ${PROJECT_NAME} ${SOURCES} ${MOC_SRCS} ${UI_HEADERS})
-if(APPLE)
-	set_target_properties(${PROJECT_NAME} PROPERTIES
-	        MACOSX_BUNDLE ON
-	        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/cmake/pbcMacOSXBundleInfo.plist.in)
-endif()
-#add_dependencies(${PROJECT_NAME} style_checking)
-
+add_library(PBCLib ${SOURCES} ${MOC_SRCS} ${UI_HEADERS})
+#add_dependencies(PBCLib style_checking)
 
 # link the updater library
 if(WIN32)
 	find_package(OpenSSL)
-	target_link_libraries(${PROJECT_NAME} ${PBC_UPDATER_CMAKE_NAME} ws2_32 userenv crypt32 ncrypt schannel Secur32)
+	target_link_libraries(PBCLib ${PBC_UPDATER_CMAKE_NAME} ws2_32 userenv crypt32 ncrypt schannel Secur32)
 elseif(CMAKE_SYSTEM_NAME MATCHES "Darwin")
 	find_library(SECFW Security)
 	find_library(COREFW CoreFoundation)
-	target_link_libraries(${PROJECT_NAME} ${PBC_UPDATER_CMAKE_NAME} resolv ${SECFW} ${COREFW})
+	target_link_libraries(PBCLib ${PBC_UPDATER_CMAKE_NAME} resolv ${SECFW} ${COREFW})
 else()
-	target_link_libraries(${PROJECT_NAME} ${PBC_UPDATER_CMAKE_NAME} pthread dl ssl crypto)  # TODO find out the libs programmatically
+	target_link_libraries(PBCLib ${PBC_UPDATER_CMAKE_NAME} pthread dl ssl crypto)  # TODO find out the libs programmatically
 endif()
 
 # link Microsoft Visual Studio Runtime statically by default (on Windows builds)
 include(ConfigureMSVCRT)
 configure_msvc_runtime()
 
-# link libraries
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::PrintSupport ${Boost_LIBRARIES} ${BOTAN_LIBRARY})
-#target_link_libraries(${PROJECT_NAME} ${Qt5Widgets_LIBRARIES} ${Qt5PrintSupport_LIBRARIES} ${Boost_LIBRARIES} ${BOTAN_LIBRARY})
+# link external libraries
+target_link_libraries(PBCLib Qt5::Widgets Qt5::PrintSupport ${Boost_LIBRARIES} ${BOTAN_LIBRARY})
+
+
+# link executable
+add_executable(${PROJECT_NAME} main.cpp)
+target_link_libraries(${PROJECT_NAME} PBCLib)
+
+if(APPLE)
+	set_target_properties(${PROJECT_NAME} PROPERTIES
+	        MACOSX_BUNDLE ON
+	        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/cmake/pbcMacOSXBundleInfo.plist.in)
+endif()

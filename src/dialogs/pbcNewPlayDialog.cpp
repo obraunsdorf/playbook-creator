@@ -21,6 +21,7 @@
 
 #include "pbcNewPlayDialog.h"
 #include "ui_pbcNewPlayDialog.h"
+#include "pbcController.h"
 #include "models/pbcPlaybook.h"
 #include <vector>
 #include <string>
@@ -31,10 +32,10 @@ PBCNewPlayDialog::PBCNewPlayDialog(QWidget *parent) :
     ui->setupUi(this);
     QStringList formationList;
     std::vector<std::string> formationNames =
-            PBCPlaybook::getInstance()->getFormationNames();
+            PBCController::getInstance()->getPlaybook()->getFormationNames();
     if (formationNames.empty()) {
-        PBCPlaybook::getInstance()->reloadDefaultFormations();
-        formationNames = PBCPlaybook::getInstance()->getFormationNames();
+        PBCController::getInstance()->getPlaybook()->reloadDefaultFormations();
+        formationNames = PBCController::getInstance()->getPlaybook()->getFormationNames();
         pbcAssert(formationNames.size() > 0);
     }
     for(std::string& name : formationNames) {

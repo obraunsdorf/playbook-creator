@@ -38,6 +38,7 @@ set(PBC_UPDATER_CMAKE_NAME pbc-updater)
 add_subdirectory(updater)
 
 add_subdirectory(src)
+add_subdirectory(test)
 
 
 add_custom_target( documentation COMMAND doxygen)

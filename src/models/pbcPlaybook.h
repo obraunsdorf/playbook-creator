@@ -36,9 +36,10 @@ class PBCFormation;
 typedef boost::shared_ptr<PBCFormation> PBCFormationSP;
 class PBCRoute;
 typedef boost::shared_ptr<PBCRoute> PBCRouteSP;
+class PBCPlaybook;
+typedef boost::shared_ptr<PBCPlaybook> PBCPlaybookSP;
 
-class PBCPlaybook : public PBCSingleton<PBCPlaybook> {
-friend class PBCSingleton<PBCPlaybook>;
+class PBCPlaybook {
 friend class boost::serialization::access;
  private:
     std::string _builtWithPBCVersion;
@@ -74,18 +75,17 @@ friend class boost::serialization::access;
     }
     BOOST_SERIALIZATION_SPLIT_MEMBER()
 
- protected:
-    PBCPlaybook();
 
  public:
+    PBCPlaybook();
     void resetToNewEmptyPlaybook(const std::string& name,
                                  const unsigned int playerNumber);
     void reloadDefaultFormations();
     void setName(const std::string& name);
-    bool addFormation(PBCFormationSP formation, bool overwrite = false);
-    bool addRoute(PBCRouteSP route, bool overwrite = false);
-    bool addCategory(PBCCategorySP category, bool overwrite = false);
-    bool addPlay(PBCPlaySP play, bool overwrite = false);
+    bool addFormation(PBCFormationSP formation, bool overwrite = false, bool disable_autosave = false);
+    bool addRoute(PBCRouteSP route, bool overwrite = false, bool disable_autosave = false);
+    bool addCategory(PBCCategorySP category, bool overwrite = false, bool disable_autosave = false);
+    bool addPlay(PBCPlaySP play, bool overwrite = false, bool disable_autosave = false);
     void deleteFormation(const std::string& name);
     void deleteRoute(const std::string& name);
     void deleteCategory(const std::string& name);
@@ -99,11 +99,13 @@ friend class boost::serialization::access;
     bool hasFormation(const std::string& name);
     PBCFormationSP getFormation(const std::string& name);
     PBCPlaySP getPlay(const std::string& name);
+    PBCRouteSP getRoute(const std::string& name);
     PBCCategorySP getCategory(const std::string& name);
     std::vector<std::string> getFormationNames() const;
     std::vector<std::string> getRouteNames() const;
     std::vector<std::string> getPlayNames() const;
     std::vector<std::string> getCategoryNames() const;
+    unsigned int numberOfPlayers() const;
 };
 BOOST_CLASS_VERSION(PBCPlaybook, 1)
 

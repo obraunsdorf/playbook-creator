@@ -21,11 +21,13 @@
 
 #include "pbcPlayView.h"
 
+#include "pbcController.h"
 #include "models/pbcPlaybook.h"
 #include "util/pbcStorage.h"
 #include "util/pbcConfig.h"
 #include "gui/pbcPlayerView.h"
 #include "QGraphicsEllipseItem"
+#include "pbcController.h"
 #include "models/pbcPlaybook.h"
 #include "dialogs/pbcEditCategoriesDialog.h"
 #include "util/pbcPositionTranslator.h"
@@ -186,7 +188,7 @@ void PBCPlayView::savePlay(const std::string &name,
         _currentPlay->setName(name);
         _currentPlay->setCodeName(codeName);
     }
-    PBCPlaybook::getInstance()->addPlay(_currentPlay, true);
+    PBCController::getInstance()->getPlaybook()->addPlay(_currentPlay, true);
     showPlay(_currentPlay->name());
 }
 
@@ -196,7 +198,7 @@ void PBCPlayView::savePlay(const std::string &name,
  * @param name The name of the play
  */
 void PBCPlayView::showPlay(const std::string& name) {
-    PBCPlaySP play = PBCPlaybook::getInstance()->getPlay(name);
+    PBCPlaySP play = PBCController::getInstance()->getPlaybook()->getPlay(name);
     pbcAssert(play != NULL);
     _currentPlay.reset(new PBCPlay(*play));
     repaint();
@@ -214,7 +216,7 @@ void PBCPlayView::saveFormation(const std::string &formationName) {
     if(formationName != "") {
         _currentPlay->formation()->setName(formationName);
     }
-    PBCPlaybook::getInstance()->addFormation(_currentPlay->formation(), true);
+    PBCController::getInstance()->getPlaybook()->addFormation(_currentPlay->formation(), true);
 }
 
 
@@ -225,7 +227,7 @@ void PBCPlayView::saveFormation(const std::string &formationName) {
  */
 void PBCPlayView::editCategories() {
     savePlay();
-    PBCPlaySP originalPlay = PBCPlaybook::getInstance()->getPlay(_currentPlay->name());  // NOLINT
+    PBCPlaySP originalPlay = PBCController::getInstance()->getPlaybook()->getPlay(_currentPlay->name());  // NOLINT
     PBCEditCategoriesDialog dialog(originalPlay);
     dialog.editCategories();
     showPlay(originalPlay->name());
@@ -408,7 +410,7 @@ void PBCPlayView::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
         std::cout << "bla0" << std::endl;
         if (_routeName != "") {
             try {
-                PBCPlaybook::getInstance()->addRoute(route, _overwrite);
+                PBCController::getInstance()->getPlaybook()->addRoute(route, _overwrite);
             } catch (PBCAutoSaveException& e) {
                 QMessageBox::information(NULL, "", "You have to save the playbook to a file before you can add routes");  //NOLINT
                 savePlaybookOnRouteCreation();
@@ -429,7 +431,7 @@ void PBCPlayView::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
 }
 
 void PBCPlayView::savePlaybookOnRouteCreation() {
-    std::string stdFile = PBCPlaybook::getInstance()->name() + ".pbc";
+    std::string stdFile = PBCController::getInstance()->getPlaybook()->name() + ".pbc";
     QFileDialog fileDialog(
             NULL, "Save Playbook",
             QString::fromStdString(stdFile),

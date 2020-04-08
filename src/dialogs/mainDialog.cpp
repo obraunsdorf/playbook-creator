@@ -25,6 +25,7 @@
 
 #include "util/pbcConfig.h"
 #include "gui/pbcPlayerView.h"
+#include "pbcController.h"
 #include "models/pbcPlaybook.h"
 #include "dialogs/pbcExportPdfDialog.h"
 #include "dialogs/pbcDeleteDialog.h"
@@ -116,7 +117,7 @@ void MainDialog::updateTitle(bool saved) {
     std::string windowTitle = "Playbook Creator V" +
             PBCVersion::getSimpleVersionString() +
             " - " +
-            PBCPlaybook::getInstance()->name();
+            PBCController::getInstance()->getPlaybook()->name();
     if(saved == false) {
         windowTitle += "*";
     }
@@ -240,7 +241,7 @@ void MainDialog::savePlayAs() {
     int returnCode = dialog.exec();
     if (returnCode == QDialog::Accepted) {
         struct PBCSavePlayAsDialog::ReturnStruct rs = dialog.getReturnStruct();
-        std::vector<std::string> playNames = PBCPlaybook::getInstance()->getPlayNames();
+        std::vector<std::string> playNames = PBCController::getInstance()->getPlaybook()->getPlayNames();
         const auto& it = std::find(playNames.begin(), playNames.end(), rs.name);
         if (it != playNames.end()) {
             QMessageBox::StandardButton button =
@@ -289,7 +290,7 @@ void MainDialog::saveFormationAs() {
     if (ok == true) {
         pbcAssert(qformationname != "");
         std::string formationName = qformationname.toStdString();
-        std::vector<std::string> formationNames = PBCPlaybook::getInstance()->getFormationNames();
+        std::vector<std::string> formationNames = PBCController::getInstance()->getPlaybook()->getFormationNames();
         const auto &it = std::find(formationNames.begin(), formationNames.end(), formationName);
         if (it != formationNames.end()) {
             QMessageBox::StandardButton button =
@@ -329,7 +330,7 @@ void MainDialog::newPlaybook() {
         pbcAssert(name != "");
         pbcAssert(playerNumber == 5 || playerNumber == 7 ||
             playerNumber == 9 || playerNumber == 11);
-        PBCPlaybook::getInstance()->resetToNewEmptyPlaybook(name,
+        PBCController::getInstance()->getPlaybook()->resetToNewEmptyPlaybook(name,
                                                             playerNumber);
         PBCStorage::getInstance()->init(name);
         _playView->resetPlay();
@@ -343,7 +344,7 @@ void MainDialog::newPlaybook() {
  * @brief Saves the playbook persistently to a file after asking for a file name.
  */
 void MainDialog::savePlaybookAs() {
-    std::string stdFile = PBCPlaybook::getInstance()->name() + ".pbc";
+    std::string stdFile = PBCController::getInstance()->getPlaybook()->name() + ".pbc";
     QFileDialog fileDialog(
                 this, "Save Playbook",
                 QString::fromStdString(stdFile),
@@ -396,8 +397,8 @@ void MainDialog::openPlaybook() {
                                                      QLineEdit::Password, "", &ok);
             if (ok == true) {
                 try {
-                    PBCStorage::getInstance()->loadPlaybook(password.toStdString(),
-                                                            fileName.toStdString());
+                    PBCStorage::getInstance()->loadActivePlaybook(password.toStdString(),
+                                                                  fileName.toStdString());
                 } catch (PBCDecryptionException &e) {
                     if (decryptionFailureCount < PASSWORD_MAX_RETRYS - 1) {
                         decryptionFailureCount++;
@@ -419,6 +420,72 @@ void MainDialog::openPlaybook() {
     }
 }
 
+
+/**
+ * @brief Import a playbook from a file which is specified by an open-dialog.
+ */
+void MainDialog::importPlaybook() {
+    QFileDialog fileDialog(this, "Impport Playbook", "",
+                           "PBC Files (*.pbc);;All Files (*.*)");
+
+    fileDialog.setFileMode(QFileDialog::ExistingFile);
+    if (fileDialog.exec() == true) {
+        QStringList files = fileDialog.selectedFiles();
+        pbcAssert(files.size() == 1);
+        QString fileName = files.first();
+
+        unsigned int decryptionFailureCount = 0;
+        while (true) {
+            bool ok;
+            std::string msg;
+            if (decryptionFailureCount == 0) {
+                msg = "Enter decryption password";
+            } else {
+                msg = "Error on decryption. Maybe wrong password. Try again!";
+            }
+            QString password = QInputDialog::getText(this, "Import Playbook",
+                                                     QString::fromStdString(msg),
+                                                     QLineEdit::Password, "", &ok);
+            if (ok == true) {
+                try {
+                    // TODO design dialog to get parameters for playbook importing
+                    PBCStorage::getInstance()->importPlaybook(
+                            password.toStdString(),
+                            fileName.toStdString(),
+                            true,
+                            true,
+                            false,
+                            true,
+                            "imported_");
+                    QMessageBox::information(this,
+                            "Import Playbook",
+                            "Import successful Your playbook has been saved automatically!");
+                }  catch (PBCImportException& e) {
+                    QString msg = e.what();
+                    msg.append("\n\nYou should rename or delete it and try to import again.");
+                    QMessageBox::critical(this, "Import Playbook", msg);
+                } catch (PBCDecryptionException &e) {
+                    if (decryptionFailureCount < PASSWORD_MAX_RETRYS - 1) {
+                        decryptionFailureCount++;
+                        continue;
+                    } else {
+                        throw e;
+                    }
+                } catch (PBCDeprecatedVersionException& e) {
+                    QMessageBox::critical(this,
+                                          "Import Playbook",
+                                          "Cannot load playbook because it's created by a newer version of Playbook-Creator. "
+                                          "Please download the latest version of Playbook-Creator!");
+                }
+                _playView->resetPlay();
+                updateTitle(true);
+                break;
+            }
+        }
+    }
+}
+
+
 /**
  * @brief Exports the playbook to a PDF file.
  *
@@ -433,7 +500,7 @@ void MainDialog::exportAsPDF() {
     boost::shared_ptr<PBCExportPDFDialog::ReturnStruct> returnStruct(new PBCExportPDFDialog::ReturnStruct());  //NOLINT
     boost::shared_ptr<QStringList> playListSP = exportDialog.exec(returnStruct);
     if(playListSP != NULL && playListSP->size() > 0) {
-        std::string stdFile = PBCPlaybook::getInstance()->name() + ".pdf";
+        std::string stdFile = PBCController::getInstance()->getPlaybook()->name() + ".pdf";
         QFileDialog fileDialog(
                     this, "Export Playbook As PDF",
                     QString::fromStdString(stdFile),
@@ -480,7 +547,7 @@ void MainDialog::deleteRoutes() {
     if (deleteDialog.exec() == QDialog::Accepted) {
         for (const auto &name : *deleteDialog.get_nameList()) {
             try {
-                PBCPlaybook::getInstance()->deleteRoute(name.toStdString());
+                PBCController::getInstance()->getPlaybook()->deleteRoute(name.toStdString());
             } catch (PBCAutoSaveException &e) {
                 // TODO log message
                 /* The exception should not really be an issue here. If the playbook has not been saved to file yet,
@@ -500,7 +567,7 @@ void MainDialog::deletePlays() {
     if (deleteDialog.exec() == QDialog::Accepted){
         for (const auto& name : *deleteDialog.get_nameList()) {
             try {
-                PBCPlaybook::getInstance()->deletePlay(name.toStdString());
+                PBCController::getInstance()->getPlaybook()->deletePlay(name.toStdString());
             } catch (PBCAutoSaveException &e) {
                 // TODO log message (see issue #19)
                 /* The exception should not really be an issue here. If the playbook has not been saved to file yet,
@@ -519,7 +586,7 @@ void MainDialog::deleteFormations() {
     if (deleteDialog.exec() == QDialog::Accepted){
         for (const auto& name : *deleteDialog.get_nameList()) {
             try {
-                PBCPlaybook::getInstance()->deleteFormation(name.toStdString());
+                PBCController::getInstance()->getPlaybook()->deleteFormation(name.toStdString());
             } catch (PBCAutoSaveException &e) {
                 // TODO log message  (see issue #19)
                 /* The exception should not really be an issue here. If the playbook has not been saved to file yet,
@@ -538,7 +605,7 @@ void MainDialog::deleteCategories() {
     if (deleteDialog.exec() == QDialog::Accepted){
         for (const auto& name : *deleteDialog.get_nameList()) {
             try {
-                PBCPlaybook::getInstance()->deleteCategory(name.toStdString());
+                PBCController::getInstance()->getPlaybook()->deleteCategory(name.toStdString());
             } catch (PBCAutoSaveException &e) {
                 // TODO log message  (see issue #19)
                 /* The exception should not really be an issue here. If the playbook has not been saved to file yet,
@@ -559,3 +626,4 @@ void MainDialog::deleteCategories() {
 MainDialog::~MainDialog() {
     delete ui;
 }
+

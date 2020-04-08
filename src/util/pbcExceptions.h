@@ -104,6 +104,17 @@ class PBCStorageException : public PBCException {
 };
 
 /**
+ * @class PBCStorageException
+ * @brief An exception that is thrown when something went wrong with the storage
+ * component.
+ */
+class PBCImportException : public PBCException {
+public:
+    explicit PBCImportException(const std::string& msg = "") :
+            PBCException("Error while importing another playbook: " + msg) {}
+};
+
+/**
  * @class PBCRenderingException
  * @brief An exception that is thrown when something cannot be rendered.
  */

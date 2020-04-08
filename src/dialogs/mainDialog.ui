@@ -35,7 +35,7 @@
      <x>0</x>
      <y>0</y>
      <width>648</width>
-     <height>27</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -46,6 +46,7 @@
     <addaction name="actionOpen_Playbook"/>
     <addaction name="actionSave_Playbook_as"/>
     <addaction name="actionPDF_Export"/>
+    <addaction name="actionImport_playbook"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuPlay">
@@ -58,10 +59,6 @@
     <addaction name="actionSave_Play_as"/>
     <addaction name="actionAdd_play_to_category"/>
     <addaction name="actionSave_formation_as"/>
-    <!--
-    <addaction name="actionImport_Play"/>
-    <addaction name="actionExport_Play"/>
-    -->
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -218,6 +215,11 @@
   <action name="actionDeleteCategories">
    <property name="text">
     <string>Categories</string>
+   </property>
+  </action>
+  <action name="actionImport_playbook">
+   <property name="text">
+    <string>Import playbook</string>
    </property>
   </action>
  </widget>
@@ -480,6 +482,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionImport_playbook</sender>
+   <signal>triggered()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>importPlaybook()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>157</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showNewPlay()</slot>
@@ -490,6 +508,7 @@
   <slot>savePlayAs()</slot>
   <slot>openPlay()</slot>
   <slot>openPlaybook()</slot>
+  <slot>importPlaybook()</slot>
   <slot>savePlaybookAs()</slot>
   <slot>newPlaybook()</slot>
   <slot>exportAsPDF()</slot>

@@ -21,6 +21,7 @@
 
 #include "pbcExportPdfDialog.h"
 #include "ui_pbcExportPdfDialog.h"
+#include "pbcController.h"
 #include "models/pbcPlaybook.h"
 #include <string>
 #include <vector>
@@ -46,7 +47,7 @@ PBCExportPDFDialog::PBCExportPDFDialog(QWidget *parent) :
     ui(new Ui::PBCExportPDFDialog) {
     ui->setupUi(this);
     std::vector<std::string> playNames =
-            PBCPlaybook::getInstance()->getPlayNames();
+            PBCController::getInstance()->getPlaybook()->getPlayNames();
 
     for(std::string& name : playNames) {
         QListWidgetItem* listItem =

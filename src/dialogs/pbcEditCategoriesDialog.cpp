@@ -21,7 +21,9 @@
 
 #include "pbcEditCategoriesDialog.h"
 #include "ui_pbcEditCategoriesDialog.h"
+#include "pbcController.h"
 #include "models/pbcPlaybook.h"
+
 #include "models/pbcPlay.h"
 #include <string>
 #include <QMessageBox>
@@ -54,7 +56,7 @@ void PBCEditCategoriesDialog::editCategories() {
 
 void PBCEditCategoriesDialog::refreshList() {
     ui->categoryListWidget->clear();
-    std::list<PBCCategorySP> categories = PBCPlaybook::getInstance()->categories();  // NOLINT
+    std::list<PBCCategorySP> categories = PBCController::getInstance()->getPlaybook()->categories();  // NOLINT
     for (PBCCategorySP categorySP : categories) {
         QListWidgetItem* item = new QListWidgetItem(
                     QString::fromStdString(categorySP->name()),
@@ -76,7 +78,7 @@ void PBCEditCategoriesDialog::updateCategoryAssignment() {
     for(int i = 0; i < ui->categoryListWidget->count(); i++) {
         QListWidgetItem* item = ui->categoryListWidget->item(i);
         std::string categoryName = item->text().toStdString();
-        PBCCategorySP category = PBCPlaybook::getInstance()->getCategory(categoryName);  // NOLINT
+        PBCCategorySP category = PBCController::getInstance()->getPlaybook()->getCategory(categoryName);  // NOLINT
         if (item->checkState() == Qt::Checked) {
             _playSP->addCategory(category);
             category->addPlay(_playSP);
@@ -94,7 +96,7 @@ void PBCEditCategoriesDialog::createCategory() {
     PBCCategorySP categorySP(new PBCCategory(categoryName));
     _playSP->addCategory(categorySP);
     categorySP->addPlay(_playSP);
-    bool successfull = PBCPlaybook::getInstance()->addCategory(categorySP, false);  // NOLINT
+    bool successfull = PBCController::getInstance()->getPlaybook()->addCategory(categorySP, false);  // NOLINT
     if(successfull) {
         updateCategoryAssignment();
         refreshList();

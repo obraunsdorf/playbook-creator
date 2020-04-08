@@ -87,7 +87,7 @@ void PBCPlaybook::reloadDefaultFormations() {
  * with the same name is overwritten by the new formation.
  * @return true if the formation has been successfully added to the playbook
  */
-bool PBCPlaybook::addFormation(PBCFormationSP formation, bool overwrite) {
+bool PBCPlaybook::addFormation(PBCFormationSP formation, bool overwrite, bool disable_autosave) {
     if (overwrite == true) {
         PBCFormationSP formationCopy(new PBCFormation(*formation));
         _formations[formationCopy->name()] = formationCopy;
@@ -98,7 +98,7 @@ bool PBCPlaybook::addFormation(PBCFormationSP formation, bool overwrite) {
         InsertResult<PBCFormationSP> result =
                 _formations.insert(std::make_pair(formation->name(),
                                                   formationCopy));
-        if (result.second == true) {
+        if (result.second == true && disable_autosave == false) {
             PBCStorage::getInstance()->automaticSavePlaybook();
         }
         return result.second;
@@ -121,7 +121,7 @@ bool PBCPlaybook::addFormation(PBCFormationSP formation, bool overwrite) {
  * by the new route.
  * @return true if the route has been successfully added to the playbook
  */
-bool PBCPlaybook::addRoute(PBCRouteSP route, bool overwrite) {
+bool PBCPlaybook::addRoute(PBCRouteSP route, bool overwrite, bool disable_autosave) {
     if (overwrite == true) {
         *_routes[route->name()] = *route;  // TODO(obr): does this create memory leaks?  //NOLINT
         //_routes[route->name()] = route;  //--> Routes in Plays are not changed when you overwrite them // NOLINT
@@ -130,7 +130,7 @@ bool PBCPlaybook::addRoute(PBCRouteSP route, bool overwrite) {
     } else {
         InsertResult<PBCRouteSP> result =
                 _routes.insert(std::make_pair(route->name(), route));
-        if (result.second == true) {
+        if (result.second == true && disable_autosave == false) {
             PBCStorage::getInstance()->automaticSavePlaybook();
         }
         return result.second;
@@ -148,7 +148,7 @@ bool PBCPlaybook::addRoute(PBCRouteSP route, bool overwrite) {
  * with the same name is overwritten by the new category.
  * @return true if the category has been successfully added to the playbook
  */
-bool PBCPlaybook::addCategory(PBCCategorySP category, bool overwrite) {
+bool PBCPlaybook::addCategory(PBCCategorySP category, bool overwrite, bool disable_autosave) {
     if (overwrite == true) {
         _categories[category->name()] = category;
         PBCStorage::getInstance()->automaticSavePlaybook();
@@ -156,7 +156,7 @@ bool PBCPlaybook::addCategory(PBCCategorySP category, bool overwrite) {
     } else {
         InsertResult<PBCCategorySP> result =
                 _categories.insert(std::make_pair(category->name(), category));
-        if (result.second == true) {
+        if (result.second == true && disable_autosave == false) {
             PBCStorage::getInstance()->automaticSavePlaybook();
         }
         return result.second;
@@ -174,7 +174,7 @@ bool PBCPlaybook::addCategory(PBCCategorySP category, bool overwrite) {
  * with the same name is overwritten by the new play.
  * @return true if the play has been successfully added to the playbook
  */
-bool PBCPlaybook::addPlay(PBCPlaySP play, bool overwrite) {
+bool PBCPlaybook::addPlay(PBCPlaySP play, bool overwrite, bool disable_autosave) {
     if (overwrite == true) {
         _plays[play->name()] = play;
         PBCStorage::getInstance()->automaticSavePlaybook();
@@ -182,7 +182,7 @@ bool PBCPlaybook::addPlay(PBCPlaySP play, bool overwrite) {
     } else {
         InsertResult<PBCPlaySP> result =
                 _plays.insert(std::make_pair(play->name(), play));
-        if (result.second == true) {
+        if (result.second == true && disable_autosave == false) {
             PBCStorage::getInstance()->automaticSavePlaybook();
         }
         return result.second;
@@ -309,6 +309,18 @@ PBCPlaySP PBCPlaybook::getPlay(const std::string &name) {
 }
 
 /**
+ * @brief Selects a route by name. The route must exist
+ * in the playbook.
+ * @param name The name of the route
+ * @return The route with the given name.
+ */
+PBCRouteSP PBCPlaybook::getRoute(const std::string &name) {
+    const auto &it = _routes.find(name);
+    pbcAssert(it != _routes.end());
+    return it->second;
+}
+
+/**
  * @brief Selects a category by name. The category must exist
  * in the playbook.
  * @param name The name of the cateogry
@@ -371,3 +383,7 @@ std::vector<std::string> PBCPlaybook::getCategoryNames() const {
     return categoryNames;
 }
 
+
+unsigned int PBCPlaybook::numberOfPlayers() const {
+    return _playerNumber;
+}

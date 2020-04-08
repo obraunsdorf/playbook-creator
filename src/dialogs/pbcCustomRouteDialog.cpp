@@ -24,6 +24,7 @@
 #include "util/pbcConfig.h"
 #include "util/pbcExceptions.h"
 #include "util/pbcStorage.h"
+#include "pbcController.h"
 #include "models/pbcPlaybook.h"
 #include "dialogs/pbcSetPasswordDialog.h"
 #include <QDebug>
@@ -33,7 +34,7 @@
 #include <QInputDialog>
 
 void PBCCustomRouteDialog::savePlaybookOnRouteCreation() {
-    std::string stdFile = PBCPlaybook::getInstance()->name() + ".pbc";
+    std::string stdFile = PBCController::getInstance()->getPlaybook()->name() + ".pbc";
     QFileDialog fileDialog(
                 this, "Save Playbook",
                 QString::fromStdString(stdFile),
@@ -89,7 +90,7 @@ void PBCCustomRouteDialog::accept() {
     if(routeName != "") {
         bool successful = false;
         try {
-            successful = PBCPlaybook::getInstance()->addRoute(_createdRoute);
+            successful = PBCController::getInstance()->getPlaybook()->addRoute(_createdRoute);
         } catch(const PBCAutoSaveException& e) {
             QMessageBox::information(this, "", "You have to save the playbook to a file before you can add routes");  //NOLINT
             savePlaybookOnRouteCreation();
@@ -105,7 +106,7 @@ void PBCCustomRouteDialog::accept() {
             if(button == QMessageBox::Ok) {
                 bool result;
                 try {
-                    result = PBCPlaybook::getInstance()->addRoute(_createdRoute,
+                    result = PBCController::getInstance()->getPlaybook()->addRoute(_createdRoute,
                                                                   true);
                 } catch(const PBCAutoSaveException& e) {
                     QMessageBox::information(this, "", "You have to save the playbook to a file before you can add routes");  //NOLINT

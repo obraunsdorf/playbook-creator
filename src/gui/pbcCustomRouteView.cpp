@@ -22,6 +22,7 @@
 #include "pbcCustomRouteView.h"
 #include "util/pbcConfig.h"
 #include "util/pbcPositionTranslator.h"
+#include "pbcController.h"
 #include "models/pbcPlaybook.h"
 #include <QGraphicsView>
 #include <QGraphicsSceneMouseEvent>

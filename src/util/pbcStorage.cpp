@@ -20,6 +20,7 @@
 */
 
 #include "pbcStorage.h"
+#include "pbcController.h"
 #include "models/pbcPlaybook.h"
 #include "util/pbcConfig.h"
 #include "util/pbcExceptions.h"
@@ -121,7 +122,7 @@ void PBCStorage::encrypt(const std::string& input,
  * @param ostream The output stream to which the decrypted playbook is written
  * @param inFile The file where the encrypted playbook is stored
  */
-void PBCStorage::decrypt(const std::string &password,
+std::pair<KeySP, SaltSP> PBCStorage::decrypt(const std::string &password,
                          std::ostream &ostream,
                          std::ifstream &inFile) {
     boost::shared_ptr<Botan::PBKDF> pbkdf(Botan::get_pbkdf(_PBKDF));
@@ -147,7 +148,10 @@ void PBCStorage::decrypt(const std::string &password,
     }
     /*std::string readPreamble(preambleBytes.begin(), preambleBytes.end());
     std::cout << "read preamble: " << readPreamble << std::endl*/
-    setCryptoKey(key, salt);
+
+    KeySP keySP(new Botan::OctetString(key));
+    SaltSP saltSP(new Botan::SecureVector<Botan::byte>(salt));
+    return std::make_pair(keySP, saltSP);
 }
 
 /**
@@ -199,7 +203,7 @@ void PBCStorage::writeToCurrentPlaybookFile() {
     std::stringbuf buff;
     std::ostream ostream(&buff);
     boost::archive::text_oarchive archive(ostream);
-    archive << *PBCPlaybook::getInstance();
+    archive << *PBCController::getInstance()->getPlaybook();
 
     std::ofstream ofstream(_currentPlaybookFileName,
                            std::ios_base::out | std::ios_base::binary);
@@ -217,6 +221,7 @@ void PBCStorage::writeToCurrentPlaybookFile() {
     ofstream.close();
 }
 
+
 /**
  * @brief Passes a file to the PBCStorage::decrypt() function to decrypt it and
  * write it to a string buffer. The buffer is then read and deserialized to a
@@ -224,8 +229,7 @@ void PBCStorage::writeToCurrentPlaybookFile() {
  * @param password The decryption password
  * @param fileName The path to the file where the playbook ist stored
  */
-void PBCStorage::loadPlaybook(const std::string &password,
-                              const std::string &fileName) {
+std::pair<KeySP, SaltSP>  PBCStorage::loadPlaybook(const std::string &password, const std::string &fileName, PBCPlaybookSP targetPlaybook) {
     std::string extension = fileName.substr(fileName.size() - 4);
     pbcAssert(extension == ".pbc");
     std::stringbuf buff;
@@ -249,20 +253,124 @@ void PBCStorage::loadPlaybook(const std::string &password,
     delete[] preambleBuffer;
     preambleBuffer = NULL;
 
+    std::pair<KeySP, SaltSP> cryptoMaterial;
     try {
-        decrypt(password,
-            ostream,
-            ifstream);
+        cryptoMaterial = decrypt(password,
+                ostream,
+                ifstream);
     } catch (PBCDecryptionException& e) {
         throw e;
     } catch(std::exception& e) {
         throw PBCStorageException(e.what());  // TODD(obr): message to user
     }
-    _currentPlaybookFileName = fileName;
 
     std::istream istream(&buff);
     boost::archive::text_iarchive archive(istream);
-    archive >> *PBCPlaybook::getInstance();
+    archive >> *targetPlaybook;
+    return cryptoMaterial;
+}
+
+
+/**
+ * @brief Load the active playbook from a file
+ * @param password The decryption password
+ * @param fileName The path to the file where the playbook ist stored
+ */
+void PBCStorage::loadActivePlaybook(const std::string &password,
+                                    const std::string &fileName) {
+    std::pair<KeySP, SaltSP> cryptoMaterial = loadPlaybook(
+            password,
+            fileName,
+            PBCController::getInstance()->getPlaybook());
+    _currentPlaybookFileName = fileName;
+    _keySP = cryptoMaterial.first;
+    _saltSP = cryptoMaterial.second;
+}
+
+void PBCStorage::importPlaybook(
+        const std::string &password,
+        const std::string &fileName,
+        bool importPlays,
+        bool importCategories,
+        bool importRoutes,
+        bool importFormations,
+        const std::string& prefix,
+        const std::string& suffix) {
+    PBCPlaybookSP importedPlaybook(new PBCPlaybook());
+    loadPlaybook(password, fileName, importedPlaybook);
+
+    unsigned int imported_numberOfPlayers = importedPlaybook->numberOfPlayers();
+    unsigned int active_numberOfPlayers = PBCController::getInstance()->getPlaybook()->numberOfPlayers();
+    if (importedPlaybook->numberOfPlayers() != PBCController::getInstance()->getPlaybook()->numberOfPlayers()) {
+        throw PBCImportException(
+                "number of players in imported playbook ("
+                + std::to_string(imported_numberOfPlayers)
+                + ") does not equal the number of players in your current playbook ("
+                + std::to_string(active_numberOfPlayers)
+                + ")");
+    }
+    // Only import categories if plays are imported. Remove categories from plays if categories should not be imported.
+    // This prevents dangling references to non-existent plays/categories
+    if (importPlays) {
+        if (importCategories) {
+            for (const PBCCategorySP& category : importedPlaybook->categories()) {
+                const std::string name = category->name();
+                category->setName(prefix + name + suffix);
+                bool result = PBCController::getInstance()->getPlaybook()->addCategory(category, false, true);
+                if (result == false) {
+                    throw PBCImportException(
+                            "this would overwrite an existing category named '" +
+                            category->name() + "'");
+                }
+            }
+        }
+
+        for (const PBCPlaySP& play : importedPlaybook->plays()) {
+            const std::string name = play->name();
+            play->setName(prefix + name + suffix);
+
+            if (importCategories == false) {
+                for(const PBCCategorySP& category: play->categories()) {
+                    play->removeCategory(category);
+                }
+            }
+            bool result = PBCController::getInstance()->getPlaybook()->addPlay(play, false, true);
+            std::cout << "imported play: " << play->name() << std::endl;
+            if (result == false) {
+                throw PBCImportException(
+                        "this would overwrite an existing play named '" +
+                        play->name() + "'");
+            }
+        }
+    }
+
+    if (importFormations) {
+        for (const PBCFormationSP& formation : importedPlaybook->formations()) {
+            const std::string name = formation->name();
+            formation->setName(prefix + name + suffix);
+            bool result = PBCController::getInstance()->getPlaybook()->addFormation(formation, false, true);
+            if (result == false) {
+                throw PBCImportException(
+                        "this would overwrite an existing formation named '" +
+                        formation->name() + "'");
+            }
+        }
+    }
+
+    if (importRoutes) {
+        for (const PBCRouteSP& route : importedPlaybook->routes()) {
+            const std::string name = route->name();
+            route->setName(prefix + name + suffix);
+            bool result = PBCController::getInstance()->getPlaybook()->addRoute(route, false, true);
+            if (result == false) {
+                throw PBCImportException(
+                        "this would overwrite an existing route named '" +
+                        route->name() + "'");
+            }
+        }
+    }
+
+    PBCStorage::getInstance()->automaticSavePlaybook();
 }
 
 
@@ -362,7 +470,7 @@ void PBCStorage::exportAsPDF(const std::string& fileName,
     PBCConfig::getInstance()->setCanvasSize(playSize.width(), playSize.height());
 
     for(QString playName : *playListSP) {
-        PBCPlaySP playSP = PBCPlaybook::getInstance()->getPlay(playName.toStdString()); //NOLINT
+        PBCPlaySP playSP = PBCController::getInstance()->getPlaybook()->getPlay(playName.toStdString()); //NOLINT
         boost::shared_ptr<PBCPlayView> playViewSP(new PBCPlayView(playSP));  //NOLINT
         playViewSP->render(&painter,
                            QRectF(QPointF(x + *pixelMarginLeftSP, y + *pixelMarginTopSP), playSize),  //NOLINT

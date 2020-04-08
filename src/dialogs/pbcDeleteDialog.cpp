@@ -21,7 +21,9 @@
 
 #include "pbcDeleteDialog.h"
 #include "ui_pbcDeleteDialog.h"
+#include "pbcController.h"
 #include "models/pbcPlaybook.h"
+#include "pbcController.h"
 
 
 PBCDeleteDialog::PBCDeleteDialog(DELETE_ENUM delete_enum, QWidget *parent) :
@@ -33,16 +35,16 @@ PBCDeleteDialog::PBCDeleteDialog(DELETE_ENUM delete_enum, QWidget *parent) :
     std::vector<std::string> names;
     switch (delete_enum) {
         case DELETE_ENUM::DELETE_FORMATIONS:
-            names = PBCPlaybook::getInstance()->getFormationNames();
+            names = PBCController::getInstance()->getPlaybook()->getFormationNames();
             break;
         case DELETE_ENUM::DELETE_CATEGORIES:
-            names = PBCPlaybook::getInstance()->getCategoryNames();
+            names = PBCController::getInstance()->getPlaybook()->getCategoryNames();
             break;
         case DELETE_ENUM::DELETE_ROUTES:
-            names = PBCPlaybook::getInstance()->getRouteNames();
+            names = PBCController::getInstance()->getPlaybook()->getRouteNames();
             break;
         case DELETE_ENUM::DELETE_PLAYS:
-            names = PBCPlaybook::getInstance()->getPlayNames();
+            names = PBCController::getInstance()->getPlaybook()->getPlayNames();
             break;
         default:
             pbcAssert(false);

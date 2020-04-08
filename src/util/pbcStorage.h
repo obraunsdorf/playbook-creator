@@ -32,6 +32,8 @@
 #include <vector>
 #include <list>
 
+typedef boost::shared_ptr<Botan::SecureVector<Botan::byte>> SaltSP;
+typedef boost::shared_ptr<Botan::OctetString> KeySP;
 class PBCStorage : public PBCSingleton<PBCStorage> {
     friend class PBCSingleton<PBCStorage>;
 
@@ -49,8 +51,8 @@ private:
                            "playbook\n";
 
     std::string _currentPlaybookFileName;
-    boost::shared_ptr<Botan::SecureVector<Botan::byte>> _saltSP;
-    boost::shared_ptr<Botan::OctetString> _keySP;
+    SaltSP _saltSP;
+    KeySP _keySP;
 
     void checkVersion(const std::string &version);
 
@@ -60,9 +62,11 @@ private:
                       Botan::SecureVector<Botan::byte> salt);
 
     void encrypt(const std::string &input, std::ofstream &outFile);  // NOLINT
-    void decrypt(const std::string &password,
+    std::pair<KeySP, SaltSP> decrypt(const std::string &password,
                  std::ostream &ostream,  // NOLINT
                  std::ifstream &inFile); // NOLINT
+
+    std::pair<KeySP, SaltSP> loadPlaybook(const std::string &password, const std::string &fileName, PBCPlaybookSP);
 
 protected:
     PBCStorage() {}
@@ -76,7 +80,16 @@ public:
 
     void writeToCurrentPlaybookFile();
 
-    void loadPlaybook(const std::string &password, const std::string &fileName);
+    void loadActivePlaybook(const std::string &password, const std::string &fileName);
+    void importPlaybook(
+            const std::string &password,
+            const std::string &fileName,
+            bool importPlays,
+            bool importCategories,
+            bool importRoutes,
+            bool importFormations,
+            const std::string& prefix = "",
+            const std::string& suffix = "");
 
     void exportPlay(const std::string &fileName, PBCPlaySP play);
 

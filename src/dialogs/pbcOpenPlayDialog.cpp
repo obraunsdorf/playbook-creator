@@ -21,6 +21,8 @@
 
 #include "pbcOpenPlayDialog.h"
 #include "ui_pbcOpenPlayDialog.h"
+#include "pbcController.h"
+#include "pbcController.h"
 #include "models/pbcPlaybook.h"
 #include "models/pbcPlay.h"
 #include "util/pbcDeclarations.h"
@@ -75,7 +77,7 @@ void PBCOpenPlayDialog::filterCategory(QListWidgetItem *item) {
     ui->codeNameComboBox->clear();
     ui->categoryListWidget->clear();
 
-    PBCCategorySP selectedCategory = PBCPlaybook::getInstance()->getCategory(itemName);  // NOLINT
+    PBCCategorySP selectedCategory = PBCController::getInstance()->getPlaybook()->getCategory(itemName);  // NOLINT
     const auto& result = _filteredCategories.insert(selectedCategory);
     pbcAssert(result.second == true);
     std::map<PBCCategorySP, unsigned int> newCategories;
@@ -108,7 +110,7 @@ void PBCOpenPlayDialog::reset() {
     ui->codeNameComboBox->clear();
     ui->categoryListWidget->clear();
 
-    _currentPlays = PBCPlaybook::getInstance()->plays();
+    _currentPlays = PBCController::getInstance()->getPlaybook()->plays();
     if (_currentPlays.empty()) {
         ui->okButton->setEnabled(false);
     }

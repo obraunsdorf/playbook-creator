@@ -24,6 +24,7 @@
 
 #include "util/pbcDeclarations.h"
 #include "pbcVersion.h"
+#include "pbcController.h"
 #include "models/pbcPlaybook.h"
 #include <boost/serialization/access.hpp>
 #include <set>
