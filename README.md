@@ -77,7 +77,7 @@ The quickly applied routes will not be added to your playbook. If you want to cr
  
 
 ### Creating a Wrist Coach
-If you created some plays, click `Playbook -> PDF Export` in the main menu.
+If you created some plays, click `Playbook -> Create Wrist Coach (PDF)` in the main menu.
 A dialog will show up where you can see your plays on the left side. 
   1. Select every play you want to have on your wrist coach and use the button with the right arrow place them on the right list.
   2. Use the buttons with the up and down arrow to change the ordering of the plays on the right site according to your planned wrist coach ordering
