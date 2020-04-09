@@ -137,6 +137,12 @@ For anyone who wants to build the application from source on Linux (and make cha
     cmake .
     make
 
+To run unit tests, you can run
+
+    make -j4 tests && ASAN_OPTIONS=detect_leaks=0 bin/tests --log_level=all -- --test-base-dir "test"
+
+
+
 Building on MacOS X is done similarly using homebrew. Please refer to [the TravisCI script](.travis.yml).
 For Building on Windows you can set up a [Appveyor](https://www.appveyor.com/)-like environment with Qt5 and Boost and refer to [the Appveyor CI script](appveyor.yml) accordingly.
 

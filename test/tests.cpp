@@ -28,6 +28,59 @@ path PBCTestConfig::test_base_dir = "test";     //default directory. but has to 
 BOOST_TEST_GLOBAL_FIXTURE(PBCTestConfig);
 
 
+
+BOOST_AUTO_TEST_SUITE(VersionTests)
+
+    void checkPlaybook() {
+        BOOST_CHECK(PBCController::getInstance()->getPlaybook()->getPlay("testplay"));
+        BOOST_CHECK(PBCController::getInstance()->getPlaybook()->getFormation("TestFormation"));
+        BOOST_CHECK(PBCController::getInstance()->getPlaybook()->getRoute("testroute"));
+        BOOST_CHECK(PBCController::getInstance()->getPlaybook()->getCategory("TestCategory"));
+    }
+
+    BOOST_AUTO_TEST_CASE(v0_14_1) {
+        path global_test_directory =  PBCTestConfig::test_base_dir;
+        path test_pbs =
+                global_test_directory
+                        .append("resources")
+                        .append("StorageTests")
+                        .append("VersionTestPlaybooks");
+        path test_pb_path = path(test_pbs).append("v0_14_1.pbc");
+        PBCStorage::getInstance()->loadActivePlaybook("test", test_pb_path.string());
+
+        checkPlaybook();
+    }
+
+
+    BOOST_AUTO_TEST_CASE(v0_13_0) {
+        path global_test_directory =  PBCTestConfig::test_base_dir;
+        path test_pbs =
+                global_test_directory
+                        .append("resources")
+                        .append("StorageTests")
+                        .append("VersionTestPlaybooks");
+        path test_pb_path = path(test_pbs).append("v0_13_0.pbc");
+        PBCStorage::getInstance()->loadActivePlaybook("test", test_pb_path.string());
+
+        checkPlaybook();
+    }
+
+    BOOST_AUTO_TEST_CASE(v0_12_0) {
+        path global_test_directory =  PBCTestConfig::test_base_dir;
+        path test_pbs =
+                global_test_directory
+                        .append("resources")
+                        .append("StorageTests")
+                        .append("VersionTestPlaybooks");
+        path test_pb_path = path(test_pbs).append("v0_12_0.pbc");
+        PBCStorage::getInstance()->loadActivePlaybook("test", test_pb_path.string());
+
+        checkPlaybook();
+    }
+BOOST_AUTO_TEST_SUITE_END()
+
+
+
 BOOST_AUTO_TEST_SUITE(StorageTests)
     BOOST_AUTO_TEST_CASE(store_and_load_test) {
         PBCFormationSP formation = PBCController::getInstance()->getPlaybook()->formations().front();
