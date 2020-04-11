@@ -9,12 +9,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>648</width>
-    <height>316</height>
+    <width>1001</width>
+    <height>670</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainDialog</string>
+  </property>
+  <property name="dockOptions">
+   <set>QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="minimumSize">
@@ -23,9 +26,264 @@
      <height>0</height>
     </size>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="1">
      <widget class="QGraphicsView" name="graphicsView"/>
+    </item>
+    <item row="0" column="3">
+     <widget class="QDockWidget" name="playerDock">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>298</width>
+        <height>590</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>298</width>
+        <height>524287</height>
+       </size>
+      </property>
+      <property name="windowTitle">
+       <string>Player</string>
+      </property>
+      <widget class="QWidget" name="dockWidgetContents_2">
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QGroupBox" name="playerSettings">
+          <property name="title">
+           <string>Player Settings</string>
+          </property>
+          <layout class="QFormLayout" name="formLayout_4">
+           <item row="0" column="0">
+            <widget class="QLabel" name="colorLabel">
+             <property name="text">
+              <string>Color</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="colorButton">
+             <property name="text">
+              <string>Choose Color</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="routeLabel">
+             <property name="text">
+              <string>Route</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QComboBox" name="routeBox"/>
+           </item>
+           <item row="2" column="1">
+            <widget class="QFrame" name="frame">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <item>
+               <widget class="QLineEdit" name="lineEdit_2">
+                <property name="placeholderText">
+                 <string>New route name</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="routeCreateButton">
+                <property name="text">
+                 <string>Create Route</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="motionLabel">
+             <property name="text">
+              <string>Motion</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QPushButton" name="motionAddButton">
+             <property name="text">
+              <string>Add Motion</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QDockWidget" name="playDock">
+      <property name="maximumSize">
+       <size>
+        <width>381</width>
+        <height>524287</height>
+       </size>
+      </property>
+      <property name="windowTitle">
+       <string>Plays</string>
+      </property>
+      <widget class="QWidget" name="dockWidgetContents_3">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QGroupBox" name="playSettings">
+          <property name="title">
+           <string>Play Settings</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <layout class="QFormLayout" name="playSettingsForm">
+             <item row="0" column="0">
+              <widget class="QLabel" name="playNameLabel">
+               <property name="text">
+                <string>Name</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="playNameEdit"/>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="playShortNameLabel">
+               <property name="text">
+                <string>Codename</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="playShortNameEdit"/>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="formationLabel">
+               <property name="text">
+                <string>Formation</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QComboBox" name="formationBox"/>
+             </item>
+             <item row="4" column="1">
+              <widget class="QListWidget" name="categoryList"/>
+             </item>
+             <item row="6" column="1">
+              <widget class="QPushButton" name="savePlayButton">
+               <property name="text">
+                <string>Save Play</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1">
+              <widget class="QFrame" name="frame_4">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_5">
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QLineEdit" name="categoryEdit">
+                  <property name="placeholderText">
+                   <string>New Category name</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="categoryAddButton">
+                  <property name="text">
+                   <string>Add Category</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QFrame" name="frame_5">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_6">
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QLineEdit" name="formationEdit">
+                  <property name="placeholderText">
+                   <string>New Formation name</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="formationAddButton">
+                  <property name="text">
+                   <string>Add current Formation</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="categoryLabel">
+               <property name="text">
+                <string>Categories</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -34,7 +292,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>648</width>
+     <width>1001</width>
      <height>20</height>
     </rect>
    </property>
