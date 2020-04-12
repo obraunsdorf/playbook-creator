@@ -42,6 +42,8 @@
 #include <QFileDialog>
 #include <QStringList>
 #include <QPushButton>
+#include <QCheckBox>
+#include <QDialogButtonBox>
 #include <string>
 #include <vector>
 #include <list>
@@ -489,38 +491,64 @@ void MainDialog::importPlaybook() {
                                                      QString::fromStdString(msg),
                                                      QLineEdit::Password, "", &ok);
             if (ok == true) {
-                try {
-                    // TODO design dialog to get parameters for playbook importing
-                    PBCStorage::getInstance()->importPlaybook(
-                            password.toStdString(),
-                            fileName.toStdString(),
-                            true,
-                            true,
-                            false,
-                            true,
-                            "imported_");
-                    QMessageBox::information(this,
-                            "Import Playbook",
-                            "Import successful Your playbook has been saved automatically!");
-                }  catch (PBCImportException& e) {
-                    QString msg = e.what();
-                    msg.append("\n\nYou should rename or delete it and try to import again.");
-                    QMessageBox::critical(this, "Import Playbook", msg);
-                } catch (PBCDecryptionException &e) {
-                    if (decryptionFailureCount < PASSWORD_MAX_RETRYS - 1) {
-                        decryptionFailureCount++;
-                        continue;
-                    } else {
-                        throw e;
+                QDialog* importDialog = new QDialog(this);
+                importDialog->setWindowTitle("Choose what to import");
+                QLayout* layout = new QVBoxLayout;
+                QLineEdit* prefixLine = new QLineEdit;
+                prefixLine->setPlaceholderText("prefix");
+                QCheckBox* playCB = new QCheckBox("Import Plays");
+                playCB->setChecked(true);
+                QCheckBox* categoryCB = new QCheckBox("Import Categories");
+                categoryCB->setChecked(true);
+                QCheckBox* formationCB = new QCheckBox("Import Formations");
+                formationCB->setChecked(true);
+                QCheckBox* routeCB = new QCheckBox("Import Routes");
+                routeCB->setChecked(false);
+                layout->addWidget(playCB);
+                layout->addWidget(categoryCB);
+                layout->addWidget(formationCB);
+                layout->addWidget(routeCB);
+                layout->addWidget(prefixLine);
+                QPushButton* okButton = new QPushButton("Import now!");
+                layout->addWidget(okButton);
+                importDialog->setLayout(layout);
+                connect(okButton, &QPushButton::clicked, importDialog, &QDialog::accept);
+                if (importDialog->exec() == QDialog::Accepted) {
+                    bool import_plays = playCB->isChecked();
+                    bool import_categories = categoryCB->isChecked();
+                    bool import_formations = formationCB->isChecked();
+                    bool import_routes = routeCB->isChecked();
+                    std::string prefix = prefixLine->text().toStdString();
+                    try {
+                        PBCStorage::getInstance()->importPlaybook(
+                                password.toStdString(),
+                                fileName.toStdString(),
+                                import_plays,
+                                import_categories,
+                                import_routes,
+                                import_formations,
+                                prefix);
+                        QMessageBox::information(this,
+                                                 "Import Playbook",
+                                                 "Import successful. Your playbook has been saved automatically!");
+                    }  catch (PBCImportException& e) {
+                        QString msg = e.what();
+                        msg.append("\n\nYou should rename or delete it and try to import again.");
+                        QMessageBox::critical(this, "Import Playbook", msg);
+                    } catch (PBCDecryptionException &e) {
+                        if (decryptionFailureCount < PASSWORD_MAX_RETRYS - 1) {
+                            decryptionFailureCount++;
+                            continue;
+                        } else {
+                            throw e;
+                        }
+                    } catch (PBCDeprecatedVersionException& e) {
+                        QMessageBox::critical(this,
+                                              "Import Playbook",
+                                              "Cannot load playbook because it's created by a newer version of Playbook-Creator. "
+                                              "Please download the latest version of Playbook-Creator!");
                     }
-                } catch (PBCDeprecatedVersionException& e) {
-                    QMessageBox::critical(this,
-                                          "Import Playbook",
-                                          "Cannot load playbook because it's created by a newer version of Playbook-Creator. "
-                                          "Please download the latest version of Playbook-Creator!");
                 }
-                _playView->resetPlay();
-                updateTitle(true);
                 break;
             }
         }
