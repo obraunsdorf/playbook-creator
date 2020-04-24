@@ -49,6 +49,7 @@ PBCOpenPlayDialog::~PBCOpenPlayDialog() {
 PBCOpenPlayDialog::ReturnStruct PBCOpenPlayDialog::getReturnStruct() {
     struct ReturnStruct rs;
     rs.playName = ui->nameComboBox->currentText().toStdString();
+    rs.filteredPlays = _currentPlays;
     return rs;
 }
 

@@ -43,6 +43,7 @@ class PBCOpenPlayDialog : public QDialog {
 
     struct ReturnStruct {
         std::string playName;
+        std::list<PBCPlaySP> filteredPlays;
     };
 
     struct ReturnStruct getReturnStruct();

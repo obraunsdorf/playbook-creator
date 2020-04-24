@@ -237,8 +237,14 @@ void MainDialog::openPlay() {
         int returnCode = dialog.exec();
         if (returnCode == QDialog::Accepted) {
             struct PBCOpenPlayDialog::ReturnStruct rs = dialog.getReturnStruct();  // NOLINT
+            _currentlySelectedPlays = rs.filteredPlays;
             std::string playName = rs.playName;
-            _playView->showPlay(playName);
+            for(auto it = _currentlySelectedPlays.begin(); it != _currentlySelectedPlays.end(); it++) {
+                if((*it)->name() == rs.playName) {
+                    _currentPlay = it;
+                }
+            }
+            _playView->showPlay((*_currentPlay)->name());
             updateTitle(true);
             enableMenuOptions();
         }
@@ -246,11 +252,29 @@ void MainDialog::openPlay() {
 }
 
 void MainDialog::nextPlay() {
-    _playView->nextPlay();
+    const auto& nextIt = std::next(_currentPlay);
+    if (nextIt != _currentlySelectedPlays.end()) {
+        _currentPlay++;
+        _playView->showPlay((*_currentPlay)->name());
+    }
 }
 
 void MainDialog::previousPlay() {
-    _playView->previousPlay();
+    if (_currentPlay != _currentlySelectedPlays.begin()) {
+        _currentPlay--;
+        _playView->showPlay((*_currentPlay)->name());
+    }
+    /*
+    const auto& playNames = PBCController::getInstance()->getPlaybook()->getPlayNames();
+    if (_currentPlay != NULL) {
+        const auto& it = std::find(playNames.begin(), playNames.end(), _currentPlay->name());
+        if (it != playNames.end() && it != playNames.begin()) {
+            const auto& prevIt = std::prev(it);
+            pbcAssert(prevIt != playNames.end());
+            const std::string prevName = *prevIt;
+            showPlay(prevName);
+        }
+    }*/
 }
 
 

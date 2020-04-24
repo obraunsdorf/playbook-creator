@@ -37,6 +37,8 @@ class MainDialog : public QMainWindow {
  private:
     Ui::MainDialog *ui;
     PBCPlayView* _playView;
+    std::list<PBCPlaySP> _currentlySelectedPlays;
+    std::list<PBCPlaySP>::const_iterator _currentPlay;
 
     void updateTitle(bool saved);
     void enableMenuOptions();
