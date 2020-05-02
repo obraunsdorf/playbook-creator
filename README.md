@@ -134,7 +134,9 @@ For anyone who wants to build the application from source on Linux (and make cha
 
     git clone https://github.com/obraunsdorf/playbook-creator.git
     cd playbook-creator
-    cmake .
+    mkdir build
+    cd build
+    cmake ..
     make
 
 To run unit tests, you can run

@@ -54,8 +54,8 @@ set ( SOURCES
 	util/pbcSingleton.h
 	util/pbcStorage.cpp
 	util/pbcStorage.h
-		pbcController.cpp
-		pbcController.h
+	pbcController.cpp
+	pbcController.h
 	pbcVersion.h)
 
 set ( MOC_HEADERS

@@ -25,7 +25,7 @@ if(GIT_FOUND)
 	  		INCLUDE_HASH True
 		)
 		message(STATUS "Project version from git tag: ${GIT_TAG}")
-		configure_file(cmake/pbcVersion.h.in src/pbcVersion.h)
+		configure_file(src/pbcVersion.h.in ${PROJECT_SOURCE_DIR}/src/pbcVersion.h)
 	endif()
 endif()
 
