@@ -10,7 +10,7 @@ jobs:
       - run:
           name: Install Dependencies
           command: |
-            apt update && apt install -y git build-essential cmake pkg-config qt5-default libboost-serialization-dev libboost-test-dev libboost-filesystem-dev libssl-dev python golang-go curl
+            apt update && DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata && apt install -y git build-essential cmake pkg-config qt5-default libboost-serialization-dev libboost-test-dev libboost-filesystem-dev libssl-dev python golang-go curl
             curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
       - restore_cache:
           keys:
