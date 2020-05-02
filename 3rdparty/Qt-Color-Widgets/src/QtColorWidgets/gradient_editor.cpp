@@ -221,7 +221,8 @@ void GradientEditor::mouseDoubleClickEvent(QMouseEvent *ev)
             qreal highlighted_pos = p->paint_pos(p->stops[p->highlighted], this);
             qreal mouse_pos = orientation() == Qt::Vertical ? ev->pos().y() : ev->pos().x();
             qreal tolerance = 4;
-            if ( std::abs(mouse_pos - highlighted_pos) <= tolerance )
+            double diff = mouse_pos - highlighted_pos;
+            if ( std::abs(diff) <= tolerance )
             {
                 p->dialog_selected = p->highlighted;
                 p->color_dialog.setColor(p->stops[p->highlighted].second);
