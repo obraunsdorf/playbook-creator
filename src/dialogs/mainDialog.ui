@@ -35,7 +35,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1001</width>
+     <width>1120</width>
      <height>20</height>
     </rect>
    </property>
@@ -86,7 +86,7 @@
    <property name="minimumSize">
     <size>
      <width>285</width>
-     <height>658</height>
+     <height>719</height>
     </size>
    </property>
    <attribute name="dockWidgetArea">
@@ -283,6 +283,16 @@
       </widget>
      </item>
      <item>
+      <widget class="color_widgets::ColorWheel" name="colorWheel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="Line" name="line">
        <property name="lineWidth">
         <number>1</number>
@@ -294,6 +304,12 @@
      </item>
      <item>
       <widget class="QGroupBox" name="playerSettings">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="maximumSize">
         <size>
          <width>16777215</width>
@@ -543,6 +559,13 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>color_widgets::ColorWheel</class>
+   <extends>QWidget</extends>
+   <header>QtColorWidgets/color_wheel.hpp</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

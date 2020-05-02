@@ -159,7 +159,7 @@ include(ConfigureMSVCRT)
 configure_msvc_runtime()
 
 # link external libraries
-target_link_libraries(PBCLib Qt5::Widgets Qt5::PrintSupport ${Boost_LIBRARIES} ${BOTAN_LIBRARY})
+target_link_libraries(PBCLib Qt5::Widgets Qt5::PrintSupport ${Boost_LIBRARIES} ${BOTAN_LIBRARY} QtColorWidgets)
 
 
 # link executable

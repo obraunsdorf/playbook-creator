@@ -37,6 +37,9 @@ include(CMakeCargo)
 set(PBC_UPDATER_CMAKE_NAME pbc-updater)
 add_subdirectory(updater)
 
+#set(BUILD_STATIC_LIBS ON)
+add_subdirectory(3rdparty/Qt-Color-Widgets)
+
 add_subdirectory(src)
 add_subdirectory(test)
 
