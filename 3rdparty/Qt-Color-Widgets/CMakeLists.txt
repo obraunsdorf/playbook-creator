@@ -63,8 +63,8 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 
-option(BUILD_SHARED_LIBS "Build the shared library" ON)
-option(BUILD_STATIC_LIBS "Build the static library" OFF)
+option(BUILD_SHARED_LIBS "Build the shared library" OFF)
+option(BUILD_STATIC_LIBS "Build the static library" ON)
 
 set (TARGET_NAME ${COLORWIDGET_PROJECT_NAME})
 set (TARGET_OUTPUT_SUFFIX "-Qt${QT_VERSION}${${COLORWIDGET_PROJECT_NAME}_VERSION_MAJOR}")
