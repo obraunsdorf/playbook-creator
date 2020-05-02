@@ -496,6 +496,7 @@ void PBCPlayerView::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
     std::cout << newPos.get<0>() << ", " << newPos.get<1>() << std::endl;
     std::cout << "----------------------------------" << std::endl;
     _playerSP->setPos(newPos);
+    _playView->setActivePlayer(this->_playerSP);
 }
 
 

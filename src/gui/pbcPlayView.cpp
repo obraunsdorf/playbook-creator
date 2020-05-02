@@ -21,6 +21,7 @@
 
 #include "pbcPlayView.h"
 
+#include "dialogs/mainDialog.h"
 #include "pbcController.h"
 #include "models/pbcPlaybook.h"
 #include "util/pbcStorage.h"
@@ -452,5 +453,28 @@ void PBCPlayView::savePlaybookOnRouteCreation() {
         }
     }
 }
+
+void PBCPlayView::setActivePlayer(PBCPlayerSP playerSP) {
+    MainDialog* mainDialog = dynamic_cast<MainDialog*>(this->parent());
+    _activePlayer = playerSP;
+    if (mainDialog != NULL) {
+        mainDialog->fillPlayerInfoDock(playerSP);
+    }
+}
+
+void PBCPlayView::setActivePlayerColor(PBCColor color) {
+    if(_activePlayer != NULL) {
+        _activePlayer->setColor(color);
+        repaint();
+    }
+}
+
+void PBCPlayView::setActivePlayerRoute(PBCRouteSP route) {
+    if(_activePlayer != NULL) {
+       _activePlayer->setRoute(route);
+       repaint();
+    }
+}
+
 
 

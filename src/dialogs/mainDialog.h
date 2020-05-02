@@ -42,6 +42,7 @@ class MainDialog : public QMainWindow {
 
     void updateTitle(bool saved);
     void enableMenuOptions();
+    void fillPlayInfoDock(PBCPlaySP play);
     void resizeEvent(QResizeEvent* e);
     void wheelEvent(QWheelEvent *event);
 
@@ -49,6 +50,7 @@ class MainDialog : public QMainWindow {
     explicit MainDialog(QWidget *parent = 0);
     ~MainDialog();
     void show();
+    void fillPlayerInfoDock(PBCPlayerSP player);
     void keyReleaseEvent(QKeyEvent *event);
 
  public slots:
@@ -71,6 +73,8 @@ class MainDialog : public QMainWindow {
     void deletePlays();
     void deleteFormations();
     void deleteCategories();
+    void changeActivePlayerColor(QColor color);
+    void changeActivePlayerRoute(int index);
 };
 
 #endif  // MAINDIALOG_H

@@ -222,6 +222,54 @@ void MainDialog::showNewPlay() {
 }
 
 
+void MainDialog::fillPlayInfoDock(PBCPlaySP play) {
+    ui->playNameLineEdit->setText(QString::fromStdString(play->name()));
+    ui->codeNameLineEdit->setText(QString::fromStdString(play->codeName()));
+}
+
+void MainDialog::fillPlayerInfoDock(PBCPlayerSP player) {
+    ui->playerNameLineEdit->setText(QString::fromStdString(player->role().fullName));
+    QColor color(player->color().r(), player->color().g(), player->color().b());
+    ui->playerColorWheel->setColor(color);
+
+    ui->routeBox->clear();
+    int index = 0;
+    int selected = 0;
+    if (player->route() == NULL) {
+        ui->routeBox->addItem("Select a route");
+    }
+    for (PBCRouteSP route : PBCController::getInstance()->getPlaybook()->routes()) {
+        ui->routeBox->addItem(QString::fromStdString(route->name()));
+        index++;
+        if (player->route() != NULL && route->name() == player->route()->name()) {
+            selected = index;
+        }
+    }
+    ui->routeBox->setCurrentIndex(selected);
+}
+
+void MainDialog::changeActivePlayerColor(QColor color) {
+    if(color.isValid()) {
+        this->_playView->setActivePlayerColor(PBCColor(color.red(),
+                                color.green(),
+                                color.blue()));
+    }
+}
+
+void MainDialog::changeActivePlayerRoute(int index) {
+    if (index > 0) {
+        QString routeName = ui->routeBox->itemText(index);
+        PBCRouteSP route = PBCController::getInstance()->getPlaybook()->getRoute(routeName.toStdString());
+        this->_playView->setActivePlayerRoute(route);
+    } else {
+        // reset the route
+        std::vector<PBCPathSP> emptyPaths;
+        PBCRouteSP route(new PBCRoute("","", emptyPaths));
+        this->_playView->setActivePlayerRoute(route);
+    }
+
+}
+
 /**
  * @brief Gets a play by name from the Playbook and loads
  * it into the embedded PBCPlayView
@@ -244,6 +292,7 @@ void MainDialog::openPlay() {
                     _currentPlay = it;
                 }
             }
+            fillPlayInfoDock(*_currentPlay);
             _playView->showPlay((*_currentPlay)->name());
             updateTitle(true);
             enableMenuOptions();

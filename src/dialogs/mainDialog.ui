@@ -137,7 +137,7 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QLineEdit" name="nameLineEdit_2"/>
+           <widget class="QLineEdit" name="playNameLineEdit"/>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="codeNameLabel">
@@ -226,7 +226,7 @@
          <number>6</number>
         </property>
         <item>
-         <widget class="QComboBox" name="comboBox">
+         <widget class="QComboBox" name="formationComboBox">
           <property name="editable">
            <bool>false</bool>
           </property>
@@ -377,7 +377,7 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QLineEdit" name="nameLineEdit"/>
+           <widget class="QLineEdit" name="playerNameLineEdit"/>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="nrLabel">
@@ -387,7 +387,7 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QSpinBox" name="spinBox_2"/>
+           <widget class="QSpinBox" name="playerNrSpinBox"/>
           </item>
          </layout>
         </item>
@@ -503,7 +503,7 @@
          <number>0</number>
         </property>
         <item row="0" column="0">
-         <widget class="color_widgets::ColorWheel" name="colorWheel">
+         <widget class="color_widgets::ColorWheel" name="playerColorWheel">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
             <horstretch>0</horstretch>
@@ -941,6 +941,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>playerColorWheel</sender>
+   <signal>colorChanged(QColor)</signal>
+   <receiver>MainDialog</receiver>
+   <slot>changeActivePlayerColor(QColor)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>941</x>
+     <y>899</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>843</x>
+     <y>933</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>routeBox</sender>
+   <signal>activated(int)</signal>
+   <receiver>MainDialog</receiver>
+   <slot>changeActivePlayerRoute(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>953</x>
+     <y>710</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>841</x>
+     <y>818</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showNewPlay()</slot>
@@ -961,5 +993,7 @@
   <slot>deleteFormations</slot>
   <slot>deleteCategories</slot>
   <slot>deletePlays()</slot>
+  <slot>changeActivePlayerColor(QColor)</slot>
+  <slot>changeActivePlayerRoute(int)</slot>
  </slots>
 </ui>
