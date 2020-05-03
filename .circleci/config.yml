@@ -3,8 +3,6 @@ jobs:
   build:
     docker:
       - image: ubuntu:18.04
-    environment:
-      TZ: "Europe/Berlin"
     steps:
       - checkout
       - run:

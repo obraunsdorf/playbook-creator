@@ -139,7 +139,7 @@ qt5_wrap_cpp( MOC_SRCS ${MOC_HEADERS} )
 #	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools
 #)
 
-add_library(PBCLib ${SOURCES} ${MOC_SRCS} ${UI_HEADERS})
+add_library(PBCLib STATIC ${SOURCES} ${MOC_SRCS} ${UI_HEADERS})
 #add_dependencies(PBCLib style_checking)
 
 # link the updater library

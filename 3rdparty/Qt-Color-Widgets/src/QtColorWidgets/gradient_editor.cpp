@@ -30,6 +30,7 @@
 #include <QMimeData>
 #include <QDropEvent>
 #include <QDragEnterEvent>
+#include <cmath>
 
 #include "QtColorWidgets/gradient_helper.hpp"
 #include "QtColorWidgets/color_dialog.hpp"
@@ -221,8 +222,8 @@ void GradientEditor::mouseDoubleClickEvent(QMouseEvent *ev)
             qreal highlighted_pos = p->paint_pos(p->stops[p->highlighted], this);
             qreal mouse_pos = orientation() == Qt::Vertical ? ev->pos().y() : ev->pos().x();
             qreal tolerance = 4;
-            double diff = mouse_pos - highlighted_pos;
-            if ( std::abs(diff) <= tolerance )
+            qreal abs = std::fabs((qreal)(mouse_pos - highlighted_pos));
+            if ( abs <= tolerance )
             {
                 p->dialog_selected = p->highlighted;
                 p->color_dialog.setColor(p->stops[p->highlighted].second);
