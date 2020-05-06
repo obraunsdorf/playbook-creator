@@ -34,6 +34,7 @@
 #include "dialogs/pbcOpenPlayDialog.h"
 #include "dialogs/pbcSavePlayAsDialog.h"
 #include "dialogs/pbcSetPasswordDialog.h"
+#include "util/pbcDeclarations.h"
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QDebug>
@@ -79,6 +80,12 @@ MainDialog::MainDialog(QWidget *parent) :
     ui->actionImport_playbook->setShortcut(QKeySequence("Ctrl+Alt+I"));
     ui->actionPDF_Export->setShortcut(QKeySequence("Ctrl+Alt+W"));
 
+    _playView = new PBCPlayView(NULL, this);
+    ui->graphicsView->setScene(_playView);
+
+    this->setMinimumWidth(PBCConfig::getInstance()->minWidth());
+    this->setMinimumHeight(PBCConfig::getInstance()->minHeight());
+
     updateTitle(false);
 }
 
@@ -107,18 +114,6 @@ void MainDialog::show() {
 #else
     QMainWindow::showMaximized();
 #endif
-
-    unsigned int width = ui->graphicsView->width();
-    unsigned int height = ui->graphicsView->height();
-    PBCConfig::getInstance()->setCanvasSize(width - 2, height - 2);
-    this->setMinimumWidth(PBCConfig::getInstance()->minWidth());
-    this->setMinimumHeight(PBCConfig::getInstance()->minHeight());
-
-    _playView = new PBCPlayView(NULL, this);
-    ui->graphicsView->setScene(_playView);
-    _playView->setSceneRect(0, 0, PBCConfig::getInstance()->canvasWidth(),
-                            PBCConfig::getInstance()->canvasHeight());
-
     QMessageBox messageBox(this);
     QPushButton* openButton = messageBox.addButton("Open Playbook",
                                                   QMessageBox::AcceptRole);
@@ -179,6 +174,7 @@ void MainDialog::resizeEvent(QResizeEvent* e) {
     unsigned int height = ui->graphicsView->height();
     PBCConfig::getInstance()->setCanvasSize(width - 2, height - 2);
     if(e->oldSize().width() > 0) {
+        pbcAssert(_playView != NULL);
         _playView->setSceneRect(0, 0, PBCConfig::getInstance()->canvasWidth(),
                                 PBCConfig::getInstance()->canvasHeight());
         _playView->repaint();
