@@ -106,14 +106,8 @@ void MainDialog::keyReleaseEvent(QKeyEvent *event) {
  * @brief shows the main window graphically at application startup
  */
 void MainDialog::show() {
-#ifdef __APPLE__
-    #include <TargetConditionals.h>
-#if TARGET_OS_MAC
-    QMainWindow::show();
-#endif
-#else
     QMainWindow::showMaximized();
-#endif
+
     QMessageBox messageBox(this);
     QPushButton* openButton = messageBox.addButton("Open Playbook",
                                                   QMessageBox::AcceptRole);
