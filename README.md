@@ -141,7 +141,7 @@ For anyone who wants to build the application from source on Linux (and make cha
 
 To run unit tests, you can run
 
-    make -j4 tests && ASAN_OPTIONS=detect_leaks=0 bin/tests --log_level=all -- --test-base-dir "test"
+    make -j4 tests && ASAN_OPTIONS=detect_leaks=0 ../bin/tests --log_level=all -- --test-base-dir "../test"
 
 
 
