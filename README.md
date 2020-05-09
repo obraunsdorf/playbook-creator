@@ -15,6 +15,8 @@ Mailing list:
 
 **I'm looking for developers who can help out on PBC. Any help is welcome. Please see the section `How to contribute to PBC` at the bottom.**
 
+If Playbook Creator is useful for your team, but none of you can contribute, you can also buy me a beer at the next flag football tournament or you can donate some amount that you find appropriate on Paypal. [![Donate with PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=E59SCLK3VYPLJ&source=url)
+
 
 ## How to install PBC
   * **On Windows**   
