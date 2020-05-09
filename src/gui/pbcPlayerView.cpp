@@ -493,6 +493,7 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
 
 
 void PBCPlayerView::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+    std::cout << "mouse press event on " << this->_playerSP->role().fullName << std::endl;
     if (isClickInShape(event->pos())) {
         QGraphicsItemGroup::mousePressEvent(event);
     } else {
@@ -506,6 +507,7 @@ void PBCPlayerView::mousePressEvent(QGraphicsSceneMouseEvent *event) {
  * @param event event datastructure, includes position of context menu click
  */
 void PBCPlayerView::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
+    std::cout << "mouse release event on " << this->_playerSP->role().fullName << std::endl;
     QGraphicsItemGroup::mouseReleaseEvent(event);
     QPointF pixelDelta = this->pos();
     QPointF newPixelPos = QPointF(_originalPos.get<0>(),
@@ -522,5 +524,11 @@ void PBCPlayerView::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
 
 
 void PBCPlayerView::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
-    _playView->enterRouteEditMode(this->_playerSP);
+    std::cout << "mouse double click event on " << this->_playerSP->role().fullName << std::endl;
+    if (isClickInShape(event->pos())) {
+        QGraphicsItemGroup::mouseDoubleClickEvent(event);
+        _playView->enterRouteEditMode(this->_playerSP);
+    } else {
+        event->ignore();
+    }
 }
