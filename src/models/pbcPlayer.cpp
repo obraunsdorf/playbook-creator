@@ -126,12 +126,32 @@ void PBCPlayer::setMotion(const PBCMotionSP &motion) {
 PBCPlayer::PBCPlayer(PBCRole role,
                      PBCColor color,
                      PBCDPoint pos,
+                     const std::string& name,
+                     unsigned int nr,
                      PBCRouteSP route,
                      PBCMotionSP motion) :
     _role(role),
     _color(color),
     _pos(pos),
+    _name(name),
+    _nr(nr),
     _route(route),
-    _motion(motion) {}
+    _motion(motion){}
+
+const std::string &PBCPlayer::name() const {
+    return _name;
+}
+
+void PBCPlayer::setName(const std::string &name) {
+    _name = name;
+}
+
+unsigned int PBCPlayer::nr() const {
+    return _nr;
+}
+
+void PBCPlayer::setNr(unsigned int nr) {
+    _nr = nr;
+}
 
 

@@ -75,6 +75,8 @@ class MainDialog : public QMainWindow {
     void deleteCategories();
     void changeActivePlayerColor(QColor color);
     void changeActivePlayerRoute(int index);
+    void changeActivePlayerName(QString name);
+    void changeActivePlayerNr(int nr);
 };
 
 #endif  // MAINDIALOG_H

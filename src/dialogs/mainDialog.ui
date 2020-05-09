@@ -973,6 +973,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>playerNameLineEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>MainDialog</receiver>
+   <slot>changeActivePlayerName(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>958</x>
+     <y>622</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>842</x>
+     <y>515</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>playerNrSpinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainDialog</receiver>
+   <slot>changeActivePlayerNr(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1008</x>
+     <y>654</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>843</x>
+     <y>628</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showNewPlay()</slot>
@@ -995,5 +1027,7 @@
   <slot>deletePlays()</slot>
   <slot>changeActivePlayerColor(QColor)</slot>
   <slot>changeActivePlayerRoute(int)</slot>
+  <slot>changeActivePlayerName(QString)</slot>
+  <slot>changeActivePlayerNr(int)</slot>
  </slots>
 </ui>

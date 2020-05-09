@@ -88,6 +88,27 @@ void PBCPlayerView::repaint() {
     PBCColor color = _playerSP->color();
     _playerShapeSP->setBrush(QBrush(QColor(color.r(), color.g(), color.b())));
     this->addToGroup(_playerShapeSP.get());
+
+    unsigned int playerNr = _playerSP->nr();
+    // 0 is the discriminator. Valid player Numbers start from 1.
+    // Maybe circumvent this "dirty hack" by using C++17 optionals
+    if (playerNr > 0) {
+        QGraphicsTextItem* text = new QGraphicsTextItem(QString::fromStdString(std::to_string(_playerSP->nr())));
+        QFont font = QFont(QString::fromStdString(PBCConfig::getInstance()->playNameFont()));
+        font.setPixelSize(playerWidth/2);
+        font.setBold(true);
+        text->setFont(font);
+        PBCColor contrastColor = PBCColor::contrastColor(color);
+        text->setDefaultTextColor(QColor(contrastColor.r(), contrastColor.g(), contrastColor.b()));
+        QRectF bdRect = text->boundingRect();
+        double textWidth = bdRect.width();
+        double textHeight = bdRect.height();
+        double x = playerPosX + ((playerWidth - textWidth) / 2);
+        double y = playerPosY + ((playerWidth - textHeight) / 2);
+        text->setPos(x, y);
+        this->addToGroup(text);
+    }
+
     this->setFlag(QGraphicsItem::ItemIsMovable);
 
     if(_playerSP->motion() != NULL) {

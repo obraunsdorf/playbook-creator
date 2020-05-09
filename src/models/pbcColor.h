@@ -46,9 +46,10 @@ friend class boost::serialization::access;
     PBCColor(unsigned int r, unsigned int g, unsigned int b);
     PBCColor(const PBCColor& obj);
 
+    static PBCColor contrastColor(const PBCColor& color);
+
     unsigned int r() const;
     unsigned int g() const;
     unsigned int b() const;
 };
-
 #endif  // PBCCOLOR_H

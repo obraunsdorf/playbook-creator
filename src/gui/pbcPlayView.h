@@ -56,6 +56,8 @@ class PBCPlayView : public PBCGridIronView {
     void setActivePlayer(PBCPlayerSP playerSP);
     void setActivePlayerColor(PBCColor color);
     void setActivePlayerRoute(PBCRouteSP route);
+    void setActivePlayerName(std::string name);
+    void setActivePlayerNr(unsigned int nr);
 
 
  private:

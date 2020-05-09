@@ -189,6 +189,7 @@ void PBCPlayView::savePlay(const std::string &name,
         _currentPlay->setName(name);
         _currentPlay->setCodeName(codeName);
     }
+    std::cout << "saving play: " << _currentPlay.get() << std::endl;
     PBCController::getInstance()->getPlaybook()->addPlay(_currentPlay, true);
     showPlay(_currentPlay->name());
 }
@@ -201,6 +202,7 @@ void PBCPlayView::savePlay(const std::string &name,
 void PBCPlayView::showPlay(const std::string& name) {
     PBCPlaySP play = PBCController::getInstance()->getPlaybook()->getPlay(name);
     pbcAssert(play != NULL);
+    std::cout << "showing play: " << play.get() << std::endl;
     _currentPlay.reset(new PBCPlay(*play));
     repaint();
 }
@@ -473,6 +475,20 @@ void PBCPlayView::setActivePlayerRoute(PBCRouteSP route) {
     if(_activePlayer != NULL) {
        _activePlayer->setRoute(route);
        repaint();
+    }
+}
+
+void PBCPlayView::setActivePlayerName(std::string name) {
+    if(_activePlayer != NULL) {
+        _activePlayer->setName(name);
+        repaint();
+    }
+}
+
+void PBCPlayView::setActivePlayerNr(unsigned int nr) {
+    if(_activePlayer != NULL) {
+        _activePlayer->setNr(nr);
+        repaint();
     }
 }
 

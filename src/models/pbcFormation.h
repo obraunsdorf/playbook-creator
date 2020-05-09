@@ -67,7 +67,9 @@ friend class boost::serialization::access;
         for(PBCPlayerSP otherPlayer : other) {
             PBCPlayerSP player(new PBCPlayer(otherPlayer->role(),
                                              otherPlayer->color(),
-                                             otherPlayer->pos()));
+                                             otherPlayer->pos(),
+                                             otherPlayer->name(),
+                                             otherPlayer->nr()));
             this->push_back(player);
         }
     }

@@ -49,6 +49,7 @@
 #include <vector>
 #include <list>
 #include <pbcVersion.h>
+#include <iostream>
 
 /**
  * @class MainDialog
@@ -218,47 +219,34 @@ void MainDialog::fillPlayInfoDock(PBCPlaySP play) {
 }
 
 void MainDialog::fillPlayerInfoDock(PBCPlayerSP player) {
-    ui->playerNameLineEdit->setText(QString::fromStdString(player->role().fullName));
-    QColor color(player->color().r(), player->color().g(), player->color().b());
-    ui->playerColorWheel->setColor(color);
-
-    ui->routeBox->clear();
-    int index = 0;
-    int selected = 0;
-    if (player->route() == NULL) {
-        ui->routeBox->addItem("Select a route");
-    }
-    for (PBCRouteSP route : PBCController::getInstance()->getPlaybook()->routes()) {
-        ui->routeBox->addItem(QString::fromStdString(route->name()));
-        index++;
-        if (player->route() != NULL && route->name() == player->route()->name()) {
-            selected = index;
-        }
-    }
-    ui->routeBox->setCurrentIndex(selected);
-}
-
-void MainDialog::changeActivePlayerColor(QColor color) {
-    if(color.isValid()) {
-        this->_playView->setActivePlayerColor(PBCColor(color.red(),
-                                color.green(),
-                                color.blue()));
-    }
-}
-
-void MainDialog::changeActivePlayerRoute(int index) {
-    if (index > 0) {
-        QString routeName = ui->routeBox->itemText(index);
-        PBCRouteSP route = PBCController::getInstance()->getPlaybook()->getRoute(routeName.toStdString());
-        this->_playView->setActivePlayerRoute(route);
+    if (player == NULL) {
+        //reset the UI elements
+        ui->playerNameLineEdit->setText("");
+        ui->playerNrSpinBox->setValue(0);
+        ui->routeBox->clear();
     } else {
-        // reset the route
-        std::vector<PBCPathSP> emptyPaths;
-        PBCRouteSP route(new PBCRoute("","", emptyPaths));
-        this->_playView->setActivePlayerRoute(route);
-    }
+        ui->playerNameLineEdit->setText(QString::fromStdString(player->name()));
+        ui->playerNrSpinBox->setValue((int) player->nr());
+        QColor color(player->color().r(), player->color().g(), player->color().b());
+        ui->playerColorWheel->setColor(color);
 
+        ui->routeBox->clear();
+        int index = 0;
+        int selected = 0;
+        if (player->route() == NULL) {
+            ui->routeBox->addItem("Select a route");
+        }
+        for (PBCRouteSP route : PBCController::getInstance()->getPlaybook()->routes()) {
+            ui->routeBox->addItem(QString::fromStdString(route->name()));
+            index++;
+            if (player->route() != NULL && route->name() == player->route()->name()) {
+                selected = index;
+            }
+        }
+        ui->routeBox->setCurrentIndex(selected);
+    }
 }
+
 
 /**
  * @brief Gets a play by name from the Playbook and loads
@@ -283,6 +271,7 @@ void MainDialog::openPlay() {
                 }
             }
             fillPlayInfoDock(*_currentPlay);
+            _playView->setActivePlayer(NULL);
             _playView->showPlay((*_currentPlay)->name());
             updateTitle(true);
             enableMenuOptions();
@@ -758,5 +747,36 @@ void MainDialog::deleteCategories() {
  */
 MainDialog::~MainDialog() {
     delete ui;
+}
+
+void MainDialog::changeActivePlayerColor(QColor color) {
+    if(color.isValid()) {
+        this->_playView->setActivePlayerColor(PBCColor(color.red(),
+                                                       color.green(),
+                                                       color.blue()));
+    }
+}
+
+void MainDialog::changeActivePlayerRoute(int index) {
+    if (index > 0) {
+        QString routeName = ui->routeBox->itemText(index);
+        PBCRouteSP route = PBCController::getInstance()->getPlaybook()->getRoute(routeName.toStdString());
+        this->_playView->setActivePlayerRoute(route);
+    } else {
+        // reset the route
+        std::vector<PBCPathSP> emptyPaths;
+        PBCRouteSP route(new PBCRoute("","", emptyPaths));
+        this->_playView->setActivePlayerRoute(route);
+    }
+
+}
+
+void MainDialog::changeActivePlayerName(QString name) {
+    this->_playView->setActivePlayerName(name.toStdString());
+}
+
+void MainDialog::changeActivePlayerNr(int nr) {
+    pbcAssert(nr >= 0 && nr <= UINT_MAX);
+    this->_playView->setActivePlayerNr((unsigned int) nr);
 }
 
