@@ -307,7 +307,7 @@
          <number>0</number>
         </property>
         <item>
-         <widget class="QTextEdit" name="textEdit">
+         <widget class="QTextEdit" name="commentTextEdit">
           <property name="sizePolicy">
            <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
             <horstretch>0</horstretch>
@@ -1005,6 +1005,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>commentTextEdit</sender>
+   <signal>textChanged()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>changePlayComment()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>926</x>
+     <y>438</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>844</x>
+     <y>371</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showNewPlay()</slot>
@@ -1029,5 +1045,6 @@
   <slot>changeActivePlayerRoute(int)</slot>
   <slot>changeActivePlayerName(QString)</slot>
   <slot>changeActivePlayerNr(int)</slot>
+  <slot>changePlayComment()</slot>
  </slots>
 </ui>

@@ -47,24 +47,40 @@ friend class PBCCategory;
     std::string _codeName;
     PBCFormationSP _formation;
     std::set<PBCCategorySP> _categories;
+    std::string _comment;
+
+private:
 
     template<class Archive>
-    void serialize(Archive& ar, const unsigned int version) {  // NOLINT
-        pbcAssert(version == 0);
-        ar & _name;
-        ar & _codeName;
-        ar & _formation;
-        ar & _categories;
+    void save(Archive& ar, const unsigned int version) const {
+        ar << _name;
+        ar << _codeName;
+        ar << _formation;
+        ar << _categories;
+        ar << _comment;
     }
 
+    template<class Archive>
+    void load(Archive& ar, const unsigned int version) {  // NOLINT
+        ar >> _name;
+        ar >> _codeName;
+        ar >> _formation;
+        ar >> _categories;
+        if (version >=1) {
+            ar >> _comment;
+        }
+    }
+    BOOST_SERIALIZATION_SPLIT_MEMBER()
+
     PBCPlay() {
-        PBCPlay("", "", "");
+        PBCPlay("", "", "", "");
     }
 
  public:
     PBCPlay(const std::string& name,
             const std::string& codeName,
-            const std::string& formationName);
+            const std::string& formationName,
+            const std::string& comment = "");
 
     PBCPlay(const PBCPlay& other);
     std::string name() const;
@@ -74,8 +90,11 @@ friend class PBCCategory;
     PBCFormationSP formation() const;
     void setFormation(const PBCFormationSP &formation);
     std::set<PBCCategorySP> categories() const;
+    std::string comment() const;
+    void setComment(const std::string &comment);
     void addCategory(const PBCCategorySP &category);
     void removeCategory(const PBCCategorySP& category);
 };
+BOOST_CLASS_VERSION(PBCPlay, 1)
 
 #endif  // PBCPLAY_H

@@ -189,7 +189,6 @@ void PBCPlayView::savePlay(const std::string &name,
         _currentPlay->setName(name);
         _currentPlay->setCodeName(codeName);
     }
-    std::cout << "saving play: " << _currentPlay.get() << std::endl;
     PBCController::getInstance()->getPlaybook()->addPlay(_currentPlay, true);
     showPlay(_currentPlay->name());
 }
@@ -202,8 +201,8 @@ void PBCPlayView::savePlay(const std::string &name,
 void PBCPlayView::showPlay(const std::string& name) {
     PBCPlaySP play = PBCController::getInstance()->getPlaybook()->getPlay(name);
     pbcAssert(play != NULL);
-    std::cout << "showing play: " << play.get() << std::endl;
     _currentPlay.reset(new PBCPlay(*play));
+    setActivePlay(_currentPlay);
     repaint();
 }
 
@@ -409,7 +408,6 @@ void PBCPlayView::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
     if (_routeEditMode == true) {
         pbcAssert(_routePlayer);
         PBCRouteSP route(new PBCRoute(_routeName, _routeCodeName, _paths));
-        std::cout << "bla0" << std::endl;
         if (_routeName != "") {
             try {
                 PBCController::getInstance()->getPlaybook()->addRoute(route, _overwrite);
@@ -456,6 +454,13 @@ void PBCPlayView::savePlaybookOnRouteCreation() {
     }
 }
 
+void PBCPlayView::setActivePlay(PBCPlaySP playSP) {
+    MainDialog* mainDialog = dynamic_cast<MainDialog*>(this->parent());
+    if (mainDialog != NULL) {
+        mainDialog->fillPlayInfoDock(playSP);
+    }
+}
+
 void PBCPlayView::setActivePlayer(PBCPlayerSP playerSP) {
     MainDialog* mainDialog = dynamic_cast<MainDialog*>(this->parent());
     _activePlayer = playerSP;
@@ -489,6 +494,12 @@ void PBCPlayView::setActivePlayerNr(unsigned int nr) {
     if(_activePlayer != NULL) {
         _activePlayer->setNr(nr);
         repaint();
+    }
+}
+
+void PBCPlayView::setPlayComment(const std::string &comment) {
+    if(_currentPlay != NULL) {
+        _currentPlay->setComment(comment);
     }
 }
 

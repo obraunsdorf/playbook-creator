@@ -216,6 +216,7 @@ void MainDialog::showNewPlay() {
 void MainDialog::fillPlayInfoDock(PBCPlaySP play) {
     ui->playNameLineEdit->setText(QString::fromStdString(play->name()));
     ui->codeNameLineEdit->setText(QString::fromStdString(play->codeName()));
+    ui->commentTextEdit->setText(QString::fromStdString(play->comment()));
 }
 
 void MainDialog::fillPlayerInfoDock(PBCPlayerSP player) {
@@ -270,7 +271,6 @@ void MainDialog::openPlay() {
                     _currentPlay = it;
                 }
             }
-            fillPlayInfoDock(*_currentPlay);
             _playView->setActivePlayer(NULL);
             _playView->showPlay((*_currentPlay)->name());
             updateTitle(true);
@@ -778,5 +778,10 @@ void MainDialog::changeActivePlayerName(QString name) {
 void MainDialog::changeActivePlayerNr(int nr) {
     pbcAssert(nr >= 0 && nr <= UINT_MAX);
     this->_playView->setActivePlayerNr((unsigned int) nr);
+}
+
+void MainDialog::changePlayComment() {
+    std::string comment = ui->commentTextEdit->toPlainText().toStdString();
+    this->_playView->setPlayComment(comment);
 }
 
