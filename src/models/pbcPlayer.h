@@ -97,7 +97,10 @@ friend class boost::serialization::access;
         }
     }
     BOOST_SERIALIZATION_SPLIT_MEMBER()
-    PBCPlayer() {}
+    PBCPlayer() :
+        _pos(PBCDPoint()),
+        _name(""),
+        _nr(0) {}
 
  public:
     PBCPlayer(PBCRole role,
