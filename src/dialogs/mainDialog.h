@@ -40,6 +40,7 @@ class MainDialog : public QMainWindow {
     std::list<PBCPlaySP> _currentlySelectedPlays;
     std::list<PBCPlaySP>::const_iterator _currentPlay;
 
+    void resetForNewPlaybook();
     void updateTitle(bool saved);
     void enableMenuOptions();
     void resizeEvent(QResizeEvent* e);

@@ -81,6 +81,8 @@ MainDialog::MainDialog(QWidget *parent) :
     ui->actionImport_playbook->setShortcut(QKeySequence("Ctrl+Alt+I"));
     ui->actionPDF_Export->setShortcut(QKeySequence("Ctrl+Alt+W"));
 
+    _currentPlay = _currentlySelectedPlays.begin();
+
     _playView = new PBCPlayView(NULL, this);
     ui->graphicsView->setScene(_playView);
 
@@ -280,10 +282,12 @@ void MainDialog::openPlay() {
 }
 
 void MainDialog::nextPlay() {
-    const auto& nextIt = std::next(_currentPlay);
-    if (nextIt != _currentlySelectedPlays.end()) {
-        _currentPlay++;
-        _playView->showPlay((*_currentPlay)->name());
+    if (_currentPlay != _currentlySelectedPlays.end()) {
+        const auto& nextIt = std::next(_currentPlay);
+        if (nextIt != _currentlySelectedPlays.end()) {
+            _currentPlay++;
+            _playView->showPlay((*_currentPlay)->name());
+        }
     }
 }
 
@@ -429,6 +433,7 @@ void MainDialog::newPlaybook() {
         PBCController::getInstance()->getPlaybook()->resetToNewEmptyPlaybook(name,
                                                             playerNumber);
         PBCStorage::getInstance()->init(name);
+        resetForNewPlaybook();
         _playView->resetPlay();
         updateTitle(false);
     } else {
@@ -509,6 +514,7 @@ void MainDialog::openPlaybook() {
                             "Please download the latest version of Playbook-Creator!");
                 }
                 _playView->resetPlay();
+                resetForNewPlaybook();
                 updateTitle(true);
                 break;
             }
@@ -783,5 +789,10 @@ void MainDialog::changeActivePlayerNr(int nr) {
 void MainDialog::changePlayComment() {
     std::string comment = ui->commentTextEdit->toPlainText().toStdString();
     this->_playView->setPlayComment(comment);
+}
+
+void MainDialog::resetForNewPlaybook() {
+    _currentlySelectedPlays = std::list<PBCPlaySP>();
+    _currentPlay = _currentlySelectedPlays.begin();
 }
 
