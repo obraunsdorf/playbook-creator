@@ -45,6 +45,7 @@ class MainDialog : public QMainWindow {
     void enableMenuOptions();
     void resizeEvent(QResizeEvent* e);
     void wheelEvent(QWheelEvent *event);
+    void savePlayAs(std::string name, std::string codename);
 
  public:
     explicit MainDialog(QWidget *parent = 0);
@@ -61,7 +62,8 @@ class MainDialog : public QMainWindow {
     void nextPlay();
     void previousPlay();
     void savePlay();
-    void savePlayAs();
+    void savePlayAsWithDialog();
+    void savePlayAsNamed();
     void saveFormationAs();
     void newPlaybook();
     void savePlaybookAs();

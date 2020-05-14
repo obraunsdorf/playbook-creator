@@ -753,7 +753,7 @@
    <sender>actionSave_Play_as</sender>
    <signal>triggered()</signal>
    <receiver>MainDialog</receiver>
-   <slot>savePlayAs()</slot>
+   <slot>savePlayAsWithDialog()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -1021,6 +1021,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton_3</sender>
+   <signal>clicked()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>savePlay()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>952</x>
+     <y>152</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>843</x>
+     <y>94</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>savePlayAsNamed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>907</x>
+     <y>177</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>841</x>
+     <y>162</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showNewPlay()</slot>
@@ -1028,7 +1060,7 @@
   <slot>showAboutDialog()</slot>
   <slot>saveFormationAs()</slot>
   <slot>savePlay()</slot>
-  <slot>savePlayAs()</slot>
+  <slot>savePlayAsWithDialog()</slot>
   <slot>openPlay()</slot>
   <slot>openPlaybook()</slot>
   <slot>importPlaybook()</slot>
@@ -1046,5 +1078,6 @@
   <slot>changeActivePlayerName(QString)</slot>
   <slot>changeActivePlayerNr(int)</slot>
   <slot>changePlayComment()</slot>
+  <slot>savePlayAsNamed()</slot>
  </slots>
 </ui>

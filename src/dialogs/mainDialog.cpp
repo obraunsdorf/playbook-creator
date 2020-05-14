@@ -336,35 +336,12 @@ void MainDialog::savePlay() {
  * @brief Saves the current play displayed by the embedded PBCPlayView with a
  * new name to the playbook.
  */
-void MainDialog::savePlayAs() {
+void MainDialog::savePlayAsWithDialog() {
     PBCSavePlayAsDialog dialog;
     int returnCode = dialog.exec();
     if (returnCode == QDialog::Accepted) {
         struct PBCSavePlayAsDialog::ReturnStruct rs = dialog.getReturnStruct();
-        std::vector<std::string> playNames = PBCController::getInstance()->getPlaybook()->getPlayNames();
-        const auto& it = std::find(playNames.begin(), playNames.end(), rs.name);
-        if (it != playNames.end()) {
-            QMessageBox::StandardButton button =
-                    QMessageBox::question(this,
-                                          "Save Play As",
-                                          QString::fromStdString("There already exists a play named '" + rs.name + "'. Do you want to overwrite it?"),  // NOLINT
-                                          QMessageBox::Ok | QMessageBox::Cancel);
-            if(button != QMessageBox::Ok) {
-                QMessageBox::information(this, "Save Play As", "Play was not saved.");
-                return;
-            }
-        }
-        try {
-            _playView->savePlay(rs.name, rs.codeName);
-        } catch(const PBCAutoSaveException& e) {
-            QMessageBox::warning(this, "Save Play As",
-                    "The play could not be saved. You have to save the playbook to a file before you can add plays");
-            savePlaybookAs();
-
-            return;
-        }
-        updateTitle(true);
-        _playView->showPlay(rs.name);
+        savePlayAs(rs.name, rs.codeName);
     }
 }
 
@@ -794,5 +771,38 @@ void MainDialog::changePlayComment() {
 void MainDialog::resetForNewPlaybook() {
     _currentlySelectedPlays = std::list<PBCPlaySP>();
     _currentPlay = _currentlySelectedPlays.begin();
+}
+
+void MainDialog::savePlayAs(std::string name, std::string codename) {
+    std::vector<std::string> playNames = PBCController::getInstance()->getPlaybook()->getPlayNames();
+    const auto& it = std::find(playNames.begin(), playNames.end(), name);
+    if (it != playNames.end()) {
+        QMessageBox::StandardButton button =
+                QMessageBox::question(this,
+                                      "Save Play As",
+                                      QString::fromStdString("There already exists a play named '" + name + "'. Do you want to overwrite it?"),  // NOLINT
+                                      QMessageBox::Ok | QMessageBox::Cancel);
+        if(button != QMessageBox::Ok) {
+            QMessageBox::information(this, "Save Play As", "Play was not saved.");
+            return;
+        }
+    }
+    try {
+        _playView->savePlay(name, codename);
+    } catch(const PBCAutoSaveException& e) {
+        QMessageBox::warning(this, "Save Play As",
+                             "The play could not be saved. You have to save the playbook to a file before you can add plays");
+        savePlaybookAs();
+
+        return;
+    }
+    updateTitle(true);
+    _playView->showPlay(name);
+}
+
+void MainDialog::savePlayAsNamed() {
+    std::string name = ui->playNameLineEdit->text().toStdString();
+    std::string codename = ui->codeNameLineEdit->text().toStdString();
+    savePlayAs(name, codename);
 }
 
