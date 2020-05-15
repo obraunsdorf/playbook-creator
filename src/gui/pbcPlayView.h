@@ -61,7 +61,8 @@ class PBCPlayView : public PBCGridIronView {
     void setActivePlayerRoute(PBCRouteSP route);
     void setActivePlayerName(std::string name);
     void setActivePlayerNr(unsigned int nr);
-
+    void addPlayToCategory(std::string categoryName);
+    void removePlayFromCategory(std::string categoryName);
 
  private:
     PBCPlaySP _currentPlay;

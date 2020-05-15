@@ -47,6 +47,7 @@ class MainDialog : public QMainWindow {
     void wheelEvent(QWheelEvent *event);
     void savePlayAs(std::string name, std::string codename);
 
+
  public:
     explicit MainDialog(QWidget *parent = 0);
     ~MainDialog();
@@ -71,12 +72,15 @@ class MainDialog : public QMainWindow {
     void importPlaybook();
     void exportAsPDF();
     void showAboutDialog();
-    void addPlayToCategory();
+    void editCategories();
     void deleteRoutes();
     void deletePlays();
     void deleteFormations();
     void deleteCategories();
     void changePlayComment();
+    void togglePlayEndzone(bool checked);
+    void togglePlayQBOption(bool checked);
+    void togglePlayQBRollout(bool checked);
     void changeActivePlayerColor(QColor color);
     void changeActivePlayerRoute(int index);
     void changeActivePlayerName(QString name);

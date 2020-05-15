@@ -637,7 +637,7 @@ void MainDialog::exportAsPDF() {
  * @brief Adds the current play to a category.
  *
  */
-void MainDialog::addPlayToCategory() {
+void MainDialog::editCategories() {
     try {
         _playView->editCategories();
     } catch(const PBCAutoSaveException& e) {
@@ -805,4 +805,50 @@ void MainDialog::savePlayAsNamed() {
     std::string codename = ui->codeNameLineEdit->text().toStdString();
     savePlayAs(name, codename);
 }
+
+void MainDialog::togglePlayQBOption(bool checked) {
+    std::string categoryName = "_QB Option_";
+    try {
+        if (checked) {
+            _playView->addPlayToCategory(categoryName);
+        } else {
+            _playView->removePlayFromCategory(categoryName);
+        }
+    } catch(const PBCAutoSaveException& e) {
+        QMessageBox::information(this, "", "You have to save the playbook before.");  //NOLINT
+        savePlaybookAs();
+        ui->qbOptionCheckbox->setChecked(false);
+    }
+}
+
+void MainDialog::togglePlayQBRollout(bool checked) {
+    std::string categoryName = "_QB Rollout_";
+    try {
+        if (checked) {
+            _playView->addPlayToCategory(categoryName);
+        } else {
+            _playView->removePlayFromCategory(categoryName);
+        }
+    } catch(const PBCAutoSaveException& e) {
+        QMessageBox::information(this, "", "You have to save the playbook before.");  //NOLINT
+        savePlaybookAs();
+        ui->rolloutCheckbox->setChecked(false);
+    }
+}
+
+void MainDialog::togglePlayEndzone(bool checked) {
+    std::string categoryName = "_Endzone_";
+    try {
+        if (checked) {
+            _playView->addPlayToCategory(categoryName);
+        } else {
+            _playView->removePlayFromCategory(categoryName);
+        }
+    } catch(const PBCAutoSaveException& e) {
+        QMessageBox::information(this, "", "You have to save the playbook before.");  //NOLINT
+        savePlaybookAs();
+        ui->endzoneCheckbox->setChecked(false);
+    }
+}
+
 

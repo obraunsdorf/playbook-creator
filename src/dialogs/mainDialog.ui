@@ -549,21 +549,21 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_14">
         <item>
-         <widget class="QCheckBox" name="checkBox">
+         <widget class="QCheckBox" name="endzoneCheckbox">
           <property name="text">
            <string>Endzone</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="checkBox_3">
+         <widget class="QCheckBox" name="rolloutCheckbox">
           <property name="text">
            <string>QB Rollout</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="checkBox_2">
+         <widget class="QCheckBox" name="qbOptionCheckbox">
           <property name="text">
            <string>QB Option</string>
           </property>
@@ -1014,7 +1014,7 @@
    <sender>actionAdd_play_to_category</sender>
    <signal>triggered()</signal>
    <receiver>MainDialog</receiver>
-   <slot>addPlayToCategory()</slot>
+   <slot>editCategories()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -1218,6 +1218,54 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>endzoneCheckbox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MainDialog</receiver>
+   <slot>togglePlayEndzone(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>67</x>
+     <y>70</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>321</x>
+     <y>-14</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rolloutCheckbox</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>MainDialog</receiver>
+   <slot>togglePlayQBRollout(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>140</x>
+     <y>94</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>360</x>
+     <y>-4</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>qbOptionCheckbox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MainDialog</receiver>
+   <slot>togglePlayQBOption(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>159</x>
+     <y>117</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>298</x>
+     <y>-9</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showNewPlay()</slot>
@@ -1232,7 +1280,7 @@
   <slot>savePlaybookAs()</slot>
   <slot>newPlaybook()</slot>
   <slot>exportAsPDF()</slot>
-  <slot>addPlayToCategory()</slot>
+  <slot>editCategories()</slot>
   <slot>openPlayByCategory()</slot>
   <slot>deleteRoutes()</slot>
   <slot>deleteFormations</slot>
@@ -1244,5 +1292,8 @@
   <slot>changeActivePlayerNr(int)</slot>
   <slot>changePlayComment()</slot>
   <slot>savePlayAsNamed()</slot>
+  <slot>togglePlayEndzone(bool)</slot>
+  <slot>togglePlayQBRollout(bool)</slot>
+  <slot>togglePlayQBOption(bool)</slot>
  </slots>
 </ui>

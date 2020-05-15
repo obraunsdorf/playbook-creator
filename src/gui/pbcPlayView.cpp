@@ -503,5 +503,35 @@ void PBCPlayView::setPlayComment(const std::string &comment) {
     }
 }
 
+void PBCPlayView::addPlayToCategory(std::string categoryName) {
+    if (_currentPlay != NULL) {
+        const auto& existing_categories = PBCController::getInstance()->getPlaybook()->getCategoryNames();
+        const auto& it = std::find(existing_categories.begin(), existing_categories.end(), categoryName);
+        if (it != existing_categories.end()) {
+            PBCCategorySP category = PBCController::getInstance()->getPlaybook()->getCategory(categoryName);
+            category->addPlay(_currentPlay);
+            _currentPlay->addCategory(category);
+        } else {
+            PBCCategorySP category(new PBCCategory(categoryName));
+            category->addPlay(_currentPlay);
+            _currentPlay->addCategory((category));
+            bool result = PBCController::getInstance()->getPlaybook()->addCategory(category);
+            pbcAssert(result == true);
+        }
+    }
+}
+
+void PBCPlayView::removePlayFromCategory(std::string categoryName) {
+    if (_currentPlay != NULL) {
+        const auto& existing_categories = PBCController::getInstance()->getPlaybook()->getCategoryNames();
+        const auto& it = std::find(existing_categories.begin(), existing_categories.end(), categoryName);
+        if (it != existing_categories.end()) {
+            PBCCategorySP category = PBCController::getInstance()->getPlaybook()->getCategory(categoryName);
+            category->removePlay(_currentPlay);
+            _currentPlay->removeCategory(category);
+        }
+    }
+}
+
 
 
