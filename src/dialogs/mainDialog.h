@@ -26,6 +26,7 @@
 
 #include "gui/pbcPlayView.h"
 #include <string>
+#include <QListWidgetItem>
 
 namespace Ui {
 class MainDialog;
@@ -54,6 +55,7 @@ class MainDialog : public QMainWindow {
     void show();
     void fillPlayerInfoDock(PBCPlayerSP player);
     void fillPlayInfoDock(PBCPlaySP play);
+    void fillPlayScoutingInfoDock(PBCPlaySP play);
     void keyReleaseEvent(QKeyEvent *event);
 
  public slots:
@@ -81,6 +83,7 @@ class MainDialog : public QMainWindow {
     void togglePlayEndzone(bool checked);
     void togglePlayQBOption(bool checked);
     void togglePlayQBRollout(bool checked);
+    void toggleOtherCategory(QListWidgetItem* categoryItem);
     void changeActivePlayerColor(QColor color);
     void changeActivePlayerRoute(int index);
     void changeActivePlayerName(QString name);

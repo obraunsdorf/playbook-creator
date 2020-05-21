@@ -219,6 +219,48 @@ void MainDialog::fillPlayInfoDock(PBCPlaySP play) {
     ui->playNameLineEdit->setText(QString::fromStdString(play->name()));
     ui->codeNameLineEdit->setText(QString::fromStdString(play->codeName()));
     ui->commentTextEdit->setText(QString::fromStdString(play->comment()));
+
+    fillPlayScoutingInfoDock(play);
+}
+
+void MainDialog::fillPlayScoutingInfoDock(PBCPlaySP play) {
+    // Clear category entries
+    ui->endzoneCheckbox->setChecked(false);
+    ui->qbOptionCheckbox->setChecked(false);
+    ui->rolloutCheckbox->setChecked((false));
+    ui->categoryListWidget->clear();
+
+
+    // set category entries if applicable
+    for (PBCCategorySP c : play->categories()) {
+        if (c->name() == "_Endzone_") {
+            ui->endzoneCheckbox->setChecked(true);
+        } else if (c->name() == "_QB Option_") {
+            ui->qbOptionCheckbox->setChecked(true);
+        } else if (c->name() == "_QB Rollout_") {
+            ui->rolloutCheckbox->setChecked(true);
+        }
+    }
+
+    std::list<PBCCategorySP> categories = PBCController::getInstance()->getPlaybook()->categories();  // NOLINT
+    for (PBCCategorySP categorySP : categories) {
+        const std::string& name = categorySP->name();
+        if (name.find("_") == 0) { //&& name.find_last_not_of("_") == name.length()-1) {
+            continue;
+        }
+        QListWidgetItem* item = new QListWidgetItem(
+                QString::fromStdString(categorySP->name()),
+                ui->categoryListWidget);
+        item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
+        item->setCheckState(Qt::Unchecked);
+        for (PBCCategorySP playCategorySP : play->categories()) {
+            if(categorySP == playCategorySP) {
+                item->setCheckState(Qt::Checked);
+            }
+        }
+        ui->categoryListWidget->addItem(item);
+    }
+    ui->categoryListWidget->sortItems();
 }
 
 void MainDialog::fillPlayerInfoDock(PBCPlayerSP player) {
@@ -843,6 +885,20 @@ void MainDialog::togglePlayEndzone(bool checked) {
             _playView->addPlayToCategory(categoryName);
         } else {
             _playView->removePlayFromCategory(categoryName);
+        }
+    } catch(const PBCAutoSaveException& e) {
+        QMessageBox::information(this, "", "You have to save the playbook before.");  //NOLINT
+        savePlaybookAs();
+        ui->endzoneCheckbox->setChecked(false);
+    }
+}
+
+void MainDialog::toggleOtherCategory(QListWidgetItem* categoryItem) {
+    try {
+        if (categoryItem->checkState() == Qt::Checked) {
+            _playView->addPlayToCategory(categoryItem->text().toStdString());
+        } else {
+            _playView->removePlayFromCategory(categoryItem->text().toStdString());
         }
     } catch(const PBCAutoSaveException& e) {
         QMessageBox::information(this, "", "You have to save the playbook before.");  //NOLINT

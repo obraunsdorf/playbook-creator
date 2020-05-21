@@ -649,7 +649,7 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_13">
         <item>
-         <widget class="QListView" name="listView"/>
+         <widget class="QListWidget" name="categoryListWidget"/>
         </item>
         <item>
          <widget class="QFrame" name="frame_5">
@@ -1266,6 +1266,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>categoryListWidget</sender>
+   <signal>itemClicked(QListWidgetItem*)</signal>
+   <receiver>MainDialog</receiver>
+   <slot>toggleOtherCategory(QListWidgetItem*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>204</x>
+     <y>364</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>194</x>
+     <y>540</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showNewPlay()</slot>
@@ -1295,5 +1311,6 @@
   <slot>togglePlayEndzone(bool)</slot>
   <slot>togglePlayQBRollout(bool)</slot>
   <slot>togglePlayQBOption(bool)</slot>
+  <slot>toggleOtherCategory(QListWidgetItem*)</slot>
  </slots>
 </ui>
