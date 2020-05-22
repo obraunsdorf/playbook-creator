@@ -907,4 +907,30 @@ void MainDialog::toggleOtherCategory(QListWidgetItem* categoryItem) {
     }
 }
 
+void MainDialog::addPlayToNewCategory() {
+    std::string categoryName = ui->newCategoryEdit->text().toStdString();
+    PBCCategorySP category(new PBCCategory(categoryName));
+    bool successful = PBCController::getInstance()->getPlaybook()->addCategory(category, false);  // NOLINT
+    if(successful) {
+        try {
+            _playView->addPlayToCategory(categoryName);
+            QListWidgetItem* item = new QListWidgetItem(
+                    QString::fromStdString(categoryName),
+                    ui->categoryListWidget);
+            item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
+            item->setCheckState(Qt::Checked);
+            ui->categoryListWidget->addItem(item);
+        } catch(const PBCAutoSaveException& e) {
+            QMessageBox::information(this, "", "You have to save the playbook before.");  //NOLINT
+            savePlaybookAs();
+            ui->endzoneCheckbox->setChecked(false);
+        }
+    } else {
+        QMessageBox::information(
+                this,
+                "",
+                "The category you entered already exists. Please select it in the list above!");  //NOLINT
+    }
+}
+
 

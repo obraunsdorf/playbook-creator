@@ -661,7 +661,7 @@
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_2">
            <item>
-            <widget class="QLineEdit" name="categoryEdit">
+            <widget class="QLineEdit" name="newCategoryEdit">
              <property name="placeholderText">
               <string>New Category name</string>
              </property>
@@ -1282,6 +1282,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>categoryAddButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>addPlayToNewCategory()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>416</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>134</x>
+     <y>489</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>newCategoryEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>categoryAddButton</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>90</x>
+     <y>422</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>241</x>
+     <y>421</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showNewPlay()</slot>
@@ -1312,5 +1344,6 @@
   <slot>togglePlayQBRollout(bool)</slot>
   <slot>togglePlayQBOption(bool)</slot>
   <slot>toggleOtherCategory(QListWidgetItem*)</slot>
+  <slot>addPlayToNewCategory()</slot>
  </slots>
 </ui>
