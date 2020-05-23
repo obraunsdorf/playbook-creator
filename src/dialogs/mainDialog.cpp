@@ -69,6 +69,30 @@ MainDialog::MainDialog(QWidget *parent) :
     ui->graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
+    ui->downBoxGridLayout->addWidget(ui->downSlider, 0, 1, 1, 3);
+    QLabel* label1 = new QLabel("1st");
+    label1->setAlignment(Qt::AlignHCenter);
+    QLabel* label2 = new QLabel("2nd");
+    label2->setAlignment(Qt::AlignHCenter);
+    QLabel* label3 = new QLabel("3rd");
+    label3->setAlignment(Qt::AlignHCenter);
+    QLabel* label4 = new QLabel("4th");
+    label4->setAlignment(Qt::AlignHCenter);
+    ui->downBoxGridLayout->addWidget(label1, 1, 0, 1, 2);
+    ui->downBoxGridLayout->addWidget(label2, 1, 1, 1, 2);
+    ui->downBoxGridLayout->addWidget(label3, 1, 2, 1, 2);
+    ui->downBoxGridLayout->addWidget(label4, 1,3, 1, 2);
+
+    ui->fieldPosGridLayout->addWidget(ui->fieldPosSlider, 0, 1, 1, 9);
+    QLabel* labelMid = new QLabel("Mid");
+    labelMid->setAlignment(Qt::AlignHCenter|Qt::AlignVCenter);
+    QLabel* labelGoal = new QLabel("Goal");
+    labelGoal->setAlignment(Qt::AlignRight|Qt::AlignVCenter);
+    ui->fieldPosGridLayout->addWidget(labelMid, 1, 5, 1, 1);
+    ui->fieldPosGridLayout->addWidget(labelGoal, 1, 9, 1, 1);
+
+
+
     ui->actionNew_Play->setShortcut(QKeySequence("Ctrl+N"));
     ui->actionOpen_Play->setShortcut(QKeySequence("Ctrl+O"));
     ui->actionAdd_play_to_category->setShortcut(QKeySequence("Ctrl+E"));
