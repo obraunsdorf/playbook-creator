@@ -83,6 +83,7 @@ class MainDialog : public QMainWindow {
     void togglePlayEndzone(bool checked);
     void togglePlayQBOption(bool checked);
     void togglePlayQBRollout(bool checked);
+    void changePlayDown();
     void toggleOtherCategory(QListWidgetItem* categoryItem);
     void addPlayToNewCategory();
     void changeActivePlayerColor(QColor color);

@@ -254,7 +254,7 @@ void MainDialog::fillPlayScoutingInfoDock(PBCPlaySP play) {
     ui->rolloutCheckbox->setChecked((false));
     ui->categoryListWidget->clear();
 
-
+    unsigned int down = 0;
     // set category entries if applicable
     for (PBCCategorySP c : play->categories()) {
         if (c->name() == "_Endzone_") {
@@ -263,7 +263,24 @@ void MainDialog::fillPlayScoutingInfoDock(PBCPlaySP play) {
             ui->qbOptionCheckbox->setChecked(true);
         } else if (c->name() == "_QB Rollout_") {
             ui->rolloutCheckbox->setChecked(true);
+        } else if (c->name() == "_Down1st_") {
+            down = 1;
+        } else if (c->name() == "_Down2nd_") {
+            down = 2;
+        } else if (c->name() == "_Down3rd_") {
+            down = 3;
+        } else if (c->name() == "_Down4th_") {
+            down = 4;
         }
+    }
+
+    if (down > 0) {
+        ui->downGroupBox->setChecked(true);
+        pbcAssert(down <= 4);
+        ui->downSlider->setSliderPosition(down - 1); // start counting at 0
+    } else {
+        ui->downGroupBox->setChecked(false);
+        ui->downSlider->setSliderPosition(0);
     }
 
     std::list<PBCCategorySP> categories = PBCController::getInstance()->getPlaybook()->categories();  // NOLINT
@@ -954,6 +971,38 @@ void MainDialog::addPlayToNewCategory() {
                 this,
                 "",
                 "The category you entered already exists. Please select it in the list above!");  //NOLINT
+    }
+}
+
+void MainDialog::changePlayDown() {
+    try {
+        _playView->removePlayFromCategory("_Down1st_");
+        _playView->removePlayFromCategory("_Down2nd_");
+        _playView->removePlayFromCategory("_Down3rd_");
+        _playView->removePlayFromCategory("_Down4th_");
+        if (ui->downGroupBox->isChecked()) {
+            int down = ui->downSlider->sliderPosition() + 1; // start counting at 0
+            switch (down) {
+                case 1:
+                    _playView->addPlayToCategory("_Down1st_");
+                    break;
+                case 2:
+                    _playView->addPlayToCategory("_Down2nd_");
+                    break;
+                case 3:
+                    _playView->addPlayToCategory("_Down3rd_");
+                    break;
+                case 4:
+                    _playView->addPlayToCategory("_Down4th_");
+                    break;
+                default:
+                    pbcAssert(false && "down cannot be more than 4th");
+            }
+        }
+        } catch(const PBCAutoSaveException& e) {
+        QMessageBox::information(this, "", "You have to save the playbook before.");  //NOLINT
+        savePlaybookAs();
+        ui->endzoneCheckbox->setChecked(false);
     }
 }
 

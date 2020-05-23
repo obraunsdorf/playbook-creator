@@ -1317,7 +1317,7 @@
    <slot>addPlayToNewCategory()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>199</x>
+     <x>251</x>
      <y>416</y>
     </hint>
     <hint type="destinationlabel">
@@ -1339,6 +1339,38 @@
     <hint type="destinationlabel">
      <x>241</x>
      <y>421</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>downSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainDialog</receiver>
+   <slot>changePlayDown()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>51</x>
+     <y>241</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>57</x>
+     <y>660</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>downGroupBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MainDialog</receiver>
+   <slot>changePlayDown()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>14</x>
+     <y>215</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>132</x>
+     <y>598</y>
     </hint>
    </hints>
   </connection>
@@ -1373,5 +1405,6 @@
   <slot>togglePlayQBOption(bool)</slot>
   <slot>toggleOtherCategory(QListWidgetItem*)</slot>
   <slot>addPlayToNewCategory()</slot>
+  <slot>changePlayDown()</slot>
  </slots>
 </ui>
