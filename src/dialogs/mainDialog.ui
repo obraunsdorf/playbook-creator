@@ -1374,6 +1374,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>fieldPosSlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainDialog</receiver>
+   <slot>changePlayFieldPos()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>119</x>
+     <y>184</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>532</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fieldPosGroupBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>MainDialog</receiver>
+   <slot>changePlayFieldPos()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>21</x>
+     <y>144</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>317</x>
+     <y>572</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showNewPlay()</slot>
@@ -1406,5 +1438,6 @@
   <slot>toggleOtherCategory(QListWidgetItem*)</slot>
   <slot>addPlayToNewCategory()</slot>
   <slot>changePlayDown()</slot>
+  <slot>changePlayFieldPos()</slot>
  </slots>
 </ui>

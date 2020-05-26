@@ -255,6 +255,7 @@ void MainDialog::fillPlayScoutingInfoDock(PBCPlaySP play) {
     ui->categoryListWidget->clear();
 
     unsigned int down = 0;
+    int fieldPos = -1;
     // set category entries if applicable
     for (PBCCategorySP c : play->categories()) {
         if (c->name() == "_Endzone_") {
@@ -271,6 +272,28 @@ void MainDialog::fillPlayScoutingInfoDock(PBCPlaySP play) {
             down = 3;
         } else if (c->name() == "_Down4th_") {
             down = 4;
+        } else if (c->name() == "_Pos25Mid_") {
+            fieldPos = 0;
+        }  else if (c->name() == "_Pos20Mid_") {
+            fieldPos = 1;
+        } else if (c->name() == "_Pos15Mid_") {
+            fieldPos = 2;
+        } else if (c->name() == "_Pos10Mid_") {
+            fieldPos = 3;
+        } else if (c->name() == "_Pos05Mid_") {
+            fieldPos = 4;
+        } else if (c->name() == "_Pos25Goal_") {
+            fieldPos = 5;
+        } else if (c->name() == "_Pos20Goal_") {
+            fieldPos = 6;
+        } else if (c->name() == "_Pos15Goal_") {
+            fieldPos = 7;
+        } else if (c->name() == "_Pos10Goal_") {
+            fieldPos = 8;
+        } else if (c->name() == "_Pos05Goal_") {
+            fieldPos = 9;
+        } else if (c->name() == "_PosGoal_") {
+            fieldPos = 10;
         }
     }
 
@@ -281,6 +304,15 @@ void MainDialog::fillPlayScoutingInfoDock(PBCPlaySP play) {
     } else {
         ui->downGroupBox->setChecked(false);
         ui->downSlider->setSliderPosition(0);
+    }
+
+    if (fieldPos >= 0) {
+        ui->fieldPosGroupBox->setChecked(true);
+        pbcAssert(fieldPos <=10);
+        ui->fieldPosSlider->setSliderPosition(fieldPos);
+    } else {
+        ui->fieldPosGroupBox->setChecked(false);
+        ui->fieldPosSlider->setSliderPosition(1);
     }
 
     std::list<PBCCategorySP> categories = PBCController::getInstance()->getPlaybook()->categories();  // NOLINT
@@ -1000,6 +1032,65 @@ void MainDialog::changePlayDown() {
             }
         }
         } catch(const PBCAutoSaveException& e) {
+        QMessageBox::information(this, "", "You have to save the playbook before.");  //NOLINT
+        savePlaybookAs();
+        ui->endzoneCheckbox->setChecked(false);
+    }
+}
+
+void MainDialog::changePlayFieldPos() {
+    try {
+        _playView->removePlayFromCategory("_Pos25Mid_");
+        _playView->removePlayFromCategory("_Pos20Mid_");
+        _playView->removePlayFromCategory("_Pos15Mid_");
+        _playView->removePlayFromCategory("_Pos10Mid_");
+        _playView->removePlayFromCategory("_Pos05Mid_");
+        _playView->removePlayFromCategory("_Pos25Goal_");
+        _playView->removePlayFromCategory("_Pos20Goal_");
+        _playView->removePlayFromCategory("_Pos15Goal_");
+        _playView->removePlayFromCategory("_Pos10Goal_");
+        _playView->removePlayFromCategory("_Pos05Goal_");
+        _playView->removePlayFromCategory("_PosGoal_");
+        if (ui->fieldPosGroupBox->isChecked()) {
+            switch (ui->fieldPosSlider->sliderPosition()) {
+                case 0:
+                    _playView->addPlayToCategory("_Pos25Mid_");
+                    break;
+                case 1:
+                    _playView->addPlayToCategory("_Pos20Mid_");
+                    break;
+                case 2:
+                    _playView->addPlayToCategory("_Pos15Mid_");
+                    break;
+                case 3:
+                    _playView->addPlayToCategory("_Pos10Mid_");
+                    break;
+                case 4:
+                    _playView->addPlayToCategory("_Pos05Mid_");
+                    break;
+                case 5:
+                    _playView->addPlayToCategory("_Pos25Goal_");
+                    break;
+                case 6:
+                    _playView->addPlayToCategory("_Pos20Goal_");
+                    break;
+                case 7:
+                    _playView->addPlayToCategory("_Pos15Goal_");
+                    break;
+                case 8:
+                    _playView->addPlayToCategory("_Pos10Goal_");
+                    break;
+                case 9:
+                    _playView->addPlayToCategory("_Pos05Goal_");
+                    break;
+                case 10:
+                    _playView->addPlayToCategory("_PosGoal_");
+                    break;
+                default:
+                    pbcAssert(false);
+            }
+        }
+    } catch(const PBCAutoSaveException& e) {
         QMessageBox::information(this, "", "You have to save the playbook before.");  //NOLINT
         savePlaybookAs();
         ui->endzoneCheckbox->setChecked(false);
