@@ -54,8 +54,8 @@ set ( SOURCES
 	util/pbcSingleton.h
 	util/pbcStorage.cpp
 	util/pbcStorage.h
-		pbcController.cpp
-		pbcController.h
+	pbcController.cpp
+	pbcController.h
 	pbcVersion.h)
 
 set ( MOC_HEADERS
@@ -139,7 +139,7 @@ qt5_wrap_cpp( MOC_SRCS ${MOC_HEADERS} )
 #	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tools
 #)
 
-add_library(PBCLib ${SOURCES} ${MOC_SRCS} ${UI_HEADERS})
+add_library(PBCLib STATIC ${SOURCES} ${MOC_SRCS} ${UI_HEADERS})
 #add_dependencies(PBCLib style_checking)
 
 # link the updater library
@@ -159,7 +159,7 @@ include(ConfigureMSVCRT)
 configure_msvc_runtime()
 
 # link external libraries
-target_link_libraries(PBCLib Qt5::Widgets Qt5::PrintSupport ${Boost_LIBRARIES} ${BOTAN_LIBRARY})
+target_link_libraries(PBCLib Qt5::Widgets Qt5::PrintSupport ${Boost_LIBRARIES} ${BOTAN_LIBRARY} QtColorWidgets)
 
 
 # link executable

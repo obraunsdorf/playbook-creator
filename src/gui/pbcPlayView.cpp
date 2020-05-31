@@ -21,6 +21,7 @@
 
 #include "pbcPlayView.h"
 
+#include "dialogs/mainDialog.h"
 #include "pbcController.h"
 #include "models/pbcPlaybook.h"
 #include "util/pbcStorage.h"
@@ -201,6 +202,7 @@ void PBCPlayView::showPlay(const std::string& name) {
     PBCPlaySP play = PBCController::getInstance()->getPlaybook()->getPlay(name);
     pbcAssert(play != NULL);
     _currentPlay.reset(new PBCPlay(*play));
+    setActivePlay(_currentPlay);
     repaint();
 }
 
@@ -406,7 +408,6 @@ void PBCPlayView::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
     if (_routeEditMode == true) {
         pbcAssert(_routePlayer);
         PBCRouteSP route(new PBCRoute(_routeName, _routeCodeName, _paths));
-        std::cout << "bla0" << std::endl;
         if (_routeName != "") {
             try {
                 PBCController::getInstance()->getPlaybook()->addRoute(route, _overwrite);
@@ -452,5 +453,55 @@ void PBCPlayView::savePlaybookOnRouteCreation() {
         }
     }
 }
+
+void PBCPlayView::setActivePlay(PBCPlaySP playSP) {
+    MainDialog* mainDialog = dynamic_cast<MainDialog*>(this->parent());
+    if (mainDialog != NULL) {
+        mainDialog->fillPlayInfoDock(playSP);
+    }
+}
+
+void PBCPlayView::setActivePlayer(PBCPlayerSP playerSP) {
+    MainDialog* mainDialog = dynamic_cast<MainDialog*>(this->parent());
+    _activePlayer = playerSP;
+    if (mainDialog != NULL) {
+        mainDialog->fillPlayerInfoDock(playerSP);
+    }
+}
+
+void PBCPlayView::setActivePlayerColor(PBCColor color) {
+    if(_activePlayer != NULL) {
+        _activePlayer->setColor(color);
+        repaint();
+    }
+}
+
+void PBCPlayView::setActivePlayerRoute(PBCRouteSP route) {
+    if(_activePlayer != NULL) {
+       _activePlayer->setRoute(route);
+       repaint();
+    }
+}
+
+void PBCPlayView::setActivePlayerName(std::string name) {
+    if(_activePlayer != NULL) {
+        _activePlayer->setName(name);
+        repaint();
+    }
+}
+
+void PBCPlayView::setActivePlayerNr(unsigned int nr) {
+    if(_activePlayer != NULL) {
+        _activePlayer->setNr(nr);
+        repaint();
+    }
+}
+
+void PBCPlayView::setPlayComment(const std::string &comment) {
+    if(_currentPlay != NULL) {
+        _currentPlay->setComment(comment);
+    }
+}
+
 
 

@@ -40,15 +40,19 @@ class MainDialog : public QMainWindow {
     std::list<PBCPlaySP> _currentlySelectedPlays;
     std::list<PBCPlaySP>::const_iterator _currentPlay;
 
+    void resetForNewPlaybook();
     void updateTitle(bool saved);
     void enableMenuOptions();
     void resizeEvent(QResizeEvent* e);
     void wheelEvent(QWheelEvent *event);
+    void savePlayAs(std::string name, std::string codename);
 
  public:
     explicit MainDialog(QWidget *parent = 0);
     ~MainDialog();
     void show();
+    void fillPlayerInfoDock(PBCPlayerSP player);
+    void fillPlayInfoDock(PBCPlaySP play);
     void keyReleaseEvent(QKeyEvent *event);
 
  public slots:
@@ -58,7 +62,8 @@ class MainDialog : public QMainWindow {
     void nextPlay();
     void previousPlay();
     void savePlay();
-    void savePlayAs();
+    void savePlayAsWithDialog();
+    void savePlayAsNamed();
     void saveFormationAs();
     void newPlaybook();
     void savePlaybookAs();
@@ -71,6 +76,11 @@ class MainDialog : public QMainWindow {
     void deletePlays();
     void deleteFormations();
     void deleteCategories();
+    void changePlayComment();
+    void changeActivePlayerColor(QColor color);
+    void changeActivePlayerRoute(int index);
+    void changeActivePlayerName(QString name);
+    void changeActivePlayerNr(int nr);
 };
 
 #endif  // MAINDIALOG_H

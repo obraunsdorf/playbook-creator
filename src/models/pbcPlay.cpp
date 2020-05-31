@@ -116,9 +116,11 @@ void PBCPlay::removeCategory(const PBCCategorySP &category) {
  */
 PBCPlay::PBCPlay(const std::string &name,
                  const std::string &codeName,
-                 const std::string& formationName) :
+                 const std::string& formationName,
+                 const std::string& comment) :
     _name(name),
-    _codeName(codeName) {
+    _codeName(codeName),
+    _comment(comment) {
     if (PBCController::getInstance()->getPlaybook()->hasFormation(formationName)) {
         _formation = PBCController::getInstance()->getPlaybook()->getFormation(formationName);
     } else {
@@ -139,7 +141,8 @@ PBCPlay::PBCPlay(const PBCPlay &other) :
     _name(other.name()),
     _codeName(other.codeName()),
     _formation(new PBCFormation(*other.formation())),
-    _categories(other.categories()) {
+    _categories(other.categories()),
+    _comment(other.comment()){
     PBCFormation::iterator it = _formation->begin();
     PBCFormation::iterator otherIt = other.formation()->begin();
     while(it != _formation->end() && otherIt != other.formation()->end()) {
@@ -151,4 +154,12 @@ PBCPlay::PBCPlay(const PBCPlay &other) :
         ++otherIt;
     }
     pbcAssert(it == _formation->end() && otherIt == other.formation()->end());
+}
+
+std::string PBCPlay::comment() const {
+    return _comment;
+}
+
+void PBCPlay::setComment(const std::string &comment) {
+    _comment = comment;
 }

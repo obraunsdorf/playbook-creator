@@ -34,6 +34,7 @@
 #include "dialogs/pbcOpenPlayDialog.h"
 #include "dialogs/pbcSavePlayAsDialog.h"
 #include "dialogs/pbcSetPasswordDialog.h"
+#include "util/pbcDeclarations.h"
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QDebug>
@@ -48,6 +49,7 @@
 #include <vector>
 #include <list>
 #include <pbcVersion.h>
+#include <iostream>
 
 /**
  * @class MainDialog
@@ -79,6 +81,14 @@ MainDialog::MainDialog(QWidget *parent) :
     ui->actionImport_playbook->setShortcut(QKeySequence("Ctrl+Alt+I"));
     ui->actionPDF_Export->setShortcut(QKeySequence("Ctrl+Alt+W"));
 
+    _currentPlay = _currentlySelectedPlays.begin();
+
+    _playView = new PBCPlayView(NULL, this);
+    ui->graphicsView->setScene(_playView);
+
+    this->setMinimumWidth(PBCConfig::getInstance()->minWidth());
+    this->setMinimumHeight(PBCConfig::getInstance()->minHeight());
+
     updateTitle(false);
 }
 
@@ -99,25 +109,7 @@ void MainDialog::keyReleaseEvent(QKeyEvent *event) {
  * @brief shows the main window graphically at application startup
  */
 void MainDialog::show() {
-#ifdef __APPLE__
-    #include <TargetConditionals.h>
-#if TARGET_OS_MAC
-    QMainWindow::show();
-#endif
-#else
     QMainWindow::showMaximized();
-#endif
-
-    unsigned int width = ui->graphicsView->width();
-    unsigned int height = ui->graphicsView->height();
-    PBCConfig::getInstance()->setCanvasSize(width - 2, height - 2);
-    this->setMinimumWidth(PBCConfig::getInstance()->minWidth());
-    this->setMinimumHeight(PBCConfig::getInstance()->minHeight());
-
-    _playView = new PBCPlayView(NULL, this);
-    ui->graphicsView->setScene(_playView);
-    _playView->setSceneRect(0, 0, PBCConfig::getInstance()->canvasWidth(),
-                            PBCConfig::getInstance()->canvasHeight());
 
     QMessageBox messageBox(this);
     QPushButton* openButton = messageBox.addButton("Open Playbook",
@@ -179,6 +171,7 @@ void MainDialog::resizeEvent(QResizeEvent* e) {
     unsigned int height = ui->graphicsView->height();
     PBCConfig::getInstance()->setCanvasSize(width - 2, height - 2);
     if(e->oldSize().width() > 0) {
+        pbcAssert(_playView != NULL);
         _playView->setSceneRect(0, 0, PBCConfig::getInstance()->canvasWidth(),
                                 PBCConfig::getInstance()->canvasHeight());
         _playView->repaint();
@@ -222,6 +215,42 @@ void MainDialog::showNewPlay() {
 }
 
 
+void MainDialog::fillPlayInfoDock(PBCPlaySP play) {
+    ui->playNameLineEdit->setText(QString::fromStdString(play->name()));
+    ui->codeNameLineEdit->setText(QString::fromStdString(play->codeName()));
+    ui->commentTextEdit->setText(QString::fromStdString(play->comment()));
+}
+
+void MainDialog::fillPlayerInfoDock(PBCPlayerSP player) {
+    if (player == NULL) {
+        //reset the UI elements
+        ui->playerNameLineEdit->setText("");
+        ui->playerNrSpinBox->setValue(0);
+        ui->routeBox->clear();
+    } else {
+        ui->playerNameLineEdit->setText(QString::fromStdString(player->name()));
+        ui->playerNrSpinBox->setValue((int) player->nr());
+        QColor color(player->color().r(), player->color().g(), player->color().b());
+        ui->playerColorWheel->setColor(color);
+
+        ui->routeBox->clear();
+        int index = 0;
+        int selected = 0;
+        if (player->route() == NULL) {
+            ui->routeBox->addItem("Select a route");
+        }
+        for (PBCRouteSP route : PBCController::getInstance()->getPlaybook()->routes()) {
+            ui->routeBox->addItem(QString::fromStdString(route->name()));
+            index++;
+            if (player->route() != NULL && route->name() == player->route()->name()) {
+                selected = index;
+            }
+        }
+        ui->routeBox->setCurrentIndex(selected);
+    }
+}
+
+
 /**
  * @brief Gets a play by name from the Playbook and loads
  * it into the embedded PBCPlayView
@@ -244,6 +273,7 @@ void MainDialog::openPlay() {
                     _currentPlay = it;
                 }
             }
+            _playView->setActivePlayer(NULL);
             _playView->showPlay((*_currentPlay)->name());
             updateTitle(true);
             enableMenuOptions();
@@ -252,10 +282,12 @@ void MainDialog::openPlay() {
 }
 
 void MainDialog::nextPlay() {
-    const auto& nextIt = std::next(_currentPlay);
-    if (nextIt != _currentlySelectedPlays.end()) {
-        _currentPlay++;
-        _playView->showPlay((*_currentPlay)->name());
+    if (_currentPlay != _currentlySelectedPlays.end()) {
+        const auto& nextIt = std::next(_currentPlay);
+        if (nextIt != _currentlySelectedPlays.end()) {
+            _currentPlay++;
+            _playView->showPlay((*_currentPlay)->name());
+        }
     }
 }
 
@@ -304,35 +336,12 @@ void MainDialog::savePlay() {
  * @brief Saves the current play displayed by the embedded PBCPlayView with a
  * new name to the playbook.
  */
-void MainDialog::savePlayAs() {
+void MainDialog::savePlayAsWithDialog() {
     PBCSavePlayAsDialog dialog;
     int returnCode = dialog.exec();
     if (returnCode == QDialog::Accepted) {
         struct PBCSavePlayAsDialog::ReturnStruct rs = dialog.getReturnStruct();
-        std::vector<std::string> playNames = PBCController::getInstance()->getPlaybook()->getPlayNames();
-        const auto& it = std::find(playNames.begin(), playNames.end(), rs.name);
-        if (it != playNames.end()) {
-            QMessageBox::StandardButton button =
-                    QMessageBox::question(this,
-                                          "Save Play As",
-                                          QString::fromStdString("There already exists a play named '" + rs.name + "'. Do you want to overwrite it?"),  // NOLINT
-                                          QMessageBox::Ok | QMessageBox::Cancel);
-            if(button != QMessageBox::Ok) {
-                QMessageBox::information(this, "Save Play As", "Play was not saved.");
-                return;
-            }
-        }
-        try {
-            _playView->savePlay(rs.name, rs.codeName);
-        } catch(const PBCAutoSaveException& e) {
-            QMessageBox::warning(this, "Save Play As",
-                    "The play could not be saved. You have to save the playbook to a file before you can add plays");
-            savePlaybookAs();
-
-            return;
-        }
-        updateTitle(true);
-        _playView->showPlay(rs.name);
+        savePlayAs(rs.name, rs.codeName);
     }
 }
 
@@ -401,6 +410,7 @@ void MainDialog::newPlaybook() {
         PBCController::getInstance()->getPlaybook()->resetToNewEmptyPlaybook(name,
                                                             playerNumber);
         PBCStorage::getInstance()->init(name);
+        resetForNewPlaybook();
         _playView->resetPlay();
         updateTitle(false);
     } else {
@@ -481,6 +491,7 @@ void MainDialog::openPlaybook() {
                             "Please download the latest version of Playbook-Creator!");
                 }
                 _playView->resetPlay();
+                resetForNewPlaybook();
                 updateTitle(true);
                 break;
             }
@@ -719,5 +730,79 @@ void MainDialog::deleteCategories() {
  */
 MainDialog::~MainDialog() {
     delete ui;
+}
+
+void MainDialog::changeActivePlayerColor(QColor color) {
+    if(color.isValid()) {
+        this->_playView->setActivePlayerColor(PBCColor(color.red(),
+                                                       color.green(),
+                                                       color.blue()));
+    }
+}
+
+void MainDialog::changeActivePlayerRoute(int index) {
+    if (index > 0) {
+        QString routeName = ui->routeBox->itemText(index);
+        PBCRouteSP route = PBCController::getInstance()->getPlaybook()->getRoute(routeName.toStdString());
+        this->_playView->setActivePlayerRoute(route);
+    } else {
+        // reset the route
+        std::vector<PBCPathSP> emptyPaths;
+        PBCRouteSP route(new PBCRoute("","", emptyPaths));
+        this->_playView->setActivePlayerRoute(route);
+    }
+
+}
+
+void MainDialog::changeActivePlayerName(QString name) {
+    this->_playView->setActivePlayerName(name.toStdString());
+}
+
+void MainDialog::changeActivePlayerNr(int nr) {
+    pbcAssert(nr >= 0 && nr <= UINT_MAX);
+    this->_playView->setActivePlayerNr((unsigned int) nr);
+}
+
+void MainDialog::changePlayComment() {
+    std::string comment = ui->commentTextEdit->toPlainText().toStdString();
+    this->_playView->setPlayComment(comment);
+}
+
+void MainDialog::resetForNewPlaybook() {
+    _currentlySelectedPlays = std::list<PBCPlaySP>();
+    _currentPlay = _currentlySelectedPlays.begin();
+}
+
+void MainDialog::savePlayAs(std::string name, std::string codename) {
+    std::vector<std::string> playNames = PBCController::getInstance()->getPlaybook()->getPlayNames();
+    const auto& it = std::find(playNames.begin(), playNames.end(), name);
+    if (it != playNames.end()) {
+        QMessageBox::StandardButton button =
+                QMessageBox::question(this,
+                                      "Save Play As",
+                                      QString::fromStdString("There already exists a play named '" + name + "'. Do you want to overwrite it?"),  // NOLINT
+                                      QMessageBox::Ok | QMessageBox::Cancel);
+        if(button != QMessageBox::Ok) {
+            QMessageBox::information(this, "Save Play As", "Play was not saved.");
+            return;
+        }
+    }
+    try {
+        _playView->savePlay(name, codename);
+    } catch(const PBCAutoSaveException& e) {
+        QMessageBox::warning(this, "Save Play As",
+                             "The play could not be saved. You have to save the playbook to a file before you can add plays");
+        savePlaybookAs();
+
+        return;
+    }
+    updateTitle(true);
+    _playView->showPlay(name);
+}
+
+void MainDialog::savePlayAsNamed() {
+    std::string name = ui->playNameLineEdit->text().toStdString();
+    std::string codename = ui->codeNameLineEdit->text().toStdString();
+    savePlayAs(name, codename);
 }
 

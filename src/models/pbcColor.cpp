@@ -87,3 +87,17 @@ unsigned int PBCColor::g() const {
 unsigned int PBCColor::b() const {
     return _b;
 }
+
+
+// determine suitable font color based on background color:
+// https://stackoverflow.com/questions/1855884/determine-font-color-based-on-background-color
+PBCColor PBCColor::contrastColor(const PBCColor &color) {
+    // Counting the perceptive luminance - human eye favors green color...
+    double luminance = ( 0.299 * color.r() + 0.587 * color.g() + 0.114 * color.b())/255;
+
+    if (luminance > 0.5) {
+        return PBCColor(0, 0, 0);
+    } else {
+        return PBCColor(255, 255, 255);
+    }
+}

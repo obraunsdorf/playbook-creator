@@ -24,6 +24,7 @@
 
 #include "gui/pbcGridIronView.h"
 #include "models/pbcPlay.h"
+#include "models/pbcPlayer.h"
 #include <string>
 
 class PBCPlayView : public PBCGridIronView {
@@ -39,6 +40,7 @@ class PBCPlayView : public PBCGridIronView {
                   const std::string& codeName = "");
     void saveFormation(const std::string& formationName = "");
     void editCategories();
+    void setPlayComment(const std::string& comment);
 
     void savePlaybookOnRouteCreation();
 
@@ -52,8 +54,18 @@ class PBCPlayView : public PBCGridIronView {
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
+    void setActivePlay(PBCPlaySP playSP);
+    void setActivePlayer(PBCPlayerSP playerSP);
+
+    void setActivePlayerColor(PBCColor color);
+    void setActivePlayerRoute(PBCRouteSP route);
+    void setActivePlayerName(std::string name);
+    void setActivePlayerNr(unsigned int nr);
+
+
  private:
     PBCPlaySP _currentPlay;
+    PBCPlayerSP _activePlayer;
 
     bool _routeEditMode = false;
     bool _motionEditMode = false;

@@ -1,3 +1,4 @@
+cmake-build-debug
 bin/*
 build/*
 tools/hashRegister.txt
@@ -18,11 +19,3 @@ doc/*
 *.creator.user*
 # Qt Creator backups
 *.autosave
-
-#CMake
-CMakeCache.txt
-CMakeFiles
-Makefile
-cmake_install.cmake
-cmake-build-debug
-cmake-build-release

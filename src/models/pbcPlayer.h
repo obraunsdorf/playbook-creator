@@ -58,10 +58,11 @@ friend class boost::serialization::access;
     PBCDPoint _pos;
     PBCRouteSP _route;
     PBCMotionSP _motion;
+    std::string _name;
+    unsigned int _nr;
 
     template<class Archive>
     void save(Archive& ar, const unsigned int version) const {  // NOLINT
-        pbcAssert(version == 0);
         ar << _role.fullName;
         ar << _role.shortName;
         ar << _color;
@@ -69,11 +70,12 @@ friend class boost::serialization::access;
         ar << _pos.get<1>();
         ar << _route;
         ar << _motion;
+        ar << _name;
+        ar << _nr;
     }
 
     template<class Archive>
     void load(Archive& ar, const unsigned int version) {  // NOLINT
-        pbcAssert(version == 0);
         std::string fullName;
         std::array<char, 4> shortName;
         double x;
@@ -89,16 +91,32 @@ friend class boost::serialization::access;
         _role.shortName = shortName;
         _pos.set<0>(x);
         _pos.set<1>(y);
+        if (version >= 1) {
+            ar >> _name;
+            ar >> _nr;
+        }
     }
     BOOST_SERIALIZATION_SPLIT_MEMBER()
-    PBCPlayer() {}
+    PBCPlayer() :
+        _pos(PBCDPoint()),
+        _name(""),
+        _nr(0) {}
 
  public:
     PBCPlayer(PBCRole role,
               PBCColor color,
               PBCDPoint pos = PBCDPoint(),
+              const std::string& name = "",
+              unsigned int nr = 0,  // 0 is the discriminator. Valid player Numbers start from 1.
+                // Maybe circumvent this "dirty hack" by using C++17 optionals
               PBCRouteSP route = NULL,
               PBCMotionSP motion = NULL);
+
+    const std::string &name() const;
+    void setName(const std::string &name);
+    unsigned int nr() const;
+    void setNr(unsigned int nr);
+
     PBCRole role() const;
     void setRole(const PBCRole &role);
     PBCColor color() const;
@@ -110,5 +128,6 @@ friend class boost::serialization::access;
     PBCMotionSP motion() const;
     void setMotion(const PBCMotionSP &motion);
 };
+BOOST_CLASS_VERSION(PBCPlayer, 1)
 
 #endif  // PBCPLAYER_H

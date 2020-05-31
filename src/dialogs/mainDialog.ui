@@ -2,30 +2,34 @@
 <ui version="4.0">
  <class>MainDialog</class>
  <widget class="QMainWindow" name="MainDialog">
-  <property name="enabled">
-   <bool>true</bool>
-  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>648</width>
-    <height>316</height>
+    <width>1139</width>
+    <height>966</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainDialog</string>
+   <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralWidget">
-   <property name="minimumSize">
-    <size>
-     <width>600</width>
-     <height>0</height>
-    </size>
-   </property>
+  <property name="dockNestingEnabled">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QGraphicsView" name="graphicsView"/>
+     <widget class="QGraphicsView" name="graphicsView">
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="lineWidth">
+       <number>1</number>
+      </property>
+      <property name="midLineWidth">
+       <number>0</number>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -34,7 +38,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>648</width>
+     <width>1139</width>
      <height>20</height>
     </rect>
    </property>
@@ -80,7 +84,446 @@
    <addaction name="menuDelete"/>
    <addaction name="menuHelp"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QDockWidget" name="dockWidget_2">
+   <property name="minimumSize">
+    <size>
+     <width>295</width>
+     <height>538</height>
+    </size>
+   </property>
+   <property name="features">
+    <set>QDockWidget::AllDockWidgetFeatures</set>
+   </property>
+   <property name="windowTitle">
+    <string>Play Settings</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_2">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>6</number>
+     </property>
+     <property name="leftMargin">
+      <number>24</number>
+     </property>
+     <item>
+      <widget class="QGroupBox" name="groupBox_6">
+       <property name="title">
+        <string>General Info</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_10">
+        <property name="leftMargin">
+         <number>6</number>
+        </property>
+        <property name="topMargin">
+         <number>6</number>
+        </property>
+        <property name="rightMargin">
+         <number>6</number>
+        </property>
+        <property name="bottomMargin">
+         <number>6</number>
+        </property>
+        <item>
+         <layout class="QFormLayout" name="formLayout_2">
+          <item row="0" column="0">
+           <widget class="QLabel" name="nameLabel_2">
+            <property name="text">
+             <string>Name</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="playNameLineEdit"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="codeNameLabel">
+            <property name="text">
+             <string>Code Name</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="codeNameLineEdit"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_2">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QPushButton" name="pushButton_3">
+             <property name="text">
+              <string>Save Play</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_2">
+             <property name="text">
+              <string>Create New Play from this</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_2">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>123</height>
+        </size>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="title">
+        <string>Formation</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <property name="leftMargin">
+         <number>6</number>
+        </property>
+        <property name="topMargin">
+         <number>6</number>
+        </property>
+        <property name="rightMargin">
+         <number>6</number>
+        </property>
+        <property name="bottomMargin">
+         <number>6</number>
+        </property>
+        <item>
+         <widget class="QComboBox" name="formationComboBox">
+          <property name="editable">
+           <bool>false</bool>
+          </property>
+          <property name="currentText">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_4">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>66</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <property name="leftMargin">
+            <number>3</number>
+           </property>
+           <property name="topMargin">
+            <number>3</number>
+           </property>
+           <property name="rightMargin">
+            <number>3</number>
+           </property>
+           <property name="bottomMargin">
+            <number>2</number>
+           </property>
+           <item>
+            <widget class="QLineEdit" name="lineEdit">
+             <property name="text">
+              <string/>
+             </property>
+             <property name="placeholderText">
+              <string>New Formation Name</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton">
+             <property name="text">
+              <string>Save Current Formation as</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="title">
+        <string>Comment</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QTextEdit" name="commentTextEdit">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="placeholderText">
+           <string>Place a comment here...</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="dockWidget">
+   <property name="minimumSize">
+    <size>
+     <width>139</width>
+     <height>380</height>
+    </size>
+   </property>
+   <property name="windowTitle">
+    <string>Player Settings</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents">
+    <layout class="QVBoxLayout" name="verticalLayout_7">
+     <property name="leftMargin">
+      <number>24</number>
+     </property>
+     <item>
+      <widget class="QGroupBox" name="groupBox_4">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>101</height>
+        </size>
+       </property>
+       <property name="title">
+        <string>General Info</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_9">
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <layout class="QFormLayout" name="formLayout">
+          <property name="fieldGrowthPolicy">
+           <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="nameLabel">
+            <property name="text">
+             <string>Name</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="playerNameLineEdit"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="nrLabel">
+            <property name="text">
+             <string>Nr</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QSpinBox" name="playerNrSpinBox"/>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_3">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>178</height>
+        </size>
+       </property>
+       <property name="title">
+        <string>Route</string>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_8">
+        <property name="spacing">
+         <number>2</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QComboBox" name="routeBox"/>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>64</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QLineEdit" name="lineEdit_2">
+             <property name="placeholderText">
+              <string>New Route name</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="routeCreateButton">
+             <property name="text">
+              <string>Create Route</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="motionAddButton">
+          <property name="text">
+           <string>Add Motion</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_5">
+       <property name="title">
+        <string>Color</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="color_widgets::ColorWheel" name="playerColorWheel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+  </widget>
   <action name="actionNew_Playbook">
    <property name="text">
     <string>New playbook</string>
@@ -223,7 +666,13 @@
    </property>
   </action>
  </widget>
- <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>color_widgets::ColorWheel</class>
+   <extends>QWidget</extends>
+   <header>QtColorWidgets/color_wheel.hpp</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
@@ -310,7 +759,7 @@
    <sender>actionSave_Play_as</sender>
    <signal>triggered()</signal>
    <receiver>MainDialog</receiver>
-   <slot>savePlayAs()</slot>
+   <slot>savePlayAsWithDialog()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -498,6 +947,118 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>playerColorWheel</sender>
+   <signal>colorChanged(QColor)</signal>
+   <receiver>MainDialog</receiver>
+   <slot>changeActivePlayerColor(QColor)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>941</x>
+     <y>899</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>843</x>
+     <y>933</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>routeBox</sender>
+   <signal>activated(int)</signal>
+   <receiver>MainDialog</receiver>
+   <slot>changeActivePlayerRoute(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>953</x>
+     <y>710</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>841</x>
+     <y>818</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>playerNameLineEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>MainDialog</receiver>
+   <slot>changeActivePlayerName(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>958</x>
+     <y>622</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>842</x>
+     <y>515</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>playerNrSpinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainDialog</receiver>
+   <slot>changeActivePlayerNr(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1008</x>
+     <y>654</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>843</x>
+     <y>628</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>commentTextEdit</sender>
+   <signal>textChanged()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>changePlayComment()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>926</x>
+     <y>438</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>844</x>
+     <y>371</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_3</sender>
+   <signal>clicked()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>savePlay()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>952</x>
+     <y>152</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>843</x>
+     <y>94</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>savePlayAsNamed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>907</x>
+     <y>177</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>841</x>
+     <y>162</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showNewPlay()</slot>
@@ -505,7 +1066,7 @@
   <slot>showAboutDialog()</slot>
   <slot>saveFormationAs()</slot>
   <slot>savePlay()</slot>
-  <slot>savePlayAs()</slot>
+  <slot>savePlayAsWithDialog()</slot>
   <slot>openPlay()</slot>
   <slot>openPlaybook()</slot>
   <slot>importPlaybook()</slot>
@@ -518,5 +1079,11 @@
   <slot>deleteFormations</slot>
   <slot>deleteCategories</slot>
   <slot>deletePlays()</slot>
+  <slot>changeActivePlayerColor(QColor)</slot>
+  <slot>changeActivePlayerRoute(int)</slot>
+  <slot>changeActivePlayerName(QString)</slot>
+  <slot>changeActivePlayerNr(int)</slot>
+  <slot>changePlayComment()</slot>
+  <slot>savePlayAsNamed()</slot>
  </slots>
 </ui>

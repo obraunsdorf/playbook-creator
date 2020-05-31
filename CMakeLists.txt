@@ -25,7 +25,7 @@ if(GIT_FOUND)
 	  		INCLUDE_HASH True
 		)
 		message(STATUS "Project version from git tag: ${GIT_TAG}")
-		configure_file(cmake/pbcVersion.h.in src/pbcVersion.h)
+		configure_file(src/pbcVersion.h.in ${PROJECT_SOURCE_DIR}/src/pbcVersion.h)
 	endif()
 endif()
 
@@ -36,6 +36,8 @@ enable_language(Rust)
 include(CMakeCargo)
 set(PBC_UPDATER_CMAKE_NAME pbc-updater)
 add_subdirectory(updater)
+
+add_subdirectory(3rdparty/Qt-Color-Widgets)
 
 add_subdirectory(src)
 add_subdirectory(test)

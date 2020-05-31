@@ -88,6 +88,27 @@ void PBCPlayerView::repaint() {
     PBCColor color = _playerSP->color();
     _playerShapeSP->setBrush(QBrush(QColor(color.r(), color.g(), color.b())));
     this->addToGroup(_playerShapeSP.get());
+
+    unsigned int playerNr = _playerSP->nr();
+    // 0 is the discriminator. Valid player Numbers start from 1.
+    // Maybe circumvent this "dirty hack" by using C++17 optionals
+    if (playerNr > 0) {
+        QGraphicsTextItem* text = new QGraphicsTextItem(QString::fromStdString(std::to_string(_playerSP->nr())));
+        QFont font = QFont(QString::fromStdString(PBCConfig::getInstance()->playNameFont()));
+        font.setPixelSize(playerWidth/2);
+        font.setBold(true);
+        text->setFont(font);
+        PBCColor contrastColor = PBCColor::contrastColor(color);
+        text->setDefaultTextColor(QColor(contrastColor.r(), contrastColor.g(), contrastColor.b()));
+        QRectF bdRect = text->boundingRect();
+        double textWidth = bdRect.width();
+        double textHeight = bdRect.height();
+        double x = playerPosX + ((playerWidth - textWidth) / 2);
+        double y = playerPosY + ((playerWidth - textHeight) / 2);
+        text->setPos(x, y);
+        this->addToGroup(text);
+    }
+
     this->setFlag(QGraphicsItem::ItemIsMovable);
 
     if(_playerSP->motion() != NULL) {
@@ -472,6 +493,7 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
 
 
 void PBCPlayerView::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+    std::cout << "mouse press event on " << this->_playerSP->role().fullName << std::endl;
     if (isClickInShape(event->pos())) {
         QGraphicsItemGroup::mousePressEvent(event);
     } else {
@@ -485,6 +507,7 @@ void PBCPlayerView::mousePressEvent(QGraphicsSceneMouseEvent *event) {
  * @param event event datastructure, includes position of context menu click
  */
 void PBCPlayerView::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
+    std::cout << "mouse release event on " << this->_playerSP->role().fullName << std::endl;
     QGraphicsItemGroup::mouseReleaseEvent(event);
     QPointF pixelDelta = this->pos();
     QPointF newPixelPos = QPointF(_originalPos.get<0>(),
@@ -496,9 +519,16 @@ void PBCPlayerView::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
     std::cout << newPos.get<0>() << ", " << newPos.get<1>() << std::endl;
     std::cout << "----------------------------------" << std::endl;
     _playerSP->setPos(newPos);
+    _playView->setActivePlayer(this->_playerSP);
 }
 
 
 void PBCPlayerView::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
-    _playView->enterRouteEditMode(this->_playerSP);
+    std::cout << "mouse double click event on " << this->_playerSP->role().fullName << std::endl;
+    if (isClickInShape(event->pos())) {
+        QGraphicsItemGroup::mouseDoubleClickEvent(event);
+        _playView->enterRouteEditMode(this->_playerSP);
+    } else {
+        event->ignore();
+    }
 }

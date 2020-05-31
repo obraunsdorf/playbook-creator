@@ -33,7 +33,7 @@ class PBCConfig : public PBCSingleton<PBCConfig> {
     friend class PBCSingleton<PBCConfig>;
 
 private:
-    bool _initialized;
+    //bool _initialized;
     unsigned int _minWidth;
     unsigned int _minHeight;
     double _fieldWidth;
@@ -62,7 +62,7 @@ private:
 
 protected:
     PBCConfig() :
-            _initialized(false),
+            //_initialized(false),
             _minWidth(20),
             _minHeight(20),
             _fieldWidth(25), // yard
@@ -90,19 +90,19 @@ protected:
 
 public:
     void setCanvasSize(unsigned int canvasWidth, unsigned int canvasHeight) {
-        _initialized = true;
+        //_initialized = true;
         _canvasHeight = canvasHeight;
         _canvasWidth = _fieldWidth * ydInPixel();
         //_canvasWidth = canvasWidth;
     }
 
     unsigned int canvasWidth() {
-        pbcAssert(_initialized == true);
+        //pbcAssert(_initialized == true);
         return _canvasWidth;
     }
 
     unsigned int canvasHeight() {
-        pbcAssert(_initialized == true);
+        //pbcAssert(_initialized == true);
         return _canvasHeight;
     }
 

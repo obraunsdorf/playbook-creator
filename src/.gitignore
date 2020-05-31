@@ -1,18 +1,8 @@
 PlaybookCreator.config
+PlaybookCreator.pro.user
 PlaybookCreator.creator
 PlaybookCreator.creator.user
 PlaybookCreator.files
 PlaybookCreator.includes
 
-#CMake
-Makefile
-CMakeFiles
-cmake_install.cmake
-*.cxx_parameters
-*/*.cxx_parameters
-
-#Qt with CMake moc files
-PlaybookCreator_automoc.cpp
-moc_*
-ui_*.h
-PlaybookCreator_autogen/*
+pbcVersion.h
