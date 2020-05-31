@@ -44,7 +44,9 @@ class PBCPlayView : public PBCGridIronView {
 
     void savePlaybookOnRouteCreation();
 
-    void enterRouteEditMode(PBCPlayerSP playerSP,
+    void enterRouteEditMode(
+            PBCPlayerSP playerSP,
+            bool optionRouteMode,
             const std::string& routeName = "",
             const std::string& routeCodeName = "",
             bool overwrite = false);
@@ -69,6 +71,7 @@ class PBCPlayView : public PBCGridIronView {
     PBCPlayerSP _activePlayer;
 
     bool _routeEditMode = false;
+    bool _optionRouteMode = false;
     bool _motionEditMode = false;
     PBCPlayerSP _routePlayer;
     std::string _routeName;

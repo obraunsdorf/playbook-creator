@@ -57,6 +57,7 @@ friend class boost::serialization::access;
     PBCColor _color;
     PBCDPoint _pos;
     PBCRouteSP _route;
+    std::vector<PBCRouteSP> _optionRoutes;
     PBCMotionSP _motion;
     std::string _name;
     unsigned int _nr;
@@ -72,6 +73,7 @@ friend class boost::serialization::access;
         ar << _motion;
         ar << _name;
         ar << _nr;
+        ar << _optionRoutes;
     }
 
     template<class Archive>
@@ -94,6 +96,9 @@ friend class boost::serialization::access;
         if (version >= 1) {
             ar >> _name;
             ar >> _nr;
+        }
+        if (version >= 2) {
+            ar >> _optionRoutes;
         }
     }
     BOOST_SERIALIZATION_SPLIT_MEMBER()
@@ -127,7 +132,10 @@ friend class boost::serialization::access;
     void setRoute(const PBCRouteSP &route);
     PBCMotionSP motion() const;
     void setMotion(const PBCMotionSP &motion);
+    void addOptionRoute(const PBCRouteSP &route);
+    std::vector<PBCRouteSP> optionRoutes();
+    void resetRoutes();
 };
-BOOST_CLASS_VERSION(PBCPlayer, 1)
+BOOST_CLASS_VERSION(PBCPlayer, 2)
 
 #endif  // PBCPLAYER_H

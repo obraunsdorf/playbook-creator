@@ -154,4 +154,17 @@ void PBCPlayer::setNr(unsigned int nr) {
     _nr = nr;
 }
 
+void PBCPlayer::addOptionRoute(const PBCRouteSP &route) {
+    _optionRoutes.push_back(route);
+}
+
+void PBCPlayer::resetRoutes() {
+    _optionRoutes.clear();
+    _route = NULL;
+}
+
+std::vector<PBCRouteSP> PBCPlayer::optionRoutes() {
+    return _optionRoutes;
+}
+
 

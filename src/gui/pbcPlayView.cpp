@@ -262,8 +262,9 @@ PBCDPoint playerPos_AfterMotion_inPixel(const PBCPlayerSP &playerSP) {
     return afterMotionPos;
 }
 
-void PBCPlayView::enterRouteEditMode(PBCPlayerSP playerSP, const std::string& routeName, const std::string& routeCodeName, bool overwrite) {
+void PBCPlayView::enterRouteEditMode(PBCPlayerSP playerSP, bool optionRouteMode, const std::string& routeName, const std::string& routeCodeName, bool overwrite) {
     _routeEditMode = true;
+    _optionRouteMode = optionRouteMode;
     _lastLine = NULL;
     _paths.clear();
     _routePlayer = playerSP;
@@ -272,8 +273,10 @@ void PBCPlayView::enterRouteEditMode(PBCPlayerSP playerSP, const std::string& ro
     _overwrite = overwrite;
 
     std::vector<PBCPathSP> emptyRoutePaths;
-    PBCRouteSP emptyRoute = PBCRouteSP(new PBCRoute("empty", "", emptyRoutePaths));
-    _routePlayer->setRoute(emptyRoute);
+    if (_optionRouteMode == false) {
+        PBCRouteSP emptyRoute = PBCRouteSP(new PBCRoute("empty", "", emptyRoutePaths));
+        _routePlayer->setRoute(emptyRoute);
+    }
     repaint();
 
     PBCDPoint afterMotionPos = playerPos_AfterMotion_inPixel(_routePlayer);
@@ -306,6 +309,7 @@ void PBCPlayView::enterMotionEditMode(PBCPlayerSP playerSP) {
 
 void PBCPlayView::leaveRouteMotionEditMode() {
     _routeEditMode = false;
+    _optionRouteMode = false;
     _motionEditMode = false;
 }
 
@@ -416,7 +420,11 @@ void PBCPlayView::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
                 savePlaybookOnRouteCreation();
             }
         }
-        _routePlayer->setRoute(route);
+        if (_optionRouteMode) {
+            _routePlayer->addOptionRoute(route);
+        } else {
+            _routePlayer->setRoute(route);
+        }
         leaveRouteMotionEditMode();
         repaint();
     } else if (_motionEditMode == true) {
