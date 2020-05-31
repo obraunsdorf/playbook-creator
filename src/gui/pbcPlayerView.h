@@ -48,16 +48,17 @@ class PBCPlayerView : public QObject, public QGraphicsItemGroup {
     std::vector<boost::shared_ptr<QGraphicsItem>> _motionPaths;
 
     void repaint();
-    void paintRoute();
+    void paintRoutes();
+    void __paintRoutes(PBCRouteSP route, bool isOptionRoute);
     bool isClickInShape(const QPointF& clickPos);
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void joinPaths(const std::vector<PBCPathSP>& paths,
                    std::vector<QGraphicsItemSP>* graphicItems,
-                   PBCDPoint basePoint);
+                   PBCDPoint basePoint,
+                   bool isOptionRoute);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
-    void applyRoute(PBCRouteSP route);
     void applyMotion(PBCMotionSP motion);
     void setColor(PBCColor color);
     void setPosition(double x, double y);
