@@ -91,6 +91,7 @@ class MainDialog : public QMainWindow {
     void changeActivePlayerRoute(int index);
     void changeActivePlayerName(QString name);
     void changeActivePlayerNr(int nr);
+    void setActivePlayerTargeted();
 };
 
 #endif  // MAINDIALOG_H

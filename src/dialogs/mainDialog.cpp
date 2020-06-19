@@ -1097,4 +1097,8 @@ void MainDialog::changePlayFieldPos() {
     }
 }
 
+void MainDialog::setActivePlayerTargeted() {
+    changeActivePlayerColor(Qt::red);
+}
+
 

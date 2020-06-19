@@ -331,8 +331,8 @@
   <widget class="QDockWidget" name="dockWidget">
    <property name="minimumSize">
     <size>
-     <width>139</width>
-     <height>380</height>
+     <width>184</width>
+     <height>415</height>
     </size>
    </property>
    <property name="windowTitle">
@@ -508,6 +508,13 @@
         <property name="bottomMargin">
          <number>0</number>
         </property>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="pushButton_4">
+          <property name="text">
+           <string>Set as Targeted Player</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="0">
          <widget class="color_widgets::ColorWheel" name="playerColorWheel">
           <property name="sizePolicy">
@@ -1164,7 +1171,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>953</x>
-     <y>710</y>
+     <y>681</y>
     </hint>
     <hint type="destinationlabel">
      <x>841</x>
@@ -1179,8 +1186,8 @@
    <slot>changeActivePlayerName(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>958</x>
-     <y>622</y>
+     <x>1125</x>
+     <y>601</y>
     </hint>
     <hint type="destinationlabel">
      <x>842</x>
@@ -1195,8 +1202,8 @@
    <slot>changeActivePlayerNr(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1008</x>
-     <y>654</y>
+     <x>1125</x>
+     <y>631</y>
     </hint>
     <hint type="destinationlabel">
      <x>843</x>
@@ -1412,6 +1419,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton_4</sender>
+   <signal>clicked()</signal>
+   <receiver>MainDialog</receiver>
+   <slot>setActivePlayerTargeted()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>903</x>
+     <y>572</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>841</x>
+     <y>880</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>showNewPlay()</slot>
@@ -1445,5 +1468,6 @@
   <slot>addPlayToNewCategory()</slot>
   <slot>changePlayDown()</slot>
   <slot>changePlayFieldPos()</slot>
+  <slot>setActivePlayerTargeted()</slot>
  </slots>
 </ui>
