@@ -107,7 +107,10 @@ void PBCPlayerView::repaint() {
         double y = playerPosY + ((playerWidth - textHeight) / 2);
         text->setPos(x, y);
         this->addToGroup(text);
+        text->setZValue(101.0);
     }
+    _playerShapeSP->setZValue(100.0);
+
 
     this->setFlag(QGraphicsItem::ItemIsMovable);
 
@@ -240,6 +243,9 @@ void PBCPlayerView::__paintRoutes(PBCRouteSP route, bool isOptionRoute) {
         inOutFactor = 1;
     }
     PBCDPoint base = playerPos;
+      /* this could fix issue #31 but would mess up route distances:
+       * PBCDPoint base = PBCDPoint(playerPos.get<0>(), playerPos.get<1>() + PBCConfig::getInstance()->playerWidth()/2);
+       */
     if(_playerSP->motion() != NULL) {
         PBCDPoint correctMotionEndPoint(inOutFactor * _playerSP->motion()->motionEndPoint().get<0>(),  //NOLINT
                                         _playerSP->motion()->motionEndPoint().get<1>());               //NOLINT
