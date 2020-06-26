@@ -397,7 +397,7 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
     QAction* action_CustomOptionRouteCreate_unnamed =
             optionRoutesMenu->addAction("Create route (quick, unnamed)");
 
-    QAction* action_ResetRoutes = menu.addAction("Reset Routes");
+    QAction* action_ResetRoutes = menu.addAction("Reset Option Routes");
     menu.addSeparator();
 
     QMenu* motionMenu = menu.addMenu(QString::fromStdString("Motions"));
