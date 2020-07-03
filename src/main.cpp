@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     MainDialog w;
     try {
-        std::cout << "Looking for updates..." << std::endl;
+        std::cout << "Looking for updates. This should only take a few seconds. Please wait..." << std::endl;
         const uint32_t BUFF_LEN = 500;
         uint8_t buffer[BUFF_LEN] = {0};
         CBuffer desc_result_buf = CBuffer{buffer, BUFF_LEN};
@@ -61,7 +61,7 @@ int main(int argc, char *argv[]) {
                     unsigned major = ucs.updates_available._0;
                     uint64_t minor = ucs.updates_available._1;
                     uint64_t patch = ucs.updates_available._2;
-                    const char* desc = (const char*) buffer;
+                    std::string desc( reinterpret_cast<char const*>(buffer), BUFF_LEN ) ;
                     std::string latest_version = "v" + std::to_string(major) +  "." + std::to_string(minor) + "." + std::to_string(patch);
                     std::string msg = "A new version of PlaybookCreator is available!"
                                       "<br><br>Description of release " + latest_version + ":\n" + desc +
