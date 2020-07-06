@@ -2,6 +2,63 @@ use core::slice;
 use semver;
 use std::ffi::CString;
 use std::os::raw::c_char;
+use crate::ffi::UpdateCheckingResult;
+
+#[cxx::bridge]
+mod ffi {
+
+    pub enum UpdateCheckingStatus {
+        UpdatesAvailable,
+        UpToDate,
+        Error,
+    }
+
+    pub struct UpdateCheckingResult {
+        pub status: UpdateCheckingStatus,
+        pub version: String,
+    }
+    extern "Rust" {
+        fn updates_available_new(
+            current_pbc_version_major: u64,
+            current_pbc_version_minor: u64,
+            current_pbc_version_patch: u64,
+        ) -> UpdateCheckingResult;
+    }
+
+}
+
+fn updates_available_new(
+    current_pbc_version_major: u64,
+    current_pbc_version_minor: u64,
+    current_pbc_version_patch: u64,
+) -> UpdateCheckingResult {
+    if let Ok(mut versions) = fetch_parse_and_filter_releases((
+        current_pbc_version_major,
+        current_pbc_version_minor,
+        current_pbc_version_patch,
+    )) {
+        if let Some(latest_release) = versions.pop() {
+            let major = latest_release.version.major;
+            let minor = latest_release.version.minor;
+            let patch = latest_release.version.patch;
+            // copy bytes from description into C-provided buffer
+            UpdateCheckingResult{
+                status: ffi::UpdateCheckingStatus::UpdatesAvailable,
+                version: latest_release.description,
+            }
+        } else {
+            UpdateCheckingResult{
+                status: ffi::UpdateCheckingStatus::UpToDate,
+                version: String::new()
+            }
+        }
+    } else {
+        UpdateCheckingResult{
+            status: ffi::UpdateCheckingStatus::Error,
+            version: String::new()
+        }
+    }
+}
 
 #[derive(Debug, Clone)]
 enum MyError {

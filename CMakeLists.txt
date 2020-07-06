@@ -34,8 +34,6 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
 enable_language(Rust)
 include(CMakeCargo)
-set(PBC_UPDATER_CMAKE_NAME pbc-updater)
-add_subdirectory(updater)
 
 add_subdirectory(3rdparty/Qt-Color-Widgets)
 

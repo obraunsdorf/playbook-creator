@@ -142,6 +142,10 @@ qt5_wrap_cpp( MOC_SRCS ${MOC_HEADERS} )
 add_library(PBCLib STATIC ${SOURCES} ${MOC_SRCS} ${UI_HEADERS})
 #add_dependencies(PBCLib style_checking)
 
+set(PBC_UPDATER_CMAKE_NAME pbc-updater)
+set(PBC_UPDATER_PATH updater)
+add_subdirectory(../updater)
+
 # link the updater library
 if(WIN32)
 	find_package(OpenSSL)
@@ -163,7 +167,7 @@ target_link_libraries(PBCLib Qt5::Widgets Qt5::PrintSupport ${Boost_LIBRARIES} $
 
 
 # link executable
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} main.cpp ${CMAKE_CURRENT_BINARY_DIR}/pbc_updater_bindings.h ${CMAKE_CURRENT_BINARY_DIR}/pbc_updater_bindings.cpp)
 target_link_libraries(${PROJECT_NAME} PBCLib)
 
 if(APPLE)
