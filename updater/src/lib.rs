@@ -59,9 +59,11 @@ pub extern "C" fn updates_available(
             let minor = latest_release.version.minor;
             let patch = latest_release.version.patch;
             // copy bytes from description into C-provided buffer
-            let mut description_result_slice =
-                &mut description_result[..latest_release.description.len()];
-            description_result_slice.clone_from_slice(latest_release.description.as_bytes());
+            let length = std::cmp::min(description_result.len(), latest_release.description.len());
+            let mut description_result_slice = &mut description_result[..length];
+            println!("writing {} bytes from fetched description to buffer", length);
+            description_result_slice
+                .clone_from_slice(&latest_release.description.as_bytes()[..length]);
             UpdateCheckingStatus::UpdatesAvailable(major, minor, patch)
         } else {
             UpdateCheckingStatus::UpToDate

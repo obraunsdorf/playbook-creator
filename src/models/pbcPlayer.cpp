@@ -160,7 +160,6 @@ void PBCPlayer::addOptionRoute(const PBCRouteSP &route) {
 
 void PBCPlayer::resetRoutes() {
     _optionRoutes.clear();
-    _route = NULL;
 }
 
 std::vector<PBCRouteSP> PBCPlayer::optionRoutes() {
