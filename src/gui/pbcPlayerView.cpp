@@ -117,9 +117,8 @@ void PBCPlayerView::repaint() {
     if(_playerSP->motion() != NULL) {
         applyMotion(_playerSP->motion());
     }
-    if(_playerSP->route() != NULL) {
-        paintRoutes();
-    }
+
+    paintRoutes();
 
     if (PBCConfig::getInstance()->playerShadow()) {
         QGraphicsDropShadowEffect* shadow = new QGraphicsDropShadowEffect();
@@ -438,7 +437,7 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
             _playView->enterRouteEditMode(this->_playerSP, true);
         } else if(clicked == action_CustomRouteCreate_named
                     || clicked == action_CustomOptionRouteCreate_named) {
-            bool optionRouteMode = clicked == action_CustomOptionRouteCreate_named;
+            bool optionRouteMode = (clicked == action_CustomOptionRouteCreate_named);
             PBCSavePlayAsDialog dialog;
             int returnCode = dialog.exec();
             if (returnCode == QDialog::Accepted) {
