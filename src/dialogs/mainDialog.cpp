@@ -315,7 +315,15 @@ void MainDialog::previousPlay() {
  * about the application
  */
 void MainDialog::showAboutDialog() {
-    QMessageBox::about(this, "About", QString::fromStdString(PBCVersion::getVersionString()).prepend("Playbook Creator by Oliver Braunsdorf\nVersion: ")); //NOLINT
+    QMessageBox msgBox(this);
+    msgBox.setWindowTitle("About");
+    msgBox.setTextFormat(Qt::RichText);   //this is what makes the links clickable
+    msgBox.setText(
+            QString::fromStdString("Playbook Creator by Oliver Braunsdorf</br>") +
+            QString::fromStdString("Version: " + PBCVersion::getVersionString() + "</br></br>") +
+            QString::fromStdString("For latest updates please check "
+                                   "<a href='https://github.com/obraunsdorf/playbook-creator/releases'>https://github.com/obraunsdorf/playbook-creator/releases</a>"));
+    msgBox.exec();
 }
 
 /**
