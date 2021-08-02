@@ -4,7 +4,7 @@ This is a free editor for offensive playbooks in American Football.
 It is primarily dedicated to the flag football community as most of the teams (at least in Germany) cannot afford a commercial tool.
 
 Playbook Creator is mainly developed and tested on Linux, but you can download and run it on all major operating systems.
-  * MacOS X [![Build Status](https://travis-ci.org/obraunsdorf/playbook-creator.svg?branch=master)](https://travis-ci.org/obraunsdorf/playbook-creator)
+  * MacOS X [![Build Status](https://travis-ci.com/obraunsdorf/playbook-creator.svg?branch=master)](https://travis-ci.com/obraunsdorf/playbook-creator)
   * Windows 10 [![Build status](https://ci.appveyor.com/api/projects/status/c0n8v494adn2kfmh/branch/master?svg=true)](https://ci.appveyor.com/project/obraunsdorf/playbook-creator) 
   * Linux (Ubuntu 18.04) [![CircleCI](https://circleci.com/gh/obraunsdorf/playbook-creator.svg?style=svg)](https://circleci.com/gh/obraunsdorf/playbook-creator)
 

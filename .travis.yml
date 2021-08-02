@@ -1,7 +1,7 @@
 os: osx
 language: cpp
 install:
-- brew update
+#- brew update
 - brew list git &>/dev/null || brew install git
 - brew list cmake &>/dev/null || brew install cmake
 - brew list pkg-config &>/dev/null || brew install pkg-config
