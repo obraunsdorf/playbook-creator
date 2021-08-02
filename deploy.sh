@@ -20,6 +20,6 @@ then
         ./github-release release -s ${GITHUB_TOKEN} -u ${USERNAME} -r ${REPONAME} -t ${GIT_TAG_FULL} -c ${GIT_HASH} --draft -d "This is the release of PlaybookCreator ${GIT_TAG_FULL} </br>CHANGELOG:</br>$CHANGELOG"
     fi
     echo "Uploading artifacts..."
-    ./github-release upload -s ${GITHUB_TOKEN} -u ${USERNAME} -r ${REPONAME} -t ${GIT_TAG_FULL} -n "$FILENAME" -l "$FILELABEL" -f "$FILE"
+    ./github-release upload -a ${USERNAME} -s ${GITHUB_TOKEN} -u ${USERNAME} -r ${REPONAME} -t ${GIT_TAG_FULL} -n "$FILENAME" -l "$FILELABEL" -f "$FILE"
 else echo "no deployment necessary (untagged commit)"
 fi
