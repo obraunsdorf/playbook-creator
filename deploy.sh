@@ -9,9 +9,9 @@ GIT_TAG_ABBREV=`git describe --tags --abbrev=0`
 GIT_TAG_FULL=`git describe --tags`
 if [[ "$GIT_TAG_FULL" && "$GIT_TAG_FULL" == "$GIT_TAG_ABBREV" ]]
 then
-    go get github.com/obraunsdorf/github-release
-    GOBIN=`pwd` go install github.com/obraunsdorf/github-release
-    go install github.com/obraunsdorf/github-release
+    go get github.com/github-release/github-release
+    GOBIN=`pwd` go install github.com/github-release/github-release
+    go install github.com/github-release/github-release
     if [[ "$(./github-release info -s ${GITHUB_TOKEN} -u ${USERNAME} -r ${REPONAME} -t ${GIT_TAG_FULL})" != "No existing release for specified tag"  ]]
     then
         echo "Release for tag ${GIT_TAG_FULL} already exists"
