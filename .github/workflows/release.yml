@@ -52,7 +52,6 @@ jobs:
           brew list cmake &>/dev/null || brew install cmake
           brew list pkg-config &>/dev/null || brew install pkg-config
           brew list qt &>/dev/null || brew install qt
-          brew uninstall --ignore-dependencies boost
           bash ci-scripts/build-boost.sh
           bash ci-scripts/build-botan.sh
           ls boost
