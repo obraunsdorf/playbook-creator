@@ -1,0 +1,85 @@
+name: Release
+
+on:
+  push:
+    branches: [ $default-branch ]
+
+jobs:
+  create_release:
+    name: Create release
+    runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+
+  build_release:
+    name: Build release
+    needs: create_release
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        include:
+      #    - os: ubuntu-latest
+      #      zip_name: plugin-linux
+      #      generator: Unix Makefiles
+          - os: macos-latest
+            artifact_path: bin/PlaybookCreator.dmg
+            artifact_name: PlaybookCreator.dmg
+            generator: Xcode
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+    #  - name: Install Linux dependencies
+    #    if: matrix.os == 'ubuntu-latest'
+    #   run: sudo apt-get install build-essential pkg-config curl git cmake libbotan-2-dev qt5-default libboost-serialization-dev libboost-test-dev libboost-filesystem-dev libssl-dev
+
+      - name: Install macOS dependencies
+        if: matrix.os == 'macOS-latest'
+        run: |
+          brew list git &>/dev/null || brew install git
+          brew list cmake &>/dev/null || brew install cmake
+          brew list pkg-config &>/dev/null || brew install pkg-config
+          brew list qt &>/dev/null || brew install qt
+          brew uninstall --ignore-dependencies boost
+          bash ci-scripts/build-boost.sh
+          ls boost
+          ls boost/lib
+          ls botan/
+          bash ci-scripts/build-botan.sh
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+      - name: Build
+        if: matrix.os == 'macOS-latest'
+        run: |
+          cmake . -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_LIBRARY_DIR=$(pwd)/boost/lib -DBOTAN_LIBRARY=botan/libbotan-2.a -DBOTAN_INCLUDE_DIR=botan/build/include -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)
+          make
+
+      - name: Test
+        run: |
+          ASAN_OPTIONS=detect_leaks=0 bin/tests -- --test-base-dir "test"
+          
+      - name: CreateArtifacts
+        run: |
+          $(brew --prefix qt5)/bin/macdeployqt bin/PlaybookCreator.app -verbose=3 -dmg -no-strip
+          bash deploy.sh bin/PlaybookCreator.dmg PlaybookCreator.dmg "PlaybookCreator for MacOSX" $GITHUB_TOKEN
+
+
+      - name: Upload
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ${{ matrix.artifact_path }}
+          asset_name: ${{ matrix.artifact_name }}
+          asset_content_type: application/x-apple-diskimage
