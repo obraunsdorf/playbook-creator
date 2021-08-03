@@ -71,28 +71,27 @@ jobs:
           ls boost/lib
           ls botan/
 
- #     - name: Build
- #       if: matrix.os == 'macOS-latest'
- #       run: |
- #         cmake . -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_LIBRARY_DIR=$(pwd)/boost/lib -DBOTAN_LIBRARY=botan/libbotan-2.a -DBOTAN_INCLUDE_DIR=botan/build/include -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)
-#          make
+      - name: Build
+        if: matrix.os == 'macOS-latest'
+        run: |
+          cmake . -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_LIBRARY_DIR=$(pwd)/boost/lib -DBOTAN_LIBRARY=botan/libbotan-2.a -DBOTAN_INCLUDE_DIR=botan/build/include -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)
+          make
 
- #     - name: Test
- #       run: |
- #         ASAN_OPTIONS=detect_leaks=0 bin/tests -- --test-base-dir "test"
+      - name: Test
+        run: |
+          ASAN_OPTIONS=detect_leaks=0 bin/tests -- --test-base-dir "test"
           
-#      - name: CreateArtifacts
-#        run: |
-#          $(brew --prefix qt5)/bin/macdeployqt bin/PlaybookCreator.app -verbose=3 -dmg -no-strip
-#          bash deploy.sh bin/PlaybookCreator.dmg PlaybookCreator.dmg "PlaybookCreator for MacOSX" $GITHUB_TOKEN
+      - name: CreateArtifact
+        run: |
+          $(brew --prefix qt5)/bin/macdeployqt bin/PlaybookCreator.app -verbose=3 -dmg -no-strip
 
 
- #     - name: Upload
-  #      uses: actions/upload-release-asset@v1
-  #      env:
-  #        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #      with:
-  #        upload_url: ${{ needs.create_release.outputs.upload_url }}
-  #        asset_path: ${{ matrix.artifact_path }}
-  #        asset_name: ${{ matrix.artifact_name }}
-  #        asset_content_type: application/x-apple-diskimage
+      - name: Upload
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create_release.outputs.upload_url }}
+          asset_path: ${{ matrix.artifact_path }}
+          asset_name: ${{ matrix.artifact_name }}
+          asset_content_type: application/x-apple-diskimage
