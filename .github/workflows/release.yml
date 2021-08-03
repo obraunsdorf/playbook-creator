@@ -53,7 +53,7 @@ jobs:
           brew list git &>/dev/null || brew install git
           brew list cmake &>/dev/null || brew install cmake
           brew list pkg-config &>/dev/null || brew install pkg-config
-          brew list qt &>/dev/null || brew install qt
+          brew list qt@5 &>/dev/null || brew install qt@5
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
           
       - name: Cache_BoostBotan
