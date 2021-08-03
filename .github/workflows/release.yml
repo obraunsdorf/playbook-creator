@@ -52,11 +52,6 @@ jobs:
           brew list cmake &>/dev/null || brew install cmake
           brew list pkg-config &>/dev/null || brew install pkg-config
           brew list qt &>/dev/null || brew install qt
-          bash ci-scripts/build-boost.sh
-          bash ci-scripts/build-botan.sh
-          ls boost
-          ls boost/lib
-          ls botan/
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
           
       - name: Cache_BoostBotan
@@ -66,30 +61,38 @@ jobs:
             ./boost/
             ./botan/
           key: ${{ matrix.os }}-cache_boost_botan_key_v01
-
-
-      - name: Build
+          
+      - name: Build Boost and Botan
         if: matrix.os == 'macOS-latest'
         run: |
-          cmake . -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_LIBRARY_DIR=$(pwd)/boost/lib -DBOTAN_LIBRARY=botan/libbotan-2.a -DBOTAN_INCLUDE_DIR=botan/build/include -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)
-          make
+          bash ci-scripts/build-boost.sh
+          bash ci-scripts/build-botan.sh
+          ls boost
+          ls boost/lib
+          ls botan/
 
-      - name: Test
-        run: |
-          ASAN_OPTIONS=detect_leaks=0 bin/tests -- --test-base-dir "test"
+ #     - name: Build
+ #       if: matrix.os == 'macOS-latest'
+ #       run: |
+ #         cmake . -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_LIBRARY_DIR=$(pwd)/boost/lib -DBOTAN_LIBRARY=botan/libbotan-2.a -DBOTAN_INCLUDE_DIR=botan/build/include -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)
+#          make
+
+ #     - name: Test
+ #       run: |
+ #         ASAN_OPTIONS=detect_leaks=0 bin/tests -- --test-base-dir "test"
           
-      - name: CreateArtifacts
-        run: |
-          $(brew --prefix qt5)/bin/macdeployqt bin/PlaybookCreator.app -verbose=3 -dmg -no-strip
-          bash deploy.sh bin/PlaybookCreator.dmg PlaybookCreator.dmg "PlaybookCreator for MacOSX" $GITHUB_TOKEN
+#      - name: CreateArtifacts
+#        run: |
+#          $(brew --prefix qt5)/bin/macdeployqt bin/PlaybookCreator.app -verbose=3 -dmg -no-strip
+#          bash deploy.sh bin/PlaybookCreator.dmg PlaybookCreator.dmg "PlaybookCreator for MacOSX" $GITHUB_TOKEN
 
 
-      - name: Upload
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ${{ matrix.artifact_path }}
-          asset_name: ${{ matrix.artifact_name }}
-          asset_content_type: application/x-apple-diskimage
+ #     - name: Upload
+  #      uses: actions/upload-release-asset@v1
+  #      env:
+  #        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #      with:
+  #        upload_url: ${{ needs.create_release.outputs.upload_url }}
+  #        asset_path: ${{ matrix.artifact_path }}
+  #        asset_name: ${{ matrix.artifact_name }}
+  #        asset_content_type: application/x-apple-diskimage
