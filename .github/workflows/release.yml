@@ -54,11 +54,20 @@ jobs:
           brew list qt &>/dev/null || brew install qt
           brew uninstall --ignore-dependencies boost
           bash ci-scripts/build-boost.sh
+          bash ci-scripts/build-botan.sh
           ls boost
           ls boost/lib
           ls botan/
-          bash ci-scripts/build-botan.sh
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+          
+      - name: Cache_BoostBotan
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./boost/
+            ./botan/
+          key: ${{ matrix.os }}-cache_boost_botan_key_v01
+
 
       - name: Build
         if: matrix.os == 'macOS-latest'
