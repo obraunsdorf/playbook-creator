@@ -61,21 +61,37 @@ jobs:
           brew list qt@5 &>/dev/null || brew install qt@5
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
           
-      - name: Cache_BoostBotan
+      - name: Cache_Boost
+        id: cache_boost
         uses: actions/cache@v2
         with:
           path: |
             ./boost/
-            ./botan/
-          key: ${{ matrix.os }}-cache_boost_botan_key_v01
+          key: ${{ matrix.os }}-cache_boost_key_v01
           
-      - name: Build Boost and Botan
-        if: matrix.os == 'macOS-latest'
+      - name: Build Boost
+        if: matrix.os == 'macOS-latest' && steps.cache_boost.outputs.cache-hit != 'true'
         run: |
-          bash ci-scripts/build-boost.sh
+          mkdir boost
+          curl -O -L https://boostorg.jfrog.io/artifactory/main/release/1.66.0/source/boost_1_66_0.tar.gz
+          tar -xzf boost_1_66_0.tar.gz
+          cd boost_1_66_0
+          ./bootstrap.sh --with-libraries=serialization,filesystem,test --prefix=../boost
+          ./b2 install link=static runtime-link=static &>/dev/null
+          cd ..
+          
+      - name: Cache_Botan
+        id: cache_botan
+        uses: actions/cache@v2
+        with:
+          path: |
+            ./botan/
+          key: ${{ matrix.os }}-cache_botan_key_v01
+          
+      - name: Build Botan
+        if: matrix.os == 'macOS-latest' && steps.cache_botan.outputs.cache-hit != 'true'
+        run: |
           bash ci-scripts/build-botan.sh
-          ls boost
-          ls boost/lib
           ls botan/
 
       - name: Setup tmate session
@@ -87,29 +103,28 @@ jobs:
         timeout-minutes: 60
         with:
           limit-access-to-actor: true
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build
-        if: matrix.os == 'macOS-latest'
-        run: |
-          cmake . -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_LIBRARY_DIR=$(pwd)/boost/lib -DBOTAN_LIBRARY=botan/libbotan-2.a -DBOTAN_INCLUDE_DIR=botan/build/include -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)
-          make
+  #    - name: Build
+  #      if: matrix.os == 'macOS-latest'
+ #       run: |
+#          cmake . -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_LIBRARY_DIR=$(pwd)/boost/lib -DBOTAN_LIBRARY=botan/libbotan-2.a -DBOTAN_INCLUDE_DIR=botan/build/include -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)
+#          make
 
-      - name: Test
-        run: |
-          ASAN_OPTIONS=detect_leaks=0 bin/tests -- --test-base-dir "test"
-          
-      - name: CreateArtifact
-        run: |
-          $(brew --prefix qt5)/bin/macdeployqt bin/PlaybookCreator.app -verbose=3 -dmg -no-strip
+ #     - name: Test
+ #       run: |
+  #        ASAN_OPTIONS=detect_leaks=0 bin/tests -- --test-base-dir "test"
+  
+  #    - name: CreateArtifact
+  #      run: |
+  #        $(brew --prefix qt5)/bin/macdeployqt bin/PlaybookCreator.app -verbose=3 -dmg -no-strip
 
 
-      - name: Upload
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.create_release.outputs.upload_url }}
-          asset_path: ${{ matrix.artifact_path }}
-          asset_name: ${{ matrix.artifact_name }}
-          asset_content_type: application/x-apple-diskimage
+   #   - name: Upload
+    #    uses: actions/upload-release-asset@v1
+    #    env:
+    #      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #    with:
+     #     upload_url: ${{ needs.create_release.outputs.upload_url }}
+    #      asset_path: ${{ matrix.artifact_path }}
+   #       asset_name: ${{ matrix.artifact_name }}
+    #      asset_content_type: application/x-apple-diskimage
