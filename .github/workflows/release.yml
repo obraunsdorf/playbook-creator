@@ -2,6 +2,11 @@ name: Release
 
 on:
   workflow_dispatch:
+    inputs:
+      debug_enabled:
+        description: 'Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'     
+        required: false
+        default: 'false'
   push:
     branches: [ $default-branch ]
 
@@ -72,6 +77,13 @@ jobs:
           ls boost
           ls boost/lib
           ls botan/
+
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}
+        timeout-minutes: 60
+        with:
+          limit-access-to-actor: true
 
       - name: Build
         if: matrix.os == 'macOS-latest'
