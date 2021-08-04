@@ -80,10 +80,14 @@ jobs:
 
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}
         timeout-minutes: 60
         with:
           limit-access-to-actor: true
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build
         if: matrix.os == 'macOS-latest'
