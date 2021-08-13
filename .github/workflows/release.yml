@@ -17,14 +17,19 @@ jobs:
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
+      - name: 'Get Previous tag'
+        id: previoustag
+        uses: "WyriHaximus/github-action-get-previous-tag@v1"
+        with:
+          fallback: untagged # Optional fallback tag to use when no tag can be found
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v0.99.1
-          release_name: Test-Release
+          tag_name: ${{ steps.previoustag.outputs.tag }}
+          release_name: ${{ steps.previoustag.outputs.tag }}
           draft: true
 
   build_release:
