@@ -35,7 +35,7 @@ jobs:
       matrix:
         os: [macos-latest]
         include:
-          - os: ubuntu-latest
+          - os: ubuntu-18.04
             artifact_path: bin/PlaybookCreator
             artifact_name: PlaybookCreator
           - os: macos-latest
@@ -48,7 +48,7 @@ jobs:
           fetch-depth: 0
 
       - name: Install Linux dependencies
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-18.04'
         run: sudo apt-get install build-essential pkg-config curl git cmake libbotan-2-dev qt5-default libboost-serialization-dev libboost-test-dev libboost-filesystem-dev libssl-dev
 
       - name: Install macOS dependencies
@@ -61,7 +61,7 @@ jobs:
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
           
       - name: Setup upterm session
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled == 'true' }}
         uses: lhotari/action-upterm@v1
         
       - name: Cache_Boost
@@ -105,7 +105,7 @@ jobs:
           make
           
       - name: Build
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-18.04'
         run: |
           cmake -D BOTAN_LIBRARY=botan/libbotan-2.a -D BOTAN_INCLUDE_DIR=botan/build/include .
           make
