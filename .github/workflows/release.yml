@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       debug_enabled:
-        description: 'Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'     
+        description: 'enable upterm debugging'     
         required: false
         default: 'false'
   push:
@@ -35,22 +35,21 @@ jobs:
       matrix:
         os: [macos-latest]
         include:
-      #    - os: ubuntu-latest
-      #      zip_name: plugin-linux
-      #      generator: Unix Makefiles
+          - os: ubuntu-latest
+            artifact_path: bin/PlaybookCreator
+            artifact_name: PlaybookCreator
           - os: macos-latest
             artifact_path: bin/PlaybookCreator.dmg
             artifact_name: PlaybookCreator.dmg
-            generator: Xcode
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
 
-    #  - name: Install Linux dependencies
-    #    if: matrix.os == 'ubuntu-latest'
-    #   run: sudo apt-get install build-essential pkg-config curl git cmake libbotan-2-dev qt5-default libboost-serialization-dev libboost-test-dev libboost-filesystem-dev libssl-dev
+      - name: Install Linux dependencies
+        if: matrix.os == 'ubuntu-latest'
+        run: sudo apt-get install build-essential pkg-config curl git cmake libbotan-2-dev qt5-default libboost-serialization-dev libboost-test-dev libboost-filesystem-dev libssl-dev
 
       - name: Install macOS dependencies
         if: matrix.os == 'macOS-latest'
@@ -62,9 +61,11 @@ jobs:
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
           
       - name: Setup upterm session
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}
         uses: lhotari/action-upterm@v1
         
       - name: Cache_Boost
+        if: matrix.os == 'macOS-latest'
         id: cache_boost
         uses: actions/cache@v2
         with:
@@ -92,7 +93,7 @@ jobs:
           key: ${{ matrix.os }}-cache_botan_key_v01
           
       - name: Build Botan
-        if: matrix.os == 'macOS-latest' && steps.cache_botan.outputs.cache-hit != 'true'
+        if: steps.cache_botan.outputs.cache-hit != 'true'
         run: |
           bash ci-scripts/build-botan.sh
           ls botan/
@@ -102,12 +103,19 @@ jobs:
         run: |
           cmake . -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_LIBRARY_DIR=$(pwd)/boost/lib -DBOTAN_LIBRARY=botan/libbotan-2.a -DBOTAN_INCLUDE_DIR=botan/build/include -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)
           make
+          
+      - name: Build
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          cmake -D BOTAN_LIBRARY=botan/libbotan-2.a -D BOTAN_INCLUDE_DIR=botan/build/include .
+          make
 
       - name: Test
         run: |
           ASAN_OPTIONS=detect_leaks=0 bin/tests -- --test-base-dir "test"
   
       - name: CreateArtifact
+        if: matrix.os == 'macOS-latest'
         run: |
           $(brew --prefix qt5)/bin/macdeployqt bin/PlaybookCreator.app -verbose=3 -dmg -no-strip
 
