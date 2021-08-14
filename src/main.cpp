@@ -49,14 +49,14 @@ int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
     MainDialog w;
     try {
-        #if TARGET_OS_MAC
-            std::cout << "Update checking has been disabled on MacOS (see https://github.com/obraunsdorf/playbook-creator/issues/33) " << std::endl; 
-        #else
         std::cout << "Looking for updates. This should only take a few seconds. Please wait..." << std::endl;
         const uint32_t BUFF_LEN = 500;
         uint8_t buffer[BUFF_LEN] = {0};
         CBuffer desc_result_buf = CBuffer{buffer, BUFF_LEN};
         w.show();
+        #if TARGET_OS_MAC
+            std::cout << "Update checking has been disabled on MacOS (see https://github.com/obraunsdorf/playbook-creator/issues/33) " << std::endl; 
+        #else 
         UpdateCheckingStatus ucs = updates_available(PBC_VERSION_MAJOR, PBC_VERSION_MINOR, PBC_VERSION_PATCH, &desc_result_buf); // TODO: numeric conversions might be problematic here!
         switch (ucs.tag) {
             case UpdateCheckingStatus::Tag::UpdatesAvailable:
