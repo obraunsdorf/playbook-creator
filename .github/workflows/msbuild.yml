@@ -1,0 +1,85 @@
+name: MSBuild
+
+on:
+  workflow_dispatch:
+    inputs:
+      debug_enabled:
+        description: 'enable upterm debugging'     
+        required: false
+        default: 'false'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Cache Qt
+      id: cache-qt
+      uses: actions/cache@v2
+      with:
+        path: ${{ github.workspace }}/external/Qt/
+        key: ${{ runner.os }}-QtCache-v01
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2
+      with:
+        #version: '5.11.3'
+        host: 'windows'
+        target: 'desktop'
+        #arch: 'win64_msvc2019_64'
+        dir: '${{ github.workspace }}/external/Qt/'
+        install-deps: 'true'
+        #modules: 'qtcharts qtwebengine'
+        cached: ${{ steps.cache-qt.outputs.cache-hit }}
+        setup-python: 'true'
+        #tools: 'tools_ifw,4.0.0,qt.tools.ifw.40 tools_qtcreator,4.13.2-0,qt.tools.qtcreator'
+        #set-env: 'false'
+        tools-only: 'false'
+        #aqtversion: '==1.2.5'
+        #py7zrversion: '==0.16.1'
+        #extra: '--external 7z'
+
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+      if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}
+      timeout-minutes: 60
+      with:
+        limit-access-to-actor: true
+      
+    - name: Install boost
+      run: |
+        Install-Package -Force boost_serialization-vc141 -RequiredVersion 1.65.1
+        Install-Package -Force boost_filesystem-vc141 -RequiredVersion 1.65.1
+        gci -Recurse -Filter "*boost*" -Directory
+
+    #- name: Install boost
+    #  uses: MarkusJx/install-boost@v1.0.1
+    #  id: install-boost
+    #  with:
+    #    # REQUIRED: Specify the required boost version
+    #    # A list of supported versions can be found here: 
+    #    # https://github.com/actions/boost-versions/blob/main/versions-manifest.json
+    #    boost_version: 1.69.0
+    #    # OPTIONAL: Specify a toolset on windows
+    #    toolset: msvc14.2
+    #    # OPTIONAL: Specify a custon install location
+    #    boost_install_dir: ${{ github.workspace }}/external/boost
+        
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      # Add additional options to the MSBuild command line here (like platform or verbosity level).
+      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
+      run: |
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
+        cmake -D Qt5_DIR=C:\Qt\5.11\msvc2017_64\lib\cmake\Qt5 -D Qt5Widgets_DIR=C:\Qt\5.11\msvc2017_64\lib\cmake\Qt5Widgets -D Qt5PrintSupport_DIR=C:\Qt\5.11\msvc2017_64\lib\cmake\Qt5PrintSupport -D BOTAN_LIBRARY=C:\projects\botan\botan.lib -D BOTAN_INCLUDE_DIR=C:\projects\botan\build\include .
+        MSBUild.exe ALL_BUILD.vcxproj
+      shell: cmd
