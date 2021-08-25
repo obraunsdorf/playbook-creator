@@ -46,6 +46,7 @@ int main(int argc, char *argv[]) {
               << BOTAN_VERSION_MINOR << "."
               << BOTAN_VERSION_PATCH << std::endl;
 
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);
     MainDialog w;
     try {
