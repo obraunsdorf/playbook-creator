@@ -28,6 +28,7 @@
 #include <ostream>
 #include <boost/serialization/map.hpp>
 #include <boost/serialization/access.hpp>
+#include <boost/serialization/split_member.hpp>
 #include <vector>
 #include <string>
 #include <list>

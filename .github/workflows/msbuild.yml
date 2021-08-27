@@ -10,28 +10,54 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2019
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
       with:
         fetch-depth: 0
+        
+    
+  #  - name: Cache MSVC 2017 Download
+  #    id: cache-msvc2017
+  #    uses: actions/cache@v2
+  #    with:
+  #      path: |
+  #        ${{ github.workspace }}/vs_Community.exe
+  #        ${{ github.workspace }}/vsInstall
+  #      key: ${{ runner.os }}-MSVC2017Cache-v01
+        
+    #- name: Install MSVC 2017
+    #  if: steps.cache-msvc2017.outputs.cache-hit != 'true'
+    #  run: |
+    #    Invoke-WebRequest https://aka.ms/vs/15/release/vs_Community.exe -Outfile vs_Community.exe
+    #    .\vs_Community.exe --layout ${{ github.workspace }}\vsLayout --add Microsoft.VisualStudio.Workload.NativeDesktop
+    #    ls .\vsLayout
+    #    .\vsLayout\vs_setup.exe --nocache --wait --noUpdateInstaller --noWeb --installPath ${{ github.workspace }}\vsInstall --add Microsoft.VisualStudio.Workload.NativeDesktop --quiet --norestart --verify
+    #  shell: pwsh
+        
+    - name: Run vcpkg
+      uses: lukka/run-vcpkg@v4
+      with:
+        vcpkgArguments: 'boost-serialization:x64-windows-static boost-geometry:x64-windows-static boost-filesystem:x64-windows-static boost-test:x64-windows-static'
+        vcpkgGitCommitId: 'c64c0fdac572ca43ea5ae018fc408ddced50d5b1'
+        #vcpkgDirectory: '${{ github.workspace }}/vcpkg'
 
     - name: Cache Qt
       id: cache-qt
       uses: actions/cache@v2
       with:
         path: ${{ github.workspace }}/external/Qt/
-        key: ${{ runner.os }}-QtCache-v01
+        key: ${{ runner.os }}-QtCache-v02
 
     - name: Install Qt
       uses: jurplel/install-qt-action@v2
       with:
-        #version: '5.11.3'
+        version: '5.15.2'
         host: 'windows'
         target: 'desktop'
-        #arch: 'win64_msvc2019_64'
+        arch: 'win64_msvc2019_64'
         dir: '${{ github.workspace }}/external/Qt/'
         install-deps: 'true'
         #modules: 'qtcharts qtwebengine'
@@ -44,42 +70,138 @@ jobs:
         #py7zrversion: '==0.16.1'
         #extra: '--external 7z'
 
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
-      if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}
-      timeout-minutes: 60
-      with:
-        limit-access-to-actor: true
-      
-    - name: Install boost
-      run: |
-        Install-Package -Force boost_serialization-vc141 -RequiredVersion 1.65.1
-        Install-Package -Force boost_filesystem-vc141 -RequiredVersion 1.65.1
-        gci -Recurse -Filter "*boost*" -Directory
-
-    #- name: Install boost
-    #  uses: MarkusJx/install-boost@v1.0.1
-    #  id: install-boost
-    #  with:
-    #    # REQUIRED: Specify the required boost version
-    #    # A list of supported versions can be found here: 
-    #    # https://github.com/actions/boost-versions/blob/main/versions-manifest.json
-    #    boost_version: 1.69.0
-    #    # OPTIONAL: Specify a toolset on windows
-    #    toolset: msvc14.2
-    #    # OPTIONAL: Specify a custon install location
-    #    boost_install_dir: ${{ github.workspace }}/external/boost
-        
-
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
+      with:
+        vs-version: 14.1
+        
+   # - name: Install boost
+   #   run: |
+   #     Install-Package -Force boost_serialization-vc141 -RequiredVersion 1.65.1
+   #     Install-Package -Force boost_filesystem-vc141 -RequiredVersion 1.65.1
+   #     gci -Recurse -Filter "*boost*" -Directory
+        
+   # - name: Cache Boost
+   #   id: cache-boost
+   #   uses: actions/cache@v2
+   #   with:
+   #     path: ${{ github.workspace }}/boost/
+   #     key: ${{ runner.os }}-BoostCache-v01
+        
+   # - name: Install boost
+   #   uses: MarkusJx/install-boost@v1.0.1
+   #   id: install-boost
+   #   if: steps.cache-boost.outputs.cache-hit != 'true'
+   #   with:
+        # REQUIRED: Specify the required boost version
+        # A list of supported versions can be found here: 
+        # https://github.com/actions/boost-versions/blob/main/versions-manifest.json
+   #     boost_version: 1.69.0
+        # OPTIONAL: Specify a toolset on windows
+   #     toolset: msvc14.1
+        # OPTIONAL: Specify a custon install location
+   #     boost_install_dir: ${{ github.workspace }}
+        
+   
+  #  - name: Cache VS2017
+  #    id: cache-vs2017
+  #    uses: actions/cache@v2
+  #    with:
+  #      path: C:\Program Files (x86)\Microsoft Visual Studio\2017
+  #      key: ${{ runner.os }}-VS2017Cache-v03
+   
+  #  - name: Install VS2017
+  #    if: steps.cache-vs2017.outputs.cache-hit != 'true'
+  #    run: |
+  #      choco install visualstudio2017community
+  #      choco install visualstudio2017-workload-nativedesktop
+  #      choco install visualstudio2017buildtools
+  #    shell: pwsh
+      
+   # - uses: ilammy/msvc-dev-cmd@v1
+   #   with:
+   #     toolset: 14.1
 
-    - name: Build
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      # Add additional options to the MSBuild command line here (like platform or verbosity level).
-      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
+    - name: Cache Botan
+      id: cache-botan
+      uses: actions/cache@v2
+      with:
+        path: ${{ github.workspace }}/botan
+        key: ${{ runner.os }}-BotanCache-v01
+   
+    - name: Build Botan
+      if: steps.cache-botan.outputs.cache-hit != 'true'
       run: |
-        call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
-        cmake -D Qt5_DIR=C:\Qt\5.11\msvc2017_64\lib\cmake\Qt5 -D Qt5Widgets_DIR=C:\Qt\5.11\msvc2017_64\lib\cmake\Qt5Widgets -D Qt5PrintSupport_DIR=C:\Qt\5.11\msvc2017_64\lib\cmake\Qt5PrintSupport -D BOTAN_LIBRARY=C:\projects\botan\botan.lib -D BOTAN_INCLUDE_DIR=C:\projects\botan\build\include .
-        MSBUild.exe ALL_BUILD.vcxproj
+        git clone https://github.com/randombit/botan botan 
+        cd botan 
+        git checkout 2.6.0 
+        python configure.py --disable-shared-library --msvc-runtime=MT --cxxflags="/O2 /Oi /D_ENABLE_EXTENDED_ALIGNED_STORAGE" --link-method=copy 
+        nmake
       shell: cmd
+
+    - name: Build PBC
+      run: |
+        cmake -G "Visual Studio 16 2019" -A x64 -D CMAKE_TOOLCHAIN_FILE=D:\a\playbook-creator\playbook-creator\vcpkg\scripts\buildsystems\vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static -DBOOST_ROOT=D:\a\playbook-creator\playbook-creator\vcpkg\installed\x64-windows-static -D Qt5_DIR=C:\Qt\5.11\msvc2019_64\lib\cmake\Qt5 -D Qt5Widgets_DIR=C:\Qt\5.11\msvc2019_64\lib\cmake\Qt5Widgets -D Qt5PrintSupport_DIR=C:\Qt\5.11\msvc2019_64\lib\cmake\Qt5PrintSupport -D BOTAN_LIBRARY=${{ github.workspace }}\botan\botan.lib -D BOTAN_INCLUDE_DIR=${{ github.workspace }}\botan\build\include .
+        MSBUild.exe ALL_BUILD.vcxproj /property:Configuration=Release
+      shell: cmd
+      
+    - name: Create Artifact
+      run: |
+        windeployqt.exe --release --compiler-runtime "${{ github.workspace }}\bin\Release"
+      shell: cmd
+        
+    - name: Innosetup
+      shell: cmd
+      run: |
+        "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" innosetup.iss
+        
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+      if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled == 'true' }}
+      timeout-minutes: 120
+      with:
+        limit-access-to-actor: true
+        
+    - uses: actions/upload-artifact@v2
+      with:
+        name: PlaybookCreatorSetup.exe
+        path: bin/PlaybookCreatorSetup.exe
+      
+   # - name: Setup Jfrog
+   #   uses: jfrog/setup-jfrog-cli@v1
+      
+    #- name: Download Boost with jfrog
+    #  run:  |
+    #    jfrog --version
+    #    jfrog rt dl
+     
+   # - name: Choco boost
+   #   run: choco install boost-msvc-14.2
+     
+   # - name: Install Windows Dependencies
+   #   if: matrix.os == 'windows-latest'
+   #   shell: powershell
+   #   run: |
+   #       $client = new-object System.Net.WebClient
+   #       
+   #       7z x vlc.7z  
+ 
+     
+    #- name: Install Boost from SourceForge
+    #  run: |
+    #    Invoke-WebRequest -Uri "https://drive.google.com/file/d/1khKqohvCBsMPZJiPhMHnKDN2XtHKquZk/view?usp=sharing" -OutFile "boost.exe"
+    #    ./boost.exe /SILENT
+
+
+
+    #- name: Build
+    #  working-directory: ${{env.GITHUB_WORKSPACE}}
+    #  # Add additional options to the MSBuild command line here (like platform or verbosity level).
+    #  # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
+    #  run: |
+    #    choco install visualstudio2017community
+    #    choco install visualstudio2017-workload-nativedesktop
+    #    call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
+    #    cmake cmake -G "Visual Studio 15 2017" -A x64 -D Qt5_DIR=C:\Qt\5.11\msvc2017_64\lib\cmake\Qt5 -D Qt5Widgets_DIR=C:\Qt\5.11\msvc2017_64\lib\cmake\Qt5Widgets -D Qt5PrintSupport_DIR=C:\Qt\5.11\msvc2017_64\lib\cmake\Qt5PrintSupport -D BOTAN_LIBRARY=C:\projects\botan\botan.lib -D BOTAN_INCLUDE_DIR=C:\projects\botan\build\include .
+    #    MSBUild.exe ALL_BUILD.vcxproj
+    #  shell: cmd
