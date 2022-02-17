@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       debug_enabled:
-        description: 'enable upterm debugging'     
+        description: 'enable ssh debugging'     
         required: false
         default: 'false'
   push:
@@ -42,7 +42,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-latest]
         include:
           - os: ubuntu-18.04
             artifact_path: bin/PlaybookCreator
@@ -50,6 +49,9 @@ jobs:
           - os: macos-latest
             artifact_path: bin/PlaybookCreator.dmg
             artifact_name: PlaybookCreator.dmg
+          - os: windows-2019
+            artifact_path: bin/PlaybookCreatorSetup.exe
+            artifact_name: PlaybookCreatorSetup.exe
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -58,7 +60,7 @@ jobs:
 
       - name: Install Linux dependencies
         if: matrix.os == 'ubuntu-18.04'
-        run: sudo apt-get install build-essential pkg-config curl git cmake libbotan-2-dev qt5-default libboost-serialization-dev libboost-test-dev libboost-filesystem-dev libssl-dev
+        run: sudo apt-get install build-essential pkg-config curl git cmake qt5-default libboost-serialization-dev libboost-test-dev libboost-filesystem-dev libssl-dev
 
       - name: Install macOS dependencies
         if: matrix.os == 'macOS-latest'
@@ -68,12 +70,40 @@ jobs:
           brew list pkg-config &>/dev/null || brew install pkg-config
           brew list qt@5 &>/dev/null || brew install qt@5
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-          
-      - name: Setup upterm session
-        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled == 'true' }}
-        uses: lhotari/action-upterm@v1
+
+      - name: Install Qt
+        if: matrix.os == 'windows-2019'
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: '5.15.2'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win64_msvc2019_64'
+          dir: '${{ github.workspace }}/external/Qt/'
+          install-deps: 'true'
+          #modules: 'qtcharts qtwebengine'
+          cached: ${{ steps.cache-qt.outputs.cache-hit }}
+          setup-python: 'true'
+          #tools: 'tools_ifw,4.0.0,qt.tools.ifw.40 tools_qtcreator,4.13.2-0,qt.tools.qtcreator'
+          #set-env: 'false'
+          tools-only: 'false'
+          #aqtversion: '==1.2.5'
+          #py7zrversion: '==0.16.1'
+          #extra: '--external 7z'
+
+      - name: Install Boost on Windows
+        if: matrix.os == 'windows-2019'
+        uses: lukka/run-vcpkg@v4
+        with:
+          vcpkgArguments: 'boost-serialization:x64-windows-static boost-geometry:x64-windows-static boost-filesystem:x64-windows-static boost-test:x64-windows-static'
+          vcpkgGitCommitId: 'c64c0fdac572ca43ea5ae018fc408ddced50d5b1'
+          #vcpkgDirectory: '${{ github.workspace }}/vcpkg'
+
+     # - name: Setup upterm session
+     #   if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled == 'true' }}
+     #   uses: lhotari/action-upterm@v1
         
-      - name: Cache_Boost
+      - name: Cache Boost on MacOS
         if: matrix.os == 'macOS-latest'
         id: cache_boost
         uses: actions/cache@v2
@@ -82,7 +112,7 @@ jobs:
             ./boost/
           key: ${{ matrix.os }}-cache_boost_key_v01
           
-      - name: Build Boost
+      - name: Build Boost on MacOS
         if: matrix.os == 'macOS-latest' && steps.cache_boost.outputs.cache-hit != 'true'
         run: |
           mkdir boost
@@ -92,42 +122,82 @@ jobs:
           ./bootstrap.sh --with-libraries=serialization,filesystem,test --prefix=../boost
           ./b2 install link=static runtime-link=static toolset=clang
           cd ..
-          
-      - name: Cache_Botan
-        id: cache_botan
+
+
+      - name: Cache Botan
+        id: cache-botan
         uses: actions/cache@v2
         with:
-          path: |
-            ./botan/
+          path: ${{ github.workspace }}/botan
           key: ${{ matrix.os }}-cache_botan_key_v01
           
-      - name: Build Botan
-        if: steps.cache_botan.outputs.cache-hit != 'true'
+      - name: Build Botan on MacOS and Linux
+        if: (matrix.os == 'macOS-latest' || matrix.os == 'ubuntu-18.04') && steps.cache-botan.outputs.cache-hit != 'true'
         run: |
           bash ci-scripts/build-botan.sh
           ls botan/
+      
+      - uses: ilammy/msvc-dev-cmd@v1
+        if: matrix.os == 'windows-2019'
+        with:
+          toolset: 14.1
 
-      - name: Build
+      - name: Build Botan on Windows
+        if: matrix.os == 'windows-2019' && steps.cache-botan.outputs.cache-hit != 'true'
+        run: |
+          git clone https://github.com/randombit/botan botan 
+          cd botan 
+          git checkout 2.6.0 
+          python configure.py --disable-shared-library --msvc-runtime=MT --cxxflags="/O2 /Oi /D_ENABLE_EXTENDED_ALIGNED_STORAGE" --link-method=copy 
+          nmake
+        shell: cmd
+
+      - name: Build PBC on MacOS
         if: matrix.os == 'macOS-latest'
         run: |
           cmake . -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_LIBRARY_DIR=$(pwd)/boost/lib -DBOTAN_LIBRARY=botan/libbotan-2.a -DBOTAN_INCLUDE_DIR=botan/build/include -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)
           make
           
-      - name: Build
+      - name: Build PBC on Linux
         if: matrix.os == 'ubuntu-18.04'
         run: |
           cmake -D BOTAN_LIBRARY=botan/libbotan-2.a -D BOTAN_INCLUDE_DIR=botan/build/include .
           make
 
-      - name: Test
+      - name: Build PBC on Windows
+        if: matrix.os == 'windows-2019'
         run: |
-          ASAN_OPTIONS=detect_leaks=0 bin/tests -- --test-base-dir "test"
+          cmake -G "Visual Studio 16 2019" -A x64 -D CMAKE_TOOLCHAIN_FILE=D:\a\playbook-creator\playbook-creator\vcpkg\scripts\buildsystems\vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static -DBOOST_ROOT=D:\a\playbook-creator\playbook-creator\vcpkg\installed\x64-windows-static -D Qt5_DIR=C:\Qt\5.11\msvc2019_64\lib\cmake\Qt5 -D Qt5Widgets_DIR=C:\Qt\5.11\msvc2019_64\lib\cmake\Qt5Widgets -D Qt5PrintSupport_DIR=C:\Qt\5.11\msvc2019_64\lib\cmake\Qt5PrintSupport -D BOTAN_LIBRARY=${{ github.workspace }}\botan\botan.lib -D BOTAN_INCLUDE_DIR=${{ github.workspace }}\botan\build\include .
+          MSBUild.exe ALL_BUILD.vcxproj /property:Configuration=Release
+        shell: cmd
+
+      #- name: Test
+      #  run: |
+      #    ASAN_OPTIONS=detect_leaks=0 bin/tests -- --test-base-dir "test"
   
-      - name: CreateArtifact
+      - name: CreateArtifact on MacOS
         if: matrix.os == 'macOS-latest'
         run: |
           $(brew --prefix qt5)/bin/macdeployqt bin/PlaybookCreator.app -verbose=3 -dmg -no-strip
 
+      - name: Create Artifact on Windows
+        if: matrix.os == 'windows-2019'
+        run: |
+          windeployqt.exe --release --compiler-runtime "${{ github.workspace }}\bin\Release"
+          "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" innosetup.iss
+        shell: cmd
+
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled == 'true' }}
+        timeout-minutes: 120
+        with:
+          limit-access-to-actor: true
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: ${{ matrix.artifact_path }}
 
       - name: Upload
         uses: actions/upload-release-asset@v1
