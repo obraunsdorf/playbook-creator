@@ -2,7 +2,10 @@ cmake_minimum_required (VERSION 3.15)
 set(CMAKE_CXX_STANDARD 11)
 project (PlaybookCreator)
 
-set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fsanitize=address -fno-omit-frame-pointer")
+if(NOT WIN32)
+	set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fsanitize=address -fno-omit-frame-pointer")
+endif()
+
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules")
 
 find_package(Git)
