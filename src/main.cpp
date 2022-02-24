@@ -54,20 +54,18 @@ int main(int argc, char *argv[]) {
                     QMessageBox::question(NULL,
                                           "PBC Update Checker",
                                           "Do you want to look for updates and news?\n"
-                                          "Recommended, if you have stable internet connection",  // NOLINT
+                                          "Recommended only, if you have stable internet connection."  // NOLINT
+                                          "This should only take a few seconds. Please press OK and wait...",
                                           QMessageBox::Ok | QMessageBox::Cancel); //NOLINT
 
         if(shall_search_update == QMessageBox::Ok) {
-            #if TARGET_OS_MAC || WIN32
-                std::cout << "Update checking has been disabled on Windows and MacOS (see https://github.com/obraunsdorf/playbook-creator/issues/33) " << std::endl;
+            #if TARGET_OS_MAC
+                std::cout << "Update checking has been disabled on MacOS (see https://github.com/obraunsdorf/playbook-creator/issues/33) " << std::endl;
                 QMessageBox::information(&w, "PBC Update Checker",
                                         "Update checking has been disabled on Windows and MacOS (see https://github.com/obraunsdorf/playbook-creator/issues/33).",
                                         QMessageBox::Ok);
             #else
             std::cout << "Looking for updates. This should only take a few seconds. Please wait..." << std::endl;
-            QMessageBox::information(&w, "PBC Update Checker", "Looking for updates. "
-                                        "This should only take a few seconds. Please press OK and wait...",
-                                        QMessageBox::Ok);
             const uint32_t BUFF_LEN = 500;
             uint8_t buffer[BUFF_LEN] = {0};
             CBuffer desc_result_buf = CBuffer{buffer, BUFF_LEN};
