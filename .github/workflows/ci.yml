@@ -1,4 +1,4 @@
-name: Release
+name: Build and Test
 
 on:
   workflow_dispatch:
@@ -12,7 +12,6 @@ on:
         required: false
         default: 'false'
   push:
-    branches: [ $default-branch ]
 
 jobs:
   create_release:
@@ -103,10 +102,6 @@ jobs:
           vcpkgArguments: 'boost-serialization:x64-windows-static boost-geometry:x64-windows-static boost-filesystem:x64-windows-static boost-test:x64-windows-static'
           vcpkgGitCommitId: 'c64c0fdac572ca43ea5ae018fc408ddced50d5b1'
           #vcpkgDirectory: '${{ github.workspace }}/vcpkg'
-
-     # - name: Setup upterm session
-     #   if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled == 'true' }}
-     #   uses: lhotari/action-upterm@v1
         
       - name: Cache Boost on MacOS
         if: matrix.os == 'macOS-latest'
@@ -176,9 +171,15 @@ jobs:
           MSBUild.exe ALL_BUILD.vcxproj /property:Configuration=Release
         shell: cmd
 
-      #- name: Test
-      #  run: |
-      #    ASAN_OPTIONS=detect_leaks=0 bin/tests -- --test-base-dir "test"
+      - name: Test on Linux and MacOS
+        if: matrix.os == 'macOS-latest' || matrix.os == 'ubuntu-18.04'
+        run: |
+          ASAN_OPTIONS=detect_leaks=0 bin/tests -- --test-base-dir "test"
+
+      - name: Test on Windows
+        if: matrix.os == 'macOS-latest' || matrix.os == 'ubuntu-18.04'
+        run: |
+          bin\Release\tests.exe -- --test-base-dir "test"
   
       - name: CreateArtifact on MacOS
         if: matrix.os == 'macOS-latest'
