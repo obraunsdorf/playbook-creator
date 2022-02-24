@@ -1,14 +1,16 @@
 Playbook Creator: A free, open-source editor for American (Flag) Football Playbooks
 ====================================================================================
+[![Build and Test](https://github.com/obraunsdorf/playbook-creator/actions/workflows/ci.yml/badge.svg)](https://github.com/obraunsdorf/playbook-creator/actions/workflows/ci.yml)
+
 This is a free editor for offensive playbooks in American Football. 
 It is primarily dedicated to the flag football community as most of the teams (at least in Germany) cannot afford a commercial tool.
 
 Playbook Creator is mainly developed and tested on Linux, but you can download and run it on all major operating systems.
-  * MacOS X [![Build Status](https://travis-ci.com/obraunsdorf/playbook-creator.svg?branch=master)](https://travis-ci.com/obraunsdorf/playbook-creator)
-  * Windows 10 [![Build status](https://ci.appveyor.com/api/projects/status/c0n8v494adn2kfmh/branch/master?svg=true)](https://ci.appveyor.com/project/obraunsdorf/playbook-creator) 
-  * Linux (Ubuntu 18.04) [![CircleCI](https://circleci.com/gh/obraunsdorf/playbook-creator.svg?style=svg)](https://circleci.com/gh/obraunsdorf/playbook-creator)
-
-Mailing list:
+  * MacOS X
+  * Windows 10
+  * Linux (Ubuntu 18.04)
+ 
+Mailing list:  
   * send email (without registration): <pbc-users@freelists.org>
   * subscribe for new messages/announcements: <http://www.freelists.org/list/pbc-users>
 
@@ -21,12 +23,12 @@ If Playbook Creator is useful for your team, but none of you is able to contribu
 ## How to install PBC
   * **On Windows**   
   Download the latest release of Playbook Creator for Windows at https://github.com/obraunsdorf/playbook-creator/releases.  
-  This is a setup file. Please follow the instructions of the setup to complete the installation.
+  This is a setup file. The Microsoft Defender installer will show a warning because of "Unknown publisher". Click on "Run anyway" and follow the instructions of the setup to complete the installation. (The warning is shown because I do not have Microsoft Developer Certificate because the cost some money).
   * **On MacOS X**  
   Download the latest release of Playbook Creator for MacOSX at https://github.com/obraunsdorf/playbook-creator/releases.  
   This is a DMG-file. Just open it and drag&drop the PlaybookCreator app to your Applications folder.  
   => Open PlaybookCreator by right-clicking on it and select "Open".  
-  If you try to open it via double-click MacOS will complain that it cannot open the app because it is from an unidentified developer. This is because I am not a registered as a developer on Apple. I can think about registering there if that is important to someone.
+  If you try to open it via double-click MacOS will complain that it cannot open the app because it is from an unidentified developer. This is because I am not a registered as a developer on Apple.
   * **On Linux**
     1. Install Qt: `apt-get install qt5-default`
     2. Download Playbook Creator for Linux at https://github.com/obraunsdorf/playbook-creator/releases
