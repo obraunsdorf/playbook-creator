@@ -177,7 +177,7 @@ jobs:
           ASAN_OPTIONS=detect_leaks=0 bin/tests -- --test-base-dir "test"
 
       - name: Test on Windows
-        if: matrix.os == 'macOS-latest' || matrix.os == 'ubuntu-18.04'
+        if: matrix.os == 'windows-2019'
         run: |
           bin\Release\tests.exe -- --test-base-dir "test"
   
