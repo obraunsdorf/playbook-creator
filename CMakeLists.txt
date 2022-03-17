@@ -40,6 +40,9 @@ include(CMakeCargo)
 set(PBC_UPDATER_CMAKE_NAME pbc-updater)
 add_subdirectory(updater)
 
+set(PBC_RUST_HELPERS_CMAKE_NAME rust-helpers)
+add_subdirectory(rust-helpers)
+
 add_subdirectory(3rdparty/Qt-Color-Widgets)
 
 add_subdirectory(src)

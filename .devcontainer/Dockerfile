@@ -19,6 +19,7 @@ FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
      libboost-filesystem-dev \
      libssl-dev \
      rustc \
+     rust-src \
      cargo 
 
  RUN cd /opt && mkdir cmake && cd cmake \

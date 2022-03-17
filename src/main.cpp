@@ -23,6 +23,7 @@
 #include "util/pbcExceptions.h"
 #include "pbcVersion.h"
 #include "../updater/pbc_updater_bindings.h"
+#include "rust-helpers/src/lib.rs.h"
 #include <botan/version.h>
 #include <boost/version.hpp>
 #include <QApplication>
@@ -45,6 +46,13 @@ int main(int argc, char *argv[]) {
               << BOTAN_VERSION_MAJOR << "."
               << BOTAN_VERSION_MINOR << "."
               << BOTAN_VERSION_PATCH << std::endl;
+
+    rust::Box<PBCConfigRust> config_rust = new_box();
+    if (config_rust->get_a()) {
+        std::cout << "getting config from rust: a true" << std::endl;
+    } else {
+        std::cout << "getting config from rust: a false" << std::endl;
+    }
 
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);

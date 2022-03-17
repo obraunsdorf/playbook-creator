@@ -156,6 +156,10 @@ else()
 	target_link_libraries(PBCLib ${PBC_UPDATER_CMAKE_NAME} pthread dl ssl crypto)  # TODO find out the libs programmatically
 endif()
 
+# link the rust-helpers library
+include_directories(${PBC_RUSTHELPERS_INCLUDE_DIR})
+target_link_libraries(PBCLib ${PBC_RUST_HELPERS_CMAKE_NAME})
+
 # link Microsoft Visual Studio Runtime statically by default (on Windows builds)
 #include(ConfigureMSVCRT)
 #configure_msvc_runtime()
