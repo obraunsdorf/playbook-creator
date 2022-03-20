@@ -13,3 +13,6 @@ cxx = "1.0.66"
 
 [build-dependencies]
 cxx-build = "1.0.66"
+
+[target.'cfg(windows)'.build]
+rustflags = ["-C", "target-feature=+crt-static"]
