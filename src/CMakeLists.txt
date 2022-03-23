@@ -109,7 +109,7 @@ include_directories(${PROJECT_SOURCE_DIR}/src})
 
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_STATIC_RUNTIME ON)
-find_package( Boost 1.54 COMPONENTS serialization REQUIRED )
+find_package( Boost 1.78 COMPONENTS serialization REQUIRED )
 add_definitions( -DBOOST_ALL_NO_LIB )
 include_directories(${Boost_INCLUDE_DIR})
 
