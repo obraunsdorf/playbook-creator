@@ -7,7 +7,8 @@ FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
 # [Optional] Uncomment this section to install additional OS packages.
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends \
-    build-essential \
+    make \
+    gdb \
     clang \
     pkg-config \
     curl \
@@ -17,7 +18,10 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     qt5-default \
     libssl-dev \
     rustc \
-    cargo 
+    cargo \
+    rust-src \
+    rustfmt \
+    rust-clippy
 
 RUN curl -O -L https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.tar.gz \
     && tar -xzf boost_1_78_0.tar.gz \

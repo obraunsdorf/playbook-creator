@@ -1,5 +1,5 @@
 cmake-build-debug
-build_linux/*
+build_windows/*
 bin/*
 build/*
 tools/hashRegister.txt

@@ -9,7 +9,7 @@
 	},
 
 	"mounts": [
-		"source=${localEnv:HOME}/.cargo,target=/home/vscode/.cargo,type=bind,consistency=cached"
+		"source=${localEnv:HOME}/.cargo/registry,target=/home/vscode/.cargo/registry,type=bind,consistency=cached"
 	],
 
 	"runArgs": [
@@ -25,7 +25,9 @@
 
 
 	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": [],
+	"extensions": [
+		"ms-vscode.cpptools"
+	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
