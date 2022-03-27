@@ -20,6 +20,7 @@
 */
 
 #include "pbcPlayer.h"
+#include "util/pbcDeclarations.h"
 
 /**
  * @class PBCPlayer
@@ -100,6 +101,56 @@ void PBCPlayer::setRoute(const PBCRouteSP &route) {
 }
 
 /**
+ * @brief Resets the route of the player
+ */
+void PBCPlayer::resetRoute() {
+    _route.reset();
+}
+
+/*
+ * @brief Getter for alternativeRoute
+ * @param alternativeVersionNr getting alternative route version 1 or version 2
+*/
+PBCRouteSP PBCPlayer::alternativeRoute(unsigned int alternativeVersionNr) const {
+    if (alternativeVersionNr == 1) {
+        return _alternativeRoute1;
+    } else if (alternativeVersionNr == 2) {
+        return _alternativeRoute2;
+    } else {
+        pbcAssert(false && "not alternativeRoute 1 or 2?");
+    }
+}
+
+/**
+ * @brief Setter for alternativeRoute
+ * @param alternativeVersionNr setting alternative route version 1 or version 2
+*/
+void PBCPlayer::setAlternativeRoute(unsigned int alternativeVersionNr, const PBCRouteSP &route) {
+    if (alternativeVersionNr == 1) {
+        _alternativeRoute1 = route;
+    } else if (alternativeVersionNr == 2) {
+        _alternativeRoute2 = route;
+    } else {
+        pbcAssert(false && "not alternativeRoute 1 or 2?");
+    }
+}
+
+/**
+ * @brief Reset alternativeRoute 1 or 2
+ * @param alternativeVersionNr alternative route version 1 or version 2
+*/
+void PBCPlayer::resetAlternativeRoute(unsigned int alternativeVersionNr) {
+    if (alternativeVersionNr == 1) {
+        _alternativeRoute1.reset();
+    } else if (alternativeVersionNr == 2) {
+        _alternativeRoute2.reset();
+    } else {
+        pbcAssert(false && "not alternativeRoute 1 or 2?");
+    }
+}
+
+
+/**
  * @brief Getter for the motion of the player
  * @return the player's motion
  */
@@ -158,7 +209,7 @@ void PBCPlayer::addOptionRoute(const PBCRouteSP &route) {
     _optionRoutes.push_back(route);
 }
 
-void PBCPlayer::resetRoutes() {
+void PBCPlayer::resetOptionRoutes() {
     _optionRoutes.clear();
 }
 

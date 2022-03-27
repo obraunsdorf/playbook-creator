@@ -58,6 +58,8 @@ friend class boost::serialization::access;
     PBCDPoint _pos;
     PBCRouteSP _route;
     std::vector<PBCRouteSP> _optionRoutes;
+    PBCRouteSP _alternativeRoute1;
+    PBCRouteSP _alternativeRoute2;
     PBCMotionSP _motion;
     std::string _name;
     unsigned int _nr;
@@ -74,6 +76,8 @@ friend class boost::serialization::access;
         ar << _name;
         ar << _nr;
         ar << _optionRoutes;
+        ar << _alternativeRoute1;
+        ar << _alternativeRoute2;
     }
 
     template<class Archive>
@@ -99,6 +103,10 @@ friend class boost::serialization::access;
         }
         if (version >= 2) {
             ar >> _optionRoutes;
+        }
+        if (version >= 3) {
+            ar >> _alternativeRoute1;
+            ar >> _alternativeRoute2;
         }
     }
     BOOST_SERIALIZATION_SPLIT_MEMBER()
@@ -130,12 +138,16 @@ friend class boost::serialization::access;
     void setPos(const PBCDPoint &pos);
     PBCRouteSP route() const;
     void setRoute(const PBCRouteSP &route);
+    void resetRoute();
+    PBCRouteSP alternativeRoute(unsigned int alternativeVersionNr) const;
+    void setAlternativeRoute(unsigned int alternativeVersionNr, const PBCRouteSP &route);
+    void resetAlternativeRoute(unsigned int alternativeVersionNr);
     PBCMotionSP motion() const;
     void setMotion(const PBCMotionSP &motion);
     void addOptionRoute(const PBCRouteSP &route);
     std::vector<PBCRouteSP> optionRoutes();
-    void resetRoutes();
+    void resetOptionRoutes();
 };
-BOOST_CLASS_VERSION(PBCPlayer, 2)
+BOOST_CLASS_VERSION(PBCPlayer, 3)
 
 #endif  // PBCPLAYER_H

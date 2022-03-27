@@ -262,9 +262,9 @@ PBCDPoint playerPos_AfterMotion_inPixel(const PBCPlayerSP &playerSP) {
     return afterMotionPos;
 }
 
-void PBCPlayView::enterRouteEditMode(PBCPlayerSP playerSP, bool optionRouteMode, const std::string& routeName, const std::string& routeCodeName, bool overwrite) {
+void PBCPlayView::enterRouteEditMode(PBCPlayerSP playerSP, RouteType routeType, const std::string& routeName, const std::string& routeCodeName, bool overwrite) {
     _routeEditMode = true;
-    _optionRouteMode = optionRouteMode;
+    _routeType = routeType;
     _lastLine = NULL;
     _paths.clear();
     _routePlayer = playerSP;
@@ -272,10 +272,18 @@ void PBCPlayView::enterRouteEditMode(PBCPlayerSP playerSP, bool optionRouteMode,
     _routeCodeName = routeCodeName;
     _overwrite = overwrite;
 
-    std::vector<PBCPathSP> emptyRoutePaths;
-    if (_optionRouteMode == false) {
-        PBCRouteSP emptyRoute = PBCRouteSP(new PBCRoute("empty", "", emptyRoutePaths));
-        _routePlayer->setRoute(emptyRoute);
+    switch(_routeType) {
+        case RouteType::Route:
+            _routePlayer->resetRoute();
+            break;
+        case RouteType::Alternative1:
+            _routePlayer->resetAlternativeRoute(1);
+            break;
+        case RouteType::Alternative2:
+            _routePlayer->resetAlternativeRoute(2);
+            break;
+        case RouteType::OptionRoute:
+            break;
     }
     repaint();
 
@@ -309,7 +317,7 @@ void PBCPlayView::enterMotionEditMode(PBCPlayerSP playerSP) {
 
 void PBCPlayView::leaveRouteMotionEditMode() {
     _routeEditMode = false;
-    _optionRouteMode = false;
+    //_routeType = RouteType::Route;
     _motionEditMode = false;
 }
 
@@ -420,10 +428,19 @@ void PBCPlayView::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
                 savePlaybookOnRouteCreation();
             }
         }
-        if (_optionRouteMode) {
-            _routePlayer->addOptionRoute(route);
-        } else {
-            _routePlayer->setRoute(route);
+        switch(_routeType) {
+            case RouteType::Route:
+                _routePlayer->setRoute(route);
+                break;
+            case RouteType::OptionRoute:
+                _routePlayer->addOptionRoute(route);
+                break;
+            case RouteType::Alternative1:
+                _routePlayer->setAlternativeRoute(1, route);
+                break;
+            case RouteType::Alternative2:
+                _routePlayer->setAlternativeRoute(2, route);
+                break;
         }
         leaveRouteMotionEditMode();
         repaint();
