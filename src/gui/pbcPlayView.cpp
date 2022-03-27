@@ -172,6 +172,28 @@ void PBCPlayView::createNewPlay(const std::string &name,
 }
 
 
+
+/**
+ * @brief Adds the current play to the playbook
+ *
+ * If a name is specified, the current play is saved with the given name and
+ * code name. Otherwise it is saved with its original name.
+ * @param name The new name of the play
+ * @param codeName The new code name of the play
+ */
+void PBCPlayView::renameAndSavePlay(const std::string& name,
+                       const std::string& codeName) {
+    // FIXME(obr): dirty hack to check if the play can be rendered (no PBCRenderingException occurs)
+    repaint();
+
+    PBCController::getInstance()->getPlaybook()->deletePlay(_currentPlay->name());
+    _currentPlay->setName(name);
+    _currentPlay->setCodeName(codeName);
+    PBCController::getInstance()->getPlaybook()->addPlay(_currentPlay, true);
+    showPlay(_currentPlay->name());
+}
+
+
 /**
  * @brief Adds the current play to the playbook
  *
