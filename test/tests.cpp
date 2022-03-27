@@ -38,6 +38,19 @@ BOOST_AUTO_TEST_SUITE(VersionTests)
         BOOST_CHECK(PBCController::getInstance()->getPlaybook()->getCategory("TestCategory"));
     }
 
+    BOOST_AUTO_TEST_CASE(v0_18_0) {
+    path global_test_directory =  PBCTestConfig::test_base_dir;
+    path test_pbs =
+            global_test_directory
+                    .append("resources")
+                    .append("StorageTests")
+                    .append("VersionTestPlaybooks");
+    path test_pb_path = path(test_pbs).append("v0_18_0.pbc");
+    PBCStorage::getInstance()->loadActivePlaybook("test", test_pb_path.string());
+
+    checkPlaybook();
+    }
+
     BOOST_AUTO_TEST_CASE(v0_15_0) {
         path global_test_directory =  PBCTestConfig::test_base_dir;
         path test_pbs =
