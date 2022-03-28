@@ -168,6 +168,7 @@ void PBCPlayView::createNewPlay(const std::string &name,
                                 const std::string &formationName) {
     PBCPlaySP play(new PBCPlay(name, codeName, formationName));
     _currentPlay = play;
+    setActivePlay(_currentPlay);
     repaint();
 }
 
