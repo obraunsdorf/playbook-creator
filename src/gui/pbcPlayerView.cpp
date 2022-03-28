@@ -283,14 +283,14 @@ void PBCPlayerView::paintRoutes() {
         for (PBCRouteSP route : _playerSP->optionRoutes()) {
             __paintRoutes(route, RouteType::OptionRoute);
         }
-        if (_playerSP->route() != NULL) {
-            __paintRoutes(_playerSP->route(), RouteType::Route);
+        if (_playerSP->alternativeRoute(2) != NULL) {
+            __paintRoutes(_playerSP->alternativeRoute(2), RouteType::Alternative2);
         }
         if (_playerSP->alternativeRoute(1) != NULL) {
             __paintRoutes(_playerSP->alternativeRoute(1), RouteType::Alternative1);
         }
-        if (_playerSP->alternativeRoute(2) != NULL) {
-            __paintRoutes(_playerSP->alternativeRoute(2), RouteType::Alternative2);
+        if (_playerSP->route() != NULL) {
+            __paintRoutes(_playerSP->route(), RouteType::Route);
         }
     } catch(const PBCRenderingException& e) {
         _playerSP->resetOptionRoutes();
