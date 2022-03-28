@@ -151,7 +151,7 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
     switch(mode) {
         case RouteType::Route:
         case RouteType::OptionRoute:
-            color = QColor(playerColor.r(), playerColor.g(), playerColor.b()); // QColor("black");
+            color = QColor("black"); //QColor(playerColor.r(), playerColor.g(), playerColor.b());
             break;
         case RouteType::Alternative1:
             color = QColor("orange");
