@@ -150,6 +150,8 @@ PBCPlay::PBCPlay(const PBCPlay &other) :
         PBCPlayerSP otherPlayerSP = *otherIt;
         playerSP->setRoute(otherPlayerSP->route());
         playerSP->setMotion(otherPlayerSP->motion());
+        playerSP->setAlternativeRoute(1, otherPlayerSP->alternativeRoute(1));
+        playerSP->setAlternativeRoute(2, otherPlayerSP->alternativeRoute(2));
         for (PBCRouteSP optionRoute : otherPlayerSP->optionRoutes()) {
             playerSP->addOptionRoute(optionRoute);
         }

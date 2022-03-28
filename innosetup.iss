@@ -22,8 +22,8 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
-LicenseFile=C:\projects\playbook-creator\LICENSE
-OutputDir=C:\projects\playbook-creator\bin
+LicenseFile=LICENSE
+OutputDir=bin
 OutputBaseFilename=PlaybookCreatorSetup
 Compression=lzma
 SolidCompression=yes
@@ -42,8 +42,8 @@ Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
  
 [Files]
-Source: "C:\projects\playbook-creator\bin\Release\PlaybookCreator.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\projects\playbook-creator\bin\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "bin\Release\PlaybookCreator.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\Release\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
  
 [Icons]

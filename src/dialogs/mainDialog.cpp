@@ -181,6 +181,7 @@ void MainDialog::enableMenuOptions() {
             action->setEnabled(true);
         }
     }
+    ui->generalInfoBox->setEnabled(true);
 }
 
 
@@ -431,6 +432,24 @@ void MainDialog::previousPlay() {
  */
 void MainDialog::showAboutDialog() {
     QMessageBox::about(this, "About", QString::fromStdString(PBCVersion::getVersionString()).prepend("Playbook Creator by Oliver Braunsdorf\nVersion: ")); //NOLINT
+}
+
+
+/**
+ * @brief Saves the current play displayed by the embedded PBCPlayView to the playbook 
+ * and renames it according to "Name" and "Code Name" line edit fields
+ */
+void MainDialog::renameAndSavePlay() {
+    std::string name = ui->playNameLineEdit->text().toStdString();
+    std::string codename = ui->codeNameLineEdit->text().toStdString();
+    try {
+        _playView->renameAndSavePlay(name, codename);
+    } catch(const PBCAutoSaveException& e) {
+        QMessageBox::warning(this, "Save Play", "The play could not be saved. You have to save the playbook to a file before you can add plays.");  //NOLINT
+        savePlaybookAs();
+        return;
+    }
+    updateTitle(true);
 }
 
 /**

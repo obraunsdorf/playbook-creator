@@ -172,6 +172,28 @@ void PBCPlayView::createNewPlay(const std::string &name,
 }
 
 
+
+/**
+ * @brief Adds the current play to the playbook
+ *
+ * If a name is specified, the current play is saved with the given name and
+ * code name. Otherwise it is saved with its original name.
+ * @param name The new name of the play
+ * @param codeName The new code name of the play
+ */
+void PBCPlayView::renameAndSavePlay(const std::string& name,
+                       const std::string& codeName) {
+    // FIXME(obr): dirty hack to check if the play can be rendered (no PBCRenderingException occurs)
+    repaint();
+
+    PBCController::getInstance()->getPlaybook()->deletePlay(_currentPlay->name());
+    _currentPlay->setName(name);
+    _currentPlay->setCodeName(codeName);
+    PBCController::getInstance()->getPlaybook()->addPlay(_currentPlay, true);
+    showPlay(_currentPlay->name());
+}
+
+
 /**
  * @brief Adds the current play to the playbook
  *
@@ -262,9 +284,9 @@ PBCDPoint playerPos_AfterMotion_inPixel(const PBCPlayerSP &playerSP) {
     return afterMotionPos;
 }
 
-void PBCPlayView::enterRouteEditMode(PBCPlayerSP playerSP, bool optionRouteMode, const std::string& routeName, const std::string& routeCodeName, bool overwrite) {
+void PBCPlayView::enterRouteEditMode(PBCPlayerSP playerSP, RouteType routeType, const std::string& routeName, const std::string& routeCodeName, bool overwrite) {
     _routeEditMode = true;
-    _optionRouteMode = optionRouteMode;
+    _routeType = routeType;
     _lastLine = NULL;
     _paths.clear();
     _routePlayer = playerSP;
@@ -272,10 +294,18 @@ void PBCPlayView::enterRouteEditMode(PBCPlayerSP playerSP, bool optionRouteMode,
     _routeCodeName = routeCodeName;
     _overwrite = overwrite;
 
-    std::vector<PBCPathSP> emptyRoutePaths;
-    if (_optionRouteMode == false) {
-        PBCRouteSP emptyRoute = PBCRouteSP(new PBCRoute("empty", "", emptyRoutePaths));
-        _routePlayer->setRoute(emptyRoute);
+    switch(_routeType) {
+        case RouteType::Route:
+            _routePlayer->resetRoute();
+            break;
+        case RouteType::Alternative1:
+            _routePlayer->resetAlternativeRoute(1);
+            break;
+        case RouteType::Alternative2:
+            _routePlayer->resetAlternativeRoute(2);
+            break;
+        case RouteType::OptionRoute:
+            break;
     }
     repaint();
 
@@ -309,7 +339,7 @@ void PBCPlayView::enterMotionEditMode(PBCPlayerSP playerSP) {
 
 void PBCPlayView::leaveRouteMotionEditMode() {
     _routeEditMode = false;
-    _optionRouteMode = false;
+    //_routeType = RouteType::Route;
     _motionEditMode = false;
 }
 
@@ -420,10 +450,19 @@ void PBCPlayView::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
                 savePlaybookOnRouteCreation();
             }
         }
-        if (_optionRouteMode) {
-            _routePlayer->addOptionRoute(route);
-        } else {
-            _routePlayer->setRoute(route);
+        switch(_routeType) {
+            case RouteType::Route:
+                _routePlayer->setRoute(route);
+                break;
+            case RouteType::OptionRoute:
+                _routePlayer->addOptionRoute(route);
+                break;
+            case RouteType::Alternative1:
+                _routePlayer->setAlternativeRoute(1, route);
+                break;
+            case RouteType::Alternative2:
+                _routePlayer->setAlternativeRoute(2, route);
+                break;
         }
         leaveRouteMotionEditMode();
         repaint();

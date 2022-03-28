@@ -27,6 +27,13 @@
 #include "models/pbcPlayer.h"
 #include <string>
 
+enum RouteType {
+    Route,
+    OptionRoute,
+    Alternative1,
+    Alternative2,
+};
+
 class PBCPlayView : public PBCGridIronView {
  public:
     explicit PBCPlayView(PBCPlaySP playSP = NULL, QObject *parent = 0);
@@ -38,6 +45,8 @@ class PBCPlayView : public PBCGridIronView {
     void showPlay(const std::string &name);
     void savePlay(const std::string& name = "",
                   const std::string& codeName = "");
+    void renameAndSavePlay(const std::string& name = "",
+                  const std::string& codeName = "");
     void saveFormation(const std::string& formationName = "");
     void editCategories();
     void setPlayComment(const std::string& comment);
@@ -46,7 +55,7 @@ class PBCPlayView : public PBCGridIronView {
 
     void enterRouteEditMode(
             PBCPlayerSP playerSP,
-            bool optionRouteMode,
+            RouteType routeType,
             const std::string& routeName = "",
             const std::string& routeCodeName = "",
             bool overwrite = false);
@@ -71,7 +80,7 @@ class PBCPlayView : public PBCGridIronView {
     PBCPlayerSP _activePlayer;
 
     bool _routeEditMode = false;
-    bool _optionRouteMode = false;
+    RouteType _routeType = RouteType::Route;
     bool _motionEditMode = false;
     PBCPlayerSP _routePlayer;
     std::string _routeName;

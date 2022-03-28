@@ -28,11 +28,20 @@
 #include "models/pbcPlayer.h"
 #include "util/pbcDeclarations.h"
 #include "gui/pbcPlayView.h"
+#include <boost/unordered/unordered_map.hpp>
+#include "QAction"
 #include <vector>
+
+
+#define ACTION_TEXT_RESET "Reset"
+#define ACTION_TEXT_NAMED_ROUTE "Create (named) route"
+#define ACTION_TEXT_UNNAMED_ROUTE "Create route (quick, unnamed)"
 
 class PBCPlayerView;
 typedef boost::shared_ptr<PBCPlayerView> PBCPlayerViewSP;
 typedef boost::shared_ptr<QGraphicsItem> QGraphicsItemSP;
+typedef boost::unordered_map<QAction*, PBCRouteSP> PBCRouteActionMap;
+
 
 class PBCPlayerView : public QObject, public QGraphicsItemGroup {
     Q_OBJECT
@@ -49,15 +58,16 @@ class PBCPlayerView : public QObject, public QGraphicsItemGroup {
 
     void repaint();
     void paintRoutes();
-    void __paintRoutes(PBCRouteSP route, bool isOptionRoute);
+    void __paintRoutes(PBCRouteSP route, RouteType mode);
     bool isClickInShape(const QPointF& clickPos);
+    void createNamedRoute(RouteType routeType);
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void joinPaths(const std::vector<PBCPathSP>& paths,
                    std::vector<QGraphicsItemSP>* graphicItems,
                    PBCDPoint basePoint,
-                   bool isOptionRoute);
+                   RouteType routetype);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     void applyMotion(PBCMotionSP motion);
     void setColor(PBCColor color);

@@ -65,6 +65,7 @@ class MainDialog : public QMainWindow {
     void nextPlay();
     void previousPlay();
     void savePlay();
+    void renameAndSavePlay();
     void savePlayAsWithDialog();
     void savePlayAsNamed();
     void saveFormationAs();

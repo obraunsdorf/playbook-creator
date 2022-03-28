@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1139</width>
-    <height>966</height>
+    <height>975</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,7 +39,7 @@
      <x>0</x>
      <y>0</y>
      <width>1139</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -89,7 +89,7 @@
    <property name="minimumSize">
     <size>
      <width>295</width>
-     <height>538</height>
+     <height>550</height>
     </size>
    </property>
    <property name="features">
@@ -175,7 +175,7 @@
            <item>
             <widget class="QPushButton" name="pushButton_3">
              <property name="text">
-              <string>Save Play</string>
+              <string>Save Play and Rename</string>
              </property>
             </widget>
            </item>
@@ -193,7 +193,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QGroupBox" name="groupBox_2">
+      <widget class="QGroupBox" name="generalInfoBox">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -331,8 +331,8 @@
   <widget class="QDockWidget" name="dockWidget">
    <property name="minimumSize">
     <size>
-     <width>184</width>
-     <height>415</height>
+     <width>143</width>
+     <height>380</height>
     </size>
    </property>
    <property name="windowTitle">
@@ -516,7 +516,7 @@
          </widget>
         </item>
         <item row="0" column="0">
-         <widget class="color_widgets::ColorWheel" name="playerColorWheel">
+         <widget class="color_widgets::ColorWheel" name="playerColorWheel" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
             <horstretch>0</horstretch>
@@ -1170,8 +1170,8 @@
    <slot>changeActivePlayerRoute(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>953</x>
-     <y>681</y>
+     <x>1126</x>
+     <y>751</y>
     </hint>
     <hint type="destinationlabel">
      <x>841</x>
@@ -1187,7 +1187,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>1125</x>
-     <y>601</y>
+     <y>649</y>
     </hint>
     <hint type="destinationlabel">
      <x>842</x>
@@ -1203,7 +1203,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>1125</x>
-     <y>631</y>
+     <y>681</y>
     </hint>
     <hint type="destinationlabel">
      <x>843</x>
@@ -1231,7 +1231,7 @@
    <sender>pushButton_3</sender>
    <signal>clicked()</signal>
    <receiver>MainDialog</receiver>
-   <slot>savePlay()</slot>
+   <slot>renameAndSavePlay()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>952</x>
@@ -1461,6 +1461,7 @@
   <slot>changeActivePlayerNr(int)</slot>
   <slot>changePlayComment()</slot>
   <slot>savePlayAsNamed()</slot>
+  <slot>renameAndSavePlay()</slot>
   <slot>togglePlayEndzone(bool)</slot>
   <slot>togglePlayQBRollout(bool)</slot>
   <slot>togglePlayQBOption(bool)</slot>

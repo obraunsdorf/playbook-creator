@@ -109,7 +109,7 @@ include_directories(${PROJECT_SOURCE_DIR}/src})
 
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_STATIC_RUNTIME ON)
-find_package( Boost 1.54 COMPONENTS serialization REQUIRED )
+find_package( Boost 1.78 COMPONENTS serialization REQUIRED )
 add_definitions( -DBOOST_ALL_NO_LIB )
 include_directories(${Boost_INCLUDE_DIR})
 
@@ -143,9 +143,11 @@ add_library(PBCLib STATIC ${SOURCES} ${MOC_SRCS} ${UI_HEADERS})
 #add_dependencies(PBCLib style_checking)
 
 # link the updater library
+set(MODE "")
 if(WIN32)
+	set(MODE optimized) # default to release mode on windows
 	find_package(OpenSSL)
-	target_link_libraries(PBCLib ${PBC_UPDATER_CMAKE_NAME} ws2_32 userenv crypt32 ncrypt schannel Secur32)
+	target_link_libraries(PBCLib ${MODE} ${PBC_UPDATER_CMAKE_NAME} ws2_32 userenv crypt32 ncrypt schannel Secur32)
 elseif(CMAKE_SYSTEM_NAME MATCHES "Darwin")
 	find_library(SECFW Security)
 	find_library(COREFW CoreFoundation)
@@ -155,16 +157,26 @@ else()
 endif()
 
 # link Microsoft Visual Studio Runtime statically by default (on Windows builds)
-include(ConfigureMSVCRT)
-configure_msvc_runtime()
+#include(ConfigureMSVCRT)
+#configure_msvc_runtime()
 
 # link external libraries
-target_link_libraries(PBCLib Qt5::Widgets Qt5::PrintSupport ${Boost_LIBRARIES} ${BOTAN_LIBRARY} QtColorWidgets)
+target_link_libraries(PBCLib ${MODE} Qt5::Widgets Qt5::PrintSupport ${Boost_LIBRARIES} ${BOTAN_LIBRARY} QtColorWidgets)
+if(WIN32)
+	# link msvc runtime statically WITHOUT debug symbols
+	set_property(TARGET PBCLib PROPERTY
+ 	 MSVC_RUNTIME_LIBRARY "MultiThreaded")
+endif()
 
 
 # link executable
 add_executable(${PROJECT_NAME} main.cpp)
-target_link_libraries(${PROJECT_NAME} PBCLib)
+target_link_libraries(${PROJECT_NAME} ${MODE} PBCLib)
+if(WIN32)
+	# link msvc runtime statically WITHOUT debug symbols
+	set_property(TARGET ${PROJECT_NAME} PROPERTY
+ 	 MSVC_RUNTIME_LIBRARY "MultiThreaded")
+endif()
 
 if(APPLE)
 	set_target_properties(${PROJECT_NAME} PROPERTIES

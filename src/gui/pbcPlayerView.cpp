@@ -29,7 +29,6 @@
 #include "QMenu"
 #include "util/pbcPositionTranslator.h"
 #include "dialogs/pbcCustomRouteDialog.h"
-#include <boost/unordered/unordered_map.hpp>
 #include <utility>
 #include "QDebug"
 #include <vector>
@@ -142,20 +141,36 @@ void PBCPlayerView::repaint() {
 void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
                               std::vector<QGraphicsItemSP>* graphicItems,
                               PBCDPoint basePoint,
-                              bool isOptionRoute) {
+                              RouteType mode) {
     pbcAssert(graphicItems == &_routePaths || graphicItems == &_motionPaths);
     if (paths.empty()) {
         return;
     }
-    PBCColor color = _playerSP->color();
-    QBrush brush(QColor(color.r(), color.g(), color.b()));
-    QPen pen(brush, PBCConfig::getInstance()->routeWidth(), Qt::PenStyle::SolidLine, Qt::PenCapStyle::RoundCap, Qt::PenJoinStyle::RoundJoin);
-    if(graphicItems == &_motionPaths || isOptionRoute) {
-        pen.setStyle(Qt::DashLine);
+    PBCColor playerColor = _playerSP->color();
+    QColor color;
+    switch(mode) {
+        case RouteType::Route:
+        case RouteType::OptionRoute:
+            color = QColor(playerColor.r(), playerColor.g(), playerColor.b()); // QColor("black");
+            break;
+        case RouteType::Alternative1:
+            color = QColor("orange");
+            break;
+        case RouteType::Alternative2:
+            color = QColor("fuchsia");
+            break;
     }
-    if (isOptionRoute) {
-        pen.setStyle(Qt::DotLine);
+    QBrush brush(color);
+    Qt::PenStyle style;
+    if(graphicItems == &_motionPaths) {
+        style = Qt::PenStyle::DashLine;
+    } else if (mode == RouteType::OptionRoute) {
+        style = Qt::PenStyle::DotLine;
+    } else {
+        style = Qt::PenStyle::SolidLine;
     }
+    QPen pen(brush, PBCConfig::getInstance()->routeWidth(), style, Qt::PenCapStyle::RoundCap, Qt::PenJoinStyle::RoundJoin);
+
     double baseX = basePoint.get<0>();
     double baseY = basePoint.get<1>();
     double lastX = baseX;
@@ -235,7 +250,7 @@ void PBCPlayerView::joinPaths(const std::vector<PBCPathSP>& paths,
     }
 }
 
-void PBCPlayerView::__paintRoutes(PBCRouteSP route, bool isOptionRoute) {
+void PBCPlayerView::__paintRoutes(PBCRouteSP route, RouteType mode) {
     PBCDPoint playerPos = PBCPositionTranslator::getInstance()->translatePos(_playerSP->pos()); //NOLINT
     int inOutFactor = -1;
     if(playerPos.get<0>() < PBCConfig::getInstance()->canvasWidth() / 2) {
@@ -251,7 +266,7 @@ void PBCPlayerView::__paintRoutes(PBCRouteSP route, bool isOptionRoute) {
 
         base = PBCPositionTranslator::getInstance()->translatePos(correctMotionEndPoint, playerPos);  // NOLINT
     }
-    joinPaths(route->paths(), &_routePaths, base, isOptionRoute);
+    joinPaths(route->paths(), &_routePaths, base, mode);
 
     for(boost::shared_ptr<QGraphicsItem> item : _routePaths) {
         this->addToGroup(item.get());
@@ -266,13 +281,22 @@ void PBCPlayerView::paintRoutes() {
 
     try {
         for (PBCRouteSP route : _playerSP->optionRoutes()) {
-            __paintRoutes(route, true);
+            __paintRoutes(route, RouteType::OptionRoute);
         }
         if (_playerSP->route() != NULL) {
-            __paintRoutes(_playerSP->route(), false);
+            __paintRoutes(_playerSP->route(), RouteType::Route);
+        }
+        if (_playerSP->alternativeRoute(1) != NULL) {
+            __paintRoutes(_playerSP->alternativeRoute(1), RouteType::Alternative1);
+        }
+        if (_playerSP->alternativeRoute(2) != NULL) {
+            __paintRoutes(_playerSP->alternativeRoute(2), RouteType::Alternative2);
         }
     } catch(const PBCRenderingException& e) {
-        _playerSP->setRoute(NULL);
+        _playerSP->resetOptionRoutes();
+        _playerSP->resetRoute();
+        _playerSP->resetAlternativeRoute(1);
+        _playerSP->resetAlternativeRoute(2);
         std::array<char, 4> sn = _playerSP->role().shortName;
         std::string playerShortName(sn.begin(), sn.end());
         QMessageBox::warning(NULL,
@@ -298,7 +322,7 @@ void PBCPlayerView::applyMotion(PBCMotionSP motion) {
     _playerSP->setMotion(motion);
 
     PBCDPoint playerPos = PBCPositionTranslator::getInstance()->translatePos(_playerSP->pos()); //NOLINT
-    joinPaths(motion->paths(), &_motionPaths, playerPos, false);
+    joinPaths(motion->paths(), &_motionPaths, playerPos, RouteType::Route);
 
     for(boost::shared_ptr<QGraphicsItem> item : _motionPaths) {
         this->addToGroup(item.get());
@@ -341,6 +365,62 @@ bool PBCPlayerView::isClickInShape(const QPointF& clickPos) {
     }
 }
 
+PBCRouteActionMap fillRouteMenu(QMenu* menu, const std::multimap<int, PBCRouteSP> &sortedRoutes) {
+    QAction* action_ResetRoutes = menu->addAction(ACTION_TEXT_RESET);
+    menu->addSeparator();
+    PBCRouteActionMap routeActionMap;
+    for (const auto& kv : sortedRoutes) {
+        PBCRouteSP route = kv.second;
+        QString routeString = QString::fromStdString(route->name());
+        if(route->codeName() != "") {
+            routeString.append(" (");
+            routeString.append(QString::fromStdString(route->codeName()));
+            routeString.append(")");
+        }
+        QAction* action = menu->addAction(routeString);
+        routeActionMap.insert(std::make_pair(action, route));
+    }
+    menu->addSeparator();
+
+    QAction* action_CustomRouteCreate_named =
+        menu->addAction(ACTION_TEXT_NAMED_ROUTE);
+    QAction* action_CustomRouteCreate_unnamed =
+        menu->addAction(ACTION_TEXT_UNNAMED_ROUTE);
+
+    return routeActionMap;
+}
+
+
+void PBCPlayerView::createNamedRoute(RouteType mode) {
+    PBCSavePlayAsDialog dialog;
+    int returnCode = dialog.exec();
+    if (returnCode == QDialog::Accepted) {
+        PBCSavePlayAsDialog::ReturnStruct rs = dialog.getReturnStruct();
+        const auto &routes = PBCController::getInstance()->getPlaybook()->routes();
+        bool routeAlreadyInPlaybook = false;
+        for (const auto& route : routes) {
+            if (route->name() == rs.name) {
+                routeAlreadyInPlaybook = true;
+                break;
+            }
+        }
+        bool overwriteRoute = false;
+        if (routeAlreadyInPlaybook) {
+            QMessageBox::StandardButton button =
+                    QMessageBox::question(NULL,
+                                            "Create custom route",
+                                            QString::fromStdString("There already exists a route named '" + rs.name + "'. Do you want to overwrite it?"),  // NOLINT
+                                            QMessageBox::Ok | QMessageBox::Cancel);
+
+            if(button == QMessageBox::Ok) {
+                overwriteRoute = true;
+            } else {
+                return;
+            }
+        }
+        _playView->enterRouteEditMode(this->_playerSP, mode, rs.name, rs.codeName, overwriteRoute);
+    }
+}
 
 /**
  * @brief Handles context menu clicks
@@ -355,14 +435,6 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
         event->ignore();
         return;
     }
-    QMenu menu;
-
-    QMenu* routeMenu = menu.addMenu(QString::fromStdString("Set Route"));
-    boost::unordered_map<QAction*, PBCRouteSP> routeActionMap;
-
-    QMenu* optionRoutesMenu = menu.addMenu(QString::fromStdString("Add Option Route"));
-    boost::unordered_map<QAction*, PBCRouteSP> optionRoutesActionMap;
-
 
     std::multimap<int, PBCRouteSP> sortedRoutes;
     for(PBCRouteSP route : PBCController::getInstance()->getPlaybook()->routes()) {
@@ -370,34 +442,21 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
         sortedRoutes.insert(std::make_pair(depth, route));
     }
 
-    for (const auto& kv : sortedRoutes) {
-        PBCRouteSP route = kv.second;
-        QString routeString = QString::fromStdString(route->name());
-        if(route->codeName() != "") {
-            routeString.append(" (");
-            routeString.append(QString::fromStdString(route->codeName()));
-            routeString.append(")");
-        }
-        QAction* action = routeMenu->addAction(routeString);
-        QAction* optionAction = optionRoutesMenu->addAction(routeString);
-        routeActionMap.insert(std::make_pair(action, route));
-        optionRoutesActionMap.insert(std::make_pair(optionAction, route));
-    }
+    QMenu menu;
+    QMenu* routeMenu = menu.addMenu(QString::fromStdString("Route"));
+    PBCRouteActionMap routeActionMap = fillRouteMenu(routeMenu, sortedRoutes);
 
-    routeMenu->addSeparator();
-    optionRoutesMenu->addSeparator();
+    QMenu* optionRoutesMenu = menu.addMenu(QString::fromStdString("Option Route"));
+    PBCRouteActionMap optionRoutesActionMap = fillRouteMenu(optionRoutesMenu, sortedRoutes);
 
-    QAction* action_CustomRouteCreate_named =
-            routeMenu->addAction("Create (named) route");
-    QAction* action_CustomRouteCreate_unnamed =
-            routeMenu->addAction("Create route (quick, unnamed)");
-    QAction* action_CustomOptionRouteCreate_named =
-            optionRoutesMenu->addAction("Create (named) route");
-    QAction* action_CustomOptionRouteCreate_unnamed =
-            optionRoutesMenu->addAction("Create route (quick, unnamed)");
+    QMenu* alternative1Menu = menu.addMenu(QString::fromStdString("Alternative Route 1"));
+    PBCRouteActionMap alternativeRoute1ActionMap = fillRouteMenu(alternative1Menu, sortedRoutes);
 
-    QAction* action_ResetRoutes = menu.addAction("Reset Option Routes");
+    QMenu* alternative2Menu = menu.addMenu(QString::fromStdString("Alternative Route 2"));
+    PBCRouteActionMap alternativeRoute2ActionMap = fillRouteMenu(alternative2Menu, sortedRoutes);
+
     menu.addSeparator();
+
 
     QMenu* motionMenu = menu.addMenu(QString::fromStdString("Motions"));
     QAction* action_ApplyMotion = motionMenu->addAction("Apply Motion");
@@ -411,105 +470,118 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
     setEnabled(false);
     setEnabled(true);
 
-    bool routeClicked = false;
+    if (clicked == NULL) {
+        return;
+    }
+
+
     for(const auto& kv : routeActionMap) {
         if(clicked == kv.first) {
-            routeClicked = true;
             _playerSP->setRoute(kv.second);
             paintRoutes();
+            return;
         }
     }
     for(const auto& kv : optionRoutesActionMap) {
         if(clicked == kv.first) {
-            routeClicked = true;
             _playerSP->addOptionRoute(kv.second);
             paintRoutes();
+            return;
+        }
+    }
+    for(const auto& kv : alternativeRoute1ActionMap) {
+        if(clicked == kv.first) {
+            _playerSP->setAlternativeRoute(1, kv.second);
+            paintRoutes();
+            return;
+        }
+    }
+    for(const auto& kv : alternativeRoute2ActionMap) {
+        if(clicked == kv.first) {
+            _playerSP->setAlternativeRoute(2, kv.second);
+            paintRoutes();
+            return;
         }
     }
 
-    if(routeClicked == false) {
-        if (clicked == action_ResetRoutes) {
-            _playerSP->resetRoutes();
-            paintRoutes();
-        } else if(clicked == action_CustomRouteCreate_unnamed) {
-            _playView->enterRouteEditMode(this->_playerSP, false);
-        } else if (clicked == action_CustomOptionRouteCreate_unnamed) {
-            _playView->enterRouteEditMode(this->_playerSP, true);
-        } else if(clicked == action_CustomRouteCreate_named
-                    || clicked == action_CustomOptionRouteCreate_named) {
-            bool optionRouteMode = (clicked == action_CustomOptionRouteCreate_named);
-            PBCSavePlayAsDialog dialog;
-            int returnCode = dialog.exec();
-            if (returnCode == QDialog::Accepted) {
-                PBCSavePlayAsDialog::ReturnStruct rs = dialog.getReturnStruct();
-                const auto &routes = PBCController::getInstance()->getPlaybook()->routes();
-                bool routeAlreadyInPlaybook = false;
-                for (const auto& route : routes) {
-                    if (route->name() == rs.name) {
-                        routeAlreadyInPlaybook = true;
-                        break;
-                    }
-                }
-                bool overwriteRoute = false;
-                if (routeAlreadyInPlaybook) {
-                    QMessageBox::StandardButton button =
-                            QMessageBox::question(NULL,
-                                                  "Create custom route",
-                                                  QString::fromStdString("There already exists a route named '" + rs.name + "'. Do you want to overwrite it?"),  // NOLINT
-                                                  QMessageBox::Ok | QMessageBox::Cancel);
-
-                    if(button == QMessageBox::Ok) {
-                        overwriteRoute = true;
-                    } else {
-                        return;
-                    }
-                }
-                _playView->enterRouteEditMode(this->_playerSP, optionRouteMode, rs.name, rs.codeName, overwriteRoute);
+    QWidget* parentWidget = clicked->parentWidget();
+    if (QMenu* clickedMenu = dynamic_cast<QMenu*>(parentWidget)) {
+        if (clickedMenu == routeMenu) {
+            if (clicked->text() == ACTION_TEXT_RESET) {
+                _playerSP->resetRoute();
+                paintRoutes();
+            } else if (clicked->text() == ACTION_TEXT_NAMED_ROUTE) {
+                createNamedRoute(RouteType::Route);
+            } else if (clicked->text() == ACTION_TEXT_UNNAMED_ROUTE) {
+                _playView->enterRouteEditMode(this->_playerSP, RouteType::Route);
             }
-        } else if(clicked == action_ApplyMotion) {
-            /*PBCCreateMotionRouteDialog dialog;
-            PBCMotionSP createdMotion = dialog.getCreatedMotion();
-            if(createdMotion != NULL) {
-                this->applyMotion(createdMotion);
-            }*/
-            _playView->enterMotionEditMode(this->_playerSP);
-        } else if(clicked == action_DeleteMotion) {
-            std::vector<PBCPathSP> emptyRoutePaths;
-            PBCRouteSP emptyRoute = PBCRouteSP(new PBCRoute("empty", "", emptyRoutePaths));
-            this->_playerSP->setRoute(emptyRoute);
-            PBCMotionSP emptyMotion(new PBCMotion());
-            this->_playerSP->setMotion(emptyMotion);
-            this->repaint();
-        } else if(clicked == action_ApplyMotion) {} else if(clicked == action_SetColor) {
-            QColor color = QColorDialog::getColor(Qt::black);
-            if(color.isValid()) {
-                this->setColor(PBCColor(color.red(),
-                                        color.green(),
-                                        color.blue()));
+        } else if (clickedMenu == optionRoutesMenu) {
+            std::cout << "choose option menu" << std::endl;
+            if (clicked->text() == ACTION_TEXT_RESET) {
+                _playerSP->resetOptionRoutes();
+                paintRoutes();
+            } else if (clicked->text() == ACTION_TEXT_NAMED_ROUTE) {
+                createNamedRoute(RouteType::OptionRoute);
+            } else if (clicked->text() == ACTION_TEXT_UNNAMED_ROUTE) {
+                _playView->enterRouteEditMode(this->_playerSP, RouteType::OptionRoute);
             }
-        } else if(clicked == action_SetPosition) {
-            bool ok1, ok2;
-            double x = QInputDialog::getDouble(NULL,
-                                               "Set player position",
-                                               "Horizontal position in yd",
-                                               0,
-                                               -2147483647,
-                                               2147483647,
-                                               1,
-                                               &ok1);
-            double y = QInputDialog::getDouble(NULL,
-                                               "Set player position",
-                                               "Vertical position in yd",
-                                               0,
-                                               -2147483647,
-                                               2147483647,
-                                               1,
-                                               &ok2);
-            if(ok1 == true && ok2 == true) {
-                this->setPosition(x, y);
+        } else if (clickedMenu == alternative1Menu) {
+            if (clicked->text() == ACTION_TEXT_RESET) {
+                _playerSP->resetAlternativeRoute(1);
+                paintRoutes();
+            } else if (clicked->text() == ACTION_TEXT_NAMED_ROUTE) {
+                createNamedRoute(RouteType::Alternative1);
+            } else if (clicked->text() == ACTION_TEXT_UNNAMED_ROUTE) {
+                _playView->enterRouteEditMode(this->_playerSP, RouteType::Alternative1);
             }
-        } else {
-            pbcAssert(clicked == NULL);
+        } else if (clickedMenu == alternative2Menu) {
+            if (clicked->text() == ACTION_TEXT_RESET) {
+                _playerSP->resetAlternativeRoute(2);
+                paintRoutes();
+            } else if (clicked->text() == ACTION_TEXT_NAMED_ROUTE) {
+                createNamedRoute(RouteType::Alternative2);
+            } else if (clicked->text() == ACTION_TEXT_UNNAMED_ROUTE) {
+                _playView->enterRouteEditMode(this->_playerSP, RouteType::Alternative2);
+            }
+        }
+    }
+    
+    if(clicked == action_ApplyMotion) {
+        _playView->enterMotionEditMode(this->_playerSP);
+    } else if(clicked == action_DeleteMotion) {
+        std::vector<PBCPathSP> emptyRoutePaths;
+        PBCRouteSP emptyRoute = PBCRouteSP(new PBCRoute("empty", "", emptyRoutePaths));
+        this->_playerSP->setRoute(emptyRoute);
+        PBCMotionSP emptyMotion(new PBCMotion());
+        this->_playerSP->setMotion(emptyMotion);
+        this->repaint();
+    } else if(clicked == action_ApplyMotion) {} else if(clicked == action_SetColor) {
+        QColor color = QColorDialog::getColor(Qt::black);
+        if(color.isValid()) {
+            this->setColor(PBCColor(color.red(),
+                                    color.green(),
+                                    color.blue()));
+        }
+    } else if(clicked == action_SetPosition) {
+        bool ok1, ok2;
+        double x = QInputDialog::getDouble(NULL,
+                                            "Set player position",
+                                            "Horizontal position in yd",
+                                            0,
+                                            -2147483647,
+                                            2147483647,
+                                            1,
+                                            &ok1);
+        double y = QInputDialog::getDouble(NULL,
+                                            "Set player position",
+                                            "Vertical position in yd",
+                                            0,
+                                            -2147483647,
+                                            2147483647,
+                                            1,
+                                            &ok2);
+        if(ok1 == true && ok2 == true) {
+            this->setPosition(x, y);
         }
     }
 }
@@ -552,7 +624,7 @@ void PBCPlayerView::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
     std::cout << "mouse double click event on " << this->_playerSP->role().fullName << std::endl;
     if (isClickInShape(event->pos())) {
         QGraphicsItemGroup::mouseDoubleClickEvent(event);
-        _playView->enterRouteEditMode(this->_playerSP, false);
+        _playView->enterRouteEditMode(this->_playerSP, RouteType::Route);
     } else {
         event->ignore();
     }

@@ -1,14 +1,16 @@
 Playbook Creator: A free, open-source editor for American (Flag) Football Playbooks
 ====================================================================================
+[![Build and Test](https://github.com/obraunsdorf/playbook-creator/actions/workflows/ci.yml/badge.svg)](https://github.com/obraunsdorf/playbook-creator/actions/workflows/ci.yml)
+
 This is a free editor for offensive playbooks in American Football. 
 It is primarily dedicated to the flag football community as most of the teams (at least in Germany) cannot afford a commercial tool.
 
 Playbook Creator is mainly developed and tested on Linux, but you can download and run it on all major operating systems.
-  * MacOS X [![Build Status](https://travis-ci.com/obraunsdorf/playbook-creator.svg?branch=master)](https://travis-ci.com/obraunsdorf/playbook-creator)
-  * Windows 10 [![Build status](https://ci.appveyor.com/api/projects/status/c0n8v494adn2kfmh/branch/master?svg=true)](https://ci.appveyor.com/project/obraunsdorf/playbook-creator) 
-  * Linux (Ubuntu 18.04) [![CircleCI](https://circleci.com/gh/obraunsdorf/playbook-creator.svg?style=svg)](https://circleci.com/gh/obraunsdorf/playbook-creator)
-
-Mailing list:
+  * MacOS X
+  * Windows 10
+  * Linux (Ubuntu 18.04)
+ 
+Mailing list:  
   * send email (without registration): <pbc-users@freelists.org>
   * subscribe for new messages/announcements: <http://www.freelists.org/list/pbc-users>
 
@@ -21,12 +23,12 @@ If Playbook Creator is useful for your team, but none of you is able to contribu
 ## How to install PBC
   * **On Windows**   
   Download the latest release of Playbook Creator for Windows at https://github.com/obraunsdorf/playbook-creator/releases.  
-  This is a setup file. Please follow the instructions of the setup to complete the installation.
+  This is a setup file. The Microsoft Defender installer will show a warning because of "Unknown publisher". Click on "Run anyway" and follow the instructions of the setup to complete the installation. (The warning is shown because I do not have Microsoft Developer Certificate because the cost some money).
   * **On MacOS X**  
   Download the latest release of Playbook Creator for MacOSX at https://github.com/obraunsdorf/playbook-creator/releases.  
   This is a DMG-file. Just open it and drag&drop the PlaybookCreator app to your Applications folder.  
   => Open PlaybookCreator by right-clicking on it and select "Open".  
-  If you try to open it via double-click MacOS will complain that it cannot open the app because it is from an unidentified developer. This is because I am not a registered as a developer on Apple. I can think about registering there if that is important to someone.
+  If you try to open it via double-click MacOS will complain that it cannot open the app because it is from an unidentified developer. This is because I am not a registered as a developer on Apple (see https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unidentified-developer-mh40616/mac)
   * **On Linux**
     1. Install Qt: `apt-get install qt5-default`
     2. Download Playbook Creator for Linux at https://github.com/obraunsdorf/playbook-creator/releases
@@ -34,6 +36,8 @@ If Playbook Creator is useful for your team, but none of you is able to contribu
     4. Run it from the console: `path/to/PlaybookCreator`
 
 ## How to use PBC
+_Additionally to the explanations below, there is a great manual in German language with screen shots etc. at https://www.flagfootball.rocks/news/flag-football-playbook-designer-software.html_
+
 Most of the user interface of Playbook Creator should be self-explainable. There is the main menu which can be used to, e.g.
  * create/open/safe a new playbook
  * create/open/safe/delete a play
@@ -129,26 +133,20 @@ You can also subscribe to the mailing list here, to receive an email when new ve
 Note: A (quite outdated) manual in PDF format is available [here](manual/pbcManual.pdf). The last page contains a step-by-step guideline to create a new playbook from scratch. I'll try to update the documentation in a new fancy manner as soon as I can.
 
 ## How to build PBC
-For anyone who wants to build the application from source on Linux (and make changes), you can run
+If you are using [VS Code](https://code.visualstudio.com/)  and Docker, the easiest way to build PBC is by using the [.devcontainer](.devcontainer) files.
+```
+git clone https://github.com/obraunsdorf/playbook-creator.git
+cd playbook-creator
+code .  # opens PBC in VS Code, then press F1 and type 'Open Folder in Container'
 
-    apt-get install build-essential pkg-config curl git cmake libbotan-2-dev qt5-default libboost-serialization-dev libboost-test-dev libboost-filesystem-dev libssl-dev
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+### Within the container, open terminal and type:
+mkdir build
+cd build
+cmake ..
+make
+```
 
-    git clone https://github.com/obraunsdorf/playbook-creator.git
-    cd playbook-creator
-    mkdir build
-    cd build
-    cmake ..
-    make
-
-To run unit tests, you can run
-
-    make -j4 tests && ASAN_OPTIONS=detect_leaks=0 ../bin/tests --log_level=all -- --test-base-dir "../test"
-
-
-
-Building on MacOS X is done similarly using homebrew. Please refer to [the TravisCI script](.travis.yml).
-For Building on Windows you can set up a [Appveyor](https://www.appveyor.com/)-like environment with Qt5 and Boost and refer to [the Appveyor CI script](appveyor.yml) accordingly.
+You can also refer to the [Github Actions CI Script](https://github.com/obraunsdorf/playbook-creator/blob/master/.github/workflows/ci.yml) to see how PBC is built natively on Linux, Windows and MacOS.
 
 
 ## How to contribute to PBC
