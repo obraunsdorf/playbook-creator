@@ -43,10 +43,10 @@ private:
     PBCColor _fiveYdColor;
     double _fiveYdWidthYd;
     double _fiveYdYFactor;
-    double _tenYdYFactor;
     PBCColor _ballColor;
     double _ballWidthYd;
     PBCColor _playNameColor;
+    bool _printPlayName;
     double _playNameSizeYd;
     std::string _playNameFont;
     double _playerWidthYd;
@@ -68,15 +68,15 @@ protected:
             _fieldWidth(25), // yard
             _losColor(128U, 128U, 128U),
             _losWidthYd(0.3),
-            _losYFactor(0.6),
+            _losYFactor(0.7),
             _fiveYdColor(128U, 128U, 128U),
-            _fiveYdWidthYd(0.2),
-            _fiveYdYFactor(0.4),
-            _tenYdYFactor(0.2),
+            _fiveYdWidthYd(0.15),
+            _fiveYdYFactor(0.5),
             _ballColor(139U, 69U, 19U),
             _ballWidthYd(1),
             _playNameColor(128U, 128U, 128U),
-            _playNameSizeYd(2.5),
+            _printPlayName(true),
+            _playNameSizeYd(1.5),
             _playNameFont("Helvetica"),
             _playerWidthYd(1),
             _playerShadow(true),
@@ -139,7 +139,11 @@ public:
     }
 
     unsigned int tenYdY() {
-        return _tenYdYFactor * _canvasHeight;
+        return (_losYFactor-(_losYFactor-_fiveYdYFactor)*2.0) * _canvasHeight;
+    }
+
+    unsigned int fifteenYdY() {
+        return (_losYFactor-(_losYFactor-_fiveYdYFactor)*3.0) * _canvasHeight;
     }
 
 
@@ -153,6 +157,10 @@ public:
 
     PBCColor playNameColor() {
         return _playNameColor;
+    }
+
+    bool printPlayName() {
+        return _printPlayName;
     }
 
     unsigned int playNameSize() {
