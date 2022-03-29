@@ -63,7 +63,7 @@ static void default_formations(PBCModelMap<PBCFormationSP> &formations, const un
 
     spread_right_formation->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Quarterback", "QB"},
                                                                 PBCColor(),
-                                                                PBCDPoint(0, -1.5))));
+                                                                PBCDPoint(0, -5))));
 
     spread_right_formation->push_back(PBCPlayerSP(new PBCPlayer(PBCRole{"Wide Receiver Left", "WRL"},  // NOLINT
                                                                 PBCColor(),
