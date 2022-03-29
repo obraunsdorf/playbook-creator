@@ -68,6 +68,9 @@ PBCPlayView::PBCPlayView(PBCPlaySP playSP, QObject *parent) :
  * @param color The color of the displayed name
  */
 void PBCPlayView::paintPlayName() {
+    if (!PBCConfig::getInstance()->printPlayName()) {
+        return;
+    }
     unsigned int textHeight = PBCConfig::getInstance()->playNameSize();
     QFont font = QFont(QString::fromStdString(PBCConfig::getInstance()->playNameFont()),
                        textHeight,
@@ -125,6 +128,11 @@ void PBCPlayView::repaint() {
               PBCConfig::getInstance()->fiveYdColor());
 
     paintLine(PBCConfig::getInstance()->tenYdY(),
+              PBCConfig::getInstance()->canvasWidth(),
+              PBCConfig::getInstance()->fiveYdWidth(),
+              PBCConfig::getInstance()->fiveYdColor());
+    
+    paintLine(PBCConfig::getInstance()->fifteenYdY(),
               PBCConfig::getInstance()->canvasWidth(),
               PBCConfig::getInstance()->fiveYdWidth(),
               PBCConfig::getInstance()->fiveYdColor());
