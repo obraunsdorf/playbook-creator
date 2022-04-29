@@ -5,6 +5,6 @@
 image:
   file: .devcontainer/Dockerfile
 tasks:
-  - init: mkdir build && cd build && cmake ..
+  - init: mkdir build && cd build && cmake .. && make -j$(nproc)
 
 
