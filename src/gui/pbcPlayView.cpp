@@ -187,6 +187,9 @@ void PBCPlayView::renameAndSavePlay(const std::string& name,
     // FIXME(obr): dirty hack to check if the play can be rendered (no PBCRenderingException occurs)
     repaint();
 
+    if (!_currentPlay)
+        return;
+
     PBCController::getInstance()->getPlaybook()->deletePlay(_currentPlay->name());
     _currentPlay->setName(name);
     _currentPlay->setCodeName(codeName);
