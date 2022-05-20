@@ -27,6 +27,8 @@ set ( SOURCES
 	gui/pbcPlayerView.h
 	gui/pbcPlayView.cpp
 	gui/pbcPlayView.h
+	gui/pbcSettings.cpp
+	gui/pbcSettings.h
 	models/pbcAbstractMovement.h
 	models/pbcCategory.cpp
 	models/pbcCategory.h

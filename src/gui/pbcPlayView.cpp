@@ -27,6 +27,7 @@
 #include "util/pbcStorage.h"
 #include "util/pbcConfig.h"
 #include "gui/pbcPlayerView.h"
+#include "gui/pbcSettings.h"
 #include "QGraphicsEllipseItem"
 #include "pbcController.h"
 #include "models/pbcPlaybook.h"
@@ -482,7 +483,7 @@ void PBCPlayView::savePlaybookOnRouteCreation() {
     std::string stdFile = PBCController::getInstance()->getPlaybook()->name() + ".pbc";
     QFileDialog fileDialog(
             NULL, "Save Playbook",
-            QString::fromStdString(stdFile),
+            getLastPlaybookLocation(QString::fromStdString(stdFile)),
             "PBC Files (*.pbc);;All Files (*.*)");
 
     fileDialog.setFileMode(QFileDialog::AnyFile);
@@ -498,6 +499,7 @@ void PBCPlayView::savePlaybookOnRouteCreation() {
             QString password = pwDialog.getPassword();
             PBCStorage::getInstance()->savePlaybook(password.toStdString(),
                                                     fileName.toStdString());
+            setLastPlaybookLocation(QFileInfo(fileName));
         }
     }
 }
