@@ -108,8 +108,13 @@ void MainDialog::keyReleaseEvent(QKeyEvent *event) {
 /**
  * @brief shows the main window graphically at application startup
  */
-void MainDialog::show() {
+void MainDialog::show(QString playbookPath) {
     QMainWindow::showMaximized();
+
+    if (!playbookPath.isNull()) {
+        loadPlaybook(playbookPath);
+        return;
+    }
 
     QMessageBox messageBox(this);
     QPushButton* openButton = messageBox.addButton("Open Playbook",
@@ -468,6 +473,47 @@ void MainDialog::savePlaybookAs() {
 }
 
 /**
+ * @brief Loads a playbook from a given filename
+ */
+void MainDialog::loadPlaybook(QString fileName) {
+    unsigned int decryptionFailureCount = 0;
+    while (true) {
+        bool ok;
+        std::string msg;
+        if (decryptionFailureCount == 0) {
+            msg = "Enter decryption password";
+        } else {
+            msg = "Error on decryption. Maybe wrong password. Try again!";
+        }
+        QString password = QInputDialog::getText(this, "Open Playbook",
+                                                 QString::fromStdString(msg),
+                                                 QLineEdit::Password, "", &ok);
+        if (ok == true) {
+            try {
+                PBCStorage::getInstance()->loadActivePlaybook(password.toStdString(),
+                                                              fileName.toStdString());
+            } catch (PBCDecryptionException &e) {
+                if (decryptionFailureCount < PASSWORD_MAX_RETRYS - 1) {
+                    decryptionFailureCount++;
+                    continue;
+                } else {
+                    throw e;
+                }
+            } catch (PBCDeprecatedVersionException& e) {
+                QMessageBox::critical(this,
+                        "Open Playbook",
+                        "Cannot load playbook because it's created by a newer version of Playbook-Creator. "
+                        "Please download the latest version of Playbook-Creator!");
+            }
+            _playView->resetPlay();
+            resetForNewPlaybook();
+            updateTitle(true);
+            break;
+        }
+    }
+}
+
+/**
  * @brief Loads a playbook from a file which is specified by an open-dialog.
  */
 void MainDialog::openPlaybook() {
@@ -480,41 +526,8 @@ void MainDialog::openPlaybook() {
         pbcAssert(files.size() == 1);
         QString fileName = files.first();
 
-        unsigned int decryptionFailureCount = 0;
-        while (true) {
-            bool ok;
-            std::string msg;
-            if (decryptionFailureCount == 0) {
-                msg = "Enter decryption password";
-            } else {
-                msg = "Error on decryption. Maybe wrong password. Try again!";
-            }
-            QString password = QInputDialog::getText(this, "Open Playbook",
-                                                     QString::fromStdString(msg),
-                                                     QLineEdit::Password, "", &ok);
-            if (ok == true) {
-                try {
-                    PBCStorage::getInstance()->loadActivePlaybook(password.toStdString(),
-                                                                  fileName.toStdString());
-                } catch (PBCDecryptionException &e) {
-                    if (decryptionFailureCount < PASSWORD_MAX_RETRYS - 1) {
-                        decryptionFailureCount++;
-                        continue;
-                    } else {
-                        throw e;
-                    }
-                } catch (PBCDeprecatedVersionException& e) {
-                    QMessageBox::critical(this,
-                            "Open Playbook",
-                            "Cannot load playbook because it's created by a newer version of Playbook-Creator. "
-                            "Please download the latest version of Playbook-Creator!");
-                }
-                _playView->resetPlay();
-                resetForNewPlaybook();
-                updateTitle(true);
-                break;
-            }
-        }
+        loadPlaybook(fileName);
+        return;
     }
 }
 

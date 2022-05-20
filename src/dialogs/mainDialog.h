@@ -50,7 +50,7 @@ class MainDialog : public QMainWindow {
  public:
     explicit MainDialog(QWidget *parent = 0);
     ~MainDialog();
-    void show();
+    void show(QString playbookPath);
     void fillPlayerInfoDock(PBCPlayerSP player);
     void fillPlayInfoDock(PBCPlaySP play);
     void keyReleaseEvent(QKeyEvent *event);
@@ -68,6 +68,7 @@ class MainDialog : public QMainWindow {
     void saveFormationAs();
     void newPlaybook();
     void savePlaybookAs();
+    void loadPlaybook(QString fileName);
     void openPlaybook();
     void importPlaybook();
     void exportAsPDF();
