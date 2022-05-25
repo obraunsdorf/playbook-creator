@@ -46,6 +46,7 @@ int main(int argc, char *argv[]) {
               << BOTAN_VERSION_MINOR << "."
               << BOTAN_VERSION_PATCH << std::endl;
 
+
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);
     a.setApplicationName("Playbook Creator");
@@ -103,7 +104,11 @@ int main(int argc, char *argv[]) {
 
             }
         }
-        w.show();
+        QString playbookPath;
+        if (argc == 2) {
+            playbookPath = QString(argv[1]);
+        }
+        w.show(playbookPath);
         a.exec();
     } catch(std::exception &e) {
         QString errorString = "Terminating playbook creator. Please open an bug report on "
