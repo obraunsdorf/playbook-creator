@@ -157,7 +157,6 @@ void MainDialog::enableMenuOptions() {
             action->setEnabled(true);
         }
     }
-    ui->generalInfoBox->setEnabled(true);
 }
 
 
@@ -220,6 +219,8 @@ void MainDialog::fillPlayInfoDock(PBCPlaySP play) {
     ui->playNameLineEdit->setText(QString::fromStdString(play->name()));
     ui->codeNameLineEdit->setText(QString::fromStdString(play->codeName()));
     ui->commentTextEdit->setText(QString::fromStdString(play->comment()));
+    ui->generalInfoBox->setEnabled(true);
+    ui->groupBox_6->setEnabled(true);
 }
 
 void MainDialog::fillPlayerInfoDock(PBCPlayerSP player) {

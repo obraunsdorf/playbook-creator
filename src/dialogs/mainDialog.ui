@@ -111,6 +111,9 @@
      </property>
      <item>
       <widget class="QGroupBox" name="groupBox_6">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="title">
         <string>General Info</string>
        </property>
