@@ -25,6 +25,7 @@
 
 #include "util/pbcConfig.h"
 #include "gui/pbcPlayerView.h"
+#include "gui/pbcSettings.h"
 #include "pbcController.h"
 #include "models/pbcPlaybook.h"
 #include "dialogs/pbcExportPdfDialog.h"
@@ -445,7 +446,7 @@ void MainDialog::savePlaybookAs() {
     std::string stdFile = PBCController::getInstance()->getPlaybook()->name() + ".pbc";
     QFileDialog fileDialog(
                 this, "Save Playbook",
-                QString::fromStdString(stdFile),
+                getLastPlaybookLocation(QString::fromStdString(stdFile)),
                 "PBC Files (*.pbc);;All Files (*.*)");
 
     fileDialog.setFileMode(QFileDialog::AnyFile);
@@ -472,8 +473,7 @@ void MainDialog::savePlaybookAs() {
  * @brief Loads a playbook from a file which is specified by an open-dialog.
  */
 void MainDialog::openPlaybook() {
-    QFileDialog fileDialog(this, "Open Playbook", "",
-                           "PBC Files (*.pbc);;All Files (*.*)");
+    QFileDialog fileDialog(this, "Open Playbook", getLastPlaybookLocation(""), "PBC Files (*.pbc);;All Files (*.*)");
 
     fileDialog.setFileMode(QFileDialog::ExistingFile);
     if (fileDialog.exec() == true) {
@@ -524,8 +524,7 @@ void MainDialog::openPlaybook() {
  * @brief Import a playbook from a file which is specified by an open-dialog.
  */
 void MainDialog::importPlaybook() {
-    QFileDialog fileDialog(this, "Impport Playbook", "",
-                           "PBC Files (*.pbc);;All Files (*.*)");
+    QFileDialog fileDialog(this, "Impport Playbook", getLastPlaybookLocation(""), "PBC Files (*.pbc);;All Files (*.*)");
 
     fileDialog.setFileMode(QFileDialog::ExistingFile);
     if (fileDialog.exec() == true) {
@@ -628,7 +627,7 @@ void MainDialog::exportAsPDF() {
         std::string stdFile = PBCController::getInstance()->getPlaybook()->name() + ".pdf";
         QFileDialog fileDialog(
                     this, "Export Playbook As PDF",
-                    QString::fromStdString(stdFile),
+                    getLastPlaybookLocation(QString::fromStdString(stdFile)),
                     "PDF Documents (*.pdf);;All Files (*.*)");
 
         fileDialog.setFileMode(QFileDialog::AnyFile);

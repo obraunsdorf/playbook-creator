@@ -48,6 +48,8 @@ int main(int argc, char *argv[]) {
 
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);
+    a.setApplicationName("Playbook Creator");
+
     MainDialog w;
     try {
         QMessageBox::StandardButton shall_search_update =

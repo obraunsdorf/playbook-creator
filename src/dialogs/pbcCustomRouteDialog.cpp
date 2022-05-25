@@ -24,6 +24,7 @@
 #include "util/pbcConfig.h"
 #include "util/pbcExceptions.h"
 #include "util/pbcStorage.h"
+#include "gui/pbcSettings.h"
 #include "pbcController.h"
 #include "models/pbcPlaybook.h"
 #include "dialogs/pbcSetPasswordDialog.h"
@@ -32,12 +33,13 @@
 #include <string>
 #include <QFileDialog>
 #include <QInputDialog>
+#include <QFileInfo>
 
 void PBCCustomRouteDialog::savePlaybookOnRouteCreation() {
     std::string stdFile = PBCController::getInstance()->getPlaybook()->name() + ".pbc";
     QFileDialog fileDialog(
                 this, "Save Playbook",
-                QString::fromStdString(stdFile),
+                getLastPlaybookLocation(QString::fromStdString(stdFile)),
                 "PBC Files (*.pbc);;All Files (*.*)");
 
     fileDialog.setFileMode(QFileDialog::AnyFile);
@@ -53,6 +55,7 @@ void PBCCustomRouteDialog::savePlaybookOnRouteCreation() {
             QString password = pwDialog.getPassword();
             PBCStorage::getInstance()->savePlaybook(password.toStdString(),
                                                     fileName.toStdString());
+            setLastPlaybookLocation(QFileInfo(fileName));
         }
     }
 }
