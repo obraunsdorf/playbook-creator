@@ -24,6 +24,7 @@
 #include "models/pbcPlaybook.h"
 #include "util/pbcConfig.h"
 #include "util/pbcExceptions.h"
+#include "gui/pbcSettings.h"
 #include <botan/version.h>
 #include <botan/pipe.h>
 #include <botan/data_src.h>
@@ -176,6 +177,8 @@ void PBCStorage::savePlaybook(const std::string& password,
     generateAndSetKey(password);
     _currentPlaybookFileName = fileName;
     writeToCurrentPlaybookFile();
+
+    setLastPlaybookLocation(QFileInfo(QString::fromStdString(fileName)));
 }
 
 /**
@@ -267,6 +270,9 @@ std::pair<KeySP, SaltSP>  PBCStorage::loadPlaybook(const std::string &password, 
     std::istream istream(&buff);
     boost::archive::text_iarchive archive(istream);
     archive >> *targetPlaybook;
+
+    setLastPlaybookLocation(QFileInfo(QString::fromStdString(fileName)));
+
     return cryptoMaterial;
 }
 

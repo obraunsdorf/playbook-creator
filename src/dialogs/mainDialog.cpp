@@ -25,6 +25,7 @@
 
 #include "util/pbcConfig.h"
 #include "gui/pbcPlayerView.h"
+#include "gui/pbcSettings.h"
 #include "pbcController.h"
 #include "models/pbcPlaybook.h"
 #include "dialogs/pbcExportPdfDialog.h"
@@ -132,8 +133,13 @@ void MainDialog::keyReleaseEvent(QKeyEvent *event) {
 /**
  * @brief shows the main window graphically at application startup
  */
-void MainDialog::show() {
+void MainDialog::show(QString playbookPath) {
     QMainWindow::showMaximized();
+
+    if (!playbookPath.isNull()) {
+        loadPlaybook(playbookPath);
+        return;
+    }
 
     QMessageBox messageBox(this);
     QPushButton* openButton = messageBox.addButton("Open Playbook",
@@ -181,7 +187,6 @@ void MainDialog::enableMenuOptions() {
             action->setEnabled(true);
         }
     }
-    ui->generalInfoBox->setEnabled(true);
 }
 
 
@@ -244,6 +249,8 @@ void MainDialog::fillPlayInfoDock(PBCPlaySP play) {
     ui->playNameLineEdit->setText(QString::fromStdString(play->name()));
     ui->codeNameLineEdit->setText(QString::fromStdString(play->codeName()));
     ui->commentTextEdit->setText(QString::fromStdString(play->comment()));
+    ui->generalInfoBox->setEnabled(true);
+    ui->groupBox_6->setEnabled(true);
 
     fillPlayScoutingInfoDock(play);
 }
@@ -559,7 +566,7 @@ void MainDialog::savePlaybookAs() {
     std::string stdFile = PBCController::getInstance()->getPlaybook()->name() + ".pbc";
     QFileDialog fileDialog(
                 this, "Save Playbook",
-                QString::fromStdString(stdFile),
+                getLastPlaybookLocation(QString::fromStdString(stdFile)),
                 "PBC Files (*.pbc);;All Files (*.*)");
 
     fileDialog.setFileMode(QFileDialog::AnyFile);
@@ -583,11 +590,51 @@ void MainDialog::savePlaybookAs() {
 }
 
 /**
+ * @brief Loads a playbook from a given filename
+ */
+void MainDialog::loadPlaybook(QString fileName) {
+    unsigned int decryptionFailureCount = 0;
+    while (true) {
+        bool ok;
+        std::string msg;
+        if (decryptionFailureCount == 0) {
+            msg = "Enter decryption password";
+        } else {
+            msg = "Error on decryption. Maybe wrong password. Try again!";
+        }
+        QString password = QInputDialog::getText(this, "Open Playbook",
+                                                 QString::fromStdString(msg),
+                                                 QLineEdit::Password, "", &ok);
+        if (ok == true) {
+            try {
+                PBCStorage::getInstance()->loadActivePlaybook(password.toStdString(),
+                                                              fileName.toStdString());
+            } catch (PBCDecryptionException &e) {
+                if (decryptionFailureCount < PASSWORD_MAX_RETRYS - 1) {
+                    decryptionFailureCount++;
+                    continue;
+                } else {
+                    throw e;
+                }
+            } catch (PBCDeprecatedVersionException& e) {
+                QMessageBox::critical(this,
+                        "Open Playbook",
+                        "Cannot load playbook because it's created by a newer version of Playbook-Creator. "
+                        "Please download the latest version of Playbook-Creator!");
+            }
+            _playView->resetPlay();
+            resetForNewPlaybook();
+            updateTitle(true);
+            break;
+        }
+    }
+}
+
+/**
  * @brief Loads a playbook from a file which is specified by an open-dialog.
  */
 void MainDialog::openPlaybook() {
-    QFileDialog fileDialog(this, "Open Playbook", "",
-                           "PBC Files (*.pbc);;All Files (*.*)");
+    QFileDialog fileDialog(this, "Open Playbook", getLastPlaybookLocation(""), "PBC Files (*.pbc);;All Files (*.*)");
 
     fileDialog.setFileMode(QFileDialog::ExistingFile);
     if (fileDialog.exec() == true) {
@@ -595,41 +642,8 @@ void MainDialog::openPlaybook() {
         pbcAssert(files.size() == 1);
         QString fileName = files.first();
 
-        unsigned int decryptionFailureCount = 0;
-        while (true) {
-            bool ok;
-            std::string msg;
-            if (decryptionFailureCount == 0) {
-                msg = "Enter decryption password";
-            } else {
-                msg = "Error on decryption. Maybe wrong password. Try again!";
-            }
-            QString password = QInputDialog::getText(this, "Open Playbook",
-                                                     QString::fromStdString(msg),
-                                                     QLineEdit::Password, "", &ok);
-            if (ok == true) {
-                try {
-                    PBCStorage::getInstance()->loadActivePlaybook(password.toStdString(),
-                                                                  fileName.toStdString());
-                } catch (PBCDecryptionException &e) {
-                    if (decryptionFailureCount < PASSWORD_MAX_RETRYS - 1) {
-                        decryptionFailureCount++;
-                        continue;
-                    } else {
-                        throw e;
-                    }
-                } catch (PBCDeprecatedVersionException& e) {
-                    QMessageBox::critical(this,
-                            "Open Playbook",
-                            "Cannot load playbook because it's created by a newer version of Playbook-Creator. "
-                            "Please download the latest version of Playbook-Creator!");
-                }
-                _playView->resetPlay();
-                resetForNewPlaybook();
-                updateTitle(true);
-                break;
-            }
-        }
+        loadPlaybook(fileName);
+        return;
     }
 }
 
@@ -638,8 +652,7 @@ void MainDialog::openPlaybook() {
  * @brief Import a playbook from a file which is specified by an open-dialog.
  */
 void MainDialog::importPlaybook() {
-    QFileDialog fileDialog(this, "Impport Playbook", "",
-                           "PBC Files (*.pbc);;All Files (*.*)");
+    QFileDialog fileDialog(this, "Impport Playbook", getLastPlaybookLocation(""), "PBC Files (*.pbc);;All Files (*.*)");
 
     fileDialog.setFileMode(QFileDialog::ExistingFile);
     if (fileDialog.exec() == true) {
@@ -742,7 +755,7 @@ void MainDialog::exportAsPDF() {
         std::string stdFile = PBCController::getInstance()->getPlaybook()->name() + ".pdf";
         QFileDialog fileDialog(
                     this, "Export Playbook As PDF",
-                    QString::fromStdString(stdFile),
+                    getLastPlaybookLocation(QString::fromStdString(stdFile)),
                     "PDF Documents (*.pdf);;All Files (*.*)");
 
         fileDialog.setFileMode(QFileDialog::AnyFile);
