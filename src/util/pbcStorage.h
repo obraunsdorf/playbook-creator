@@ -72,6 +72,9 @@ protected:
     PBCStorage() {}
 
 public:
+    //just here to be accessible for fuzzing
+    std::pair<KeySP, SaltSP> inner_loadPlaybook(const std::string &password, std::ifstream &fileName, PBCPlaybookSP);
+
     void init(const std::string &fileName);
 
     void savePlaybook(const std::string &password, const std::string &fileName);

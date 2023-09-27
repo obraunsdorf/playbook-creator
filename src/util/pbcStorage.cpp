@@ -225,19 +225,9 @@ void PBCStorage::writeToCurrentPlaybookFile() {
 }
 
 
-/**
- * @brief Passes a file to the PBCStorage::decrypt() function to decrypt it and
- * write it to a string buffer. The buffer is then read and deserialized to a
- * PBCPlaybook instance using Boost serialization framework
- * @param password The decryption password
- * @param fileName The path to the file where the playbook ist stored
- */
-std::pair<KeySP, SaltSP>  PBCStorage::loadPlaybook(const std::string &password, const std::string &fileName, PBCPlaybookSP targetPlaybook) {
-    std::string extension = fileName.substr(fileName.size() - 4);
-    pbcAssert(extension == ".pbc");
+std::pair<KeySP, SaltSP> PBCStorage::inner_loadPlaybook(const std::string &password, std::ifstream &ifstream, PBCPlaybookSP targetPlaybook) {
     std::stringbuf buff;
     std::ostream ostream(&buff);
-    std::ifstream ifstream(fileName, std::ios_base::binary);
 
     const size_t maxLen = _PREAMBLE.length();
     char* preambleBuffer = new char[maxLen];
@@ -271,8 +261,24 @@ std::pair<KeySP, SaltSP>  PBCStorage::loadPlaybook(const std::string &password, 
     boost::archive::text_iarchive archive(istream);
     archive >> *targetPlaybook;
 
-    setLastPlaybookLocation(QFileInfo(QString::fromStdString(fileName)));
 
+    return cryptoMaterial;
+}
+
+
+/**
+ * @brief Passes a file to the PBCStorage::decrypt() function to decrypt it and
+ * write it to a string buffer. The buffer is then read and deserialized to a
+ * PBCPlaybook instance using Boost serialization framework
+ * @param password The decryption password
+ * @param fileName The path to the file where the playbook ist stored
+ */
+std::pair<KeySP, SaltSP>  PBCStorage::loadPlaybook(const std::string &password, const std::string &fileName, PBCPlaybookSP targetPlaybook) {
+    std::string extension = fileName.substr(fileName.size() - 4);
+    pbcAssert(extension == ".pbc");
+    std::ifstream ifstream(fileName, std::ios_base::binary);
+    std::pair<KeySP, SaltSP> cryptoMaterial = inner_loadPlaybook(password, ifstream, targetPlaybook);
+    setLastPlaybookLocation(QFileInfo(QString::fromStdString(fileName)));
     return cryptoMaterial;
 }
 

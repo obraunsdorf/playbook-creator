@@ -555,7 +555,7 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
         PBCMotionSP emptyMotion(new PBCMotion());
         this->_playerSP->setMotion(emptyMotion);
         this->repaint();
-    } else if(clicked == action_ApplyMotion) {} else if(clicked == action_SetColor) {
+    } else if(clicked == action_SetColor) {
         QColor color = QColorDialog::getColor(Qt::black);
         if(color.isValid()) {
             this->setColor(PBCColor(color.red(),

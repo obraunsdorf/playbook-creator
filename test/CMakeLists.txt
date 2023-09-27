@@ -20,3 +20,17 @@ if(WIN32)
 endif()
 
 target_link_libraries (tests ${MODE} PBCLib ${Boost_LIBRARIES})
+
+
+
+add_executable (pbc-storage-fuzzer fuzzer.cpp)
+
+if(WIN32)
+	# link msvc runtime statically WITHOUT debug symbols
+	set_property(TARGET pbc-storage-fuzzer PROPERTY
+ 	 MSVC_RUNTIME_LIBRARY "MultiThreaded")
+endif()
+
+#set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fsanitize=fuzzer")
+target_link_options(pbc-storage-fuzzer PRIVATE "-fno-omit-frame-pointer" "-g" "-fsanitize=address,fuzzer" "-fsanitize-coverage=edge,trace-pc-guard,indirect-calls,trace-cmp,trace-div,trace-gep")
+target_link_libraries (pbc-storage-fuzzer ${MODE} PBCLib)
