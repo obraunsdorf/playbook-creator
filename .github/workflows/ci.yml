@@ -95,7 +95,7 @@ jobs:
       - name: Install vcpkg packages on Windows
         if: matrix.os == 'windows-2025'
         run: |
-          vcpkg install boost-serialization:x64-windows-static boost-geometry:x64-windows-static boost-filesystem:x64-windows-static boost-test:x64-windows-static
+          vcpkg install "boost-serialization[core]:x64-windows-static@1.78.0" "boost-geometry[core]:x64-windows-static@1.78.0" "boost-filesystem[core]:x64-windows-static@1.78.0" "boost-test[core]:x64-windows-static@1.78.0"
         shell: pwsh
         
       - name: Cache Boost on MacOS and Linux
