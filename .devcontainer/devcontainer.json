@@ -5,11 +5,19 @@
 	"build": {
 		"dockerfile": "Dockerfile",
 		// Update 'VARIANT' to pick an Ubuntu version: hirsute, focal, bionic
-		"args": { "VARIANT": "bionic" }
+		"args": { "VARIANT": "noble" }
+	},
+
+	"features": {
+		"ghcr.io/devcontainers/features/rust:1": {
+			"version": "latest",
+			"profile": "default"
+		}
 	},
 
 	"mounts": [
-		"source=${localEnv:HOME}/.cargo/registry,target=/home/vscode/.cargo/registry,type=bind,consistency=cached"
+		"source=${localEnv:HOME}/.cargo/registry,target=/home/vscode/.cargo/registry,type=bind,consistency=cached",
+		"source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,readonly,type=bind"
 	],
 
 	"runArgs": [
