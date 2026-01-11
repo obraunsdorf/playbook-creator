@@ -90,12 +90,12 @@ jobs:
         if: matrix.os == 'windows-2025'
         uses: lukka/run-vcpkg@v11
         with:
-          vcpkgGitCommitId: '01f602195983451bc83e72f4214af2cbc495aa94'
+          vcpkgGitCommitId: 'd2fb680ed1d8ab1ae5d0c93a5be2e0b7d39ad5b6'
 
       - name: Install vcpkg packages on Windows
         if: matrix.os == 'windows-2025'
         run: |
-          vcpkg install "boost-serialization[core]:x64-windows-static@1.78.0" "boost-geometry[core]:x64-windows-static@1.78.0" "boost-filesystem[core]:x64-windows-static@1.78.0" "boost-test[core]:x64-windows-static@1.78.0"
+          vcpkg install --x-manifest-root="${{ github.workspace }}" --x-install-root="${{ github.workspace }}/vcpkg_installed"
         shell: pwsh
         
       - name: Cache Boost on MacOS and Linux
