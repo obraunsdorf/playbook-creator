@@ -27,7 +27,9 @@ FIND_PATH(BOTAN_INCLUDE_DIR botan/botan.h
    ${PC_BOTAN_INCLUDE_DIRS}
    )
 
-FIND_LIBRARY(BOTAN_LIBRARY NAMES ${PC_BOTAN_LIBRARIES}
+# Prefer static library
+FIND_LIBRARY(BOTAN_LIBRARY 
+   NAMES libbotan-2.a libbotan-1.10.a libbotan-1.9.a libbotan-1.8.a libbotan.a botan-2 botan-1.10 botan-1.9 botan-1.8 botan
    HINTS
    ${PC_BOTAN_LIBDIR}
    ${PC_BOTAN_LIBRARY_DIRS}
