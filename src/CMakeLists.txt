@@ -145,6 +145,8 @@ add_library(PBCLib STATIC ${SOURCES} ${MOC_SRCS} ${UI_HEADERS})
 #add_dependencies(PBCLib style_checking)
 
 # link the updater library
+set(PBC_UPDATER_CMAKE_NAME pbc_updater)
+corrosion_import_crate(MANIFEST_PATH ../updater/Cargo.toml)
 set(MODE "")
 if(WIN32)
 	set(MODE optimized) # default to release mode on windows

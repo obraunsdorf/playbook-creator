@@ -1,12 +1,14 @@
-cmake_minimum_required (VERSION 3.15)
+cmake_minimum_required (VERSION 3.22)
 set(CMAKE_CXX_STANDARD 14)
+
 project (PlaybookCreator)
+
+
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules")
 
 if(NOT WIN32)
 	set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fsanitize=address -fno-omit-frame-pointer")
 endif()
-
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules")
 
 find_package(Git)
 if(GIT_FOUND)
@@ -34,11 +36,14 @@ endif()
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin)
 
-
-enable_language(Rust)
-include(CMakeCargo)
-set(PBC_UPDATER_CMAKE_NAME pbc-updater)
-add_subdirectory(updater)
+# Fetch and setup Corrosion for Rust integration
+include(FetchContent)
+FetchContent_Declare(
+    Corrosion
+    GIT_REPOSITORY https://github.com/corrosion-rs/corrosion.git
+    GIT_TAG v0.6
+)
+FetchContent_MakeAvailable(Corrosion)
 
 add_subdirectory(3rdparty/Qt-Color-Widgets)
 
