@@ -1,1 +1,0 @@
-cargo_build(NAME ${PBC_UPDATER_CMAKE_NAME})

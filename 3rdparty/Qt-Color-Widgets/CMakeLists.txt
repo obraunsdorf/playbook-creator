@@ -16,7 +16,7 @@
 #
 
 
-cmake_minimum_required (VERSION 3.1 FATAL_ERROR)
+cmake_minimum_required (VERSION 3.10 FATAL_ERROR)
 
 set(COLORWIDGET_PROJECT_NAME QtColorWidgets)
 project(${COLORWIDGET_PROJECT_NAME} CXX)
