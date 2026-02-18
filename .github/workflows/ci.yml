@@ -68,6 +68,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Cache Cargo
+        uses: Swatinem/rust-cache@v2
+
       - name: Install Linux dependencies
         if: matrix.os == 'ubuntu-24.04'
         run: sudo apt-get update && sudo apt-get install -y build-essential pkg-config curl git cmake libbotan-2-dev qtbase5-dev qttools5-dev-tools qttools5-dev libssl-dev
