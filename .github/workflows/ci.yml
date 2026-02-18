@@ -91,7 +91,7 @@ jobs:
         run: |
           git clone https://github.com/microsoft/vcpkg.git
           cd vcpkg
-          git checkout 01f602195983451bc83e72f4214af2cbc495aa94
+          git checkout b86c0c35b88e2bf3557ff49dc831689c2f085090
           .\bootstrap-vcpkg.bat
 
       - name: Cache vcpkg
