@@ -159,7 +159,7 @@ jobs:
       - name: Build PBC on MacOS
         if: matrix.os == 'macOS-latest'
         run: |
-          cmake . -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_LIBRARY_DIR=$(pwd)/boost/lib -DBOTAN_LIBRARY=botan/libbotan-2.a -DBOTAN_INCLUDE_DIR=botan/build/include -DCMAKE_PREFIX_PATH=$(brew --prefix qt5)
+          cmake . -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_LIBRARY_DIR=$(pwd)/boost/lib -DBOTAN_LIBRARY=botan/libbotan-2.a -DBOTAN_INCLUDE_DIR=botan/build/include -DCMAKE_PREFIX_PATH=$(brew --prefix qt@5)
           make
           
       - name: Build PBC on Linux
@@ -188,7 +188,7 @@ jobs:
       - name: CreateArtifact on MacOS
         if: matrix.os == 'macOS-latest'
         run: |
-          $(brew --prefix qt5)/bin/macdeployqt bin/PlaybookCreator.app -verbose=3 -dmg -no-strip
+          $(brew --prefix qt@5)/bin/macdeployqt bin/PlaybookCreator.app -verbose=3 -dmg -no-strip
 
       - name: Create Artifact on Windows
         if: matrix.os == 'windows-2025'
