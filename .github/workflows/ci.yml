@@ -1,6 +1,8 @@
 name: Build and Test
 
 on:
+  schedule:
+    - cron: '0 0 * * 0'  # Run weekly on Sunday at midnight UTC
   workflow_dispatch:
     inputs:
       debug_enabled:
