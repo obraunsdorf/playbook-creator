@@ -50,10 +50,13 @@ jobs:
         include:
           - os: ubuntu-24.04
             artifact_path: bin/PlaybookCreator
-            artifact_name: PlaybookCreator
-          - os: macos-latest
+            artifact_name: PlaybookCreator-Linux
+          - os: macos-15
             artifact_path: bin/PlaybookCreator.dmg
-            artifact_name: PlaybookCreator.dmg
+            artifact_name: PlaybookCreator-MacOS-15-ARM.dmg
+          - os: macos-15-intel
+            artifact_path: bin/PlaybookCreator.dmg
+            artifact_name: PlaybookCreator-MacOS-15-Intel.dmg
           - os: windows-2025
             artifact_path: bin/PlaybookCreatorSetup.exe
             artifact_name: PlaybookCreatorSetup.exe
@@ -68,7 +71,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y build-essential pkg-config curl git cmake libbotan-2-dev qtbase5-dev qttools5-dev-tools qttools5-dev libssl-dev
 
       - name: Install macOS dependencies
-        if: matrix.os == 'macOS-latest'
+        if: startsWith(matrix.os, 'macos-15')
         run: |
           brew list git &>/dev/null || brew install git
           brew list cmake &>/dev/null || brew install cmake
@@ -110,7 +113,7 @@ jobs:
           .\vcpkg\vcpkg install boost-serialization:x64-windows-static boost-geometry:x64-windows-static boost-filesystem:x64-windows-static boost-test:x64-windows-static
         
       - name: Cache Boost on MacOS and Linux
-        if: (matrix.os == 'macOS-latest' || matrix.os == 'ubuntu-24.04')
+        if: startsWith(matrix.os, 'macos-15') || matrix.os == 'ubuntu-24.04'
         id: cache_boost
         uses: actions/cache@v4
         with:
@@ -119,7 +122,7 @@ jobs:
           key: ${{ matrix.os }}-cache_boost_key_v02
           
       - name: Build Boost on MacOS and Linux
-        if: (matrix.os == 'macOS-latest' || matrix.os == 'ubuntu-24.04') && steps.cache_boost.outputs.cache-hit != 'true'
+        if: (startsWith(matrix.os, 'macos-15') || matrix.os == 'ubuntu-24.04') && steps.cache_boost.outputs.cache-hit != 'true'
         run: |
           mkdir boost
           curl -O -L https://archives.boost.io/release/1.78.0/source/boost_1_78_0.tar.gz
@@ -138,7 +141,7 @@ jobs:
           key: ${{ matrix.os }}-cache_botan_key_v01
           
       - name: Build Botan on MacOS
-        if: (matrix.os == 'macOS-latest') && steps.cache-botan.outputs.cache-hit != 'true'
+        if: startsWith(matrix.os, 'macos-15') && steps.cache-botan.outputs.cache-hit != 'true'
         run: |
           bash ci-scripts/build-botan.sh
           ls botan/
@@ -157,7 +160,7 @@ jobs:
         shell: cmd
 
       - name: Build PBC on MacOS
-        if: matrix.os == 'macOS-latest'
+        if: startsWith(matrix.os, 'macos-15')
         run: |
           cmake . -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_LIBRARY_DIR=$(pwd)/boost/lib -DBOTAN_LIBRARY=botan/libbotan-2.a -DBOTAN_INCLUDE_DIR=botan/build/include -DCMAKE_PREFIX_PATH=$(brew --prefix qt@5)
           make
@@ -176,7 +179,7 @@ jobs:
         shell: cmd
 
       - name: Test on Linux and MacOS
-        if: matrix.os == 'macOS-latest' || matrix.os == 'ubuntu-24.04'
+        if: startsWith(matrix.os, 'macos-15') || matrix.os == 'ubuntu-24.04'
         run: |
           ASAN_OPTIONS=detect_leaks=0 bin/tests -- --test-base-dir "test"
 
@@ -186,7 +189,7 @@ jobs:
           bin\Release\tests.exe -- --test-base-dir "test"
   
       - name: CreateArtifact on MacOS
-        if: matrix.os == 'macOS-latest'
+        if: startsWith(matrix.os, 'macos-15')
         run: |
           $(brew --prefix qt@5)/bin/macdeployqt bin/PlaybookCreator.app -verbose=3 -dmg -no-strip
 
