@@ -38,7 +38,7 @@ jobs:
           gh release create ${{ steps.previoustag.outputs.tag }} \
             --draft \
             --title "${{ steps.previoustag.outputs.tag }}" \
-            --notes "Release ${{ steps.previoustag.outputs.tag }}"
+            --generate-notes
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -217,8 +217,9 @@ jobs:
 
       - name: Upload Release Assets
         if: github.event.inputs.create_release == 'true'
+        shell: bash
         run: |
-          gh release upload ${{ needs.create_release.outputs.tag_name }} \
-            "${{ matrix.artifact_path }}#${{ matrix.artifact_name }}"
+          mv "${{ matrix.artifact_path }}" "${{ matrix.artifact_name }}"
+          gh release upload "${{ needs.create_release.outputs.tag_name }}" "${{ matrix.artifact_name }}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
