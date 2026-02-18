@@ -219,6 +219,6 @@ jobs:
         if: github.event.inputs.create_release == 'true'
         run: |
           gh release upload ${{ needs.create_release.outputs.tag_name }} \
-            ${{ matrix.artifact_path }}#${{ matrix.artifact_name }}
+            "${{ matrix.artifact_path }}#${{ matrix.artifact_name }}"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
