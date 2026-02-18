@@ -151,7 +151,7 @@ jobs:
         run: |
           git clone https://github.com/randombit/botan botan 
           cd botan 
-          git checkout 2.6.0 
+          git checkout 2.19.5 
           python configure.py --disable-shared-library --msvc-runtime=MT --cxxflags="/O2 /Oi /D_ENABLE_EXTENDED_ALIGNED_STORAGE" --link-method=copy 
           nmake
         shell: cmd
