@@ -139,6 +139,7 @@ jobs:
 
 
       - name: Cache Botan
+        if: startsWith(matrix.os, 'macos-15')
         id: cache-botan
         uses: actions/cache@v4
         with:
@@ -168,13 +169,13 @@ jobs:
         if: startsWith(matrix.os, 'macos-15')
         run: |
           cmake . -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_LIBRARY_DIR=$(pwd)/boost/lib -DBOTAN_LIBRARY=botan/libbotan-2.a -DBOTAN_INCLUDE_DIR=botan/build/include -DCMAKE_PREFIX_PATH=$(brew --prefix qt@5)
-          make -j
+          make
           
       - name: Build PBC on Linux
         if: matrix.os == 'ubuntu-24.04'
         run: |
           cmake -DBoost_INCLUDE_DIR=$(pwd)/boost/include -DBoost_LIBRARY_DIR=$(pwd)/boost/lib .
-          make -j
+          make
 
       - name: Build PBC on Windows
         if: matrix.os == 'windows-2025'
