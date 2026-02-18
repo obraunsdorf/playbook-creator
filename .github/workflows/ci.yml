@@ -86,17 +86,32 @@ jobs:
           arch: 'win64_msvc2019_64'
           cache: true
 
-      - name: Install Boost on Windows
-        if: matrix.os == 'windows-2025'
-        uses: lukka/run-vcpkg@v11
-        with:
-          vcpkgGitCommitId: 'd2fb680ed1d8ab1ae5d0c93a5be2e0b7d39ad5b6'
-
-      - name: Install vcpkg packages on Windows
+      - name: Clone vcpkg for boost 1.78
         if: matrix.os == 'windows-2025'
         run: |
-          vcpkg install --x-manifest-root="${{ github.workspace }}" --x-install-root="${{ github.workspace }}/vcpkg_installed"
-        shell: pwsh
+          git clone https://github.com/microsoft/vcpkg.git
+          cd vcpkg
+          git checkout 01f602195983451bc83e72f4214af2cbc495aa94
+          .\bootstrap-vcpkg.bat
+
+      - name: Cache vcpkg
+        if: matrix.os == 'windows-2025'
+        uses: actions/cache@v4
+        with:
+          path: |
+            vcpkg/installed
+            vcpkg/buildtrees
+            vcpkg/downloads
+          key: windows-vcpkg-boost-1.78-static
+
+      - name: Install Boost 1.78
+        if: matrix.os == 'windows-2025'
+        run: |
+          .\vcpkg\vcpkg install ^
+            boost-filesystem:x64-windows-static ^
+            boost-serialization:x64-windows-static ^
+            boost-geometry:x64-windows-static ^
+            boost-test:x64-windows-static
         
       - name: Cache Boost on MacOS and Linux
         if: (matrix.os == 'macOS-latest' || matrix.os == 'ubuntu-24.04')
@@ -160,7 +175,7 @@ jobs:
       - name: Build PBC on Windows
         if: matrix.os == 'windows-2025'
         run: |
-          cmake -G "Visual Studio 17 2022" -A x64 -D CMAKE_TOOLCHAIN_FILE=D:\a\playbook-creator\playbook-creator\vcpkg\scripts\buildsystems\vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static -DBOOST_ROOT=D:\a\playbook-creator\playbook-creator\vcpkg\installed\x64-windows-static -D Qt5_DIR=%Qt5_DIR% -D Qt5Widgets_DIR=%Qt5_DIR%\..\Qt5Widgets -D Qt5PrintSupport_DIR=%Qt5_DIR%\..\Qt5PrintSupport -D BOTAN_LIBRARY=${{ github.workspace }}\botan\botan.lib -D BOTAN_INCLUDE_DIR=${{ github.workspace }}\botan\build\include .
+          cmake -G "Visual Studio 17 2022" -A x64 -D CMAKE_TOOLCHAIN_FILE=D:\a\playbook-creator\playbook-creator\vcpkg\scripts\buildsystems\vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static Qt5Widgets_DIR=%Qt5_DIR%\..\Qt5Widgets -D Qt5PrintSupport_DIR=%Qt5_DIR%\..\Qt5PrintSupport -D BOTAN_LIBRARY=${{ github.workspace }}\botan\botan.lib -D BOTAN_INCLUDE_DIR=${{ github.workspace }}\botan\build\include .
           cmake --build . --config Release --parallel
         shell: cmd
 
