@@ -17,7 +17,8 @@
 
 	"mounts": [
 		"source=${localEnv:HOME}/.cargo/registry,target=/home/vscode/.cargo/registry,type=bind,consistency=cached",
-		"source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,readonly,type=bind"
+		"source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,readonly,type=bind",
+		"source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind"
 	],
 
 	"runArgs": [
@@ -34,7 +35,9 @@
 
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
-		"ms-vscode.cpptools"
+		"ms-vscode.cpptools",
+		"GitHub.copilot",
+		"rust-lang.rust-analyzer"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
