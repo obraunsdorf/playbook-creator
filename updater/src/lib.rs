@@ -1,7 +1,4 @@
 use core::slice;
-use semver;
-use std::ffi::CString;
-use std::os::raw::c_char;
 
 #[derive(Debug, Clone)]
 enum MyError {
@@ -15,8 +12,8 @@ impl std::convert::From<self_update::errors::Error> for MyError {
     }
 }
 
-impl std::convert::From<semver::SemVerError> for MyError {
-    fn from(_: semver::SemVerError) -> Self {
+impl std::convert::From<semver::Error> for MyError {
+    fn from(_: semver::Error) -> Self {
         MyError::SemVerError
     }
 }
@@ -39,7 +36,7 @@ struct ReleaseWithBody {
     description: String,
 }
 
-#[no_mangle]
+#[unsafe(no_mangle)]
 pub extern "C" fn updates_available(
     current_pbc_version_major: u64,
     current_pbc_version_minor: u64,
@@ -60,8 +57,11 @@ pub extern "C" fn updates_available(
             let patch = latest_release.version.patch;
             // copy bytes from description into C-provided buffer
             let length = std::cmp::min(description_result.len(), latest_release.description.len());
-            let mut description_result_slice = &mut description_result[..length];
-            println!("writing {} bytes from fetched description to buffer", length);
+            let description_result_slice = &mut description_result[..length];
+            println!(
+                "writing {} bytes from fetched description to buffer",
+                length
+            );
             description_result_slice
                 .clone_from_slice(&latest_release.description.as_bytes()[..length]);
             UpdateCheckingStatus::UpdatesAvailable(major, minor, patch)
@@ -87,8 +87,8 @@ fn fetch_parse_and_filter_releases(
         .map(|release| {
             // TODO: avoid unwrap!
             ReleaseWithBody {
-                version: semver::Version::parse(release.version()).unwrap(),
-                description: release.body.clone(),
+                version: semver::Version::parse(&release.version).unwrap(),
+                description: release.body.as_deref().unwrap_or("").to_string(),
             }
         })
         .filter(|ReleaseWithBody { version, .. }| {
@@ -100,6 +100,7 @@ fn fetch_parse_and_filter_releases(
     Ok(versions)
 }
 
+#[cfg(test)]
 mod tests {
     use crate::*;
 
