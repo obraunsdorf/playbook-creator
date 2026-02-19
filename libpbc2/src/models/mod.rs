@@ -17,6 +17,7 @@
     Copyright 2025 Oliver Braunsdorf
 */
 mod category;
+mod default_playbook;
 mod formation;
 mod motion;
 mod movement;

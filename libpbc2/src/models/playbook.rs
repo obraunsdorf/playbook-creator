@@ -17,6 +17,7 @@
     Copyright 2025 Oliver Braunsdorf
 */
 
+use super::default_playbook::{create_default_formation, create_default_routes};
 use super::{PBCCategory, PBCFormation, PBCPlay, PBCRoute};
 use crate::error::PbcError;
 use crate::types::{CategoryName, FormationName, PlayName, RouteName};
@@ -46,13 +47,13 @@ pub struct PBCPlaybook {
 }
 
 impl PBCPlaybook {
-    /// Creates a new empty playbook
+    /// Creates a new playbook with default routes and formations
     ///
     /// # Arguments
     /// * `name` - The name of the playbook
     /// * `player_number` - Number of players on the field
     pub fn new(name: impl Into<String>, player_number: u32) -> Self {
-        Self {
+        let mut pb = Self {
             built_with_pbc_version: env!("CARGO_PKG_VERSION").to_string(),
             name: name.into(),
             player_number,
@@ -61,10 +62,14 @@ impl PBCPlaybook {
             categories: HashMap::new(),
             plays: HashMap::new(),
             play_categories: HashMap::new(),
-        }
+        };
+
+        // Populate default routes and formations
+        pb.populate_defaults();
+        pb
     }
 
-    /// Resets the playbook to a new empty state
+    /// Resets the playbook to a new state with default routes and formations
     pub fn reset(&mut self, name: impl Into<String>, player_number: u32) {
         self.built_with_pbc_version = env!("CARGO_PKG_VERSION").to_string();
         self.name = name.into();
@@ -74,6 +79,27 @@ impl PBCPlaybook {
         self.categories.clear();
         self.plays.clear();
         self.play_categories.clear();
+
+        // Repopulate defaults
+        self.populate_defaults();
+    }
+
+    /// Populates the playbook with default routes and formations
+    fn populate_defaults(&mut self) {
+        // Add default routes
+        for route in create_default_routes() {
+            let _ = self.add_route(route, false);
+        }
+
+        // Add default formation
+        let formation = create_default_formation(self.player_number);
+        let _ = self.add_formation(formation, false);
+    }
+
+    /// Reloads just the default formations (used if all formations were deleted)
+    pub fn reload_default_formations(&mut self) {
+        let formation = create_default_formation(self.player_number);
+        let _ = self.add_formation(formation, false);
     }
 
     // ========== Formation Management ==========
@@ -389,10 +415,15 @@ mod tests {
         let pb = PBCPlaybook::new("My Playbook", 11);
         assert_eq!(pb.name, "My Playbook");
         assert_eq!(pb.player_number, 11);
-        assert!(pb.formations().is_empty());
-        assert!(pb.routes().is_empty());
+
+        // Should have default routes and formations
+        assert_eq!(pb.routes().len(), 14); // 14 default routes
+        assert_eq!(pb.formations().len(), 1); // 1 default formation (Spread Right)
         assert!(pb.categories().is_empty());
         assert!(pb.plays().is_empty());
+
+        // Verify default formation exists
+        assert!(pb.has_formation(&"Spread Right".into()));
     }
 
     #[test]
@@ -555,8 +586,9 @@ mod tests {
             .unwrap();
 
         let names = pb.formation_names();
-        assert_eq!(names.len(), 2);
+        assert_eq!(names.len(), 3); // Includes default "Spread Right"
         assert!(names.contains(&"I Formation".into()));
         assert!(names.contains(&"Spread".into()));
+        assert!(names.contains(&"Spread Right".into())); // Default formation
     }
 }
