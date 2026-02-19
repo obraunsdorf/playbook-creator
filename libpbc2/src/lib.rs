@@ -23,7 +23,7 @@ pub mod types;
 // Re-export commonly used types
 pub use error::{PbcError, Result};
 pub use models::{
-    PBCAbstractMovement, PBCCategory, PBCFormation, PBCMotion, PBCPath, PBCPlay, PBCPlayer,
-    PBCRole, PBCRoute,
+    PBCAbstractMovement, PBCCategory, PBCFormation, PBCMotion, PBCPath, PBCPlay, PBCPlaybook,
+    PBCPlayer, PBCRole, PBCRoute,
 };
 pub use types::{CategoryName, FormationName, PBCColor, PlayName, Point2D, RouteName};
