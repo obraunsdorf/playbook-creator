@@ -16,14 +16,22 @@
 
     Copyright 2025 Oliver Braunsdorf
 */
+mod category;
+mod formation;
 mod motion;
 mod movement;
 mod path;
+mod play;
+mod player;
 mod role;
 mod route;
 
+pub use category::PBCCategory;
+pub use formation::PBCFormation;
 pub use motion::PBCMotion;
 pub use movement::PBCAbstractMovement;
 pub use path::PBCPath;
+pub use play::PBCPlay;
+pub use player::PBCPlayer;
 pub use role::PBCRole;
 pub use route::PBCRoute;

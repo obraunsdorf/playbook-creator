@@ -17,7 +17,9 @@
     Copyright 2025 Oliver Braunsdorf
 */
 mod color;
+mod names;
 mod point;
 
 pub use color::PBCColor;
+pub use names::{CategoryName, FormationName, PlayName, RouteName};
 pub use point::Point2D;

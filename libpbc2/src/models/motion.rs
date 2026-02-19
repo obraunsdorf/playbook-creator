@@ -44,10 +44,7 @@ impl PBCMotion {
     /// The motion_end_point is automatically set to the endpoint of the last path,
     /// or Point2D::ZERO if there are no paths.
     pub fn with_paths(paths: Vec<PBCPath>) -> Self {
-        let motion_end_point = paths
-            .last()
-            .map(|p| p.endpoint)
-            .unwrap_or(Point2D::ZERO);
+        let motion_end_point = paths.last().map(|p| p.endpoint).unwrap_or(Point2D::ZERO);
 
         Self {
             movement: PBCAbstractMovement::with_paths(paths),

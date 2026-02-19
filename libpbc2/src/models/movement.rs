@@ -96,9 +96,8 @@ mod tests {
 
     #[test]
     fn test_clear() {
-        let mut movement = PBCAbstractMovement::with_paths(vec![
-            PBCPath::new(Point2D::new(10.0, 0.0)),
-        ]);
+        let mut movement =
+            PBCAbstractMovement::with_paths(vec![PBCPath::new(Point2D::new(10.0, 0.0))]);
         assert!(!movement.is_empty());
 
         movement.clear();

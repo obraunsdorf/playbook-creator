@@ -37,11 +37,7 @@ impl PBCRoute {
     /// * `name` - The descriptive name of the route (e.g., "Post Route")
     /// * `code_name` - The code name for diagrams (e.g., "P")
     /// * `paths` - The path segments that make up this route
-    pub fn new(
-        name: impl Into<String>,
-        code_name: impl Into<String>,
-        paths: Vec<PBCPath>,
-    ) -> Self {
+    pub fn new(name: impl Into<String>, code_name: impl Into<String>, paths: Vec<PBCPath>) -> Self {
         Self {
             name: name.into(),
             code_name: code_name.into(),
