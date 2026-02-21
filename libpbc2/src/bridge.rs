@@ -24,69 +24,59 @@
 //! data between Rust and C++.
 
 use crate::controller::PBCController;
+use crate::models::{PBCCategory, PBCFormation, PBCPlay, PBCRoute};
+use crate::PBCColor;
 
 #[cxx::bridge(namespace = "pbc2rust")]
 mod ffi {
-    // ========== Shared Types (DTOs) ==========
-    // These structs can be used from both Rust and C++
+    // ========== Shared Simple Types ==========
+    // Simple value types that can be freely copied between Rust and C++
 
-    /// Simple color representation for FFI
-    #[derive(Debug, Clone)]
-    pub struct ColorDto {
+    /// RGB color value
+    #[derive(Debug, Clone, Copy)]
+    pub struct Color {
         pub r: u8,
         pub g: u8,
         pub b: u8,
     }
 
-    /// Position on the field
-    #[derive(Debug, Clone)]
-    pub struct Point2DDto {
+    /// 2D point on the field
+    #[derive(Debug, Clone, Copy)]
+    pub struct Point2D {
         pub x: f64,
         pub y: f64,
     }
 
-    /// Player information DTO
-    #[derive(Debug, Clone)]
-    pub struct PlayerInfoDto {
-        pub name: String,
-        pub nr: u32,
-        pub color: ColorDto,
-        pub pos: Point2DDto,
-        pub route_name: String,
-    }
-
-    /// Play metadata DTO
-    #[derive(Debug, Clone)]
-    pub struct PlayInfoDto {
-        pub name: String,
-        pub code_name: String,
-        pub comment: String,
-        pub formation_name: String,
-    }
-
-    /// Formation metadata DTO
-    #[derive(Debug, Clone)]
-    pub struct FormationInfoDto {
-        pub name: String,
-    }
-
-    /// Route metadata DTO
-    #[derive(Debug, Clone)]
-    pub struct RouteInfoDto {
-        pub name: String,
-        pub code_name: String,
-    }
-
-    /// Category metadata DTO
-    #[derive(Debug, Clone)]
-    pub struct CategoryInfoDto {
-        pub name: String,
-    }
-
-    // ========== Rust Functions Exposed to C++ ==========
-    // Controller functions access the singleton internally
+    // ========== Opaque Model Types ==========
+    // Complex models that are owned by Rust - C++ only sees them through pointers
 
     extern "Rust" {
+        // Opaque types for models
+        type Play;
+        type Formation;
+        type Route;
+        type Category;
+        
+        // Play methods
+        fn play_name(play: &Play) -> &str;
+        fn play_code_name(play: &Play) -> &str;
+        fn play_comment(play: &Play) -> &str;
+        fn play_formation_name(play: &Play) -> &str;
+        fn play_player_count(play: &Play) -> usize;
+        
+        // Formation methods
+        fn formation_name(formation: &Formation) -> &str;
+        fn formation_player_count(formation: &Formation) -> usize;
+        
+        // Route methods
+        fn route_name(route: &Route) -> &str;
+        fn route_code_name(route: &Route) -> &str;
+        
+        // Category methods
+        fn category_name(category: &Category) -> &str;
+
+        // ========== Controller Operations ==========
+        
         // Playbook operations
         fn pbc_get_playbook_name() -> String;
         fn pbc_set_playbook_name(name: String);
@@ -94,7 +84,7 @@ mod ffi {
 
         // Play operations
         fn pbc_get_play_names() -> Vec<String>;
-        fn pbc_get_play_info(name: &str) -> Result<PlayInfoDto>;
+        fn pbc_get_play(name: &str) -> Result<Box<Play>>;
         fn pbc_create_new_play(
             name: String,
             code_name: String,
@@ -104,19 +94,87 @@ mod ffi {
 
         // Formation operations
         fn pbc_get_formation_names() -> Vec<String>;
-        fn pbc_get_formation_info(name: &str) -> Result<FormationInfoDto>;
+        fn pbc_get_formation(name: &str) -> Result<Box<Formation>>;
         fn pbc_has_formation(name: &str) -> bool;
 
         // Route operations
         fn pbc_get_route_names() -> Vec<String>;
-        fn pbc_get_route_info(name: &str) -> Result<RouteInfoDto>;
+        fn pbc_get_route(name: &str) -> Result<Box<Route>>;
         fn pbc_has_route(name: &str) -> bool;
 
         // Category operations
         fn pbc_get_category_names() -> Vec<String>;
-        fn pbc_get_category_info(name: &str) -> Result<CategoryInfoDto>;
+        fn pbc_get_category(name: &str) -> Result<Box<Category>>;
         fn pbc_has_category(name: &str) -> bool;
     }
+}
+
+// ========== Type Aliases for Opaque Types ==========
+// These make the models accessible through the bridge
+
+pub type Play = PBCPlay;
+pub type Formation = PBCFormation;
+pub type Route = PBCRoute;
+pub type Category = PBCCategory;
+
+// ========== Conversions for Simple Types ==========
+
+impl From<PBCColor> for ffi::Color {
+    fn from(c: PBCColor) -> Self {
+        Self { r: c.r, g: c.g, b: c.b }
+    }
+}
+
+impl From<ffi::Color> for PBCColor {
+    fn from(c: ffi::Color) -> Self {
+        Self::new(c.r, c.g, c.b)
+    }
+}
+
+// ========== Getter Methods for Opaque Types ==========
+
+// Play methods
+pub fn play_name(play: &Play) -> &str {
+    play.name.as_str()
+}
+
+pub fn play_code_name(play: &Play) -> &str {
+    &play.code_name
+}
+
+pub fn play_comment(play: &Play) -> &str {
+    &play.comment
+}
+
+pub fn play_formation_name(play: &Play) -> &str {
+    play.formation.name.as_str()
+}
+
+pub fn play_player_count(play: &Play) -> usize {
+    play.player_count()
+}
+
+// Formation methods
+pub fn formation_name(formation: &Formation) -> &str {
+    formation.name.as_str()
+}
+
+pub fn formation_player_count(formation: &Formation) -> usize {
+    formation.player_count()
+}
+
+// Route methods
+pub fn route_name(route: &Route) -> &str {
+    &route.name
+}
+
+pub fn route_code_name(route: &Route) -> &str {
+    &route.code_name
+}
+
+// Category methods
+pub fn category_name(category: &Category) -> &str {
+    category.name.as_str()
 }
 
 // ========== Implementation of Bridge Functions ==========
@@ -162,19 +220,14 @@ pub fn pbc_get_play_names() -> Vec<String> {
     })
 }
 
-pub fn pbc_get_play_info(name: &str) -> Result<ffi::PlayInfoDto, String> {
+pub fn pbc_get_play(name: &str) -> Result<Box<Play>, String> {
     with_controller(|ctrl| {
         let play = ctrl
             .playbook()
             .get_play(&name.into())
             .map_err(|e| format!("Failed to get play: {}", e))?;
 
-        Ok(ffi::PlayInfoDto {
-            name: play.name.to_string(),
-            code_name: play.code_name.clone(),
-            comment: play.comment.clone(),
-            formation_name: play.formation.name.to_string(),
-        })
+        Ok(Box::new(play.clone()))
     })
 }
 
@@ -217,16 +270,14 @@ pub fn pbc_get_formation_names() -> Vec<String> {
     })
 }
 
-pub fn pbc_get_formation_info(name: &str) -> Result<ffi::FormationInfoDto, String> {
+pub fn pbc_get_formation(name: &str) -> Result<Box<Formation>, String> {
     with_controller(|ctrl| {
         let formation = ctrl
             .playbook()
             .get_formation(&name.into())
             .map_err(|e| format!("Failed to get formation: {}", e))?;
 
-        Ok(ffi::FormationInfoDto {
-            name: formation.name.to_string(),
-        })
+        Ok(Box::new(formation.clone()))
     })
 }
 
@@ -246,17 +297,14 @@ pub fn pbc_get_route_names() -> Vec<String> {
     })
 }
 
-pub fn pbc_get_route_info(name: &str) -> Result<ffi::RouteInfoDto, String> {
+pub fn pbc_get_route(name: &str) -> Result<Box<Route>, String> {
     with_controller(|ctrl| {
         let route = ctrl
             .playbook()
             .get_route(&name.into())
             .map_err(|e| format!("Failed to get route: {}", e))?;
 
-        Ok(ffi::RouteInfoDto {
-            name: route.name.clone(),
-            code_name: route.code_name.clone(),
-        })
+        Ok(Box::new(route.clone()))
     })
 }
 
@@ -276,16 +324,14 @@ pub fn pbc_get_category_names() -> Vec<String> {
     })
 }
 
-pub fn pbc_get_category_info(name: &str) -> Result<ffi::CategoryInfoDto, String> {
+pub fn pbc_get_category(name: &str) -> Result<Box<Category>, String> {
     with_controller(|ctrl| {
         let category = ctrl
             .playbook()
             .get_category(&name.into())
             .map_err(|e| format!("Failed to get category: {}", e))?;
 
-        Ok(ffi::CategoryInfoDto {
-            name: category.name.to_string(),
-        })
+        Ok(Box::new(category.clone()))
     })
 }
 
@@ -293,5 +339,3 @@ pub fn pbc_has_category(name: &str) -> bool {
     with_controller(|ctrl| ctrl.playbook().get_category(&name.into()).is_ok())
 }
 
-// Re-export the FFI types for use in other modules
-pub use ffi::*;
