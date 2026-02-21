@@ -16,6 +16,8 @@
 
     Copyright 2025 Oliver Braunsdorf
 */
+pub mod bridge;
+pub mod controller;
 pub mod error;
 pub mod models;
 pub mod types;
@@ -27,3 +29,6 @@ pub use models::{
     PBCPlayer, PBCRole, PBCRoute,
 };
 pub use types::{CategoryName, FormationName, PBCColor, PlayName, Point2D, RouteName};
+
+// Re-export bridge types for C++ integration
+pub use bridge::*;

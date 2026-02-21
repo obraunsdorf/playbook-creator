@@ -144,20 +144,35 @@ qt5_wrap_cpp( MOC_SRCS ${MOC_HEADERS} )
 add_library(PBCLib STATIC ${SOURCES} ${MOC_SRCS} ${UI_HEADERS})
 #add_dependencies(PBCLib style_checking)
 
+
+# link libpbc2 - Core business logic library
+set(CXXBRIDGE_INCLUDE_DIR ${CMAKE_BINARY_DIR}/cxxbridge)
+file(MAKE_DIRECTORY ${CXXBRIDGE_INCLUDE_DIR})
+set(LIBPBC2_CMAKE_NAME libpbc2)
+corrosion_import_crate(MANIFEST_PATH ../libpbc2/Cargo.toml)
+# Set CXXBRIDGE_DIR to control where cxx generates headers
+corrosion_set_env_vars(${LIBPBC2_CMAKE_NAME} "CXXBRIDGE_DIR=${CXXBRIDGE_INCLUDE_DIR}")
+# print the path to the generated header for debugging purposes
+message(STATUS "CXXBRIDGE include directory: ${CXXBRIDGE_INCLUDE_DIR}")
+
 # link the updater library
 set(PBC_UPDATER_CMAKE_NAME pbc_updater)
 corrosion_import_crate(MANIFEST_PATH ../updater/Cargo.toml)
+
+# Include the directory containing cxx-generated headers
+target_include_directories(PBCLib PRIVATE ${CXXBRIDGE_INCLUDE_DIR})
+
 set(MODE "")
 if(WIN32)
 	set(MODE optimized) # default to release mode on windows
 	find_package(OpenSSL)
-	target_link_libraries(PBCLib ${MODE} ${PBC_UPDATER_CMAKE_NAME} ws2_32 userenv crypt32 ncrypt schannel Secur32)
+	target_link_libraries(PBCLib ${MODE} ${LIBPBC2_CMAKE_NAME} ${PBC_UPDATER_CMAKE_NAME} ws2_32 userenv crypt32 ncrypt schannel Secur32)
 elseif(CMAKE_SYSTEM_NAME MATCHES "Darwin")
 	find_library(SECFW Security)
 	find_library(COREFW CoreFoundation)
-	target_link_libraries(PBCLib ${PBC_UPDATER_CMAKE_NAME} resolv ${SECFW} ${COREFW})
+	target_link_libraries(PBCLib ${LIBPBC2_CMAKE_NAME} ${PBC_UPDATER_CMAKE_NAME} resolv ${SECFW} ${COREFW})
 else()
-	target_link_libraries(PBCLib ${PBC_UPDATER_CMAKE_NAME} pthread dl ssl crypto)  # TODO find out the libs programmatically
+	target_link_libraries(PBCLib ${LIBPBC2_CMAKE_NAME} ${PBC_UPDATER_CMAKE_NAME} pthread dl ssl crypto)  # TODO find out the libs programmatically
 endif()
 
 # link Microsoft Visual Studio Runtime statically by default (on Windows builds)
