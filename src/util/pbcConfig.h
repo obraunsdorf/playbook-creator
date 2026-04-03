@@ -78,7 +78,7 @@ protected:
             _printPlayName(true),
             _playNameSizeYd(1.5),
             _playNameFont("Helvetica"),
-            _playerWidthYd(1),
+            _playerWidthYd(2),
             _playerShadow(true),
             _playerShadowRadius(20),
             _playerShadowOffsetFactor(0.25),
