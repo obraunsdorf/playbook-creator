@@ -22,6 +22,7 @@ use super::{PBCCategory, PBCFormation, PBCPlay, PBCRoute};
 use crate::error::PbcError;
 use crate::types::{CategoryName, FormationName, PlayName, RouteName};
 use std::collections::{HashMap, HashSet};
+use std::path::Iter;
 
 /// The main playbook structure containing all plays, formations, routes, and categories
 ///
@@ -203,8 +204,8 @@ impl PBCPlaybook {
     }
 
     /// Returns all routes
-    pub fn routes(&self) -> Vec<PBCRoute> {
-        self.routes.values().cloned().collect()
+    pub fn routes(&self) -> impl Iterator<Item = &PBCRoute> {
+        self.routes.values()
     }
 
     /// Returns all route names

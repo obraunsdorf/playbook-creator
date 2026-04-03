@@ -21,7 +21,7 @@ use std::env;
 use std::path::PathBuf;
 
 fn main() {
-    cxx_build::bridge("src/bridge.rs")
+    cxx_build::bridge("src/bridge/mod.rs")
         .flag_if_supported("-std=c++14")
         .compile("libpbc2");
 
@@ -32,7 +32,8 @@ fn main() {
             .join("cxxbridge")
             .join("include")
             .join("libpbc2")
-            .join("src");
+            .join("src")
+            .join("bridge");
 
         std::fs::create_dir_all(&bridge_dir).expect("Failed to create CXXBRIDGE_DIR");
         // copy all headers from the generated header directory to the CXXBRIDGE_DIR
@@ -57,5 +58,5 @@ fn main() {
         }
     }
 
-    println!("cargo:rerun-if-changed=src/bridge.rs");
+    println!("cargo:rerun-if-changed=src/bridge");
 }

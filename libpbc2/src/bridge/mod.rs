@@ -1,0 +1,127 @@
+/* bridge/mod.rs
+   This file is part of Playbook Creator.
+
+    Playbook Creator is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Playbook Creator is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Playbook Creator.  If not, see <http://www.gnu.org/licenses/>.
+
+    Copyright 2025 Oliver Braunsdorf
+*/
+
+//! CXX bridge module - defines the FFI interface between Rust and C++
+//!
+//! This module uses the `cxx` crate to generate type-safe bindings.
+//! The bridge declarations must all be in this file (cxx requirement),
+//! but implementations are organized in submodules.
+
+// Implementation modules
+mod category;
+mod controller;
+mod formation;
+mod play;
+mod playbook;
+mod route;
+mod types;
+
+// Re-export all public functions
+pub use category::*;
+pub use formation::*;
+pub use play::*;
+pub use playbook::*;
+pub use route::*;
+pub use types::*;
+
+#[cxx::bridge(namespace = "pbc2rust")]
+mod ffi {
+    // ========== Shared Simple Types ==========
+    // Simple value types that can be freely copied between Rust and C++
+
+    /// RGB color value
+    #[derive(Debug, Clone, Copy)]
+    pub struct Color {
+        pub r: u8,
+        pub g: u8,
+        pub b: u8,
+    }
+
+    /// 2D point on the field
+    #[derive(Debug, Clone, Copy)]
+    pub struct Point2D {
+        pub x: f64,
+        pub y: f64,
+    }
+
+    // ========== Opaque Model Types ==========
+    // Complex models that are owned by Rust - C++ only sees them through pointers
+
+    extern "Rust" {
+        // Opaque types for models
+        type Play;
+        type Formation;
+        type Route;
+        type Category;
+        
+        // Play methods
+        fn play_name(play: &Play) -> &str;
+        fn play_code_name(play: &Play) -> &str;
+        fn play_comment(play: &Play) -> &str;
+        fn play_formation_name(play: &Play) -> &str;
+        fn play_player_count(play: &Play) -> usize;
+        
+        // Formation methods
+        fn formation_name(formation: &Formation) -> &str;
+        fn formation_player_count(formation: &Formation) -> usize;
+        
+        // Route methods
+        fn route_name(route: &Route) -> &str;
+        fn route_code_name(route: &Route) -> &str;
+        
+        // Category methods
+        fn category_name(category: &Category) -> &str;
+
+        // ========== Controller Operations ==========
+        
+        // Playbook operations
+        fn pbc_get_playbook_name() -> String;
+        fn pbc_set_playbook_name(name: String);
+        fn pbc_reset_playbook(name: String, player_number: u32);
+
+        // Play operations
+        fn pbc_get_play_names() -> Vec<String>;
+        fn pbc_get_play(name: &str) -> Result<Box<Play>>;
+        fn pbc_create_new_play(
+            name: String,
+            code_name: String,
+            formation_name: String,
+        ) -> Result<()>;
+        fn pbc_has_play(name: &str) -> bool;
+
+        // Formation operations
+        fn pbc_get_formation_names() -> Vec<String>;
+        fn pbc_get_formation(name: &str) -> Result<Box<Formation>>;
+        fn pbc_has_formation(name: &str) -> bool;
+
+        // Route operations
+        fn pbc_get_route_names() -> Vec<String>;
+        fn pbc_get_route_names_sorted() -> Vec<String>;
+        fn pbc_get_route(name: &str) -> Result<Box<Route>>;
+        fn pbc_has_route(name: &str) -> bool;
+
+        // Category operations
+        fn pbc_get_category_names() -> Vec<String>;
+        fn pbc_get_category(name: &str) -> Result<Box<Category>>;
+        fn pbc_has_category(name: &str) -> bool;
+    }
+}
+
+// Re-export simple FFI types for external use
+pub use ffi::{Color, Point2D};

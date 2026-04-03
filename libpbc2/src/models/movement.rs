@@ -18,6 +18,7 @@
 */
 
 use super::PBCPath;
+use crate::types::Point2D;
 
 /// Abstract movement structure that represents a series of path segments
 ///
@@ -57,6 +58,10 @@ impl PBCAbstractMovement {
     /// Clears all paths from the movement
     pub fn clear(&mut self) {
         self.paths.clear();
+    }
+
+    pub fn endpoint(&self) -> Option<Point2D> {
+        self.paths.last().map(|p| p.endpoint)
     }
 }
 
