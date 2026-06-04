@@ -372,14 +372,16 @@ PBCRouteActionMap fillRouteMenu(QMenu* menu, const rust::Vec<rust::String>& sort
     PBCRouteActionMap routeActionMap;
     for (const auto& routeName : sortedRoutes) {
         auto route = pbc2rust::pbc_get_route(routeName);
-        QString routeString = QString::fromUtf8(routeName.data(), routeName.len());
-        if(route->codeName() != "") {
+        std::string name = std::string(routeName);
+        QString routeString = QString::fromStdString(name);
+        std::string codeName = std::string(pbc2rust::route_code_name(*route));
+        if (!codeName.empty()) {
             routeString.append(" (");
-            routeString.append(QString::fromStdString(pbc2rust::route_code_name(route)));
+            routeString.append(QString::fromStdString(codeName));
             routeString.append(")");
         }
         QAction* action = menu->addAction(routeString);
-        routeActionMap.insert(std::make_pair(action, route));
+        routeActionMap.insert(std::make_pair(action, name));
     }
     menu->addSeparator();
 
@@ -480,28 +482,32 @@ void PBCPlayerView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event) {
 
     for(const auto& kv : routeActionMap) {
         if(clicked == kv.first) {
-            _playerSP->setRoute(kv.second);
+            PBCRouteSP route = PBCController::getInstance()->getPlaybook()->getRoute(kv.second);
+            _playerSP->setRoute(route);
             paintRoutes();
             return;
         }
     }
     for(const auto& kv : optionRoutesActionMap) {
         if(clicked == kv.first) {
-            _playerSP->addOptionRoute(kv.second);
+            PBCRouteSP route = PBCController::getInstance()->getPlaybook()->getRoute(kv.second);
+            _playerSP->addOptionRoute(route);
             paintRoutes();
             return;
         }
     }
     for(const auto& kv : alternativeRoute1ActionMap) {
         if(clicked == kv.first) {
-            _playerSP->setAlternativeRoute(1, kv.second);
+            PBCRouteSP route = PBCController::getInstance()->getPlaybook()->getRoute(kv.second);
+            _playerSP->setAlternativeRoute(1, route);
             paintRoutes();
             return;
         }
     }
     for(const auto& kv : alternativeRoute2ActionMap) {
         if(clicked == kv.first) {
-            _playerSP->setAlternativeRoute(2, kv.second);
+            PBCRouteSP route = PBCController::getInstance()->getPlaybook()->getRoute(kv.second);
+            _playerSP->setAlternativeRoute(2, route);
             paintRoutes();
             return;
         }

@@ -40,7 +40,7 @@
 class PBCPlayerView;
 typedef boost::shared_ptr<PBCPlayerView> PBCPlayerViewSP;
 typedef boost::shared_ptr<QGraphicsItem> QGraphicsItemSP;
-typedef boost::unordered_map<QAction*, PBCRouteSP> PBCRouteActionMap;
+typedef boost::unordered_map<QAction*, std::string> PBCRouteActionMap;
 
 
 class PBCPlayerView : public QObject, public QGraphicsItemGroup {
