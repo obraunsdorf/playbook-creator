@@ -52,7 +52,7 @@ class MainDialog : public QMainWindow {
     ~MainDialog();
     void show(QString playbookPath);
     void fillPlayerInfoDock(PBCPlayerSP player);
-    void fillPlayInfoDock(PBCPlaySP play);
+    void fillPlayInfoDock(const std::string& name, const std::string& codeName, const std::string& comment);
     void keyReleaseEvent(QKeyEvent *event);
 
  public slots:

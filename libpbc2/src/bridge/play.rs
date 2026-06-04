@@ -20,8 +20,10 @@
 //! Play-related bridge implementations
 
 use super::controller::{with_controller, with_controller_mut};
+use super::ffi::{BridgePath, BridgePlaySnapshot, BridgeRoute};
 use super::types::Play;
-use crate::models::PBCPlay;
+use crate::models::{PBCFormation, PBCMotion, PBCPath, PBCPlay, PBCPlayer, PBCRole, PBCRoute};
+use crate::types::{PBCColor, Point2D};
 
 // ========== Opaque Type Methods ==========
 
@@ -139,5 +141,88 @@ pub fn pbc_set_current_play_comment(comment: String) -> Result<(), String> {
             .ok_or_else(|| "No current play loaded".to_string())?;
         play.comment = comment;
         Ok(())
+    })
+}
+
+// ========== Play Snapshot (Phase 2 dual-write) ==========
+
+fn decode_path(bp: &BridgePath) -> PBCPath {
+    if bp.has_control {
+        PBCPath::new_curved(
+            Point2D {
+                x: bp.x,
+                y: bp.y,
+            },
+            Point2D {
+                x: bp.cx,
+                y: bp.cy,
+            },
+        )
+    } else {
+        PBCPath::new(Point2D { x: bp.x, y: bp.y })
+    }
+}
+
+fn decode_route_opt(br: &BridgeRoute) -> Option<PBCRoute> {
+    if br.name.is_empty() {
+        return None;
+    }
+    let paths: Vec<PBCPath> = br.paths.iter().map(decode_path).collect();
+    Some(PBCRoute::new(br.name.clone(), br.code_name.clone(), paths))
+}
+
+pub fn pbc_save_play_snapshot(snapshot: BridgePlaySnapshot) -> Result<(), String> {
+    with_controller_mut(|ctrl| {
+        let mut players: Vec<PBCPlayer> = Vec::new();
+
+        for bp in snapshot.players.iter() {
+            let role = PBCRole::from_strings(bp.role_full_name.clone(), "    ")
+                .map_err(|e| format!("Invalid role: {}", e))?;
+
+            let color = PBCColor {
+                r: bp.r,
+                g: bp.g,
+                b: bp.b,
+            };
+            let pos = Point2D {
+                x: bp.pos_x,
+                y: bp.pos_y,
+            };
+
+            let mut player =
+                PBCPlayer::with_details(role, color, pos, bp.name.clone(), bp.nr);
+
+            player.route = decode_route_opt(&bp.route);
+            player.alternative_route1 = decode_route_opt(&bp.alt_route1);
+            player.alternative_route2 = decode_route_opt(&bp.alt_route2);
+
+            for opt_r in bp.option_routes.iter() {
+                if let Some(r) = decode_route_opt(opt_r) {
+                    player.option_routes.push(r);
+                }
+            }
+
+            if !bp.motion_paths.is_empty() {
+                let motion_paths: Vec<PBCPath> =
+                    bp.motion_paths.iter().map(decode_path).collect();
+                player.motion = Some(PBCMotion::with_paths(motion_paths));
+            }
+
+            players.push(player);
+        }
+
+        // Formation name is left empty for a play-specific snapshot
+        let formation = PBCFormation::with_players("", players);
+        let play = PBCPlay::with_comment(
+            snapshot.name,
+            snapshot.code_name,
+            formation,
+            snapshot.comment,
+        );
+
+        ctrl.playbook_mut()
+            .add_play(play, true)
+            .map(|_| ())
+            .map_err(|e| format!("Failed to save play snapshot: {}", e))
     })
 }

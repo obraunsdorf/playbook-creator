@@ -60,6 +60,57 @@ mod ffi {
         pub y: f64,
     }
 
+    // ========== Play Snapshot Types ==========
+    // Used to pass a full play (with all player routes/motions) across the FFI
+    // for the Rust shadow-write in Phase 2.
+
+    /// A single path segment with an optional Bezier control point.
+    /// has_control=false means cx/cy are ignored.
+    pub struct BridgePath {
+        pub x: f64,
+        pub y: f64,
+        pub has_control: bool,
+        pub cx: f64,
+        pub cy: f64,
+    }
+
+    /// A named route (or motion expressed as a list of paths).
+    /// An empty `name` field signals "no route assigned".
+    pub struct BridgeRoute {
+        pub name: String,
+        pub code_name: String,
+        pub paths: Vec<BridgePath>,
+    }
+
+    /// All data needed to reconstruct one player in the Rust playbook.
+    pub struct BridgePlayer {
+        pub name: String,
+        pub nr: u32,
+        pub r: u8,
+        pub g: u8,
+        pub b: u8,
+        pub role_full_name: String,
+        pub pos_x: f64,
+        pub pos_y: f64,
+        /// Empty name + empty paths ⇒ no route assigned
+        pub route: BridgeRoute,
+        /// Empty ⇒ no motion
+        pub motion_paths: Vec<BridgePath>,
+        pub option_routes: Vec<BridgeRoute>,
+        /// Empty name ⇒ no alternative route 1
+        pub alt_route1: BridgeRoute,
+        /// Empty name ⇒ no alternative route 2
+        pub alt_route2: BridgeRoute,
+    }
+
+    /// A full play snapshot passed from C++ to Rust on every save.
+    pub struct BridgePlaySnapshot {
+        pub name: String,
+        pub code_name: String,
+        pub comment: String,
+        pub players: Vec<BridgePlayer>,
+    }
+
     // ========== Opaque Model Types ==========
     // Complex models that are owned by Rust - C++ only sees them through pointers
 
@@ -118,6 +169,7 @@ mod ffi {
         fn pbc_has_current_play() -> bool;
         fn pbc_get_current_play() -> Result<Box<Play>>;
         fn pbc_set_current_play_comment(comment: String) -> Result<()>;
+        fn pbc_save_play_snapshot(snapshot: BridgePlaySnapshot) -> Result<()>;
 
         // Formation operations
         fn pbc_get_formation_names() -> Vec<String>;
@@ -138,4 +190,4 @@ mod ffi {
 }
 
 // Re-export simple FFI types for external use
-pub use ffi::{Color, Point2D};
+pub use ffi::{BridgePath, BridgePlayer, BridgePlaySnapshot, BridgeRoute, Color, Point2D};

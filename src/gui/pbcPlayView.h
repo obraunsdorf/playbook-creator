@@ -25,6 +25,7 @@
 #include "gui/pbcGridIronView.h"
 #include "models/pbcPlay.h"
 #include "models/pbcPlayer.h"
+#include <boost/optional.hpp>
 #include <string>
 
 enum RouteType {
@@ -32,6 +33,16 @@ enum RouteType {
     OptionRoute,
     Alternative1,
     Alternative2,
+};
+
+/// Render-state for the play currently displayed in the view.
+/// Owns a deep copy of the formation (including all player routes/motions)
+/// that is independent from the playbook's stored copy.
+struct PBCPlayRenderData {
+    std::string name;
+    std::string codeName;
+    std::string comment;
+    PBCFormationSP formation;  // players with routes/motions; may be NULL only transiently
 };
 
 class PBCPlayView : public PBCGridIronView {
@@ -65,7 +76,7 @@ class PBCPlayView : public PBCGridIronView {
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
-    void setActivePlay(PBCPlaySP playSP);
+    void setActivePlay();
     void setActivePlayer(PBCPlayerSP playerSP);
 
     void setActivePlayerColor(PBCColor color);
@@ -75,7 +86,7 @@ class PBCPlayView : public PBCGridIronView {
 
 
  private:
-    PBCPlaySP _currentPlay;
+    boost::optional<PBCPlayRenderData> _renderPlay;
     PBCPlayerSP _activePlayer;
 
     bool _routeEditMode = false;

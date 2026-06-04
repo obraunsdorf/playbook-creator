@@ -16,7 +16,7 @@
 	},
 
 	"mounts": [
-		"source=${localEnv:HOME}/.cargo/registry,target=/home/vscode/.cargo/registry,type=bind,consistency=cached",
+		"source=${localEnv:USER}-cargo-cache,target=/home/vscode/.cargo/registry,type=volume",
 		"source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,readonly,type=bind",
 		"source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind"
 	],

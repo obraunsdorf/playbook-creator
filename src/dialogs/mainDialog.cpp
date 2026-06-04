@@ -226,10 +226,10 @@ void MainDialog::showNewPlay() {
 }
 
 
-void MainDialog::fillPlayInfoDock(PBCPlaySP play) {
-    ui->playNameLineEdit->setText(QString::fromStdString(play->name()));
-    ui->codeNameLineEdit->setText(QString::fromStdString(play->codeName()));
-    ui->commentTextEdit->setText(QString::fromStdString(play->comment()));
+void MainDialog::fillPlayInfoDock(const std::string& name, const std::string& codeName, const std::string& comment) {
+    ui->playNameLineEdit->setText(QString::fromStdString(name));
+    ui->codeNameLineEdit->setText(QString::fromStdString(codeName));
+    ui->commentTextEdit->setText(QString::fromStdString(comment));
     ui->generalInfoBox->setEnabled(true);
     ui->groupBox_6->setEnabled(true);
 }
