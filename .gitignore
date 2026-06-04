@@ -1,3 +1,6 @@
+# pbc files generated during testing
+*.pbc
+
 cmake-build-debug
 build_linux/*
 build_windows/*
