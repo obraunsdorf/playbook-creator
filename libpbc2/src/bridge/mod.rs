@@ -105,6 +105,20 @@ mod ffi {
         ) -> Result<()>;
         fn pbc_has_play(name: &str) -> bool;
 
+        // Current play management
+        fn pbc_load_play(name: &str) -> Result<()>;
+        fn pbc_save_current_play() -> Result<()>;
+        fn pbc_save_current_play_as(name: String, code_name: String) -> Result<()>;
+        fn pbc_create_new_play_and_load(
+            name: String,
+            code_name: String,
+            formation_name: String,
+        ) -> Result<()>;
+        fn pbc_clear_current_play();
+        fn pbc_has_current_play() -> bool;
+        fn pbc_get_current_play() -> Result<Box<Play>>;
+        fn pbc_set_current_play_comment(comment: String) -> Result<()>;
+
         // Formation operations
         fn pbc_get_formation_names() -> Vec<String>;
         fn pbc_get_formation(name: &str) -> Result<Box<Formation>>;

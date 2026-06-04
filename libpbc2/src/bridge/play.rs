@@ -92,3 +92,52 @@ pub fn pbc_create_new_play(
 pub fn pbc_has_play(name: &str) -> bool {
     with_controller(|ctrl| ctrl.playbook().get_play(&name.into()).is_ok())
 }
+
+// ========== Current Play Management ==========
+
+pub fn pbc_load_play(name: &str) -> Result<(), String> {
+    with_controller_mut(|ctrl| ctrl.load_play(&name.into()))
+}
+
+pub fn pbc_save_current_play() -> Result<(), String> {
+    with_controller_mut(|ctrl| ctrl.save_current_play(true))
+}
+
+pub fn pbc_save_current_play_as(name: String, code_name: String) -> Result<(), String> {
+    with_controller_mut(|ctrl| ctrl.save_current_play_as(name, code_name))
+}
+
+pub fn pbc_create_new_play_and_load(
+    name: String,
+    code_name: String,
+    formation_name: String,
+) -> Result<(), String> {
+    with_controller_mut(|ctrl| ctrl.create_and_load_new_play(name, code_name, &formation_name))
+}
+
+pub fn pbc_clear_current_play() {
+    with_controller_mut(|ctrl| ctrl.clear_current_play())
+}
+
+pub fn pbc_has_current_play() -> bool {
+    with_controller(|ctrl| ctrl.has_current_play())
+}
+
+pub fn pbc_get_current_play() -> Result<Box<Play>, String> {
+    with_controller(|ctrl| {
+        let play = ctrl
+            .current_play()
+            .ok_or_else(|| "No current play loaded".to_string())?;
+        Ok(Box::new(play.clone()))
+    })
+}
+
+pub fn pbc_set_current_play_comment(comment: String) -> Result<(), String> {
+    with_controller_mut(|ctrl| {
+        let play = ctrl
+            .current_play_mut()
+            .ok_or_else(|| "No current play loaded".to_string())?;
+        play.comment = comment;
+        Ok(())
+    })
+}
