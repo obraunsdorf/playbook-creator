@@ -6,9 +6,9 @@ This is a free editor for offensive playbooks in American Football.
 It is primarily dedicated to the flag football community as most of the teams (at least in Germany) cannot afford a commercial tool.
 
 Playbook Creator is mainly developed and tested on Linux, but you can download and run it on all major operating systems.
-  * MacOS X
-  * Windows 10
-  * Linux (Ubuntu 18.04)
+  * MacOS 15 (Intel and ARM processors)
+  * Windows 10/11
+  * Linux (built on Ubuntu 24.04)
  
 Mailing list:  
   * send email (without registration): <pbc-users@freelists.org>
@@ -27,8 +27,9 @@ If Playbook Creator is useful for your team, but none of you is able to contribu
   * **On MacOS X**  
   Download the latest release of Playbook Creator for MacOSX at https://github.com/obraunsdorf/playbook-creator/releases.  
   This is a DMG-file. Just open it and drag&drop the PlaybookCreator app to your Applications folder.  
-  => Open PlaybookCreator by right-clicking on it and select "Open".  
-  If you try to open it via double-click MacOS will complain that it cannot open the app because it is from an unidentified developer. This is because I am not a registered as a developer on Apple (see https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unidentified-developer-mh40616/mac)
+  Because I am not a registered Apple Developer the app is not signed and MacOS will complain when you try to open it on double-click. 
+  Follow these steps to open PBC with your Mac: 
+  https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unknown-developer-mh40616/mac
   * **On Linux**
     1. Install Qt: `apt-get install qt5-default`
     2. Download Playbook Creator for Linux at https://github.com/obraunsdorf/playbook-creator/releases
