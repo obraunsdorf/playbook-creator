@@ -184,6 +184,8 @@ endif()
 
 if(APPLE)
 	set_target_properties(${PROJECT_NAME} PROPERTIES
-	        MACOSX_BUNDLE ON
-	        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/cmake/pbcMacOSXBundleInfo.plist.in)
+	        MACOSX_BUNDLE_GUI_IDENTIFIER "dev.obraunsdorf.playbook-creator"
+			MACOSX_BUNDLE ON
+	        MACOSX_BUNDLE_INFO_PLIST ${CMAKE_SOURCE_DIR}/cmake/pbcMacOSXBundleInfo.plist.in
+	)
 endif()
