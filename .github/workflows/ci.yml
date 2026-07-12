@@ -179,7 +179,7 @@ jobs:
       - name: Build PBC on Windows
         if: matrix.os == 'windows-2025'
         run: |
-          cmake -G "Visual Studio 17 2022" -A x64 -D CMAKE_TOOLCHAIN_FILE=D:\a\playbook-creator\playbook-creator\vcpkg\scripts\buildsystems\vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static Qt5Widgets_DIR=%Qt5_DIR%\..\Qt5Widgets -D Qt5PrintSupport_DIR=%Qt5_DIR%\..\Qt5PrintSupport -D BOTAN_LIBRARY=${{ github.workspace }}\botan\botan.lib -D BOTAN_INCLUDE_DIR=${{ github.workspace }}\botan\build\include .
+          cmake -G "Visual Studio 18 2026" -A x64 -D CMAKE_TOOLCHAIN_FILE=D:\a\playbook-creator\playbook-creator\vcpkg\scripts\buildsystems\vcpkg.cmake -DVCPKG_TARGET_TRIPLET=x64-windows-static Qt5Widgets_DIR=%Qt5_DIR%\..\Qt5Widgets -D Qt5PrintSupport_DIR=%Qt5_DIR%\..\Qt5PrintSupport -D BOTAN_LIBRARY=${{ github.workspace }}\botan\botan.lib -D BOTAN_INCLUDE_DIR=${{ github.workspace }}\botan\build\include .
           cmake --build . --config Release --parallel
         shell: cmd
 
